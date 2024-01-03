@@ -1,0 +1,31 @@
+name: Lint & Build
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'releases/**'
+  pull_request:
+
+jobs:
+  run-linters:
+    name: Run linters and build project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run eslint, prettier, type check
+        run: npm run code:fix
+
+      - name: Build project
+        run: npm run build
