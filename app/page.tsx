@@ -14,6 +14,7 @@ export default async function Home() {
             You are logged in as {session.user?.name} ({session.user?.email}).
           </p>
           <div>
+            {/* TODO: use Button from Design System */}
             <LogoutButton />
           </div>
         </div>
@@ -21,6 +22,7 @@ export default async function Home() {
         <div>
           <p>You are not logged in.</p>
           <div>
+            {/* TODO: use Button from Design System */}
             <LoginButton />
           </div>
         </div>
