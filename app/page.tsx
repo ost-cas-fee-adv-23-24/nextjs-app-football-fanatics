@@ -1,18 +1,31 @@
-import LoginButton from "@/components/login-button";
-import LogoutButton from "@/components/logout-button";
-import { auth } from "./api/auth/[...nextauth]/auth";
+'use client';
+import LogoutButton from '@/components/logout-button';
+import { auth } from './api/auth/[...nextauth]/auth';
+import { signIn } from 'next-auth/react';
+import {
+  Button,
+  Heading,
+  Logo,
+  Paragraph,
+} from '@ost-cas-fee-adv-23-24/elbmum-design';
+
+// TODO Include styles from design system.
+// TODO Check to add a namespace to the design system to avoid css conflicts.
+// TODO Fix Issue with enums in design System
 
 export default async function Home() {
   const session = await auth();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="text-blue-500 text-5xl">Elbum Web App</div>
+      <Heading level="1" text="Elbum Web App" />
+      <Logo logoPosition={'left' as any} color={'gradient' as any} />
       {!!session ? (
         <div>
-          <p>
-            You are logged in as {session.user?.name} ({session.user?.email}).
-          </p>
+          <Paragraph
+            size="L"
+            text={`You are logged in as ${session.user?.name} (${session.user?.email}).`}
+          />
           <div>
             {/* TODO: use Button from Design System */}
             <LogoutButton />
@@ -22,8 +35,12 @@ export default async function Home() {
         <div>
           <p>You are not logged in.</p>
           <div>
-            {/* TODO: use Button from Design System */}
-            <LoginButton />
+            <Button
+              label="Login with Zitadel"
+              onClickEvent={() => {
+                signIn('zitadel');
+              }}
+            />
           </div>
         </div>
       )}
