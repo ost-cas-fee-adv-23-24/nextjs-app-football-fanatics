@@ -1,14 +1,15 @@
 'use client';
 
+import { Button } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { signIn } from 'next-auth/react';
 
 export default function LoginButton() {
   return (
-    <button
-      onClick={() => signIn('zitadel')}
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-    >
-      Login with Zitadel
-    </button>
+    <Button
+      label="Login with Zitadel"
+      onClickEvent={() => {
+        signIn('zitadel');
+      }}
+    />
   );
 }
