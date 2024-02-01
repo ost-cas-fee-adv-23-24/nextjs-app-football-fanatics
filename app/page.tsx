@@ -1,6 +1,6 @@
-import LoginButton from "@/components/login-button";
-import LogoutButton from "@/components/logout-button";
-import { auth } from "./api/auth/[...nextauth]/auth";
+import LoginButton from '@/components/login-button';
+import LogoutButton from '@/components/logout-button';
+import { auth } from './api/auth/[...nextauth]/auth';
 
 export default async function Home() {
   const session = await auth();

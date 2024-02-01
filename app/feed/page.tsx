@@ -1,25 +1,14 @@
-import envVariables from "@/config/env";
-import { ApiResponseType, Post } from "@/middleware/types";
-
-
-
-async function getPosts() {
-  const posts = await fetch(`${envVariables.MUMBLE_API_URL}/posts`)
-
-  if (!posts.ok) throw new Error("Error")
-
-  return posts.json();
-}
+import { getPosts } from "@/services/post";
+import { Post } from "@/types";
 
 
 export default async function Page() {
-  const posts: ApiResponseType<Post[]> = await getPosts();
-  console.log("data", posts);
+  const { data } = await getPosts();
 
   return (
     <>
       {
-        posts.data.map(post => (
+        data.map((post: Post) => (
           <div key={post.id}>
             <p>Post ID: {post.id}</p>
             <p>Text: {post.text}</p>
