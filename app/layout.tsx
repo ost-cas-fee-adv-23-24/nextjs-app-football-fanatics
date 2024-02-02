@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+// @ts-ignore
+import designStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Elbum Wep App",
-  description: "by Bladimir and Patrick",
+  title: 'Elbum Wep App',
+  description: 'by Bladimir and Patrick',
 };
 
 export default function RootLayout({
@@ -16,6 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link href={designStyles} type="text/css" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
