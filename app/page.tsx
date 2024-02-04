@@ -4,6 +4,10 @@ import { auth } from './api/auth/[...nextauth]/auth';
 import { signIn } from 'next-auth/react';
 import {
   Button,
+  EButtonTypes,
+  EIConTypes,
+  EParagraphSizes,
+  ETypographyLevels,
   Heading,
   Logo,
   Paragraph,
@@ -18,12 +22,12 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Heading level="1" text="Elbum Web App" />
+      <Heading level={ETypographyLevels.ONE} text="Elbum Web App" />
       <Logo logoPosition={'left' as any} color={'gradient' as any} />
       {!!session ? (
         <div>
           <Paragraph
-            size="L"
+            size={EParagraphSizes.LARGE}
             text={`You are logged in as ${session.user?.name} (${session.user?.email}).`}
           />
           <div>
@@ -33,11 +37,13 @@ export default async function Home() {
         </div>
       ) : (
         <div>
-          <p>You are not logged in.</p>
+          <p className="text-slate-600">You are not logged in.</p>
           <div>
             <Button
+              icon={EIConTypes.SHARE}
+              type={EButtonTypes.PRIMARY}
               label="Login with Zitadel"
-              onClickEvent={() => {
+              onCustomClick={() => {
                 signIn('zitadel');
               }}
             />
