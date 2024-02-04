@@ -26,7 +26,7 @@ const ActionsBar = ({
         onIncrease={() => {
           onLike();
         }}
-        labelLiked="Liked"
+        labelLiked={selfLiked ? 'Unliked' : 'Liked'}
         labelSingular="Like"
         labelPlural="Likes"
         amount={amountLikes}
