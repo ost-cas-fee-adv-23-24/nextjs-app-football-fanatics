@@ -7,7 +7,7 @@ interface IProps {
   alt: string;
 }
 
-const MumbleImage = ({ src, alt }: IProps) => {
+const PostImage = ({ src, alt }: IProps) => {
   return (
     <div
       onClick={() => {
@@ -43,4 +43,4 @@ const MumbleImage = ({ src, alt }: IProps) => {
   );
 };
 
-export default MumbleImage;
+export default PostImage;

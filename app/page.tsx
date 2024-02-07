@@ -11,6 +11,7 @@ import {
   Logo,
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import Link from 'next/link';
 
 // TODO Include styles from design system.
 // TODO Check to add a namespace to the design system to avoid css conflicts.
@@ -23,6 +24,9 @@ export default async function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Heading level={ETypographyLevels.ONE} text="Elbum Web App" />
       <Logo logoPosition={'left' as any} color={'gradient' as any} />
+      <Link className="bg-red" href={'/feed'}>
+        Posts
+      </Link>
       {!!session ? (
         <div>
           <Paragraph

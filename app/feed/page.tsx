@@ -1,9 +1,9 @@
 'use client';
 
-import { MumbleCard } from '@/components/mumble-card/MumbleCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
 import React from 'react';
+import { PostCard } from '@/components/post-card/PostCard';
 
 export default function Home() {
   return (
@@ -20,7 +20,7 @@ export default function Home() {
           return test.map((mumble, index) => {
             return (
               <div className="mb-3" key={index}>
-                <MumbleCard
+                <PostCard
                   creator={{
                     id: 12564894,
                     avatarUrl: 'https://placekitten.com/200/200',

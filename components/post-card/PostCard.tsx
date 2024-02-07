@@ -7,24 +7,23 @@ import {
   EButtonTypes,
   EIConTypes,
   EParagraphSizes,
-  ETypographyLevels,
-  Heading,
   Icon,
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { formatDistance } from 'date-fns';
-import ActionsBar from '@/components/actions-bar/ActionsBar';
+
 import { IMumbleItem } from '@/utils/interfaces/mumble.interface';
 import { decodeTime } from 'ulidx';
 import { EMediaTypes } from '@/utils/enums/general.enum';
-import MumbleImage from '@/components/mumble-image/MumbleImage';
+import PostImage from '@/components/post-image/PostImage';
+import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 
 interface IProps extends IMumbleItem {
   onLike: (id: string) => void;
   onUnlike: (id: string) => void;
 }
 
-export const MumbleCard = ({
+export const PostCard = ({
   mediaUrl,
   id,
   onLike,
@@ -68,12 +67,12 @@ export const MumbleCard = ({
       {mediaUrl && (
         <div className="mt-4">
           {mediaType === EMediaTypes.IMAGE ? (
-            <MumbleImage src={mediaUrl} alt="test" />
+            <PostImage src={mediaUrl} alt="test" />
           ) : null}
         </div>
       )}
       <div className="mt-6">
-        <ActionsBar
+        <PostActionsBar
           onLike={() => {
             if (likedBySelf) {
               onUnlike(id);

@@ -28,16 +28,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="stylesheet" href={cssDesignLibraryStyles} />
+        <React.Fragment>
+          <link rel="stylesheet" href={cssDesignLibraryStyles} />
+        </React.Fragment>
       </head>
       <body className={inter.className}>
         <div className="w-full">
-          <div className="bg-violet-600 py-3 px-8">
-            <div className="max-w-4xl mr-auto ml-auto">
+          <div className="bg-violet-600 py-3">
+            <div className="max-w-4xl mr-auto ml-auto px-10 lg:px-0">
               <Header />
             </div>
           </div>
-          <div className=" mr-auto ml-auto bg-slate-100 pt-8">
+          <div className=" mr-auto ml-auto bg-slate-100 px-10 lg:px-0">
             <div className="max-w-4xl mr-auto ml-auto">{children}</div>
           </div>
         </div>
