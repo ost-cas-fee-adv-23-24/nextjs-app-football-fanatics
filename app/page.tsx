@@ -1,11 +1,12 @@
+import LoginButton from '@/components/login-button';
 import LogoutButton from '@/components/logout-button';
 import {
-  Button,
+  EParagraphSizes,
+  ETypographyLevels,
   Heading,
   Logo,
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import { signIn } from 'next-auth/react';
 import { auth } from './api/auth/[...nextauth]/auth';
 
 // TODO Include styles from design system.
@@ -17,12 +18,12 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Heading level="1" text="Elbum Web App" />
+      <Heading level={ETypographyLevels.ONE} text="Elbum Web App" />
       <Logo logoPosition={'left' as any} color={'gradient' as any} />
       {!!session ? (
         <div>
           <Paragraph
-            size="L"
+            size={EParagraphSizes.LARGE}
             text={`You are logged in as ${session.user?.name} (${session.user?.email}).`}
           />
           <div>
@@ -34,12 +35,7 @@ export default async function Home() {
         <div>
           <p>You are not logged in.</p>
           <div>
-            <Button
-              label="Login with Zitadel"
-              onClickEvent={() => {
-                signIn('zitadel');
-              }}
-            />
+            <LoginButton />
           </div>
         </div>
       )}
