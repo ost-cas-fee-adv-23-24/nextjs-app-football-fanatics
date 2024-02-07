@@ -2,22 +2,21 @@
 
 import { MumbleCard } from '@/components/mumble-card/MumbleCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
-import { GeneralTemplate } from '@/templates/general/GeneralTemplate';
+import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
+import React from 'react';
 
 export default function Home() {
   return (
-    <div className="flex">
-      {/*<div className="flex max-w-4xl mr-auto"> */}
-      {/*these styles are not getting loaded on the general template. why? once*/}
-      {/*they are loaded here then they appear and stay. after load we can removed*/}
-      {/*them. seems like tree-shaking issue.*/}
-      <GeneralTemplate
-        title="Welcome to Mumble"
-        description="Did you hear that? They've shut down the main reactor. We'll be destroyed for sure. This is madness! We're doomed! There'll be no escape for the Princess this time. What's that? Artoo! Artoo-Detoo, where are you? At last! Where have you been? They're heading in this direction."
-      >
+    <div className="mr-auto ml-auto bg-slate-100 pt-8">
+      <div className="max-w-4xl mr-auto ml-auto py-8">
+        <WelcomeTexts
+          title="Welcome to Mumble"
+          description="Did you hear that? They've shut down the main reactor. We'll be destroyed for sure. This is madness! We're doomed! There'll be no escape for the Princess this time. What's that? Artoo! Artoo-Detoo, where are you? At last! Where have you been? They're heading in this direction."
+        />
+      </div>
+      <div className="content-bottom max-w-4xl mr-auto ml-auto">
         {(() => {
-          const test: Array<string> = ['1', '2', '3', '4', '5', '6', '7', '8'];
-
+          const test = new Array(10).fill(0);
           return test.map((mumble, index) => {
             return (
               <div className="mb-3" key={index}>
@@ -41,7 +40,7 @@ export default function Home() {
             );
           });
         })()}
-      </GeneralTemplate>
+      </div>
     </div>
   );
 }

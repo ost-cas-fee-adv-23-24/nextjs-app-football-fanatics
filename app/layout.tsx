@@ -4,6 +4,8 @@ import './globals.css';
 
 // @ts-ignore
 import cssDesignLibraryStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
+import Header from '@/components/header/Header';
+import React from 'react';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -28,7 +30,18 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href={cssDesignLibraryStyles} />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="w-full">
+          <div className="bg-violet-600 py-3 px-8">
+            <div className="max-w-4xl mr-auto ml-auto">
+              <Header />
+            </div>
+          </div>
+          <div className=" mr-auto ml-auto bg-slate-100 pt-8">
+            <div className="max-w-4xl mr-auto ml-auto">{children}</div>
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
