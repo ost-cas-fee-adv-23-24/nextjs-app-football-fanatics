@@ -12,13 +12,13 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { formatDistance } from 'date-fns';
 
-import { IMumbleItem } from '@/utils/interfaces/mumble.interface';
+import { IPostItem } from '@/utils/interfaces/mumble.interface';
 import { decodeTime } from 'ulidx';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostImage from '@/components/post-image/PostImage';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 
-interface IProps extends IMumbleItem {
+interface IProps extends IPostItem {
   onLike: (id: string) => void;
   onUnlike: (id: string) => void;
 }

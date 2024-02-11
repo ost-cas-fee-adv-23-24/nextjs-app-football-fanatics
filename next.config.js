@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'placekitten.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+      },
     ],
   },
 };

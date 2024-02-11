@@ -2,10 +2,19 @@
 
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PostCard } from '@/components/post-card/PostCard';
+import { IPostsApiInterface } from '@/app/api/feed/route';
 
 export default function Home() {
+  const [posts, setPosts] = useState<Array<IPostsApiInterface>>([]);
+  useEffect(() => {
+    (async () => {
+      const response = await fetch('api/feed', { method: 'GET' });
+      const data = await response.json();
+      setPosts(data.data as Array<IPostsApiInterface>);
+    })();
+  }, []);
   return (
     <div className="mr-auto ml-auto bg-slate-100 pt-8">
       <div className="max-w-4xl mr-auto ml-auto py-8">
@@ -16,23 +25,22 @@ export default function Home() {
       </div>
       <div className="content-bottom max-w-4xl mr-auto ml-auto">
         {(() => {
-          const test = new Array(10).fill(0);
-          return test.map((mumble, index) => {
+          return posts.map((post: any, index) => {
             return (
               <div className="mb-3" key={index}>
                 <PostCard
                   creator={{
-                    id: 12564894,
-                    avatarUrl: 'https://placekitten.com/200/200',
-                    username: 'Bladimir',
+                    id: post.creator.id,
+                    avatarUrl: post.creator.avatarUrl,
+                    username: post.creator.username,
                   }}
-                  mediaUrl={'https://placekitten.com/1500/800'}
-                  id="01BX5ZZKBKACTAV9WEVGEMMVRY"
-                  likedBySelf={false}
-                  likes={100}
+                  mediaUrl={post.mediaUrl ? `${post.mediaUrl}` : null}
+                  id={post.id}
+                  likedBySelf={post.likedBySelf}
+                  likes={post.likes}
                   mediaType={EMediaTypes.IMAGE}
-                  replies={32}
-                  text="Into the garbage chute, wise guy. Get in there you big furry oaf! I don't care what you smell! Get in there and don't worry about it. Wonderful girl! Either I'm going to kill her or I'm beginning to like her. Get in there! Oh! The garbage chute was a really wonderful idea."
+                  replies={post.replies}
+                  text={post.text}
                   onLike={() => {}}
                   onUnlike={() => {}}
                 />

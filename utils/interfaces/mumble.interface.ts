@@ -1,9 +1,9 @@
 import { EMediaTypes } from '@/utils/enums/general.enum';
 
-export interface IMumbleItem {
+export interface IPostItem {
   text: string;
   id: string;
-  creator: IMumbleCreator;
+  creator: IPostCreator;
   mediaUrl: string | null;
   mediaType: EMediaTypes | null;
   likes: number;
@@ -11,7 +11,7 @@ export interface IMumbleItem {
   likedBySelf: boolean;
 }
 
-export interface IMumbleCreator {
+export interface IPostCreator {
   id: number;
   username: string;
   avatarUrl: string;

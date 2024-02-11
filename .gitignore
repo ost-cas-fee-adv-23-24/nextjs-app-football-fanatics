@@ -38,4 +38,4 @@ yarn-error.log*
 next-env.d.ts
 
 # config secrets
-/config/secrets.ts
+/config/secrets/local.s
