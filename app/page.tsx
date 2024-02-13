@@ -5,7 +5,7 @@ import {
   ETypographyLevels,
   Heading,
   Logo,
-  Paragraph,
+  Paragraph
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { auth } from './api/auth/[...nextauth]/auth';
 
@@ -33,7 +33,7 @@ export default async function Home() {
         </div>
       ) : (
         <div>
-          <p>You are not logged in.</p>
+          <p className="text-slate-600">You are not logged in.</p>
           <div>
             <LoginButton />
           </div>
