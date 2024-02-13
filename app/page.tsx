@@ -12,6 +12,7 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import Link from 'next/link';
+import LoginButton from '@/components/login-button';
 
 // TODO Include styles from design system.
 // TODO Check to add a namespace to the design system to avoid css conflicts.
@@ -49,6 +50,7 @@ export default async function Home() {
                 signIn('zitadel');
               }}
             />
+            <LoginButton />
           </div>
         </div>
       )}

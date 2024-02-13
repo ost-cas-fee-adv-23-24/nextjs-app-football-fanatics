@@ -1,20 +1,12 @@
-'use client';
-
-import { EMediaTypes } from '@/utils/enums/general.enum';
+import { getPosts } from '@/services/Post/post';
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
-import React, { useEffect, useState } from 'react';
 import { PostCard } from '@/components/post-card/PostCard';
-import { IPostsApiInterface } from '@/app/api/feed/route';
+import { EMediaTypes } from '@/utils/enums/general.enum';
+import { IPostItem } from '@/services/Post/post.interface';
 
-export default function Home() {
-  const [posts, setPosts] = useState<Array<IPostsApiInterface>>([]);
-  useEffect(() => {
-    (async () => {
-      const response = await fetch('api/feed', { method: 'GET' });
-      const data = await response.json();
-      setPosts(data.data as Array<IPostsApiInterface>);
-    })();
-  }, []);
+export default async function Page() {
+  const { data } = await getPosts();
+
   return (
     <div className="mr-auto ml-auto bg-slate-100 pt-8">
       <div className="max-w-4xl mr-auto ml-auto py-8">
@@ -25,18 +17,18 @@ export default function Home() {
       </div>
       <div className="content-bottom max-w-4xl mr-auto ml-auto">
         {(() => {
-          return posts.map((post: any, index) => {
+          return data.map((post: IPostItem, index: number) => {
             return (
               <div className="mb-3" key={index}>
                 <PostCard
                   creator={{
                     id: post.creator.id,
-                    avatarUrl: post.creator.avatarUrl,
+                    avatarUrl: post.creator.avatarUrl as string,
                     username: post.creator.username,
                   }}
                   mediaUrl={post.mediaUrl ? `${post.mediaUrl}` : null}
                   id={post.id}
-                  likedBySelf={post.likedBySelf}
+                  likedBySelf={post.likedBySelf ? post.likedBySelf : false}
                   likes={post.likes}
                   mediaType={EMediaTypes.IMAGE}
                   replies={post.replies}

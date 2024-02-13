@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Elbum Wep Apps',
   description: 'by Bladimir and Patrick',
+  assets: [cssDesignLibraryStyles],
   openGraph: {
     title: 'Elbum Wep Apps',
     description: 'by Bladimir and Patrick',
@@ -27,11 +28,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <React.Fragment>
-          <link rel="stylesheet" href={cssDesignLibraryStyles} />
-        </React.Fragment>
-      </head>
       <body className={inter.className}>
         <div className="w-full">
           <div className="bg-violet-600 py-3">
