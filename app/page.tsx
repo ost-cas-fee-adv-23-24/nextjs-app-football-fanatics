@@ -1,17 +1,13 @@
-'use client';
+import LoginButton from '@/components/login-button';
 import LogoutButton from '@/components/logout-button';
-import { auth } from './api/auth/[...nextauth]/auth';
-import { signIn } from 'next-auth/react';
 import {
-  Button,
-  EButtonTypes,
-  EIConTypes,
   EParagraphSizes,
   ETypographyLevels,
   Heading,
   Logo,
-  Paragraph,
+  Paragraph
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { auth } from './api/auth/[...nextauth]/auth';
 
 // TODO Include styles from design system.
 // TODO Check to add a namespace to the design system to avoid css conflicts.
@@ -39,14 +35,7 @@ export default async function Home() {
         <div>
           <p className="text-slate-600">You are not logged in.</p>
           <div>
-            <Button
-              icon={EIConTypes.SHARE}
-              type={EButtonTypes.PRIMARY}
-              label="Login with Zitadel"
-              onCustomClick={() => {
-                signIn('zitadel');
-              }}
-            />
+            <LoginButton />
           </div>
         </div>
       )}

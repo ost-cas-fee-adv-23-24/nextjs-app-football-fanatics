@@ -12,6 +12,10 @@ jobs:
     name: Run linters and build project
     runs-on: ubuntu-latest
 
+    env:
+      MUMBLE_API_URL: ${{ vars.MUMBLE_API_URL }}
+      ZITADEL_CLIENT_ID: ${{ secrets.ZITADEL_CLIENT_ID }}
+
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
