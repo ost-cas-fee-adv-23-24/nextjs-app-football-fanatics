@@ -1,14 +1,14 @@
-export type ApiResponseType<T> = {
+export type TApiResponseType<T> = {
   count: number;
   data: T;
   next: string | null;
   previous: string | null;
 };
 
-export type Post = {
+export type TPost = {
   id: string;
   replies: number;
-  creator: Creator;
+  creator: TUser;
   text: string;
   mediaUrl: string | null;
   mediaType: string | null;
@@ -17,8 +17,10 @@ export type Post = {
   createdTimestamp: number;
 };
 
-type Creator = {
+export type TUser = {
   id: string;
   username: string;
   avatarUrl: string | null;
+  firstname?: string;
+  lastname?: string,
 };
