@@ -11,8 +11,6 @@ import {
 export async function getPosts(
   params?: TPostParams,
 ): Promise<IPostsApiResponse> {
-  console.log(params);
-
   const {
     limit,
     offset,

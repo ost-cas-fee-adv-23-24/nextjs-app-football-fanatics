@@ -8,3 +8,10 @@ export enum EEnvironments {
   STAGING = 'staging',
   PRODUCTION = 'production',
 }
+
+export enum EApiMethods {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}

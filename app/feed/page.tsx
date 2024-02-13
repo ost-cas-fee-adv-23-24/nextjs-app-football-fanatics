@@ -1,8 +1,6 @@
 import { getPosts } from '@/services/Post/post';
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
-import { PostCard } from '@/components/post-card/PostCard';
-import { EMediaTypes } from '@/utils/enums/general.enum';
-import { IPostItem } from '@/services/Post/post.interface';
+import PostFeed from '@/components/post-feed/PostFeed';
 
 export default async function Page() {
   const { data } = await getPosts();
@@ -16,30 +14,7 @@ export default async function Page() {
         />
       </div>
       <div className="content-bottom max-w-4xl mr-auto ml-auto">
-        {(() => {
-          return data.map((post: IPostItem, index: number) => {
-            return (
-              <div className="mb-3" key={index}>
-                <PostCard
-                  creator={{
-                    id: post.creator.id,
-                    avatarUrl: post.creator.avatarUrl as string,
-                    username: post.creator.username,
-                  }}
-                  mediaUrl={post.mediaUrl ? `${post.mediaUrl}` : null}
-                  id={post.id}
-                  likedBySelf={post.likedBySelf ? post.likedBySelf : false}
-                  likes={post.likes}
-                  mediaType={EMediaTypes.IMAGE}
-                  replies={post.replies}
-                  text={post.text}
-                  onLike={() => {}}
-                  onUnlike={() => {}}
-                />
-              </div>
-            );
-          });
-        })()}
+        <PostFeed posts={data} />
       </div>
     </div>
   );
