@@ -1,8 +1,8 @@
 import envVariables from '@/config/env';
-import { ApiResponseType, Post } from '@/types';
+import { TApiResponseType, TPost } from '@/utils/types';
 import { decodeTime } from 'ulidx';
 
-type RawPost = Omit<Post, 'createdTimestamp'>;
+type RawPost = Omit<TPost, 'createdTimestamp'>;
 
 type PostParams = {
   limit?: number;
@@ -58,10 +58,10 @@ export async function getPosts(params?: PostParams) {
     },
   );
 
-  if (!res.ok) throw new Error('Error');
+  if (!res.ok) throw new Error('Could not fetch posts');
 
-  const { count, data, next, previous } = (await res.json()) as ApiResponseType<
-    Post[]
+  const { count, data, next, previous } = (await res.json()) as TApiResponseType<
+    TPost[]
   >;
 
   const posts = data.map(addCreatedTimestamp);
