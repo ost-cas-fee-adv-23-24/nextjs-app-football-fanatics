@@ -9,7 +9,9 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { auth } from './api/auth/[...nextauth]/auth';
 
+// TODO Include styles from design system.
 // TODO Check to add a namespace to the design system to avoid css conflicts.
+// TODO Fix Issue with enums in design System
 
 export default async function Home() {
   const session = await auth();

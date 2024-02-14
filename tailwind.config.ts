@@ -3,7 +3,6 @@ import type { Config } from 'tailwindcss';
 import {
   colorsTailwind,
   fontsTailwind,
-  backgroundImageExtensionTailwind,
   spacingTailwind,
   zIndexTailwind,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
@@ -17,10 +16,14 @@ const config: Config = {
   theme: {
     zIndex: zIndexTailwind,
     extend: {
-      backgroundImage: backgroundImageExtensionTailwind,
       fontFamily: fontsTailwind,
       colors: colorsTailwind,
       spacing: spacingTailwind,
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
     },
   },
   plugins: [],
