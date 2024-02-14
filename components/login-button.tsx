@@ -1,12 +1,13 @@
 'use client';
 
+import { Button, EIConTypes } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { signIn } from 'next-auth/react';
 import { Button, EIConTypes } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 export default function LoginButton() {
   return (
     <Button
-      icon={EIConTypes.ARROW_DOWN}
+      icon={EIConTypes.CALENDAR}
       label="Login with Zitadel"
       onCustomClick={() => {
         signIn('zitadel');

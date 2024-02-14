@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
+
 // @ts-ignore
 import cssDesignLibraryStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 import Header from '@/components/header/Header';
@@ -28,6 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head></head>
       <body className={inter.className}>
         <div className="w-full">
           <div className="bg-violet-600 py-3">
