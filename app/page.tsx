@@ -1,10 +1,7 @@
 import LoginButton from '@/components/login-button';
 import LogoutButton from '@/components/logout-button';
 import { auth } from './api/auth/[...nextauth]/auth';
-import { signIn } from 'next-auth/react';
 import {
-  Button,
-  EIConTypes,
   EParagraphSizes,
   ETypographyLevels,
   Heading,

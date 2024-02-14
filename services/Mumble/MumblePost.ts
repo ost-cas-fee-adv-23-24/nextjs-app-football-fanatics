@@ -1,16 +1,38 @@
 import envVariables from '@/config/env';
-import { ApiResponseType, Post } from '@/types';
+import { ApiResponseType } from '@/types';
 import { decodeTime } from 'ulidx';
 import {
+  IGetPostsParams,
   IPostItem,
   IPostItemBase,
   IPostsApiResponse,
-  TPostParams,
 } from '@/services/Post/post.interface';
-import tokenManager from '@/services/Token/TokenManager';
+import { MumbleService } from '@/services/Mumble/index';
+import { EApiMethods } from '@/utils/enums/general.enum';
+
+class MumblePostService extends MumbleService {
+  async getPosts({
+    token,
+    data,
+  }: {
+    token: string;
+    data: IGetPostsParams;
+  }): Promise<IPostsApiResponse> {
+    const responseMumbleApi = await this.performRequest({
+      method: EApiMethods.GET,
+      path: `${this.baseUrl}/posts?`,
+      token,
+      data,
+      message: 'Fetching posts From Mumble API',
+    });
+
+    console.log(responseMumbleApi);
+    return responseMumbleApi as IPostsApiResponse;
+  }
+}
 
 export async function getPosts(
-  params?: TPostParams,
+  params?: IGetPostsParams,
 ): Promise<IPostsApiResponse> {
   const {
     limit,

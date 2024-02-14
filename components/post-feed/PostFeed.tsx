@@ -1,14 +1,18 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IPostItem } from '@/services/Post/post.interface';
 import { PostCard } from '@/components/post-card/PostCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 
-interface IProps {
-  posts: IPostItem[];
-}
-
-const PostFeed = ({ posts }: IProps) => {
+const PostFeed = () => {
+  const [posts, setPosts] = React.useState([]);
+  useEffect(() => {
+    (async () => {
+      const response = await fetch('api/feed', { method: 'GET' });
+      const data = await response.json();
+      setPosts(data.data);
+    })();
+  }, []);
   return posts.map((post: IPostItem, index: number) => {
     return (
       <div className="mb-3" key={index}>

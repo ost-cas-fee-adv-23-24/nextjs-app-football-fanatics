@@ -5,9 +5,10 @@ export interface IMumbleServiceRequestParams {
   path: string;
   token: string;
   message: string;
+  data: any;
 }
 
-class MumbleService {
+export class MumbleService {
   baseUrl: string;
 
   constructor(baseUrl: string) {
@@ -42,6 +43,7 @@ class MumbleService {
     path,
     token,
     message,
+    data,
   }: IMumbleServiceRequestParams) {
     try {
       const response = await fetch(`${this.baseUrl}/${path}`, {

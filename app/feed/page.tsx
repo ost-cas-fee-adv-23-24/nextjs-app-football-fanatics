@@ -3,8 +3,6 @@ import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
 import PostFeed from '@/components/post-feed/PostFeed';
 
 export default async function Page() {
-  const { data } = await getPosts();
-
   return (
     <div className="mr-auto ml-auto bg-slate-100 pt-8">
       <div className="max-w-4xl mr-auto ml-auto py-8">
@@ -14,7 +12,7 @@ export default async function Page() {
         />
       </div>
       <div className="content-bottom max-w-4xl mr-auto ml-auto">
-        <PostFeed posts={data} />
+        <PostFeed />
       </div>
     </div>
   );

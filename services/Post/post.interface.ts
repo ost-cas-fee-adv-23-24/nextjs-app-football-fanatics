@@ -28,7 +28,7 @@ export interface IPostCreator {
   avatarUrl: string;
 }
 
-export type TPostParams = {
+export type IGetPostsParams = {
   limit?: number;
   offset?: number;
   newerThanPostId?: string;
