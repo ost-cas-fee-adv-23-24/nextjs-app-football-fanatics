@@ -27,7 +27,6 @@ export default async function Home() {
             text={`You are logged in as ${session.user?.name} (${session.user?.email}).`}
           />
           <div>
-            {/* TODO: use Button from Design System */}
             <LogoutButton />
           </div>
         </div>
@@ -35,7 +34,8 @@ export default async function Home() {
         <div>
           <p className="text-slate-600">You are not logged in.</p>
           <div>
-            <LoginButton />
+            <LoginButton
+            />
           </div>
         </div>
       )}
