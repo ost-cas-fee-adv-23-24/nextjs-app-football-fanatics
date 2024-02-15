@@ -1,12 +1,12 @@
 import { getPosts } from '@/services/post';
-import { TPost } from '@/utils/types';
+import { Post } from '@/types';
 
 export default async function Page() {
   const { data } = await getPosts();
 
   return (
     <>
-      {data.map((post: TPost) => (
+      {data.map((post: Post) => (
         <div key={post.id}>
           <p>Post ID: {post.id}</p>
           <p>Text: {post.text}</p>
