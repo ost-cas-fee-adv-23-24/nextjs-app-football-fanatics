@@ -5,7 +5,6 @@ export interface IMumbleServiceRequestParams {
   path: string;
   token: string;
   message: string;
-  data: any;
 }
 
 export class MumbleService {
@@ -43,7 +42,6 @@ export class MumbleService {
     path,
     token,
     message,
-    data,
   }: IMumbleServiceRequestParams) {
     try {
       const response = await fetch(`${this.baseUrl}/${path}`, {

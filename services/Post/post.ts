@@ -2,15 +2,14 @@ import envVariables from '@/config/env';
 import { ApiResponseType, Post } from '@/types';
 import { decodeTime } from 'ulidx';
 import {
+  IGetPostsParams,
   IPostItem,
   IPostItemBase,
   IPostsApiResponse,
-  TPostParams,
 } from '@/services/Post/post.interface';
-import tokenManager from '@/services/Token/TokenManager';
 
 export async function getPosts(
-  params?: TPostParams,
+  params?: IGetPostsParams,
 ): Promise<IPostsApiResponse> {
   const {
     limit,

@@ -27,9 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head></head>
-
+    <html>
       <body className={inter.className}>
         <div className="w-full">
           <div className="bg-violet-600 py-3">

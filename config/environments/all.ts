@@ -4,6 +4,9 @@ export interface IConfig {
     authority: string;
     codeVerifier: string;
   };
+  mumble: {
+    host: string;
+  };
 }
 
 const config = {
