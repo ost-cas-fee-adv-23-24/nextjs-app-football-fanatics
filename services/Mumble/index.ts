@@ -7,6 +7,7 @@ export interface IMumbleServiceRequestParams {
   message: string;
   data?: any;
   headers?: any;
+  expectedBack?: 'json' | 'text';
 }
 
 export class MumbleService {
@@ -46,6 +47,7 @@ export class MumbleService {
     message,
     data,
     headers,
+    expectedBack = 'json',
   }: IMumbleServiceRequestParams) {
     try {
       const options = {
@@ -58,11 +60,8 @@ export class MumbleService {
       }
 
       const response = await fetch(`${this.baseUrl}/${path}`, options);
-      console.log(response);
-      // TODO check error on serialization of response for avatar upload.
-      // upload works but the faling on the return.
-      // why it is failing on making the .json()? after uploading the avatar?
-      return await response.json();
+      if (expectedBack === 'json') return await response.json();
+      if (expectedBack === 'text') return await response.text();
     } catch (error) {
       console.log(error);
       throw new Error(`Error while ${message}`);

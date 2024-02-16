@@ -30,6 +30,7 @@ export class MumbleUserService extends MumbleService {
         token,
         message: 'Uploading avatar',
         data: formData,
+        expectedBack: 'text',
         headers: {
           contentType: `multipart/form-data; boundary=${generateBoundary()}`,
           Authorization: `Bearer ${token}`,
