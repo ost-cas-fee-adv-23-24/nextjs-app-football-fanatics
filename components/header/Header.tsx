@@ -42,8 +42,19 @@ const Header = ({}: IProps) => {
           <>
             <Avatar
               imgSrc={profileImage}
-              editable={false}
+              editable={true}
               size={EAvatarSizes.SM}
+              onSuccess={async (imgSrc) => {
+                const formData = new FormData();
+                // @ts-ignore
+                formData.append('media', imgSrc);
+                const response = await fetch('/api/user-avatar', {
+                  method: 'POST',
+                  body: formData,
+                });
+                const newPic = await response.json();
+                console.log(newPic);
+              }}
             />
             <ButtonMenu label="Settings" icon={EIConTypes.SETTINGS} />
             <ButtonMenu

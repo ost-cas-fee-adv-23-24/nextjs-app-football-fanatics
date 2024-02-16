@@ -7,6 +7,9 @@ export interface IConfig {
   mumble: {
     host: string;
   };
+  avatar: {
+    fileNameUploader: string;
+  };
   feed: {
     defaultAmount: number;
   };
@@ -20,6 +23,9 @@ const config = {
     clientId: process.env.ZITADEL_CLIENT_ID,
     authority: 'https://cas-fee-adv-ed1ide.zitadel.cloud',
     codeVerifier: 'this-is-very-secret',
+  },
+  avatar: {
+    fileNameUploader: 'media',
   },
   feed: {
     defaultAmount: 20,

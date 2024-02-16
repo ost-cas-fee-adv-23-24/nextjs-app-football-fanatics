@@ -5,6 +5,8 @@ export interface IMumbleServiceRequestParams {
   path: string;
   token: string;
   message: string;
+  data?: any;
+  headers?: any;
 }
 
 export class MumbleService {
@@ -42,16 +44,28 @@ export class MumbleService {
     path,
     token,
     message,
+    data,
+    headers,
   }: IMumbleServiceRequestParams) {
     try {
-      const response = await fetch(`${this.baseUrl}/${path}`, {
+      const options = {
         method,
-        headers: this.getHeaders(method, token),
-      });
+        headers: headers ? headers : this.getHeaders(method, token),
+      };
+      if (data) {
+        // @ts-ignore
+        options.body = data;
+      }
+
+      const response = await fetch(`${this.baseUrl}/${path}`, options);
+      console.log(response);
+      // TODO check error on serialization of response for avatar upload.
+      // upload works but the faling on the return.
+      // why it is failing on making the .json()? after uploading the avatar?
       return await response.json();
     } catch (error) {
       console.log(error);
-      throw new Error(`Error fetching ${message}`);
+      throw new Error(`Error while ${message}`);
     }
   }
 }

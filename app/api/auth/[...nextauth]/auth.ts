@@ -33,7 +33,7 @@ export const {
 
       return token;
     },
-    session({ session, token }) {
+    session({ session, token, user }) {
       // @ts-ignore
       session.accessToken = token.accessToken;
       return session;
