@@ -6,6 +6,7 @@ import './globals.css';
 import cssDesignLibraryStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 import Header from '@/components/header/Header';
 import React from 'react';
+import { SessionProvider } from 'next-auth/react';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -32,7 +33,9 @@ export default function RootLayout({
         <div className="w-full">
           <div className="bg-violet-600 py-3">
             <div className="max-w-4xl mr-auto ml-auto px-10 lg:px-0">
-              <Header />
+              <SessionProvider>
+                <Header />
+              </SessionProvider>
             </div>
           </div>
           <div className=" mr-auto ml-auto bg-slate-100 px-10 lg:px-0">

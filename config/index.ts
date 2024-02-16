@@ -33,5 +33,4 @@ const loadFile = async (file: string) => {
   mergeConfig(await loadFile(`./secrets/local`));
 })();
 
-console.log('config:', config);
 export default config as IConfig;

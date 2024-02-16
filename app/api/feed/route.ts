@@ -1,16 +1,18 @@
 import { NextResponse } from 'next/server';
-import tokenManager from '@/services/Token/TokenManager';
 import { MumblePostService } from '@/services/Mumble/MumblePost';
 import config from '@/config';
+import { auth } from '../auth/[...nextauth]/auth';
+import { NextApiRequest } from 'next';
 
 const dataSource = new MumblePostService(config.mumble.host);
-export const GET = async (request: Request): Promise<Response> => {
-  const accessToken = tokenManager.getToken();
+export const GET = async (request: NextApiRequest): Promise<Response> => {
+  const session = await auth();
   try {
     const response = await dataSource.getPosts({
-      token: accessToken,
+      // @ts-ignore
+      token: session ? session.accessToken : '',
       data: {
-        limit: 30,
+        limit: config.feed.defaultAmount,
         offset: 0,
       },
     });

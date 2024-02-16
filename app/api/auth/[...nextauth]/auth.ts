@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth';
 import Zitadel from 'next-auth/providers/zitadel';
-import tokenManager from '@/services/Token/TokenManager';
 
 export const {
   handlers: { GET, POST },
@@ -25,9 +24,6 @@ export const {
   callbacks: {
     jwt({ token, user, account }) {
       if (account) {
-        if (account.access_token) {
-          tokenManager.setToken(account.access_token);
-        }
         token.accessToken = account.access_token;
         token.expiresAt = (account.expires_at ?? 0) * 1000;
       }
@@ -36,6 +32,11 @@ export const {
       }
 
       return token;
+    },
+    session({ session, token }) {
+      // @ts-ignore
+      session.accessToken = token.accessToken;
+      return session;
     },
   },
   secret: 'this-is-very-secret',
