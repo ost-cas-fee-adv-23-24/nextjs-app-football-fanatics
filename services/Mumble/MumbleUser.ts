@@ -1,5 +1,5 @@
 import { MumbleService } from '@/services/Mumble/index';
-import { EApiMethods } from '@/utils/enums/general.enum';
+import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
 import config from '@/config';
 
 export interface IUploadAvatarParams {
@@ -26,7 +26,7 @@ export class MumbleUserService extends MumbleService {
     try {
       const response = await this.performRequest({
         method: EApiMethods.PUT,
-        path: 'users/avatar',
+        path: EEndpointsBackend.USER_UPDATE_AVATAR,
         token,
         message: 'Uploading avatar',
         data: formData,

@@ -8,7 +8,7 @@ const PostFeed = () => {
   const [posts, setPosts] = React.useState([]);
   useEffect(() => {
     (async () => {
-      const response = await fetch('api/feed', { method: 'GET' });
+      const response = await fetch('api/posts', { method: 'GET' });
       const data = await response.json();
       setPosts(data.data);
     })();

@@ -48,7 +48,7 @@ const Header = ({}: IProps) => {
                 const formData = new FormData();
                 // @ts-ignore
                 formData.append('media', imgSrc);
-                const response = await fetch('/api/user-avatar', {
+                const response = await fetch('/api/users/avatar', {
                   method: 'POST',
                   body: formData,
                 });

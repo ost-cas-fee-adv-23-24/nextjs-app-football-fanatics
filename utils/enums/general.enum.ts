@@ -15,3 +15,9 @@ export enum EApiMethods {
   PUT = 'PUT',
   DELETE = 'DELETE',
 }
+
+export enum EEndpointsBackend {
+  POSTS = 'posts',
+  USERS = 'users/avatar',
+  USER_UPDATE_AVATAR = 'users/avatar',
+}
