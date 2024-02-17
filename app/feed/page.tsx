@@ -1,4 +1,3 @@
-import { getPosts } from '@/services/Post/post';
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
 import PostFeed from '@/components/post-feed/PostFeed';
 

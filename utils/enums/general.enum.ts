@@ -20,4 +20,5 @@ export enum EEndpointsBackend {
   POSTS = 'posts',
   USERS = 'users/avatar',
   USER_UPDATE_AVATAR = 'users/avatar',
+  LIKE_POST = 'posts/*identifier*/likes',
 }

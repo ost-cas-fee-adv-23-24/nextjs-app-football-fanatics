@@ -15,6 +15,11 @@ export interface IPostItem extends IPostItemBase {
   createdTimestamp: number;
 }
 
+export interface IPostLike {
+  token: string;
+  identifier: string;
+}
+
 export interface IPostsApiResponse {
   count: number;
   data: IPostItem[];

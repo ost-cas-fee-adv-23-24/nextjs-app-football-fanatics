@@ -21,6 +21,7 @@ const PostFeed = async () => {
       <div
         className="bg-white py-8 px-12 relative rounded-2xl mb-6"
         key={index}
+        data-identifier={post.id}
       >
         <PostCard
           creator={{
@@ -38,6 +39,7 @@ const PostFeed = async () => {
         />
         <div className="mt-3">
           <PostActionsBar
+            identifier={post.id}
             amountLikes={post.likes}
             amountComments={post.replies}
             selfLiked={post.likedBySelf}

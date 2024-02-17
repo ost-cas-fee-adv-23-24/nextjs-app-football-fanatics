@@ -7,7 +7,7 @@ export interface IMumbleServiceRequestParams {
   message: string;
   data?: any;
   headers?: any;
-  expectedBack?: 'json' | 'text';
+  expectedBack?: 'json' | 'text' | 'empty';
 }
 
 export class MumbleService {
@@ -62,6 +62,7 @@ export class MumbleService {
       const response = await fetch(`${this.baseUrl}/${path}`, options);
       if (expectedBack === 'json') return await response.json();
       if (expectedBack === 'text') return await response.text();
+      if (expectedBack === 'empty') return response;
     } catch (error) {
       console.log(error);
       throw new Error(`Error while ${message}`);

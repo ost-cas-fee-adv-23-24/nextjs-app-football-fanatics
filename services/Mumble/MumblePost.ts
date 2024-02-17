@@ -3,12 +3,40 @@ import {
   IGetPostsParams,
   IPostItem,
   IPostItemBase,
+  IPostLike,
   IPostsApiResponse,
 } from '@/services/Post/post.interface';
 import { MumbleService } from '@/services/Mumble/index';
-import { EApiMethods } from '@/utils/enums/general.enum';
+import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
 
 export class MumblePostService extends MumbleService {
+  async likePost({ token, identifier }: IPostLike) {
+    const responseApi = await this.performRequest({
+      method: EApiMethods.PUT,
+      path: EEndpointsBackend.LIKE_POST.replace('*identifier*', identifier),
+      token,
+      message: 'Liking post',
+      expectedBack: 'empty',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return responseApi;
+  }
+  async unlikePost({ token, identifier }: IPostLike) {
+    const responseApi = await this.performRequest({
+      method: EApiMethods.DELETE,
+      path: EEndpointsBackend.LIKE_POST.replace('*identifier*', identifier),
+      token,
+      message: 'Unliking post',
+      expectedBack: 'empty',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return responseApi;
+  }
+
   async getPosts({
     token,
     data,
@@ -19,7 +47,7 @@ export class MumblePostService extends MumbleService {
     const params = this.getParams(data);
     const responseMumbleApi = await this.performRequest({
       method: EApiMethods.GET,
-      path: `posts?${params}`,
+      path: `${EEndpointsBackend.POSTS}?${params}`,
       token,
       message: 'Fetching posts From Mumble API',
     });
