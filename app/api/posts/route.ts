@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { MumblePostService } from '@/services/Mumble/MumblePost';
 import config from '@/config';
 import { auth } from '../auth/[...nextauth]/auth';
-import { NextApiRequest } from 'next';
 
 const dataSource = new MumblePostService(config.mumble.host);
-export const GET = async (request: NextApiRequest): Promise<Response> => {
+export const GET = async (request: NextRequest): Promise<Response> => {
   const session = await auth();
   try {
     const response = await dataSource.getPosts({
