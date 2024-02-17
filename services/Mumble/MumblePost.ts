@@ -10,7 +10,7 @@ import { MumbleService } from '@/services/Mumble/index';
 import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
 
 export class MumblePostService extends MumbleService {
-  async likePost({ token, identifier }: IPostLike) {
+  public async likePost({ token, identifier }: IPostLike) {
     const responseApi = await this.performRequest({
       method: EApiMethods.PUT,
       path: EEndpointsBackend.LIKE_POST.replace('*identifier*', identifier),
@@ -37,7 +37,7 @@ export class MumblePostService extends MumbleService {
     return responseApi;
   }
 
-  async getPosts({
+  public async getPosts({
     token,
     data,
   }: {
@@ -58,7 +58,7 @@ export class MumblePostService extends MumbleService {
 
     return responseMumbleApi as IPostsApiResponse;
   }
-  getParams(data: IGetPostsParams): string {
+  private getParams(data: IGetPostsParams): string {
     const params = new URLSearchParams();
     Object.entries(data).map(([key, value]) => {
       if (typeof value === 'string' || typeof value === 'number') {
@@ -73,7 +73,7 @@ export class MumblePostService extends MumbleService {
     });
     return params.toString();
   }
-  addCreatedTimestamp(post: IPostItemBase): IPostItem {
+  private addCreatedTimestamp(post: IPostItemBase): IPostItem {
     return {
       ...post,
       createdTimestamp: decodeTime(post.id),

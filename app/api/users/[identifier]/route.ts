@@ -1,7 +1,7 @@
-import { NextApiRequest, NextPageContext } from 'next';
+import { NextRequest } from 'next/server';
 
 export const GET = async (
-  request: NextApiRequest,
+  request: NextRequest,
   context: any,
 ): Promise<Response> => {
   const identifier = context.params.identifier;

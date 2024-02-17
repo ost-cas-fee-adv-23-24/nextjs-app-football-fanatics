@@ -1,13 +1,12 @@
-import { NextApiRequest } from 'next';
 import { MumblePostService } from '@/services/Mumble/MumblePost';
 import config from '@/config';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const dataSource = new MumblePostService(config.mumble.host);
 
 export const PUT = async (
-  request: NextApiRequest,
+  request: NextRequest,
   context: any,
 ): Promise<Response> => {
   const session = await auth();
@@ -25,7 +24,7 @@ export const PUT = async (
 };
 
 export const DELETE = async (
-  request: NextApiRequest,
+  request: NextRequest,
   context: any,
 ): Promise<Response> => {
   const session = await auth();
