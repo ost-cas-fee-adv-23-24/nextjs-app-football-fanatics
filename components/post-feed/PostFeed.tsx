@@ -1,19 +1,22 @@
-'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IPostItem } from '@/services/Post/post.interface';
 import { PostCard } from '@/components/post-card/PostCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
+import { MumblePostService } from '@/services/Mumble/MumblePost';
+import config from '@/config';
+import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
+import { auth } from '@/app/api/auth/[...nextauth]/auth';
 
-const PostFeed = () => {
-  const [posts, setPosts] = React.useState([]);
-  useEffect(() => {
-    (async () => {
-      const response = await fetch('api/posts', { method: 'GET' });
-      const data = await response.json();
-      setPosts(data.data);
-    })();
-  }, []);
-  return posts.map((post: IPostItem, index: number) => {
+const PostFeed = async () => {
+  const session = await auth();
+  const dataSrc = new MumblePostService(config.mumble.host);
+  const apiResponse = await dataSrc.getPosts({
+    // @ts-ignore
+    token: session ? session.accessToken : '',
+    data: { limit: 30, offset: 0 },
+  });
+
+  return apiResponse.data.map((post: IPostItem, index: number) => {
     return (
       <div className="mb-3" key={index}>
         <PostCard
@@ -29,9 +32,14 @@ const PostFeed = () => {
           mediaType={EMediaTypes.IMAGE}
           replies={post.replies}
           text={post.text}
-          onLike={() => {}}
-          onUnlike={() => {}}
         />
+        <div className="mt-6">
+          <PostActionsBar
+            amountLikes={post.likes}
+            amountComments={post.replies}
+            selfLiked={post.likedBySelf}
+          />
+        </div>
       </div>
     );
   });

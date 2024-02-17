@@ -1,5 +1,4 @@
 import envVariables from '@/config/env';
-import { ApiResponseType, Post } from '@/types';
 import { decodeTime } from 'ulidx';
 import {
   IGetPostsParams,
@@ -7,6 +6,7 @@ import {
   IPostItemBase,
   IPostsApiResponse,
 } from '@/services/Post/post.interface';
+import { ApiResponseType } from '@/utils/types';
 
 export async function getPosts(
   params?: IGetPostsParams,

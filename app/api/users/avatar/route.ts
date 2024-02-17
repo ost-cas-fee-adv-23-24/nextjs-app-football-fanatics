@@ -11,8 +11,6 @@ export const POST = async (request: NextApiRequest): Promise<Response> => {
   const formData = await request.formData();
   const image = formData.get(config.avatar.fileNameUploader);
 
-  console.log(image);
-
   try {
     const response = await dataSource.uploadAvatar({
       // @ts-ignore

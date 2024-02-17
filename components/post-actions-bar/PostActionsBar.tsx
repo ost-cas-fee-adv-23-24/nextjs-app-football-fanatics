@@ -11,21 +11,15 @@ interface IProps {
   amountLikes: number;
   amountComments: number;
   selfLiked: boolean;
-  onLike: () => void;
 }
 
-const PostActionsBar = ({
-  amountComments,
-  amountLikes,
-  selfLiked,
-  onLike,
-}: IProps) => {
+const PostActionsBar = ({ amountComments, amountLikes, selfLiked }: IProps) => {
   return (
     <div className="flex flex-col justify-start sm:flex-row">
       <div className="mb-4 sm:mb-0">
         <ToggleLike
           onIncrease={() => {
-            onLike();
+            alert('Liked');
           }}
           labelLiked={selfLiked ? 'Unliked' : 'Liked'}
           labelSingular="Like"

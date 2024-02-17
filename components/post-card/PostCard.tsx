@@ -16,25 +16,17 @@ import { IPostItem } from '@/utils/interfaces/mumble.interface';
 import { decodeTime } from 'ulidx';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostImage from '@/components/post-image/PostImage';
-import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
-
-interface IProps extends IPostItem {
-  onLike: (id: string) => void;
-  onUnlike: (id: string) => void;
-}
 
 export const PostCard = ({
   mediaUrl,
   id,
-  onLike,
-  onUnlike,
   likedBySelf,
   likes,
   mediaType,
   replies,
   text,
   creator,
-}: IProps) => {
+}: IPostItem) => {
   return (
     <div className="bg-white py-8 px-12 relative rounded-2xl">
       <div className="absolute left-[-38px] top-[40px]">
@@ -71,20 +63,6 @@ export const PostCard = ({
           ) : null}
         </div>
       )}
-      <div className="mt-6">
-        <PostActionsBar
-          onLike={() => {
-            if (likedBySelf) {
-              onUnlike(id);
-            } else {
-              onLike(id);
-            }
-          }}
-          amountLikes={likes}
-          amountComments={replies}
-          selfLiked={likedBySelf}
-        />
-      </div>
     </div>
   );
 };
