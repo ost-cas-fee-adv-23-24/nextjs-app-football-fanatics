@@ -18,7 +18,10 @@ const PostFeed = async () => {
 
   return apiResponse.data.map((post: IPostItem, index: number) => {
     return (
-      <div className="mb-3" key={index}>
+      <div
+        className="bg-white py-8 px-12 relative rounded-2xl mb-6"
+        key={index}
+      >
         <PostCard
           creator={{
             id: post.creator.id,
@@ -33,7 +36,7 @@ const PostFeed = async () => {
           replies={post.replies}
           text={post.text}
         />
-        <div className="mt-6">
+        <div className="mt-3">
           <PostActionsBar
             amountLikes={post.likes}
             amountComments={post.replies}

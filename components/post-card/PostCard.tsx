@@ -28,7 +28,7 @@ export const PostCard = ({
   creator,
 }: IPostItem) => {
   return (
-    <div className="bg-white py-8 px-12 relative rounded-2xl">
+    <>
       <div className="absolute left-[-38px] top-[40px]">
         <Avatar
           size={EAvatarSizes.MD}
@@ -63,6 +63,6 @@ export const PostCard = ({
           ) : null}
         </div>
       )}
-    </div>
+    </>
   );
 };
