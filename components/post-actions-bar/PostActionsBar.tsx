@@ -60,7 +60,7 @@ const PostActionsBar = ({
       <div>
         <ButtonTimed
           icon={EIConTypes.SHARE}
-          clipboardData={`${window.location.origin}/posts/${identifier}`}
+          clipboardData={`${window ? window.location.origin : ''}/posts/${identifier}`}
           clipboardHighlightDelay={1000}
           clipboardCopySuccessLabel="Copied"
           onCopyError={(errorMessage) => {

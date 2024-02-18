@@ -1,5 +1,6 @@
 import { decodeTime } from 'ulidx';
 import {
+  ICreatePost,
   IGetPostsParams,
   IPostItem,
   IPostItemBase,
@@ -8,8 +9,25 @@ import {
 } from '@/services/Post/post.interface';
 import { MumbleService } from '@/services/Mumble/index';
 import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
+import { generateBoundary } from '@/utils/helpers/generateBoundary';
 
 export class MumblePostService extends MumbleService {
+  public async createPost({ token, formData }: ICreatePost) {
+    const responseApi = await this.performRequest({
+      method: EApiMethods.POST,
+      path: EEndpointsBackend.POSTS,
+      token,
+      message: 'Creating post',
+      expectedBack: 'json',
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: `multipart/form-data; boundary=${generateBoundary()}`,
+      },
+    });
+    return responseApi;
+  }
+
   public async likePost({ token, identifier }: IPostLike) {
     const responseApi = await this.performRequest({
       method: EApiMethods.PUT,
@@ -19,6 +37,7 @@ export class MumblePostService extends MumbleService {
       expectedBack: 'empty',
       headers: {
         Authorization: `Bearer ${token}`,
+        contentType: `multipart/form-data; boundary=${generateBoundary()}`,
       },
     });
     return responseApi;

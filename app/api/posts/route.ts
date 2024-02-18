@@ -17,6 +17,26 @@ export const GET = async (request: NextRequest): Promise<Response> => {
     });
     return NextResponse.json(response);
   } catch (error) {
-    throw new Error('Error fetching posts');
+    console.log('Error fetching posts');
+    throw error;
+  }
+};
+
+export const POST = async (request: NextRequest): Promise<Response> => {
+  const session = await auth();
+
+  try {
+    if (!session) throw new Error('Unauthorized');
+    const formData = await request.formData();
+    // @ts-ignore
+    const token = session ? session.accessToken : '';
+    const response = await dataSource.createPost({
+      token,
+      formData,
+    });
+    return NextResponse.json(response);
+  } catch (error) {
+    console.log('Error while creating post');
+    throw error;
   }
 };

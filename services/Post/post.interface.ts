@@ -20,6 +20,11 @@ export interface IPostLike {
   identifier: string;
 }
 
+export interface ICreatePost {
+  token: string;
+  formData: FormData;
+}
+
 export interface IPostsApiResponse {
   count: number;
   data: IPostItem[];

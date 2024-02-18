@@ -1,4 +1,5 @@
 import { EApiMethods } from '@/utils/enums/general.enum';
+import { generateBoundary } from '@/utils/helpers/generateBoundary';
 
 export interface IMumbleServiceRequestParams {
   method: EApiMethods;
@@ -27,17 +28,19 @@ export class MumbleService {
       case EApiMethods.GET:
         headers.append('Accept', 'application/json');
         headers.append('Content-type', 'application/json');
-        break;
+        return headers;
       case EApiMethods.PUT:
       case EApiMethods.POST:
-        headers.append('Content-type', 'multipart/form-data');
-        headers.append('Accept ', 'application/json');
-        break;
+        headers.append(
+          'Content-type',
+          `multipart/form-data; boundary=${generateBoundary()}`,
+        );
+        headers.append('Accept', 'application/json');
+        return headers;
       case EApiMethods.DELETE:
         headers.append('Content-type', 'application/json');
-        break;
+        return headers;
     }
-    return headers;
   }
 
   async performRequest({
@@ -64,7 +67,6 @@ export class MumbleService {
       if (expectedBack === 'text') return await response.text();
       if (expectedBack === 'empty') return response;
     } catch (error) {
-      console.log(error);
       throw new Error(`Error while ${message}`);
     }
   }
