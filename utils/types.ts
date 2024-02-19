@@ -1,8 +1,8 @@
 export type TApiResponseType<T> = {
   count: number;
   data: T;
-  next: string | null;
-  previous: string | null;
+  next?: string;
+  previous?: string;
 };
 
 export type TPost = {
@@ -10,17 +10,17 @@ export type TPost = {
   replies: number;
   creator: TUser;
   text: string;
-  mediaUrl: string | null;
-  mediaType: string | null;
+  mediaUrl?: string;
+  mediaType?: string;
   likes: number;
-  likedBySelf: boolean | null;
+  likedBySelf?: boolean;
   createdTimestamp: number;
 };
 
 export type TUser = {
   id: string;
   username: string;
-  avatarUrl: string | null;
+  avatarUrl?: string;
   firstname?: string;
   lastname?: string,
 };
