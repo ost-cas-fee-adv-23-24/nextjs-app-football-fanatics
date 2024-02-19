@@ -14,6 +14,9 @@ import { decodeTime } from 'ulidx';
 import React from 'react';
 import useProfileInfo from '@/hooks/useProfileInfo';
 import { IPostCreator } from '@/utils/interfaces/mumble.interface';
+import { router } from 'next/client';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export const PostCardHeader = ({
   postIdentifier,
@@ -24,10 +27,13 @@ export const PostCardHeader = ({
 }) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
     useProfileInfo();
+  const router = useRouter();
   return (
     <>
       <div className="absolute left-[-38px] top-[40px]">
-        <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
+        <Link href={`/profiles/${creator.id}`}>
+          <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
+        </Link>
       </div>
       <Paragraph
         size={EParagraphSizes.MEDIUM}
@@ -43,7 +49,7 @@ export const PostCardHeader = ({
           icon={EIConTypes.PROFILE}
           label={creator.username}
           onCustomClick={() => {
-            console.log('go to profile');
+            router.push(`/profiles/${creator.id}`);
           }}
         />
         <div className="flex items-center ml-4 text-slate-400">
