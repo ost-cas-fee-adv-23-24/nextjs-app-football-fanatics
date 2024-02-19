@@ -11,28 +11,21 @@ import {
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { useRouter } from 'next/navigation';
+import useProfileInfo from '@/hooks/useProfileInfo';
 
-interface IProps {
-  avatarSrc: string;
-}
-
-export const PostEditor = ({ avatarSrc }: IProps) => {
+export const PostEditor = () => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
+  const { avatarUrl } = useProfileInfo();
+
   return (
     <div className="bg-white py-8 px-12 relative rounded-2xl mb-6">
       <div className="mb-4">
         <Paragraph size={EParagraphSizes.LARGE} text="What's up Doc!" />
       </div>
       <div className="absolute left-[-38px] top-[24px]">
-        <Avatar
-          size={EAvatarSizes.MD}
-          imgSrc={avatarSrc}
-          editable={false}
-          onSuccess={() => {}}
-          onError={() => {}}
-        />
+        <Avatar size={EAvatarSizes.MD} imgSrc={avatarUrl} />
       </div>
       <Textarea
         placeholder="What? tell it louder"

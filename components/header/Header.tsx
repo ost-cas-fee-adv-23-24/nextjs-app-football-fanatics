@@ -39,19 +39,19 @@ const Header = ({}: IProps) => {
           <>
             <Avatar
               imgSrc={avatarUrl}
-              editable={false}
               size={EAvatarSizes.SM}
-              onSuccess={async (imgSrc) => {
-                // const formData = new FormData();
-                // // @ts-ignore
-                // formData.append('media', imgSrc);
-                // const response = await fetch('/api/users/avatar', {
-                //   method: 'POST',
-                //   body: formData,
-                // });
-                // const newPic = await response.json();
-                // console.log(newPic);
-              }}
+              // for profile picture upload
+              // onSuccess={async (imgSrc) => {
+              //   // const formData = new FormData();
+              //   // // @ts-ignore
+              //   // formData.append('media', imgSrc);
+              //   // const response = await fetch('/api/users/avatar', {
+              //   //   method: 'POST',
+              //   //   body: formData,
+              //   // });
+              //   // const newPic = await response.json();
+              //   // console.log(newPic);
+              // }}
             />
             <ButtonMenu label="Settings" icon={EIConTypes.SETTINGS} />
             <ButtonMenu
