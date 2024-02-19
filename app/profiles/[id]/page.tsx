@@ -7,16 +7,17 @@ export default async function Profile(context) {
 
   // TODO: redirect to profile/me if userID === current signed in userID
 
-  const profileData = await getUserById(context.params.id);
+  try {
+    const profileData = await getUserById(context.params.id);
 
-  // console.log("profileData", profileData)
+    return (
+      <Header user={profileData} />
+    );
 
-  if (!profileData) {
+  } catch (error) {
     return notFound();
   }
 
-  return (
-    <Header user={profileData} />
-  );
+
 
 }
