@@ -22,5 +22,5 @@ export type TUser = {
   username: string;
   avatarUrl?: string;
   firstname?: string;
-  lastname?: string,
+  lastname?: string;
 };
