@@ -29,7 +29,6 @@ export const PostCard = ({
   creator,
 }: IPostItem) => {
   const { lastName, userName, firstName, identifier } = useProfileInfo();
-  console.log('creator', creator);
   return (
     <>
       <div className="absolute left-[-38px] top-[40px]">
