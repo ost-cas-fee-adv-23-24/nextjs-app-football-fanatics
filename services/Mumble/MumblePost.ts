@@ -2,16 +2,89 @@ import { decodeTime } from 'ulidx';
 import {
   ICreatePost,
   IGetPostsParams,
+  IPostData,
   IPostItem,
   IPostItemBase,
   IPostLike,
+  IPostReply,
   IPostsApiResponse,
 } from '@/services/Post/post.interface';
 import { MumbleService } from '@/services/Mumble/index';
 import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
 import { generateBoundary } from '@/utils/helpers/generateBoundary';
 
+interface IPost {
+  postData: IPostItem;
+  repliesData: IPostData | null;
+}
+
 export class MumblePostService extends MumbleService {
+  public async getPostById({
+    includeReplies,
+    identifier,
+    token,
+  }: {
+    identifier: string;
+    token: string;
+    includeReplies: boolean;
+  }): Promise<IPost> {
+    const responseApi = (await this.performRequest({
+      method: EApiMethods.GET,
+      path: `${EEndpointsBackend.POSTS}/${identifier}`,
+      token,
+      message: 'Getting post by identifier',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        accept: 'application/json',
+      },
+      expectedBack: 'json',
+    })) as IPostItemBase;
+
+    let repliesData: IPostData | null = null;
+    if (includeReplies) {
+      repliesData = await this.getPostReplies({
+        identifier,
+        token,
+        data: {
+          limit: 100,
+          offset: 0,
+        },
+      });
+    }
+
+    return {
+      postData: {
+        ...responseApi,
+        createdTimestamp: decodeTime(responseApi.id),
+      },
+      repliesData,
+    };
+  }
+
+  public async getPostReplies({
+    identifier,
+    token,
+    data,
+  }: {
+    identifier: string;
+    token: string;
+    data: any;
+  }): Promise<IPostData> {
+    const params = this.getParams(data);
+    const responseMumbleApi = await this.performRequest({
+      method: EApiMethods.GET,
+      path: `${EEndpointsBackend.POSTS}/${identifier}/replies`,
+      token,
+      message: `Fetching replies of post ${identifier}`,
+      expectedBack: 'json',
+    });
+
+    return {
+      ...responseMumbleApi,
+      data: responseMumbleApi.data.map(this.addCreatedTimestamp),
+    };
+  }
+
   public async createPost({ token, formData }: ICreatePost) {
     const responseApi = await this.performRequest({
       method: EApiMethods.POST,
@@ -92,7 +165,7 @@ export class MumblePostService extends MumbleService {
     });
     return params.toString();
   }
-  private addCreatedTimestamp(post: IPostItemBase): IPostItem {
+  private addCreatedTimestamp(post: IPostItemBase | IPostReply): IPostItem {
     return {
       ...post,
       createdTimestamp: decodeTime(post.id),

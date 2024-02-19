@@ -11,8 +11,27 @@ export interface IPostItemBase {
   likedBySelf: boolean;
 }
 
+export interface IPostReply extends IPostItemBase {
+  parentId: string;
+  createdTimestamp: number;
+}
+
+export interface IPostData {
+  count: number;
+  data: IPostReply[];
+  next: string;
+  previous: string;
+}
+
 export interface IPostItem extends IPostItemBase {
   createdTimestamp: number;
+}
+
+export interface IPostsApiResponse {
+  count: number;
+  data: IPostItem[];
+  next: string | null;
+  previous: string | null;
 }
 
 export interface IPostLike {
@@ -23,13 +42,6 @@ export interface IPostLike {
 export interface ICreatePost {
   token: string;
   formData: FormData;
-}
-
-export interface IPostsApiResponse {
-  count: number;
-  data: IPostItem[];
-  next: string | null;
-  previous: string | null;
 }
 
 export interface IPostCreator {

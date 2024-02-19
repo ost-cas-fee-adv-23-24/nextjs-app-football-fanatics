@@ -51,7 +51,7 @@ const PostActionsBar = ({
       <div className="mb-4 sm:mb-0">
         <ToggleComment
           customClickEvent={() => {
-            console.log('show comments');
+            router.push(`/posts/${identifier}?includeReplies=true`);
           }}
           labelSingular="Comment"
           labelPlural="Comments"
