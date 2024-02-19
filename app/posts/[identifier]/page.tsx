@@ -23,9 +23,7 @@ export default async function Page({
       <hr />
       <div className="">
         {apiResponse.repliesData?.data?.map((dataReply, index) => {
-          return (
-            <div key={{ index }}>{JSON.stringify(dataReply, null, 4)}</div>
-          );
+          return <div key={index}>{JSON.stringify(dataReply, null, 4)}</div>;
         })}
       </div>
     </div>
