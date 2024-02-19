@@ -8,7 +8,34 @@ export interface IUploadAvatarParams {
   image: File;
 }
 
+export interface IUserMumble {
+  id: string;
+  username: string;
+  avatarUrl: string;
+}
+
 export class MumbleUserService extends MumbleService {
+  async getUserByIdentifier({
+    token,
+    identifier,
+  }: {
+    token: string;
+    identifier: string;
+  }): Promise<IUserMumble> {
+    const responseApi = await this.performRequest({
+      method: EApiMethods.GET,
+      path: `${EEndpointsBackend.USER}/${identifier}`,
+      token,
+      message: 'Getting user by identifier',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        accept: 'application/json',
+      },
+    });
+
+    return responseApi as IUserMumble;
+  }
+
   async uploadAvatar({ token, image }: IUploadAvatarParams): Promise<string> {
     const formData = new FormData();
     formData.append(config.avatar.fileNameUploader, image);

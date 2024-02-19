@@ -16,6 +16,7 @@ import { IPostItem } from '@/utils/interfaces/mumble.interface';
 import { decodeTime } from 'ulidx';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostImage from '@/components/post-image/PostImage';
+import useProfileInfo from '@/hooks/useProfileInfo';
 
 export const PostCard = ({
   mediaUrl,
@@ -27,6 +28,8 @@ export const PostCard = ({
   text,
   creator,
 }: IPostItem) => {
+  const { lastName, userName, firstName, identifier } = useProfileInfo();
+  console.log('creator', creator);
   return (
     <>
       <div className="absolute left-[-38px] top-[40px]">
@@ -38,7 +41,14 @@ export const PostCard = ({
           onError={() => {}}
         />
       </div>
-      <Paragraph size={EParagraphSizes.MEDIUM} text={creator.username} />
+      <Paragraph
+        size={EParagraphSizes.MEDIUM}
+        text={
+          identifier && identifier === creator.id
+            ? `${firstName} ${lastName}`
+            : creator.username
+        }
+      />
       <div className="flex mt-2 items-center pb-6">
         <ButtonIcon
           type={EButtonTypes.PRIMARY}

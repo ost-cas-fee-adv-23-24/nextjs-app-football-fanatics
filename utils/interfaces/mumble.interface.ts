@@ -12,7 +12,7 @@ export interface IPostItem {
 }
 
 export interface IPostCreator {
-  id: number;
+  id: string;
   username: string;
   avatarUrl: string;
 }

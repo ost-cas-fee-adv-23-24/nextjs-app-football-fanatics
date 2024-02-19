@@ -23,6 +23,7 @@ const PostActionsBar = ({
   identifier,
 }: IProps) => {
   const router = useRouter();
+  const linkToCopy = `${typeof window !== 'undefined' ? window.location.origin : ''}/posts/${identifier}`;
   return (
     <div className="flex flex-col justify-start sm:flex-row">
       <div className="mb-4 sm:mb-0">
@@ -60,7 +61,7 @@ const PostActionsBar = ({
       <div>
         <ButtonTimed
           icon={EIConTypes.SHARE}
-          clipboardData={`${window ? window.location.origin : ''}/posts/${identifier}`}
+          clipboardData={linkToCopy}
           clipboardHighlightDelay={1000}
           clipboardCopySuccessLabel="Copied"
           onCopyError={(errorMessage) => {

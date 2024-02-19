@@ -7,6 +7,7 @@ import cssDesignLibraryStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmu
 import Header from '@/components/header/Header';
 import React from 'react';
 import { SessionProvider } from 'next-auth/react';
+import { ProfileProvider } from '@/providers/Profile.provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -30,18 +31,20 @@ export default function RootLayout({
   return (
     <html>
       <SessionProvider>
-        <body className={inter.className}>
-          <div className="w-full">
-            <div className="bg-violet-600 py-3">
-              <div className="max-w-4xl mr-auto ml-auto px-10 lg:px-0">
-                <Header />
+        <ProfileProvider>
+          <body className={inter.className}>
+            <div className="w-full">
+              <div className="bg-violet-600 py-3">
+                <div className="max-w-4xl mr-auto ml-auto px-10 lg:px-0">
+                  <Header />
+                </div>
+              </div>
+              <div className=" mr-auto ml-auto bg-slate-100 px-10 lg:px-0">
+                <div className="max-w-4xl mr-auto ml-auto">{children}</div>
               </div>
             </div>
-            <div className=" mr-auto ml-auto bg-slate-100 px-10 lg:px-0">
-              <div className="max-w-4xl mr-auto ml-auto">{children}</div>
-            </div>
-          </div>
-        </body>
+          </body>
+        </ProfileProvider>
       </SessionProvider>
     </html>
   );

@@ -18,6 +18,7 @@ export enum EApiMethods {
 
 export enum EEndpointsBackend {
   POSTS = 'posts',
+  USER = 'users',
   USERS = 'users/avatar',
   USER_UPDATE_AVATAR = 'users/avatar',
   LIKE_POST = 'posts/*identifier*/likes',
