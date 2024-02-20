@@ -13,22 +13,33 @@ import {
 import { useRouter } from 'next/navigation';
 import useProfileInfo from '@/hooks/useProfileInfo';
 
-export const PostEditor = () => {
+interface IProps {
+  identifier?: string;
+}
+export const PostEditor = ({ identifier }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
   const { avatarUrl } = useProfileInfo();
+  const url = identifier ? `/api/posts/${identifier}/replies` : '/api/posts';
+  const placeholder = identifier
+    ? 'What is your opinion about this post Doc?'
+    : 'Say it louder for the people in the back!';
 
   return (
     <div className="bg-white py-8 px-12 relative rounded-2xl mb-6">
       <div className="mb-4">
-        <Paragraph size={EParagraphSizes.LARGE} text="What's up Doc!" />
+        {/* post header */}
+        {/* reply header */}
+        {!identifier && (
+          <Paragraph size={EParagraphSizes.LARGE} text="What's up Doc!" />
+        )}
       </div>
       <div className="absolute left-[-38px] top-[24px]">
         <Avatar size={EAvatarSizes.MD} imgSrc={avatarUrl} />
       </div>
       <Textarea
-        placeholder="What? tell it louder"
+        placeholder={placeholder}
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
@@ -52,7 +63,7 @@ export const PostEditor = () => {
                 // to add in overlay
                 formData.append('image', image);
               }
-              await fetch('/api/posts', {
+              await fetch(url, {
                 method: 'POST',
                 body: formData,
               });
