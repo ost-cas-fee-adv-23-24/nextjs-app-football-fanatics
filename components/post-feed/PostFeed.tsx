@@ -1,11 +1,11 @@
 import React from 'react';
-import { IPostItem } from '@/services/Post/post.interface';
 import { PostCard } from '@/components/post-card/PostCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import { MumblePostService } from '@/services/Mumble/MumblePost';
 import config from '@/config';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import { IPostItem } from '@/utils/interfaces/mumble.interface';
 
 const PostFeed = async () => {
   const session = await auth();
