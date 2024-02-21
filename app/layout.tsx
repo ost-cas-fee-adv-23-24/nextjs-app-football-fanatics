@@ -4,11 +4,9 @@ import React from 'react';
 import './globals.css';
 // @ts-ignore
 import cssDesignLibraryStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
-import React from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { ProfileProvider } from '@/providers/Profile.provider';
 import GlobalHeader from '@/components/global-header/GlobalHeader';
-import designStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
