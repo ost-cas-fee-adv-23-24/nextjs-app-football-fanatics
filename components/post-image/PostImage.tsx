@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Image from 'next/image';
 import { EIConTypes, Icon } from '@ost-cas-fee-adv-23-24/elbmum-design';
@@ -22,7 +23,7 @@ const PostImage = ({ src, alt }: IProps) => {
         </div>
       </div>
       <Image
-        className="group-hover:scale-105 transition duration-500"
+        className="group-hover:scale-100 scale-105 transition duration-500"
         src={src}
         alt={alt}
         width={1000}

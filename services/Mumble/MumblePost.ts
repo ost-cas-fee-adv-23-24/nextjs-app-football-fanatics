@@ -13,7 +13,7 @@ import { MumbleService } from '@/services/Mumble/index';
 import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
 import { generateBoundary } from '@/utils/helpers/generateBoundary';
 
-interface IPost {
+export interface IPost {
   postData: IPostItem;
   repliesData: IPostData | null;
 }

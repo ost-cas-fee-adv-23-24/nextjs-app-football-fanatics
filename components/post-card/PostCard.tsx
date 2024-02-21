@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import {
   Avatar,
@@ -17,53 +16,18 @@ import { decodeTime } from 'ulidx';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostImage from '@/components/post-image/PostImage';
 import useProfileInfo from '@/hooks/useProfileInfo';
+import { PostCardHeader } from '@/components/post-card-header/PostCardHeader';
 
 export const PostCard = ({
   mediaUrl,
-  id,
-  likedBySelf,
-  likes,
   mediaType,
-  replies,
   text,
   creator,
+  id,
 }: IPostItem) => {
-  const { lastName, userName, firstName, identifier } = useProfileInfo();
   return (
     <>
-      <div className="absolute left-[-38px] top-[40px]">
-        <Avatar
-          size={EAvatarSizes.MD}
-          imgSrc={creator.avatarUrl}
-          editable={false}
-          onSuccess={() => {}}
-          onError={() => {}}
-        />
-      </div>
-      <Paragraph
-        size={EParagraphSizes.MEDIUM}
-        text={
-          identifier && identifier === creator.id
-            ? `${firstName} ${lastName}`
-            : creator.username
-        }
-      />
-      <div className="flex mt-2 items-center pb-6">
-        <ButtonIcon
-          type={EButtonTypes.PRIMARY}
-          icon={EIConTypes.PROFILE}
-          label={creator.username}
-          onCustomClick={() => {
-            console.log('go to profile');
-          }}
-        />
-        <div className="flex items-center ml-4 text-slate-400">
-          <Icon type={EIConTypes.TIME} />
-          <p className="ml-1">
-            {formatDistance(new Date(decodeTime(id)), new Date())}
-          </p>
-        </div>
-      </div>
+      <PostCardHeader creator={creator} postIdentifier={id} />
       <Paragraph text={text} size={EParagraphSizes.MEDIUM} />
       {mediaUrl && (
         <div className="mt-4">
