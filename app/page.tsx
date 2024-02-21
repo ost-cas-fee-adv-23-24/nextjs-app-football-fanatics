@@ -1,11 +1,11 @@
-import LoginButton from '@/components/login-button';
-import LogoutButton from '@/components/logout-button';
+import LoginButton from '@/components/LoginButton';
+import LogoutButton from '@/components/LogoutButton';
 import {
   EParagraphSizes,
   ETypographyLevels,
   Heading,
   Logo,
-  Paragraph
+  Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { auth } from './api/auth/[...nextauth]/auth';
 
@@ -34,8 +34,7 @@ export default async function Home() {
         <div>
           <p className="text-slate-600">You are not logged in.</p>
           <div>
-            <LoginButton
-            />
+            <LoginButton />
           </div>
         </div>
       )}

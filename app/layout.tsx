@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import React from 'react';
 import './globals.css';
 // @ts-ignore
 import designStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
-import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
