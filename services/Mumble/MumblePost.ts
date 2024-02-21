@@ -8,7 +8,7 @@ import {
   IPostLike,
   IPostReply,
   IPostsApiResponse,
-} from '@/services/Post/post.interface';
+} from '@/utils/interfaces/mumblePost.interface';
 import { MumbleService } from '@/services/Mumble/index';
 import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
 import { generateBoundary } from '@/utils/helpers/generateBoundary';
@@ -91,11 +91,12 @@ export class MumblePostService extends MumbleService {
       path: EEndpointsBackend.POSTS,
       token,
       message: 'Creating post',
-      expectedBack: 'json',
+      expectedBack: 'json', // do we need this?
       data: formData,
       headers: {
         Authorization: `Bearer ${token}`,
         contentType: `multipart/form-data; boundary=${generateBoundary()}`,
+        accept: 'application/json',
       },
     });
     return responseApi;

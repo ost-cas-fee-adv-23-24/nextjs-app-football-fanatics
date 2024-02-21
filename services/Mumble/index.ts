@@ -63,11 +63,15 @@ export class MumbleService {
       }
 
       const response = await fetch(`${this.baseUrl}/${path}`, options);
+      if (response.status === 401) {
+        throw new Error(`Unauthorized`);
+      }
       if (expectedBack === 'json') return await response.json();
       if (expectedBack === 'text') return await response.text();
       if (expectedBack === 'empty') return response;
     } catch (error) {
-      throw new Error(`Error while ${message}`);
+      console.log(error);
+      throw new Error(`Error while ${message} --> ${(error as Error).message}`);
     }
   }
 }

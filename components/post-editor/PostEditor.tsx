@@ -12,6 +12,7 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { useRouter } from 'next/navigation';
 import useProfileInfo from '@/hooks/useProfileInfo';
+import { EApiMethods } from '@/utils/enums/general.enum';
 
 interface IProps {
   identifier?: string;
@@ -64,7 +65,7 @@ export const PostEditor = ({ identifier }: IProps) => {
                 formData.append('image', image);
               }
               await fetch(url, {
-                method: 'POST',
+                method: EApiMethods.POST,
                 body: formData,
               });
               setText('');
