@@ -13,6 +13,7 @@ import {
 import { useRouter } from 'next/navigation';
 import useProfileInfo from '@/hooks/useProfileInfo';
 import { EApiMethods } from '@/utils/enums/general.enum';
+import Link from 'next/link';
 
 interface IProps {
   identifier?: string;
@@ -21,7 +22,7 @@ export const PostEditor = ({ identifier }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
-  const { avatarUrl } = useProfileInfo();
+  const { avatarUrl, identifier: userIdentifier } = useProfileInfo();
   const url = identifier ? `/api/posts/${identifier}/replies` : '/api/posts';
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
@@ -37,7 +38,9 @@ export const PostEditor = ({ identifier }: IProps) => {
         )}
       </div>
       <div className="absolute left-[-38px] top-[24px]">
-        <Avatar size={EAvatarSizes.MD} imgSrc={avatarUrl} />
+        <Link href={`/profiles/${userIdentifier}`}>
+          <Avatar size={EAvatarSizes.MD} imgSrc={avatarUrl} />
+        </Link>
       </div>
       <Textarea
         placeholder={placeholder}
