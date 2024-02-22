@@ -13,7 +13,7 @@ const PostFeed = async () => {
   const apiResponse = await dataSrc.getPosts({
     // @ts-ignore
     token: session ? session.accessToken : '',
-    data: { limit: 30, offset: 0 },
+    data: { limit: 50, offset: 0 },
   });
 
   return apiResponse.data.map((post: IPostItem, index: number) => {
@@ -37,7 +37,7 @@ const PostFeed = async () => {
           replies={post.replies}
           text={post.text}
         />
-        <div className="mt-3">
+        <div className="mt-3 ml-[-12px]">
           <PostActionsBar
             identifier={post.id}
             amountLikes={post.likes}

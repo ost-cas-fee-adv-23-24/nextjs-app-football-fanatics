@@ -37,22 +37,24 @@ const GlobalHeader = ({}: IProps) => {
       <div className="flex items-center gap-6">
         {identifier ? (
           <>
-            <Avatar
-              imgSrc={avatarUrl}
-              size={EAvatarSizes.SM}
-              // for profile picture upload
-              // onSuccess={async (imgSrc) => {
-              //   // const formData = new FormData();
-              //   // // @ts-ignore
-              //   // formData.append('media', imgSrc);
-              //   // const response = await fetch('/api/users/avatar', {
-              //   //   method: 'POST',
-              //   //   body: formData,
-              //   // });
-              //   // const newPic = await response.json();
-              //   // console.log(newPic);
-              // }}
-            />
+            <Link href={`/profiles/${identifier}`}>
+              <Avatar
+                imgSrc={avatarUrl}
+                size={EAvatarSizes.SM}
+                // for profile picture upload
+                // onSuccess={async (imgSrc) => {
+                //   // const formData = new FormData();
+                //   // // @ts-ignore
+                //   // formData.append('media', imgSrc);
+                //   // const response = await fetch('/api/users/avatar', {
+                //   //   method: 'POST',
+                //   //   body: formData,
+                //   // });
+                //   // const newPic = await response.json();
+                //   // console.log(newPic);
+                // }}
+              />
+            </Link>
             <ButtonMenu label="Settings" icon={EIConTypes.SETTINGS} />
             <ButtonMenu
               label="Logout"

@@ -14,51 +14,55 @@ import { decodeTime } from 'ulidx';
 import React from 'react';
 import useProfileInfo from '@/hooks/useProfileInfo';
 import { IPostCreator } from '@/utils/interfaces/mumble.interface';
-import { router } from 'next/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export const PostCardHeader = ({
   postIdentifier,
   creator,
+  avatarSize,
 }: {
-  postIdentifier: string;
+  postIdentifier?: string;
   creator: IPostCreator;
+  avatarSize: EAvatarSizes;
 }) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
     useProfileInfo();
   const router = useRouter();
   return (
-    <>
-      <div className="absolute left-[-38px] top-[40px]">
-        <Link href={`/profiles/${creator.id}`}>
-          <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
-        </Link>
+    <div className="relative">
+      <Link href={`/profiles/${creator.id}`} className="absolute left-[-85px]">
+        <Avatar size={avatarSize} imgSrc={creator.avatarUrl} />
+      </Link>
+      <div className="flex items-center gap-4">
+        <Paragraph
+          size={EParagraphSizes.MEDIUM}
+          text={
+            postIdentifier === creator.id
+              ? `${firstName} ${lastName}`
+              : creator.username
+          }
+        />
       </div>
-      <Paragraph
-        size={EParagraphSizes.MEDIUM}
-        text={
-          postIdentifier === creator.id
-            ? `${firstName} ${lastName}`
-            : creator.username
-        }
-      />
       <div className="flex mt-2 items-center pb-6">
         <ButtonIcon
           type={EButtonTypes.PRIMARY}
           icon={EIConTypes.PROFILE}
-          label={creator.username}
+          label={creator ? creator.username : userName}
           onCustomClick={() => {
-            router.push(`/profiles/${creator.id}`);
+            // TODO Extend to support Next Link ... to be a client component
+            router.push(`/profiles/${creator ? creator.id : identifier}`);
           }}
         />
-        <div className="flex items-center ml-4 text-slate-400">
-          <Icon type={EIConTypes.TIME} />
-          <p className="ml-1">
-            {formatDistance(new Date(decodeTime(postIdentifier)), new Date())}
-          </p>
-        </div>
+        {postIdentifier && (
+          <div className="flex items-center ml-4 text-slate-400">
+            <Icon type={EIConTypes.TIME} />
+            <p className="ml-1">
+              {formatDistance(new Date(decodeTime(postIdentifier)), new Date())}
+            </p>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };

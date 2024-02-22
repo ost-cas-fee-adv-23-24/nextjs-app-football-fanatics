@@ -9,6 +9,7 @@ export interface IPostItem {
   likes: number;
   replies: number;
   likedBySelf: boolean;
+  parentId?: string;
 }
 
 export interface IPostCreator {

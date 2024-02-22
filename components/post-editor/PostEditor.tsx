@@ -1,46 +1,34 @@
 'use client';
 import React, { useState } from 'react';
 import {
-  Avatar,
   Button,
-  EAvatarSizes,
   EButtonTypes,
   EIConTypes,
-  EParagraphSizes,
-  Paragraph,
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { useRouter } from 'next/navigation';
-import useProfileInfo from '@/hooks/useProfileInfo';
 import { EApiMethods } from '@/utils/enums/general.enum';
-import Link from 'next/link';
+import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
 
 interface IProps {
   identifier?: string;
+  isFeedPage: boolean;
 }
-export const PostEditor = ({ identifier }: IProps) => {
+export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
-  const { avatarUrl, identifier: userIdentifier } = useProfileInfo();
   const url = identifier ? `/api/posts/${identifier}/replies` : '/api/posts';
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
 
   return (
-    <div className="bg-white py-8 px-12 relative rounded-2xl mb-6">
+    <div
+      className={`bg-white py-8  relative rounded-2xl mb-6 ${isFeedPage ? 'px-12' : ''}`}
+    >
       <div className="mb-4">
-        {/* post header */}
-        {/* reply header */}
-        {!identifier && (
-          <Paragraph size={EParagraphSizes.LARGE} text="What's up Doc!" />
-        )}
-      </div>
-      <div className="absolute left-[-38px] top-[24px]">
-        <Link href={`/profiles/${userIdentifier}`}>
-          <Avatar size={EAvatarSizes.MD} imgSrc={avatarUrl} />
-        </Link>
+        <PostEditorHeader avatarFloating={isFeedPage} />
       </div>
       <Textarea
         placeholder={placeholder}

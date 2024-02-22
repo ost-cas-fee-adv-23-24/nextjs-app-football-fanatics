@@ -12,7 +12,7 @@ export default async function Page() {
         />
       </div>
       <div className="">
-        <PostEditor />
+        <PostEditor isFeedPage={true} />
       </div>
       <div className="content-bottom max-w-4xl mr-auto ml-auto">
         <PostFeed />

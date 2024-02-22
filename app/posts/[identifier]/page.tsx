@@ -26,43 +26,47 @@ export default async function Page({
             replies={postData.replies}
             likedBySelf={postData.likedBySelf}
           />
-
-          <div className="mt-3">
-            <PostActionsBar
-              identifier={postData.id}
-              amountLikes={postData.likes}
-              amountComments={postData.replies}
-              selfLiked={postData.likedBySelf}
-            />
-          </div>
-          <div className="mt-3">
-            <PostEditor identifier={postData.id} />
-          </div>
-          {repliesData?.data?.map((dataReply, index) => {
-            return (
-              <React.Fragment key={index}>
-                <PostCard
-                  text={dataReply.text}
-                  id={dataReply.id}
-                  likedBySelf={dataReply.likedBySelf}
-                  likes={dataReply.likes}
-                  mediaUrl={dataReply.mediaUrl}
-                  mediaType={dataReply.mediaType}
-                  replies={dataReply.replies}
-                  creator={dataReply.creator}
-                />
-                <div className="mt-3">
-                  <PostActionsBar
-                    identifier={dataReply.id}
-                    amountLikes={dataReply.likes}
-                    amountComments={dataReply.replies}
-                    selfLiked={dataReply.likedBySelf}
+          <div className="">
+            <div className="mt-3">
+              <PostActionsBar
+                identifier={postData.id}
+                amountLikes={postData.likes}
+                amountComments={postData.replies}
+                selfLiked={postData.likedBySelf}
+              />
+            </div>
+            <div className="mt-3">
+              <PostEditor identifier={postData.id} isFeedPage={false} />
+            </div>
+            {repliesData?.data?.map((dataReply) => {
+              return (
+                <React.Fragment key={identifier}>
+                  <PostCard
+                    text={dataReply.text}
+                    id={dataReply.id}
+                    likedBySelf={dataReply.likedBySelf}
+                    likes={dataReply.likes}
+                    mediaUrl={dataReply.mediaUrl}
+                    mediaType={dataReply.mediaType}
+                    replies={dataReply.replies}
+                    creator={dataReply.creator}
+                    parentId={dataReply.parentId}
                   />
-                </div>
-                <hr />
-              </React.Fragment>
-            );
-          })}
+
+                  <div className="mt-3">
+                    {/*We cannot like nor reply to replies  API does not allow it*/}
+                    <PostActionsBar
+                      identifier={dataReply.id}
+                      amountLikes={dataReply.likes}
+                      amountComments={dataReply.replies}
+                      selfLiked={dataReply.likedBySelf}
+                    />
+                  </div>
+                  <hr />
+                </React.Fragment>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
