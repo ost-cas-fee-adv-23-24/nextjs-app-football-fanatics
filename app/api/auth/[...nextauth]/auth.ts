@@ -1,7 +1,5 @@
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
 import Zitadel from 'next-auth/providers/zitadel';
-import { MumbleUserService } from '@/services/Mumble/MumbleUser';
-import config from '@/config';
 
 export const {
   handlers: { GET, POST },
@@ -36,32 +34,12 @@ export const {
       return token;
     },
     async session({ session, token, user }) {
-      // @ts-ignore
-      session.accessToken = token.accessToken;
-      // @ts-ignore
-      session.user.identifier = token.user.id;
-      // // @ts-ignore
-      // session.user.image = await getAvatar(token.accessToken, token.user.id);
-
+      // exposes token and user identifier in session
+      // type Session and user extended in auth.d.ts (project root)
+      session.accessToken = token.accessToken as string;
+      session.user.identifier = (token.user as User).id;
       return session;
     },
   },
   secret: 'this-is-very-secret',
 });
-
-// const getAvatar = async (token: string, identifier: string) => {
-//   if (!token) {
-//     return null;
-//   }
-//   try {
-//     const dataSource = new MumbleUserService(config.mumble.host);
-//     const responseService = await dataSource.getUserByIdentifier({
-//       token,
-//       identifier,
-//     });
-//     return responseService.avatarUrl;
-//   } catch (error) {
-//     console.log('Error fetching user');
-//     return null;
-//   }
-// };
