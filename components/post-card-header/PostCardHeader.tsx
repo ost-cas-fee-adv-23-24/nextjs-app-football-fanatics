@@ -21,28 +21,41 @@ export const PostCardHeader = ({
   postIdentifier,
   creator,
   avatarSize,
+  avatarFloating = true,
 }: {
   postIdentifier?: string;
   creator: IPostCreator;
   avatarSize: EAvatarSizes;
+  avatarFloating?: boolean;
 }) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
     useProfileInfo();
   const router = useRouter();
   return (
     <div className="relative">
-      <Link href={`/profiles/${creator.id}`} className="absolute left-[-85px]">
-        <Avatar size={avatarSize} imgSrc={creator.avatarUrl} />
-      </Link>
+      {avatarFloating && (
+        <div className="absolute left-[-85px]">
+          <Link href={`/profiles/${creator.id}`}>
+            <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
+          </Link>
+        </div>
+      )}
       <div className="flex items-center gap-4">
-        <Paragraph
-          size={EParagraphSizes.MEDIUM}
-          text={
-            postIdentifier === creator.id
-              ? `${firstName} ${lastName}`
-              : creator.username
-          }
-        />
+        {!avatarFloating && (
+          <Link href={`/profiles/${creator.id}`}>
+            <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
+          </Link>
+        )}
+        <div className="grow">
+          <Paragraph
+            size={EParagraphSizes.MEDIUM}
+            text={
+              identifier === creator.id
+                ? `${firstName} ${lastName}`
+                : creator.username
+            }
+          />
+        </div>
       </div>
       <div className="flex mt-2 items-center pb-6">
         <ButtonIcon

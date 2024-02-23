@@ -5,11 +5,15 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
-import { IPostItem } from '@/utils/interfaces/mumble.interface';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostImage from '@/components/post-image/PostImage';
 import { PostCardHeader } from '@/components/post-card-header/PostCardHeader';
+import { IPostItemBase } from '@/utils/interfaces/mumblePost.interface';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
+
+interface IProps extends IPostItemBase {
+  parentId?: string;
+}
 
 export const PostCard = ({
   mediaUrl,
@@ -17,16 +21,16 @@ export const PostCard = ({
   text,
   creator,
   id,
-}: IPostItem) => {
+  parentId,
+}: IProps) => {
   return (
     <div className="post-card">
       <PostCardHeader
+        avatarFloating={!parentId}
         avatarSize={EAvatarSizes.MD}
         creator={creator}
         postIdentifier={id}
       />
-      {/*TODO extend to support creator and have only one headerCard*/}
-      <PostEditorHeader avatarFloating={false} />
       <Paragraph text={text} size={EParagraphSizes.MEDIUM} />
       {mediaUrl && (
         <div className="mt-4">

@@ -8,6 +8,7 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface IProps {
   amountLikes: number;
@@ -24,6 +25,7 @@ const PostActionsBar = ({
 }: IProps) => {
   const router = useRouter();
   const linkToCopy = `${typeof window !== 'undefined' ? window.location.origin : ''}/posts/${identifier}`;
+
   return (
     <div className="flex flex-col justify-start sm:flex-row">
       <div className="mb-4 sm:mb-0">
@@ -50,9 +52,9 @@ const PostActionsBar = ({
       </div>
       <div className="mb-4 sm:mb-0">
         <ToggleComment
-          customClickEvent={() => {
-            router.push(`/posts/${identifier}?includeReplies=true`);
-          }}
+          // @ts-ignore
+          NextLinkComponent={Link}
+          href={`/posts/${identifier}?includeReplies=true`}
           labelSingular="Comment"
           labelPlural="Comments"
           amount={amountComments}

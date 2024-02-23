@@ -11,6 +11,10 @@ export interface IPostItemBase {
   likedBySelf: boolean;
 }
 
+export interface IPostItem extends IPostItemBase {
+  createdTimestamp: number;
+}
+
 export interface IPostReply extends IPostItemBase {
   parentId: string;
   createdTimestamp: number;
@@ -21,10 +25,6 @@ export interface IPostData {
   data: IPostReply[];
   next: string;
   previous: string;
-}
-
-export interface IPostItem extends IPostItemBase {
-  createdTimestamp: number;
 }
 
 export interface IPostsApiResponse {

@@ -5,7 +5,7 @@ import { MumblePostService } from '@/services/Mumble/MumblePost';
 import config from '@/config';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { IPostItem } from '@/utils/interfaces/mumble.interface';
+import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
 
 const PostFeed = async () => {
   const session = await auth();
@@ -24,11 +24,7 @@ const PostFeed = async () => {
         data-identifier={post.id}
       >
         <PostCard
-          creator={{
-            id: post.creator.id,
-            avatarUrl: post.creator.avatarUrl as string,
-            username: post.creator.username,
-          }}
+          creator={post.creator}
           mediaUrl={post.mediaUrl ? `${post.mediaUrl}` : null}
           id={post.id}
           likedBySelf={post.likedBySelf ? post.likedBySelf : false}

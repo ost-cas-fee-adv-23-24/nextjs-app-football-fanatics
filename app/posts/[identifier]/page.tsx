@@ -1,8 +1,7 @@
 import React from 'react';
 import { getMumblePostAction } from '@/actions/getMumblePost';
-import { PostCard } from '@/components/post-card/PostCard';
-import { PostEditor } from '@/components/post-editor/PostEditor';
-import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
+
+import PostFull from '@/components/post-full/PostFull';
 
 export default async function Page({
   params,
@@ -11,63 +10,10 @@ export default async function Page({
 }) {
   const { identifier } = params;
   const responseService = await getMumblePostAction(identifier, true);
-  const { postData, repliesData } = responseService;
   return (
     <div className="mr-auto ml-auto bg-slate-100 pt-8">
       <div className="max-w-4xl mr-auto ml-auto py-8">
-        <div className="bg-white py-8 px-12 relative rounded-2xl mb-6">
-          <PostCard
-            text={postData.text}
-            id={postData.id}
-            creator={postData.creator}
-            mediaUrl={postData.mediaUrl}
-            mediaType={postData.mediaType}
-            likes={postData.likes}
-            replies={postData.replies}
-            likedBySelf={postData.likedBySelf}
-          />
-          <div className="">
-            <div className="mt-3">
-              <PostActionsBar
-                identifier={postData.id}
-                amountLikes={postData.likes}
-                amountComments={postData.replies}
-                selfLiked={postData.likedBySelf}
-              />
-            </div>
-            <div className="mt-3">
-              <PostEditor identifier={postData.id} isFeedPage={false} />
-            </div>
-            {repliesData?.data?.map((dataReply) => {
-              return (
-                <React.Fragment key={identifier}>
-                  <PostCard
-                    text={dataReply.text}
-                    id={dataReply.id}
-                    likedBySelf={dataReply.likedBySelf}
-                    likes={dataReply.likes}
-                    mediaUrl={dataReply.mediaUrl}
-                    mediaType={dataReply.mediaType}
-                    replies={dataReply.replies}
-                    creator={dataReply.creator}
-                    parentId={dataReply.parentId}
-                  />
-
-                  <div className="mt-3">
-                    {/*We cannot like nor reply to replies  API does not allow it*/}
-                    <PostActionsBar
-                      identifier={dataReply.id}
-                      amountLikes={dataReply.likes}
-                      amountComments={dataReply.replies}
-                      selfLiked={dataReply.likedBySelf}
-                    />
-                  </div>
-                  <hr />
-                </React.Fragment>
-              );
-            })}
-          </div>
-        </div>
+        <PostFull data={responseService} />
       </div>
     </div>
   );
