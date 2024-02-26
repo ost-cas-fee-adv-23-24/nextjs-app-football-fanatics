@@ -25,7 +25,7 @@ const PostActionsBar = ({
   identifier,
 }: IProps) => {
   const router = useRouter();
-  const linkToCopy = `${typeof window !== 'undefined' ? window.location.origin : ''}/posts/${identifier}`;
+  const linkToCopy = `https://wwww.domain.con/posts/${identifier}`;
 
   return (
     <div className="flex flex-col justify-start sm:flex-row">
