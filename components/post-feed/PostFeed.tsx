@@ -1,22 +1,15 @@
 import React from 'react';
 import { PostCard } from '@/components/post-card/PostCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
-import { MumblePostService } from '@/services/Mumble/MumblePost';
-import config from '@/config';
+
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
+import { getMumblePosts } from '@/actions/getMumblePosts';
 
 const PostFeed = async () => {
-  const session = await auth();
-  const dataSrc = new MumblePostService(config.mumble.host);
-  const apiResponse = await dataSrc.getPosts({
-    // @ts-ignore
-    token: session ? session.accessToken : '',
-    data: { limit: 50, offset: 0 },
-  });
+  const posts = await getMumblePosts({});
 
-  return apiResponse.data.map((post: IPostItem, index: number) => {
+  return posts.data.map((post: IPostItem, index: number) => {
     return (
       <div
         className="bg-white py-8 px-12 relative rounded-2xl mb-6"

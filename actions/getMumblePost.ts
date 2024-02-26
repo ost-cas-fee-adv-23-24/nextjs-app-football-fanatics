@@ -9,7 +9,6 @@ export const getMumblePostAction = async (
   const session = await auth();
   const dataSrc = new MumblePostService(config.mumble.host);
   return await dataSrc.getPostById({
-    // @ts-ignore
     token: session ? session.accessToken : '',
     includeReplies,
     identifier,

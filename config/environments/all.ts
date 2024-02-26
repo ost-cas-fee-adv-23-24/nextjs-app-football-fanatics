@@ -28,7 +28,7 @@ const config = {
     fileNameUploader: 'media',
   },
   feed: {
-    defaultAmount: 20,
+    defaultAmount: 10,
   },
 };
 

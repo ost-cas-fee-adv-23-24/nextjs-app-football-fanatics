@@ -9,7 +9,7 @@ interface IProps {
   data: IPost;
 }
 
-const PostFull = ({ data }: IProps) => {
+export const PostFull = ({ data }: IProps) => {
   const { postData, repliesData } = data;
   return (
     <div className="bg-white py-8 px-12 relative rounded-2xl mb-6">
@@ -67,5 +67,3 @@ const PostFull = ({ data }: IProps) => {
     </div>
   );
 };
-
-export default PostFull;
