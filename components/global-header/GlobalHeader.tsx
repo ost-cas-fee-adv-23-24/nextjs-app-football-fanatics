@@ -17,7 +17,7 @@ import useProfileInfo from '@/hooks/useProfileInfo';
 
 interface IProps {}
 
-const GlobalHeader = ({}: IProps) => {
+export const GlobalHeader = ({}: IProps) => {
   const { avatarUrl, identifier } = useProfileInfo();
   return (
     <div className="flex justify-between items-center">
@@ -79,5 +79,3 @@ const GlobalHeader = ({}: IProps) => {
     </div>
   );
 };
-
-export default GlobalHeader;
