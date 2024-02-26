@@ -31,7 +31,7 @@ export interface IPostsApiResponse {
   count: number;
   data: IPostItem[];
   next: string | null;
-  previous: string | null;
+  prev: string | null;
 }
 
 export interface IPostLike {

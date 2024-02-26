@@ -5,16 +5,19 @@ import {
   EIConTypes,
   ToggleComment,
   ToggleLike,
+  ToggleGeneric,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import useUserInfo from '@/hooks/useUserInfo';
 
 interface IProps {
   amountLikes: number;
   amountComments: number;
   selfLiked: boolean;
   identifier: string;
+  creatorIdentifier: string;
 }
 
 const PostActionsBar = ({
@@ -22,8 +25,10 @@ const PostActionsBar = ({
   amountLikes,
   selfLiked,
   identifier,
+  creatorIdentifier,
 }: IProps) => {
   const router = useRouter();
+  const { identifier: userIdentifier } = useUserInfo();
   const linkToCopy = `${typeof window !== 'undefined' ? window.location.origin : ''}/posts/${identifier}`;
 
   return (
@@ -72,6 +77,19 @@ const PostActionsBar = ({
           label="Copy Link"
         />
       </div>
+      {creatorIdentifier === userIdentifier ? (
+        <div>
+          <ToggleGeneric
+            icon={EIConTypes.CANCEL}
+            label="Delete"
+            labelActive="Deleted"
+            effectDuration={300}
+            customClickEvent={() => {
+              alert('delete post');
+            }}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

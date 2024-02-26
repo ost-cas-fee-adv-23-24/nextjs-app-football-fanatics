@@ -5,8 +5,9 @@ import './globals.css';
 // @ts-ignore
 import cssDesignLibraryStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 import { SessionProvider } from 'next-auth/react';
-import { ProfileProvider } from '@/providers/Profile.provider';
+import { UserInfoProvider } from '@/providers/UserInfo.provider';
 import GlobalHeader from '@/components/global-header/GlobalHeader';
+import { auth } from '@/app/api/auth/[...nextauth]/auth';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,7 +32,7 @@ export default function RootLayout({
   return (
     <html>
       <SessionProvider>
-        <ProfileProvider>
+        <UserInfoProvider>
           <body className={inter.className}>
             <div className="w-full">
               <div className="bg-violet-600 py-3">
@@ -44,7 +45,7 @@ export default function RootLayout({
               </div>
             </div>
           </body>
-        </ProfileProvider>
+        </UserInfoProvider>
       </SessionProvider>
     </html>
   );

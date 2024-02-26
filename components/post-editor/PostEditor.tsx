@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { EApiMethods } from '@/utils/enums/general.enum';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
+import useUserInfo from '@/hooks/useUserInfo';
 
 interface IProps {
   identifier?: string;
@@ -21,12 +22,14 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
+  const { isLoggedIn } = useUserInfo();
   const url = identifier ? `/api/posts/${identifier}/replies` : '/api/posts';
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  if (!isLoggedIn) return null;
 
   return (
     <form>

@@ -12,7 +12,7 @@ import {
 import { formatDistance } from 'date-fns';
 import { decodeTime } from 'ulidx';
 import React from 'react';
-import useProfileInfo from '@/hooks/useProfileInfo';
+import useUserInfo from '@/hooks/useUserInfo';
 import { IPostCreator } from '@/utils/interfaces/mumble.interface';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -29,8 +29,9 @@ export const PostCardHeader = ({
   avatarFloating?: boolean;
 }) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
-    useProfileInfo();
+    useUserInfo();
   const router = useRouter();
+
   return (
     <div className="relative">
       {avatarFloating && (
@@ -62,9 +63,10 @@ export const PostCardHeader = ({
           type={EButtonTypes.PRIMARY}
           icon={EIConTypes.PROFILE}
           label={creator ? creator.username : userName}
-          onCustomClick={() => {
-            // TODO Extend to support Next Link ... to be a client component
-            router.push(`/profiles/${creator ? creator.id : identifier}`);
+          next={{
+            // @ts-ignore
+            NextLinkComponent: Link,
+            href: `/profiles/${creator ? creator.id : identifier}`,
           }}
         />
         {postIdentifier && (

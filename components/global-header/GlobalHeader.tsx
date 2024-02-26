@@ -13,12 +13,12 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import Link from 'next/link';
 import { signOut, signIn } from 'next-auth/react';
-import useProfileInfo from '@/hooks/useProfileInfo';
+import useUserInfo from '@/hooks/useUserInfo';
 
 interface IProps {}
 
 const GlobalHeader = ({}: IProps) => {
-  const { avatarUrl, identifier } = useProfileInfo();
+  const { avatarUrl, identifier } = useUserInfo();
   return (
     <div className="flex justify-between items-center">
       <Link href={'/'} title="mumble">
@@ -38,22 +38,7 @@ const GlobalHeader = ({}: IProps) => {
         {identifier ? (
           <>
             <Link href={`/profiles/${identifier}`}>
-              <Avatar
-                imgSrc={avatarUrl}
-                size={EAvatarSizes.SM}
-                // for profile picture upload
-                // onSuccess={async (imgSrc) => {
-                //   // const formData = new FormData();
-                //   // // @ts-ignore
-                //   // formData.append('media', imgSrc);
-                //   // const response = await fetch('/api/users/avatar', {
-                //   //   method: 'POST',
-                //   //   body: formData,
-                //   // });
-                //   // const newPic = await response.json();
-                //   // console.log(newPic);
-                // }}
-              />
+              <Avatar imgSrc={avatarUrl} size={EAvatarSizes.SM} />
             </Link>
             <ButtonMenu label="Settings" icon={EIConTypes.SETTINGS} />
             <ButtonMenu
@@ -65,15 +50,13 @@ const GlobalHeader = ({}: IProps) => {
             />
           </>
         ) : (
-          <>
-            <ButtonMenu
-              label="Login"
-              icon={EIConTypes.LOGOUT}
-              onCustomClick={() => {
-                signIn('zitadel');
-              }}
-            />
-          </>
+          <ButtonMenu
+            label="Login"
+            icon={EIConTypes.LOGOUT}
+            onCustomClick={() => {
+              signIn('zitadel');
+            }}
+          />
         )}
       </div>
     </div>
