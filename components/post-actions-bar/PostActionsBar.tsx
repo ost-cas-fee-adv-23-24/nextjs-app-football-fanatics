@@ -9,6 +9,7 @@ import {
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
 
 interface IProps {
   amountLikes: number;
@@ -31,17 +32,12 @@ const PostActionsBar = ({
       <div className="mb-4 sm:mb-0">
         <ToggleLike
           onIncrease={async () => {
-            const method = selfLiked ? `DELETE` : `PUT`;
-            await fetch(`api/posts/${identifier}/likes`, {
-              method,
-            })
-              .then((res) => {
-                console.log(res);
-                router.refresh();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            if (selfLiked) {
+              await decreasePostLike(identifier);
+            } else {
+              await increasePostLikes(identifier);
+            }
+            router.refresh();
           }}
           effectDuration={1000}
           labelLiked={selfLiked ? 'Unliked' : 'Liked'}
