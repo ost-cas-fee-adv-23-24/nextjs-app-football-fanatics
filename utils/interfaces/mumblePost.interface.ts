@@ -48,9 +48,11 @@ export interface IPostCreator {
   id: string;
   username: string;
   avatarUrl: string;
+  firstname?: string;
+  lastname?: string;
 }
 
-export type IGetPostsParams = {
+export interface IGetPostsParams {
   limit?: number;
   offset?: number;
   newerThanPostId?: string;
@@ -59,4 +61,4 @@ export type IGetPostsParams = {
   likedBy?: string[];
   creators?: string[];
   tags?: string[];
-};
+}
