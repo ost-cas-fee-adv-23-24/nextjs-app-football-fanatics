@@ -1,5 +1,4 @@
-import React from 'react';
-import { getMumblePostAction } from '@/actions/getMumblePost';
+import { getMumblePostAction } from '@/utils/helpers/posts/getMumblePost';
 
 import { PostFull } from '@/components/post-full/PostFull';
 

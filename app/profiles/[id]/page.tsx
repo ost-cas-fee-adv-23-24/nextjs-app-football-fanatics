@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
+import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
 import { notFound } from 'next/navigation';
-import { getMumbleUserByIdentifier } from '@/actions/getMumbleUserByIdentifier';
 
 export default async function Profile(context: { params: { id: number } }) {
   // TODO: redirect to profile/me if userID === current signed in userID
