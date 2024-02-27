@@ -27,7 +27,11 @@ export const PostEditorHeader = ({
       {avatarFloating && (
         <div className="absolute left-[-85px]">
           <Link href={`/profiles/${identifier}`}>
-            <Avatar size={EAvatarSizes.MD} imgSrc={avatarUrl} />
+            <Avatar
+              size={EAvatarSizes.MD}
+              imgSrc={avatarUrl}
+              nameHtml="avatar"
+            />
           </Link>
         </div>
       )}
@@ -35,7 +39,11 @@ export const PostEditorHeader = ({
       <div className={`${!avatarFloating ? 'flex items-center' : ''} gap-4`}>
         {!avatarFloating && (
           <Link href={`/profiles/${identifier}`}>
-            <Avatar size={EAvatarSizes.MD} imgSrc={avatarUrl} />
+            <Avatar
+              size={EAvatarSizes.MD}
+              imgSrc={avatarUrl}
+              nameHtml="avatar"
+            />
           </Link>
         )}
         <div className="grow">
@@ -46,6 +54,7 @@ export const PostEditorHeader = ({
           <div className="flex items-center mt-2">
             {/*TODO extend to support Next Link ... hence server component too */}
             <ButtonIcon
+              name="profile"
               type={EButtonTypes.PRIMARY}
               icon={EIConTypes.PROFILE}
               label={userName}

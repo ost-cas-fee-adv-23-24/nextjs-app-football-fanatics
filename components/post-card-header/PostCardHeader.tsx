@@ -1,5 +1,4 @@
 'use client';
-import useProfileInfo from '@/hooks/useProfileInfo';
 import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
 import {
   Avatar,
@@ -13,13 +12,13 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { formatDistance } from 'date-fns';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { decodeTime } from 'ulidx';
+import React from 'react';
+import useProfileInfo from '@/hooks/useProfileInfo';
 
 export const PostCardHeader = ({
   postIdentifier,
   creator,
-  avatarSize,
   avatarFloating = true,
 }: {
   postIdentifier?: string;
@@ -29,20 +28,28 @@ export const PostCardHeader = ({
 }) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
     useProfileInfo();
-  const router = useRouter();
+
   return (
     <div className="relative">
       {avatarFloating && (
         <div className="absolute left-[-85px]">
           <Link href={`/profiles/${creator.id}`}>
-            <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
+            <Avatar
+              size={EAvatarSizes.MD}
+              imgSrc={creator.avatarUrl}
+              nameHtml="avatar"
+            />
           </Link>
         </div>
       )}
       <div className="flex items-center gap-4">
         {!avatarFloating && (
           <Link href={`/profiles/${creator.id}`}>
-            <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
+            <Avatar
+              size={EAvatarSizes.MD}
+              imgSrc={creator.avatarUrl}
+              nameHtml="avatar"
+            />
           </Link>
         )}
         <div className="grow">
@@ -58,12 +65,14 @@ export const PostCardHeader = ({
       </div>
       <div className="flex mt-2 items-center pb-6">
         <ButtonIcon
+          name="profile"
           type={EButtonTypes.PRIMARY}
           icon={EIConTypes.PROFILE}
           label={creator ? creator.username : userName}
-          onCustomClick={() => {
-            // TODO Extend to support Next Link ... to be a client component
-            router.push(`/profiles/${creator ? creator.id : identifier}`);
+          next={{
+            // @ts-ignore
+            NextLinkComponent: Link,
+            href: `/profiles/${creator ? creator.id : identifier}`,
           }}
         />
         {postIdentifier && (

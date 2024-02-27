@@ -50,7 +50,7 @@ const PostActionsBar = ({
         <ToggleComment
           // @ts-ignore
           NextLinkComponent={Link}
-          href={`/posts/${identifier}?includeReplies=true`}
+          href={`/posts/${identifier}`}
           labelSingular="Comment"
           labelPlural="Comments"
           amount={amountComments}
@@ -58,6 +58,7 @@ const PostActionsBar = ({
       </div>
       <div>
         <ButtonTimed
+          name="copy-link"
           icon={EIConTypes.SHARE}
           clipboardData={linkToCopy}
           clipboardHighlightDelay={1000}

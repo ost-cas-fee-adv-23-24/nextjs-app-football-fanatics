@@ -5,15 +5,14 @@ import './globals.css';
 import { GlobalHeader } from '@/components/global-header/GlobalHeader';
 import { ProfileProvider } from '@/providers/Profile.provider';
 import { SessionProvider } from 'next-auth/react';
-// @ts-ignore
-import cssDesignLibraryStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
+import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',
   description: 'by Bladimir and Patrick',
-  assets: [cssDesignLibraryStyles],
+  assets: [],
 };
 
 export default function RootLayout({
