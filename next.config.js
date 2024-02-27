@@ -10,6 +10,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'storage.googleapis.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'localhost:3000',
+      },
+      {
+        protocol: 'https',
+        hostname: 'main.dpejyjo5wbo0b.amplifyapp.com',
+      },
     ],
   },
 };

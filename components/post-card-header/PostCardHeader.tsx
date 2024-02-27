@@ -1,4 +1,5 @@
 'use client';
+
 import {
   Avatar,
   ButtonIcon,
@@ -10,12 +11,12 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { formatDistance } from 'date-fns';
-import { decodeTime } from 'ulidx';
 import React from 'react';
 import useUserInfo from '@/hooks/useUserInfo';
-import { IPostCreator } from '@/utils/interfaces/mumble.interface';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { decodeTime } from 'ulidx';
+import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
 
 export const PostCardHeader = ({
   postIdentifier,
@@ -37,14 +38,22 @@ export const PostCardHeader = ({
       {avatarFloating && (
         <div className="absolute left-[-85px]">
           <Link href={`/profiles/${creator.id}`}>
-            <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
+            <Avatar
+              size={EAvatarSizes.MD}
+              imgSrc={creator.avatarUrl}
+              nameHtml="avatar"
+            />
           </Link>
         </div>
       )}
       <div className="flex items-center gap-4">
         {!avatarFloating && (
           <Link href={`/profiles/${creator.id}`}>
-            <Avatar size={EAvatarSizes.MD} imgSrc={creator.avatarUrl} />
+            <Avatar
+              size={EAvatarSizes.MD}
+              imgSrc={creator.avatarUrl}
+              nameHtml="avatar"
+            />
           </Link>
         )}
         <div className="grow">
@@ -60,6 +69,7 @@ export const PostCardHeader = ({
       </div>
       <div className="flex mt-2 items-center pb-6">
         <ButtonIcon
+          name="profile"
           type={EButtonTypes.PRIMARY}
           icon={EIConTypes.PROFILE}
           label={creator ? creator.username : userName}

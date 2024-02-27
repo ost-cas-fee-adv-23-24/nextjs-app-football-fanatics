@@ -1,6 +1,6 @@
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { IPost, MumblePostService } from '@/services/Mumble/MumblePost';
 import config from '@/config';
+import { IPost, MumblePostService } from '@/services/Mumble/MumblePost';
 
 export const getMumblePostAction = async (
   identifier: string,
@@ -9,7 +9,6 @@ export const getMumblePostAction = async (
   const session = await auth();
   const dataSrc = new MumblePostService(config.mumble.host);
   return await dataSrc.getPostById({
-    // @ts-ignore
     token: session ? session.accessToken : '',
     includeReplies,
     identifier,

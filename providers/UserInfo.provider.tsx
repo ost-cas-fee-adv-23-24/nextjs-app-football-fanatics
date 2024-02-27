@@ -57,7 +57,7 @@ export const UserInfoProvider = ({ children }: IProps) => {
             : '',
       });
     })();
-  }, [session]);
+  }, [session, status]);
 
   return (
     <UserInfoContext.Provider

@@ -18,6 +18,7 @@ interface IProps {
   identifier?: string;
   isFeedPage: boolean;
 }
+
 export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);

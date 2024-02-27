@@ -17,7 +17,7 @@ import useUserInfo from '@/hooks/useUserInfo';
 
 interface IProps {}
 
-const GlobalHeader = ({}: IProps) => {
+export const GlobalHeader = ({}: IProps) => {
   const { avatarUrl, identifier } = useUserInfo();
   return (
     <div className="flex justify-between items-center">
@@ -62,5 +62,3 @@ const GlobalHeader = ({}: IProps) => {
     </div>
   );
 };
-
-export default GlobalHeader;

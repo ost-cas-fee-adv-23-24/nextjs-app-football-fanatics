@@ -10,6 +10,7 @@ import {
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
 import useUserInfo from '@/hooks/useUserInfo';
 
 interface IProps {
@@ -28,25 +29,19 @@ const PostActionsBar = ({
   creatorIdentifier,
 }: IProps) => {
   const router = useRouter();
+  const linkToCopy = `https://wwww.domain.con/posts/${identifier}`;
   const { identifier: userIdentifier } = useUserInfo();
-  const linkToCopy = `${typeof window !== 'undefined' ? window.location.origin : ''}/posts/${identifier}`;
-
   return (
     <div className="flex flex-col justify-start sm:flex-row">
       <div className="mb-4 sm:mb-0">
         <ToggleLike
           onIncrease={async () => {
-            const method = selfLiked ? `DELETE` : `PUT`;
-            await fetch(`api/posts/${identifier}/likes`, {
-              method,
-            })
-              .then((res) => {
-                console.log(res);
-                router.refresh();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            if (selfLiked) {
+              await decreasePostLike(identifier);
+            } else {
+              await increasePostLikes(identifier);
+            }
+            router.refresh();
           }}
           effectDuration={1000}
           labelLiked={selfLiked ? 'Unliked' : 'Liked'}
@@ -67,6 +62,7 @@ const PostActionsBar = ({
       </div>
       <div>
         <ButtonTimed
+          name="copy-link"
           icon={EIConTypes.SHARE}
           clipboardData={linkToCopy}
           clipboardHighlightDelay={1000}

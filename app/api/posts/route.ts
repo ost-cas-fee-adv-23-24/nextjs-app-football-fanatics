@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { MumblePostService } from '@/services/Mumble/MumblePost';
 import config from '@/config';
+import { MumblePostService } from '@/services/Mumble/MumblePost';
+import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../auth/[...nextauth]/auth';
 
 const dataSource = new MumblePostService(config.mumble.host);
