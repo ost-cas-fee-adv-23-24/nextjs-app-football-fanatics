@@ -54,7 +54,7 @@ const PostActionsBar = ({
         <ToggleComment
           // @ts-ignore
           NextLinkComponent={Link}
-          href={`/posts/${identifier}?includeReplies=true`}
+          href={`/posts/${identifier}`}
           labelSingular="Comment"
           labelPlural="Comments"
           amount={amountComments}

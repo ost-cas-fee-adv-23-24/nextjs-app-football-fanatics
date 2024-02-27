@@ -1,5 +1,6 @@
 import NextAuth, { User } from 'next-auth';
 import Zitadel from 'next-auth/providers/zitadel';
+import config from '@/config';
 
 export const {
   handlers: { GET, POST },
@@ -21,6 +22,7 @@ export const {
       },
     }),
   ],
+  trustHost: config.environment === 'local',
   callbacks: {
     jwt({ token, user, account }) {
       if (account) {

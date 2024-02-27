@@ -38,10 +38,19 @@ export const GlobalHeader = ({}: IProps) => {
         {identifier ? (
           <>
             <Link href={`/profiles/${identifier}`}>
-              <Avatar imgSrc={avatarUrl} size={EAvatarSizes.SM} />
+              <Avatar
+                imgSrc={avatarUrl}
+                size={EAvatarSizes.SM}
+                nameHtml="avatar"
+              />
             </Link>
-            <ButtonMenu label="Settings" icon={EIConTypes.SETTINGS} />
             <ButtonMenu
+              label="Settings"
+              icon={EIConTypes.SETTINGS}
+              name="settings"
+            />
+            <ButtonMenu
+              name="logout"
               label="Logout"
               icon={EIConTypes.LOGOUT}
               onCustomClick={() => {
@@ -51,6 +60,7 @@ export const GlobalHeader = ({}: IProps) => {
           </>
         ) : (
           <ButtonMenu
+            name="login"
             label="Login"
             icon={EIConTypes.LOGOUT}
             onCustomClick={() => {

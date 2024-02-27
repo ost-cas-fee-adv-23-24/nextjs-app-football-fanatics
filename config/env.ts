@@ -10,6 +10,7 @@ const envSchema = z.object({
   PORT: z.string().default('3000'),
   ZITADEL_CLIENT_ID: z.string(),
   MUMBLE_API_URL: z.string(),
+  ENVIRONMENT: z.string(),
 });
 
 const envVariables = envSchema.parse(process.env);

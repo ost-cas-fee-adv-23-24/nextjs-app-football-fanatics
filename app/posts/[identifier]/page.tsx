@@ -1,5 +1,6 @@
 import { getMumblePostAction } from '@/utils/helpers/posts/getMumblePost';
 
+import React from 'react';
 import { PostFull } from '@/components/post-full/PostFull';
 
 export default async function Page({

@@ -99,7 +99,7 @@ export class MumblePostService extends MumbleService {
         accept: 'application/json',
       },
     });
-    return responseApi;
+    return responseApi as IPostItem;
   }
   public async createPostReply({
     token,
