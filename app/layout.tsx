@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';
-// @ts-ignore
 import { GlobalHeader } from '@/components/global-header/GlobalHeader';
 import { ProfileProvider } from '@/providers/Profile.provider';
 import { SessionProvider } from 'next-auth/react';
+// @ts-ignore
 import cssDesignLibraryStyles from '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
