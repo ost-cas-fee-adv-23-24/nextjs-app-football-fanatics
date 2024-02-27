@@ -1,7 +1,7 @@
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 import { PostCard } from '@/components/post-card/PostCard';
 import { PostEditor } from '@/components/post-editor/PostEditor';
-import { IPost } from '@/services/mumble/MumblePost';
+import { IPost } from '@/services/Mumble/MumblePost';
 import { IPostReply } from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {

@@ -1,7 +1,7 @@
 'use server';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import config from '@/config';
-import { MumblePostService } from '@/services/mumble/MumblePost';
+import { MumblePostService } from '@/services/Mumble/MumblePost';
 
 export const increasePostLikes = async (identifier: string): Promise<any> => {
   const session = await auth();

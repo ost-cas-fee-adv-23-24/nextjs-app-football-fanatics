@@ -1,5 +1,5 @@
 import config from '@/config';
-import { MumblePostService } from '@/services/mumble/MumblePost';
+import { MumblePostService } from '@/services/Mumble/MumblePost';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../auth/[...nextauth]/auth';
 
