@@ -78,7 +78,7 @@ export const PostCardHeader = ({
         {postIdentifier && (
           <div className="flex items-center ml-4 text-slate-400">
             <Icon type={EIConTypes.TIME} />
-            <p className="ml-1" suppressHydrationWarning>
+            <p className="ml-1">
               {formatDistance(new Date(decodeTime(postIdentifier)), new Date())}
             </p>
           </div>

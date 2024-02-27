@@ -1,4 +1,5 @@
 export interface IConfig {
+  environment: string;
   zitadel: {
     clientId: string;
     authority: string;
@@ -16,6 +17,7 @@ export interface IConfig {
 }
 
 const config = {
+  environment: process.env.ENVIRONMENT,
   mumble: {
     host: process.env.MUMBLE_API_URL,
   },
