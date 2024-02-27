@@ -1,25 +1,22 @@
-import { getPosts } from '@/services/post';
-import { Post } from '@/types';
+import { PostEditor } from '@/components/post-editor/PostEditor';
+import PostFeed from '@/components/post-feed/PostFeed';
+import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
 
 export default async function Page() {
-  const { data } = await getPosts();
-
   return (
-    <>
-      {data.map((post: Post) => (
-        <div key={post.id}>
-          <p>Post ID: {post.id}</p>
-          <p>Text: {post.text}</p>
-          <p>Replies: {post.replies}</p>
-          <p>Likes: {post.likes}</p>
-          <p>Liked by self: {post.likedBySelf}</p>
-          <p>media type: {post.mediaType}</p>
-          <p>media url: {post.mediaUrl}</p>
-          <p>Creator ID:{post.creator.id}</p>
-          <p>username: {post.creator.username}</p>
-          <p>avatar url: {post.creator.avatarUrl}</p>
-        </div>
-      ))}
-    </>
+    <div className="mx-auto bg-slate-100 pt-8">
+      <div className="max-w-4xl mx-auto py-8">
+        <WelcomeTexts
+          title="Welcome to Mumble"
+          description="Did you hear that? They've shut down the main reactor. We'll be destroyed for sure. This is madness! We're doomed! There'll be no escape for the Princess this time. What's that? Artoo! Artoo-Detoo, where are you? At last! Where have you been? They're heading in this direction."
+        />
+      </div>
+      <div className="">
+        <PostEditor isFeedPage={true} />
+      </div>
+      <div className="content-bottom max-w-4xl mx-auto">
+        <PostFeed />
+      </div>
+    </div>
   );
 }

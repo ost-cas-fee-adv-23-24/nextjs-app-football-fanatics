@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
 import Zitadel from 'next-auth/providers/zitadel';
 
 export const {
@@ -22,7 +22,7 @@ export const {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    jwt({ token, user, account }) {
       if (account) {
         token.accessToken = account.access_token;
         token.expiresAt = (account.expires_at ?? 0) * 1000;
@@ -30,7 +30,15 @@ export const {
       if (user) {
         token.user = user;
       }
+
       return token;
+    },
+    async session({ session, token, user }) {
+      // exposes token and user identifier in session
+      // type Session and user extended in auth.d.ts (project root)
+      session.accessToken = token.accessToken as string;
+      session.user.identifier = (token.user as User).id;
+      return session;
     },
   },
   secret: 'this-is-very-secret',

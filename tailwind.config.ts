@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss';
-
 import {
+  backgroundImageExtensionTailwind,
   colorsTailwind,
   fontsTailwind,
   spacingTailwind,

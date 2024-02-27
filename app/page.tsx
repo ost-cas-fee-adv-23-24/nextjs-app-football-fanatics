@@ -1,43 +1,22 @@
-import LoginButton from '@/components/LoginButton';
-import LogoutButton from '@/components/LogoutButton';
-import {
-  EParagraphSizes,
-  ETypographyLevels,
-  Heading,
-  Logo,
-  Paragraph,
-} from '@ost-cas-fee-adv-23-24/elbmum-design';
-import { auth } from './api/auth/[...nextauth]/auth';
+import { PostEditor } from '@/components/post-editor/PostEditor';
+import PostFeed from '@/components/post-feed/PostFeed';
+import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
 
-// TODO Include styles from design system.
-// TODO Check to add a namespace to the design system to avoid css conflicts.
-// TODO Fix Issue with enums in design System
-
-export default async function Home() {
-  const session = await auth();
-
+export default async function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Heading level={ETypographyLevels.ONE} text="Elbum Web App" />
-      <Logo logoPosition={'left' as any} color={'gradient' as any} />
-      {!!session ? (
-        <div>
-          <Paragraph
-            size={EParagraphSizes.LARGE}
-            text={`You are logged in as ${session.user?.name} (${session.user?.email}).`}
-          />
-          <div>
-            <LogoutButton />
-          </div>
-        </div>
-      ) : (
-        <div>
-          <p className="text-slate-600">You are not logged in.</p>
-          <div>
-            <LoginButton />
-          </div>
-        </div>
-      )}
-    </main>
+    <div className="mx-auto bg-slate-100 pt-8">
+      <div className="max-w-4xl mx-auto py-8">
+        <WelcomeTexts
+          title="Welcome to Mumble"
+          description="Did you hear that? They've shut down the main reactor. We'll be destroyed for sure. This is madness! We're doomed! There'll be no escape for the Princess this time. What's that? Artoo! Artoo-Detoo, where are you? At last! Where have you been? They're heading in this direction."
+        />
+      </div>
+      <div className="">
+        <PostEditor isFeedPage={true} />
+      </div>
+      <div className="content-bottom max-w-4xl mx-auto">
+        <PostFeed />
+      </div>
+    </div>
   );
 }
