@@ -1,9 +1,8 @@
-import React from 'react';
-import { PostCard } from '@/components/post-card/PostCard';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
+import { PostCard } from '@/components/post-card/PostCard';
 import { PostEditor } from '@/components/post-editor/PostEditor';
-import { IPostReply } from '@/utils/interfaces/mumblePost.interface';
 import { IPost } from '@/services/Mumble/MumblePost';
+import { IPostReply } from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
   data: IPost;

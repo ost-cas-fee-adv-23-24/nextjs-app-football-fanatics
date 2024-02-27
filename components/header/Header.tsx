@@ -1,5 +1,5 @@
 'use client';
-import { TUser } from '@/utils/types';
+import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
 import {
   Avatar,
   ButtonIcon,
@@ -14,7 +14,7 @@ import {
 import Image from 'next/image';
 
 interface Props {
-  user: TUser;
+  user: IPostCreator;
 }
 
 function Header({ user }: Props) {

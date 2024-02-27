@@ -1,4 +1,5 @@
 'use client';
+import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
 import {
   Avatar,
   ButtonIcon,
@@ -10,11 +11,10 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { formatDistance } from 'date-fns';
+import Link from 'next/link';
 import { decodeTime } from 'ulidx';
 import React from 'react';
 import useProfileInfo from '@/hooks/useProfileInfo';
-import { IPostCreator } from '@/utils/interfaces/mumble.interface';
-import Link from 'next/link';
 
 export const PostCardHeader = ({
   postIdentifier,

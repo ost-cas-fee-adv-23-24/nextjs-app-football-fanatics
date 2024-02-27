@@ -1,6 +1,6 @@
+import config from '@/config';
 import { MumbleService } from '@/services/Mumble/index';
 import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
-import config from '@/config';
 import { generateBoundary } from '@/utils/helpers/generateBoundary';
 
 export interface IUploadAvatarParams {

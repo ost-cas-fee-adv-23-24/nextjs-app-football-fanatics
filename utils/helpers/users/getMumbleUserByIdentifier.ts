@@ -1,6 +1,6 @@
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { IUserMumble, MumbleUserService } from '@/services/Mumble/MumbleUser';
 import config from '@/config';
+import { IUserMumble, MumbleUserService } from '@/services/Mumble/MumbleUser';
 
 export const getMumbleUserByIdentifier = async (
   identifier: string,

@@ -22,22 +22,11 @@ const PostImage = ({ src, alt }: IProps) => {
         </div>
       </div>
       <Image
-        className="group-hover:scale-100 scale-105 transition duration-500"
+        className="group-hover:scale-100 scale-105 transition duration-500 top-0 left-0 right-0 bottom-0 block absolute object-cover object-center h-[100%] w-[100%]"
         src={src}
         alt={alt}
         width={1000}
         height={600}
-        style={{
-          objectFit: 'cover',
-          objectPosition: 'center',
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          display: 'block',
-          bottom: 0,
-          top: 0,
-          left: 0,
-        }}
       />
     </div>
   );
