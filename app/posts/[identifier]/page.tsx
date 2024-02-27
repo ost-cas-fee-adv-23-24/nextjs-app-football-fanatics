@@ -10,8 +10,8 @@ export default async function Page({
   const { identifier } = params;
   const responseService = await getMumblePostAction(identifier, true);
   return (
-    <div className="mr-auto ml-auto bg-slate-100 pt-8">
-      <div className="max-w-4xl mr-auto ml-auto py-8">
+    <div className="mx-auto bg-slate-100 pt-8">
+      <div className="max-w-4xl mx-auto py-8">
         <PostFull data={responseService} />
       </div>
     </div>
