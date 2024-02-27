@@ -4,15 +4,17 @@ import {
   Avatar,
   Button,
   EAvatarSizes,
+  EButtonKinds,
   EButtonTypes,
   EIConTypes,
   Modal,
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { useRouter } from 'next/navigation';
-import { EApiMethods } from '@/utils/enums/general.enum';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
 import useUserInfo from '@/hooks/useUserInfo';
+import { createPostReply } from '@/actions/createPostReply';
+import { createPost } from '@/actions/createPost';
 
 interface IProps {
   identifier?: string;
@@ -33,54 +35,55 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
   if (!isLoggedIn) return null;
 
   return (
-    <form>
-      <div
-        className={`bg-white py-8  relative rounded-2xl mb-6 ${isFeedPage ? 'px-12' : ''}`}
+    <>
+      <form
+        action={async (formData) => {
+          if (image) {
+            formData.append('media', image);
+          }
+          if (identifier) {
+            await createPostReply(formData, identifier);
+          } else {
+            await createPost(formData);
+          }
+          setText('');
+          setImage(null);
+        }}
       >
-        <div className="mb-4">
-          <PostEditorHeader avatarFloating={isFeedPage} />
-        </div>
-        <Textarea
-          placeholder={placeholder}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <div className="flex gap-4 mt-4">
-          <Button
-            fitParent={true}
-            icon={EIConTypes.UPLOAD}
-            label="Picture Upload"
-            onCustomClick={() => {
-              setIsModalOpen(true);
-            }}
+        <div
+          className={`bg-white py-8  relative rounded-2xl mb-6 ${isFeedPage ? 'px-12' : ''}`}
+        >
+          <div className="mb-4">
+            <PostEditorHeader avatarFloating={isFeedPage} />
+          </div>
+          <Textarea
+            name="text"
+            placeholder={placeholder}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           />
-          <Button
-            disabled={text.trim().length === 0}
-            fitParent={true}
-            icon={EIConTypes.SEND}
-            label="Send"
-            type={EButtonTypes.SECONDARY}
-            onCustomClick={async () => {
-              try {
-                const formData = new FormData();
-                formData.append('text', text);
-                if (image) {
-                  // to add in overlay
-                  formData.append('media', image);
-                }
-                await fetch(url, {
-                  method: EApiMethods.POST,
-                  body: formData,
-                });
-                setText('');
-                router.refresh();
-              } catch (error) {
-                console.log(error);
-              }
-            }}
-          />
+          <div className="flex gap-4 mt-4">
+            <Button
+              name="picture-upload-trigger"
+              fitParent={true}
+              icon={EIConTypes.UPLOAD}
+              label="Picture Upload"
+              onCustomClick={() => {
+                setIsModalOpen(true);
+              }}
+            />
+            <Button
+              name="post-submit"
+              disabled={text.trim().length === 0}
+              fitParent={true}
+              icon={EIConTypes.SEND}
+              label="Send"
+              type={EButtonTypes.SECONDARY}
+              htmlType={EButtonKinds.SUBMIT}
+            />
+          </div>
         </div>
-      </div>
+      </form>
       <Modal
         onSave={() => {}}
         onCancel={() => {
@@ -92,6 +95,7 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
         <h1>
           {/*TODO we need a new component for picture upload*/}
           <Avatar
+            nameHtml="avatar-upload"
             size={EAvatarSizes.XL}
             editable={true}
             onSuccess={(file) => {
@@ -105,6 +109,6 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
           <button onClick={() => {}}>Select Image</button>
         </h1>
       </Modal>
-    </form>
+    </>
   );
 };

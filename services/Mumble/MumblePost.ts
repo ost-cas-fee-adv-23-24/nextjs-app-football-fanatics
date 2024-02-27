@@ -101,6 +101,30 @@ export class MumblePostService extends MumbleService {
     });
     return responseApi;
   }
+  public async createPostReply({
+    token,
+    formData,
+    identifier,
+  }: {
+    token: string;
+    formData: FormData;
+    identifier: string;
+  }): Promise<any> {
+    const responseApi = await this.performRequest({
+      method: EApiMethods.POST,
+      path: EEndpointsBackend.REPLY_POST.replace('*identifier*', identifier),
+      token,
+      message: 'Creating post Reply',
+      expectedBack: 'json', // do we need this?
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: `multipart/form-data; boundary=${generateBoundary()}`,
+        accept: 'application/json',
+      },
+    });
+    return responseApi as any;
+  }
 
   public async likePost({ token, identifier }: IPostLike) {
     const responseApi = await this.performRequest({
