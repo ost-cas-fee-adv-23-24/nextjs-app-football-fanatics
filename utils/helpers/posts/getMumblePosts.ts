@@ -1,7 +1,8 @@
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import config from '@/config';
-import { MumblePostService } from '@/services/mumble/MumblePost';
+
 import { IPostsApiResponse } from '@/utils/interfaces/mumblePost.interface';
+import { MumblePostService } from '@/services/Mumble/MumblePost';
 
 export const getMumblePosts = async ({
   offset = 0,

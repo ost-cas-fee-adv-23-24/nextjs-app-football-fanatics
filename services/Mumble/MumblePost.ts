@@ -1,4 +1,3 @@
-import { MumbleService } from '@/services/mumble/index';
 import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
 import { generateBoundary } from '@/utils/helpers/generateBoundary';
 import {
@@ -12,6 +11,7 @@ import {
   IPostsApiResponse,
 } from '@/utils/interfaces/mumblePost.interface';
 import { decodeTime } from 'ulidx';
+import { MumbleService } from '@/services/Mumble/index';
 
 export interface IPost {
   postData: IPostItem;
