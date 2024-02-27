@@ -31,6 +31,7 @@ function Header({ user }: Props) {
 
       <div className="absolute">
         <Avatar
+          nameHtml="avatar"
           size={EAvatarSizes.XL}
           editable={false}
           imgSrc={user.avatarUrl}
@@ -48,16 +49,19 @@ function Header({ user }: Props) {
 
         <div className="flex gap-4">
           <ButtonIcon
+            name="profile"
             icon={EIConTypes.PROFILE}
             type={EButtonTypes.PRIMARY}
             label={user.username}
           />
           <ButtonIcon
+            name="location"
             icon={EIConTypes.LOCATION}
             type={EButtonTypes.SECONDARY}
             label="Chur"
           />
           <ButtonIcon
+            name="calendar"
             icon={EIConTypes.CALENDAR}
             type={EButtonTypes.SECONDARY}
             label="Mitglied seit 3 Jahren"

@@ -39,6 +39,7 @@ export const GlobalHeader = ({}: IProps) => {
           <>
             <Link href={`/profiles/${identifier}`}>
               <Avatar
+                nameHtml="avatar"
                 imgSrc={avatarUrl}
                 size={EAvatarSizes.SM}
                 // for profile picture upload
@@ -55,8 +56,13 @@ export const GlobalHeader = ({}: IProps) => {
                 // }}
               />
             </Link>
-            <ButtonMenu label="Settings" icon={EIConTypes.SETTINGS} />
             <ButtonMenu
+              label="Settings"
+              icon={EIConTypes.SETTINGS}
+              name="settings"
+            />
+            <ButtonMenu
+              name="logout"
               label="Logout"
               icon={EIConTypes.LOGOUT}
               onCustomClick={() => {
@@ -67,6 +73,7 @@ export const GlobalHeader = ({}: IProps) => {
         ) : (
           <>
             <ButtonMenu
+              name="login"
               label="Login"
               icon={EIConTypes.LOGOUT}
               onCustomClick={() => {
