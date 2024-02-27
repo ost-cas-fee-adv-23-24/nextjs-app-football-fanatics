@@ -1,36 +1,35 @@
-// import { EEnvironments } from '@/utils/enums/general.enum';
-// import path from 'path';
-// import ConfigApp from '@/utils/helpers/Config';
-import config, { IConfig } from '@/config/environments/all';
-import { merge as _merge } from 'lodash';
+export interface IConfig {
+  zitadel: {
+    clientId: string;
+    authority: string;
+    codeVerifier: string;
+  };
+  mumble: {
+    host: string;
+  };
+  avatar: {
+    fileNameUploader: string;
+  };
+  feed: {
+    defaultAmount: number;
+  };
+}
 
-// const env = process.env.ENVIRONMENT;
-// if (typeof env !== 'string') {
-//   console.error('Environment variable ENVIRONMENT must be set');
-// }
-//
-// const confRoot = path.resolve('../', process.cwd(), 'config');
-// const config = new ConfigApp();
-// config.loadConfig(confRoot, env as EEnvironments);
-
-const mergeConfig = (obj: object) => {
-  // @ts-ignore
-  return _merge(config, obj);
+const config = {
+  mumble: {
+    host: process.env.MUMBLE_API_URL,
+  },
+  zitadel: {
+    clientId: process.env.ZITADEL_CLIENT_ID,
+    authority: 'https://cas-fee-adv-ed1ide.zitadel.cloud',
+    codeVerifier: 'this-is-very-secret',
+  },
+  avatar: {
+    fileNameUploader: 'media',
+  },
+  feed: {
+    defaultAmount: 10,
+  },
 };
-
-const loadFile = async (file: string) => {
-  try {
-    const imported = await import(`${file}`);
-    return imported.default;
-  } catch (error) {
-    console.log('file not found:', file);
-    return {};
-  }
-};
-(async () => {
-  mergeConfig(await loadFile(`./environments/all`));
-  mergeConfig(await loadFile(`./environments/local`));
-  mergeConfig(await loadFile(`./secrets/local`));
-})();
 
 export default config as IConfig;
