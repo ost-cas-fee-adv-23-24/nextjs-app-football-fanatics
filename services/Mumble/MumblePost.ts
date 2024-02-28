@@ -8,6 +8,7 @@ import {
   IPostItemBase,
   IPostLike,
   IPostReply,
+  IPostReplyItemBase,
   IPostsApiResponse,
 } from '@/utils/interfaces/mumblePost.interface';
 import { decodeTime } from 'ulidx';
@@ -123,7 +124,7 @@ export class MumblePostService extends MumbleService {
         accept: 'application/json',
       },
     });
-    return responseApi as any;
+    return responseApi as IPostReplyItemBase;
   }
 
   public async likePost({ token, identifier }: IPostLike) {
@@ -138,7 +139,7 @@ export class MumblePostService extends MumbleService {
         contentType: `multipart/form-data; boundary=${generateBoundary()}`,
       },
     });
-    return responseApi;
+    return responseApi; // empty only a 204 success no content
   }
   async unlikePost({ token, identifier }: IPostLike) {
     const responseApi = await this.performRequest({
