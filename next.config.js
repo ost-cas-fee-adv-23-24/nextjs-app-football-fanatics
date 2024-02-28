@@ -12,7 +12,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'localhost:3000',
+        hostname: 'zitadel.cloud',
       },
       {
         protocol: 'https',
