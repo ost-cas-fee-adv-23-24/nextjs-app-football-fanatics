@@ -10,9 +10,11 @@ import {
   Modal,
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { useRouter } from 'next/navigation';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
-import { createPost } from '@/actions/createPost';
+import useUserInfo from '@/hooks/useUserInfo';
 import { createPostReply } from '@/actions/createPostReply';
+import { createPost } from '@/actions/createPost';
 
 interface IProps {
   identifier?: string;
@@ -22,11 +24,15 @@ interface IProps {
 export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
+  const router = useRouter();
+  const { isLoggedIn } = useUserInfo();
+  const url = identifier ? `/api/posts/${identifier}/replies` : '/api/posts';
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  if (!isLoggedIn) return null;
 
   return (
     <>
@@ -58,7 +64,7 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
           />
           <div className="flex gap-4 mt-4">
             <Button
-              name="picture-upload"
+              name="picture-upload-trigger"
               fitParent={true}
               icon={EIConTypes.UPLOAD}
               label="Picture Upload"
@@ -67,12 +73,12 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
               }}
             />
             <Button
+              name="post-submit"
               disabled={text.trim().length === 0}
               fitParent={true}
               icon={EIConTypes.SEND}
               label="Send"
               type={EButtonTypes.SECONDARY}
-              name="send-post"
               htmlType={EButtonKinds.SUBMIT}
             />
           </div>
@@ -89,7 +95,7 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
         <h1>
           {/*TODO we need a new component for picture upload*/}
           <Avatar
-            nameHtml="avatar"
+            nameHtml="avatar-upload"
             size={EAvatarSizes.XL}
             editable={true}
             onSuccess={(file) => {

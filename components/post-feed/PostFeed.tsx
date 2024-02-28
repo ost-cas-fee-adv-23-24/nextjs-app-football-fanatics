@@ -1,9 +1,9 @@
+import React from 'react';
 import { PostCard } from '@/components/post-card/PostCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
-
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
-import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
+import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 
 const PostFeed = async () => {
   const posts = await getMumblePosts({});
@@ -27,6 +27,7 @@ const PostFeed = async () => {
         />
         <div className="mt-3 ml-[-12px]">
           <PostActionsBar
+            creatorIdentifier={post.creator.id}
             identifier={post.id}
             amountLikes={post.likes}
             amountComments={post.replies}

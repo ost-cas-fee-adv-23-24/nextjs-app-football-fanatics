@@ -13,12 +13,12 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import Link from 'next/link';
 import { signOut, signIn } from 'next-auth/react';
-import useProfileInfo from '@/hooks/useProfileInfo';
+import useUserInfo from '@/hooks/useUserInfo';
 
 interface IProps {}
 
 export const GlobalHeader = ({}: IProps) => {
-  const { avatarUrl, identifier } = useProfileInfo();
+  const { avatarUrl, identifier } = useUserInfo();
   return (
     <div className="flex justify-between items-center">
       <Link href={'/'} title="mumble">
@@ -39,9 +39,9 @@ export const GlobalHeader = ({}: IProps) => {
           <>
             <Link href={`/profiles/${identifier}`}>
               <Avatar
-                nameHtml="avatar"
                 imgSrc={avatarUrl}
                 size={EAvatarSizes.SM}
+                nameHtml="avatar"
               />
             </Link>
             <ButtonMenu
@@ -59,16 +59,14 @@ export const GlobalHeader = ({}: IProps) => {
             />
           </>
         ) : (
-          <>
-            <ButtonMenu
-              name="login"
-              label="Login"
-              icon={EIConTypes.LOGOUT}
-              onCustomClick={() => {
-                signIn('zitadel');
-              }}
-            />
-          </>
+          <ButtonMenu
+            name="login"
+            label="Login"
+            icon={EIConTypes.LOGOUT}
+            onCustomClick={() => {
+              signIn('zitadel');
+            }}
+          />
         )}
       </div>
     </div>

@@ -25,6 +25,7 @@ export const PostFull = ({ data }: IProps) => {
       <div className="">
         <div className="mt-3">
           <PostActionsBar
+            creatorIdentifier={postData.creator.id}
             identifier={postData.id}
             amountLikes={postData.likes}
             amountComments={postData.replies}
@@ -52,6 +53,7 @@ export const PostFull = ({ data }: IProps) => {
               <div className="mt-3 mb-4 ml-[-12px]">
                 {/*We cannot like nor reply to replies  API does not allow it*/}
                 <PostActionsBar
+                  creatorIdentifier={dataReply.creator.id}
                   identifier={dataReply.id}
                   amountLikes={dataReply.likes}
                   amountComments={dataReply.replies}

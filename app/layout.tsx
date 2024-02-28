@@ -3,16 +3,22 @@ import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';
 import { GlobalHeader } from '@/components/global-header/GlobalHeader';
-import { ProfileProvider } from '@/providers/Profile.provider';
 import { SessionProvider } from 'next-auth/react';
-import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 
+import { UserInfoProvider } from '@/providers/UserInfo.provider';
 const inter = Inter({ subsets: ['latin'] });
+import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',
   description: 'by Bladimir and Patrick',
-  assets: [],
+  openGraph: {
+    title: 'Elbum Wep Apps',
+    description: 'by Bladimir and Patrick',
+    type: 'website',
+    locale: 'en_IE',
+    url: 'https://elbum-web-apps.vercel.app/',
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +30,7 @@ export default function RootLayout({
     <html>
       <body className={inter.className}>
         <SessionProvider>
-          <ProfileProvider>
+          <UserInfoProvider>
             <div className="w-full">
               <div className="bg-violet-600 py-3">
                 <div className="max-w-4xl mx-auto px-10 lg:px-0">
@@ -35,7 +41,7 @@ export default function RootLayout({
                 <div className="max-w-4xl mx-auto">{children}</div>
               </div>
             </div>
-          </ProfileProvider>
+          </UserInfoProvider>
         </SessionProvider>
       </body>
     </html>

@@ -8,6 +8,7 @@ import {
   IPostItemBase,
   IPostLike,
   IPostReply,
+  IPostReplyItemBase,
   IPostsApiResponse,
 } from '@/utils/interfaces/mumblePost.interface';
 import { decodeTime } from 'ulidx';
@@ -85,6 +86,22 @@ export class MumblePostService extends MumbleService {
     };
   }
 
+  public async createPost({ token, formData }: ICreatePost) {
+    const responseApi = await this.performRequest({
+      method: EApiMethods.POST,
+      path: EEndpointsBackend.POSTS,
+      token,
+      message: 'Creating post',
+      expectedBack: 'json', // do we need this?
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: `multipart/form-data; boundary=${generateBoundary()}`,
+        accept: 'application/json',
+      },
+    });
+    return responseApi as IPostItem;
+  }
   public async createPostReply({
     token,
     formData,
@@ -107,27 +124,7 @@ export class MumblePostService extends MumbleService {
         accept: 'application/json',
       },
     });
-    return responseApi as any;
-  }
-
-  public async createPost({
-    token,
-    formData,
-  }: ICreatePost): Promise<IPostItem> {
-    const responseApi = await this.performRequest({
-      method: EApiMethods.POST,
-      path: EEndpointsBackend.POSTS,
-      token,
-      message: 'Creating post',
-      expectedBack: 'json', // do we need this?
-      data: formData,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        contentType: `multipart/form-data; boundary=${generateBoundary()}`,
-        accept: 'application/json',
-      },
-    });
-    return responseApi as IPostItem;
+    return responseApi as IPostReplyItemBase;
   }
 
   public async likePost({ token, identifier }: IPostLike) {
@@ -142,7 +139,7 @@ export class MumblePostService extends MumbleService {
         contentType: `multipart/form-data; boundary=${generateBoundary()}`,
       },
     });
-    return responseApi;
+    return responseApi; // empty only a 204 success no content
   }
   async unlikePost({ token, identifier }: IPostLike) {
     const responseApi = await this.performRequest({

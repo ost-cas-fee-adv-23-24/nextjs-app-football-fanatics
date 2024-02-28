@@ -1,5 +1,5 @@
 'use client';
-import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
+
 import {
   Avatar,
   ButtonIcon,
@@ -11,14 +11,17 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { formatDistance } from 'date-fns';
-import Link from 'next/link';
-import { decodeTime } from 'ulidx';
 import React from 'react';
-import useProfileInfo from '@/hooks/useProfileInfo';
+import useUserInfo from '@/hooks/useUserInfo';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { decodeTime } from 'ulidx';
+import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
 
 export const PostCardHeader = ({
   postIdentifier,
   creator,
+  avatarSize,
   avatarFloating = true,
 }: {
   postIdentifier?: string;
@@ -27,7 +30,8 @@ export const PostCardHeader = ({
   avatarFloating?: boolean;
 }) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
-    useProfileInfo();
+    useUserInfo();
+  const router = useRouter();
 
   return (
     <div className="relative">

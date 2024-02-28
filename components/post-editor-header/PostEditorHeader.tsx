@@ -10,7 +10,7 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import React from 'react';
-import useProfileInfo from '@/hooks/useProfileInfo';
+import useUserInfo from '@/hooks/useUserInfo';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -20,7 +20,7 @@ export const PostEditorHeader = ({
   avatarFloating: boolean;
 }) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
-    useProfileInfo();
+    useUserInfo();
   const router = useRouter();
   return (
     <div className="relative">

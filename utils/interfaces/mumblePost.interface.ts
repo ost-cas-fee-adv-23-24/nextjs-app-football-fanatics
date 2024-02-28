@@ -1,5 +1,6 @@
 import { EMediaTypes } from '@/utils/enums/general.enum';
 
+// response mumble api
 export interface IPostItemBase {
   text: string;
   id: string;
@@ -11,10 +12,17 @@ export interface IPostItemBase {
   likedBySelf: boolean;
 }
 
+// response mumble api
+export interface IPostReplyItemBase extends IPostItemBase {
+  parentId: string;
+}
+
+// used within the app. enriched with date
 export interface IPostItem extends IPostItemBase {
   createdTimestamp: number;
 }
 
+// used within the app. enriched with dat
 export interface IPostReply extends IPostItemBase {
   parentId: string;
   createdTimestamp: number;
@@ -31,7 +39,7 @@ export interface IPostsApiResponse {
   count: number;
   data: IPostItem[];
   next: string | null;
-  previous: string | null;
+  prev: string | null;
 }
 
 export interface IPostLike {
