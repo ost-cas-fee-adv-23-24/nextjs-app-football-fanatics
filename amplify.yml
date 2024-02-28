@@ -6,6 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
+        - env | grep -e ZITADEL_CLIENT_ID -e MUMBLE_API_URL -e ENVIRONMENT >> .env.production
         - npm run build
   artifacts:
     baseDirectory: .next
