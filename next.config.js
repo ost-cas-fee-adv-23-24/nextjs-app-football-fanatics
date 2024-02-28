@@ -16,6 +16,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'amplifyapp.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'main.dpejyjo5wbo0b.amplifyapp.com',
       },
     ],
