@@ -175,7 +175,6 @@ export class MumblePostService extends MumbleService {
       this.addCreatedTimestamp,
     );
 
-    console.log(path);
     return responseMumbleApi as IPostsApiResponse;
   }
   private getParams(data: IGetPostsParams): string {
