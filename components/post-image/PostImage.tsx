@@ -12,7 +12,7 @@ interface IProps {
 const PostImage = ({ src, alt }: IProps) => {
   const [loaded, setLoaded] = React.useState(false);
   const imageProportions = 'pb-[calc((8/17)*100%)]';
-  const imageTransition = 'transition-all ease-in delay-500';
+  const imageTransition = 'transition-all ease-in delay-500 duration-500';
   return (
     <div className="relative">
       <div
