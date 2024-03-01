@@ -1,8 +1,11 @@
 import { PostEditor } from '@/components/post-editor/PostEditor';
 import PostFeed from '@/components/post-feed/PostFeed';
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
+import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 
+// TODO this page can be deleted. as index is the same- check
 export default async function Page() {
+  const feedData = await getMumblePosts({});
   return (
     <div className="mx-auto bg-slate-100 pt-8">
       <div className="max-w-4xl mx-auto py-8">
@@ -15,7 +18,12 @@ export default async function Page() {
         <PostEditor isFeedPage={true} />
       </div>
       <div className="content-bottom max-w-4xl mx-auto">
-        <PostFeed />
+        <PostFeed
+          count={feedData.count}
+          data={feedData.data}
+          next={feedData.next}
+          prev={feedData.next}
+        />
       </div>
     </div>
   );
