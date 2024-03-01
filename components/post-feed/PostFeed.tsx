@@ -2,13 +2,15 @@ import React from 'react';
 import { PostCard } from '@/components/post-card/PostCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
-import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
-import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
+import {
+  IPostItem,
+  IPostsApiResponse,
+} from '@/utils/interfaces/mumblePost.interface';
 
-const PostFeed = async () => {
-  const posts = await getMumblePosts({});
+interface IProps extends IPostsApiResponse {}
 
-  return posts.data.map((post: IPostItem, index: number) => {
+const PostFeed = async ({ data, next, prev, count }: IProps) => {
+  return data.map((post: IPostItem, index: number) => {
     return (
       <div
         className="bg-white py-8 px-12 relative rounded-2xl mb-6"

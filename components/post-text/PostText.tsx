@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { uniq as _uniq } from 'lodash';
 
 interface IProps {
   text: string;
@@ -10,14 +11,16 @@ const PostText = ({ text }: IProps) => {
 
   const getAndRenderHashTags = (text: string) => {
     const matches = text.match(regexExp);
+
     if (!matches) return null;
+    const uniqMatches = _uniq(matches);
     return (
       <div className="mt-6 mb-6 gap-2 flex flex-wrap">
-        {matches?.map((match, index) => {
+        {uniqMatches.map((match, index) => {
           const searchKeyword = match.replace('#', '').toLowerCase();
           return (
             <Link
-              href={`/posts/tags/${searchKeyword}`}
+              href={`/posts/hashtag/${searchKeyword}`}
               className="text-violet-600 text-xl leading-[1.40] font-bold"
               key={`${match}-${index}`}
             >
