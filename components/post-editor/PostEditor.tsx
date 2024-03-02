@@ -1,20 +1,19 @@
 'use client';
 import React, { useState } from 'react';
 import {
-  Avatar,
   Button,
-  EAvatarSizes,
   EButtonKinds,
   EButtonTypes,
   EIConTypes,
-  Modal,
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import { useRouter } from 'next/navigation';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
 import useUserInfo from '@/hooks/useUserInfo';
 import { createPostReply } from '@/actions/createPostReply';
 import { createPost } from '@/actions/createPost';
+import useModal from '@/hooks/useModal';
+import { EModalActions } from '@/stores/Modal.context';
+import ImageUploader from '@/components/image-uploader/ImageUploader';
 
 interface IProps {
   identifier?: string;
@@ -24,14 +23,12 @@ interface IProps {
 export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
-  const router = useRouter();
   const { isLoggedIn } = useUserInfo();
-  const url = identifier ? `/api/posts/${identifier}/replies` : '/api/posts';
+  const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   if (!isLoggedIn) return null;
 
   return (
@@ -69,7 +66,13 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
               icon={EIConTypes.UPLOAD}
               label="Picture Upload"
               onCustomClick={() => {
-                setIsModalOpen(true);
+                dispatchModal({
+                  type: EModalActions.SET_CONTENT,
+                  payload: {
+                    content: <ImageUploader />,
+                    title: 'Modal Title super duper',
+                  },
+                });
               }}
             />
             <Button
@@ -84,31 +87,6 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
           </div>
         </div>
       </form>
-      <Modal
-        onSave={() => {}}
-        onCancel={() => {
-          setIsModalOpen(false);
-        }}
-        active={isModalOpen}
-        title="Updoad your image"
-      >
-        <h1>
-          {/*TODO we need a new component for picture upload*/}
-          <Avatar
-            nameHtml="avatar-upload"
-            size={EAvatarSizes.XL}
-            editable={true}
-            onSuccess={(file) => {
-              if (file) {
-                // @ts-ignore
-                setImage(file);
-                setIsModalOpen(false);
-              }
-            }}
-          />
-          <button onClick={() => {}}>Select Image</button>
-        </h1>
-      </Modal>
     </>
   );
 };

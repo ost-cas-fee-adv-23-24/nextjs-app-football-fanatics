@@ -8,6 +8,7 @@ import { SessionProvider } from 'next-auth/react';
 import { UserInfoProvider } from '@/providers/UserInfo.provider';
 const inter = Inter({ subsets: ['latin'] });
 import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
+import { ModalProvider } from '@/providers/Modal.provider';
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',
@@ -31,16 +32,18 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionProvider>
           <UserInfoProvider>
-            <div className="w-full">
-              <div className="bg-violet-600 py-3">
-                <div className="max-w-4xl mx-auto px-10 lg:px-0">
-                  <GlobalHeader />
+            <ModalProvider>
+              <div className="w-full">
+                <div className="bg-violet-600 py-3">
+                  <div className="max-w-4xl mx-auto px-10 lg:px-0">
+                    <GlobalHeader />
+                  </div>
+                </div>
+                <div className=" mx-auto bg-slate-100 px-10 lg:px-0">
+                  <div className="max-w-4xl mx-auto">{children}</div>
                 </div>
               </div>
-              <div className=" mx-auto bg-slate-100 px-10 lg:px-0">
-                <div className="max-w-4xl mx-auto">{children}</div>
-              </div>
-            </div>
+            </ModalProvider>
           </UserInfoProvider>
         </SessionProvider>
       </body>
