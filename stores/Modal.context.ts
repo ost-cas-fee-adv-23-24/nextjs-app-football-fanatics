@@ -11,6 +11,7 @@ const initialValues = {
   content: null as ReactElement | null,
   title: '',
   isOpen: false,
+  fullWidth: false,
 };
 
 const ModalContext = createContext(initialValues);

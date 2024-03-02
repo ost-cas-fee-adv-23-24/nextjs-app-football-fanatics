@@ -10,6 +10,7 @@ interface IProps {
 
 interface IModalState {
   content: ReactElement | null;
+  fullWidth: boolean;
   isOpen: boolean;
   title: string;
 }
@@ -24,10 +25,12 @@ const reducer = (
     case EModalActions.CLEAR_CONTENT:
       stateCopy.content = null;
       stateCopy.title = '';
+      state.fullWidth = false;
       state.isOpen = false;
       return stateCopy;
     case EModalActions.SET_CONTENT:
       state.isOpen = true;
+      state.fullWidth = payload.fullWidth || state.fullWidth;
       stateCopy.title = payload.title;
       stateCopy.content = payload.content;
       return stateCopy;
@@ -40,6 +43,7 @@ export const ModalProvider = ({ children }: IProps) => {
     content: null,
     title: '',
     isOpen: false,
+    fullWidth: false,
   });
   const content = state.content;
 
@@ -55,6 +59,7 @@ export const ModalProvider = ({ children }: IProps) => {
         content: state.content,
         title: state.title,
         isOpen: state.isOpen,
+        fullWidth: state.fullWidth,
       }}
     >
       {children}
