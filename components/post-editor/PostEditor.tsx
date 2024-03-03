@@ -1,10 +1,13 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
+  ButtonIconRounded,
   EButtonKinds,
   EButtonTypes,
   EIConTypes,
+  EImageLoadingType,
+  Image,
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
@@ -14,6 +17,9 @@ import { createPost } from '@/actions/createPost';
 import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
 import ImageUploader from '@/components/image-uploader/ImageUploader';
+import ImagePreview, {
+  TFireReaderResult,
+} from '@/components/image-preview/ImagePreview';
 
 interface IProps {
   identifier?: string;
@@ -23,14 +29,33 @@ interface IProps {
 export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
+  const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
   const { isLoggedIn } = useUserInfo();
   const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
 
-  if (!isLoggedIn) return null;
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        setImageInMemory(evt.target?.result);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      setImageInMemory(null);
+    }
+  }, [image]);
 
+  useEffect(() => {
+    return () => {
+      setImage(null);
+      setImageInMemory(null);
+    };
+  }, []);
+
+  if (!isLoggedIn) return null;
   return (
     <>
       <form
@@ -59,6 +84,14 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
+          {imageInMemory && (
+            <ImagePreview
+              imageInMemory={imageInMemory}
+              onCancel={() => {
+                setImage(null);
+              }}
+            />
+          )}
           <div className="flex gap-4 mt-4">
             <Button
               name="picture-upload-trigger"
@@ -69,7 +102,18 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
                 dispatchModal({
                   type: EModalActions.SET_CONTENT,
                   payload: {
-                    content: <ImageUploader />,
+                    content: (
+                      <ImageUploader
+                        onCancel={() => {
+                          setImage(null);
+                          closeModal();
+                        }}
+                        onSuccess={(image) => {
+                          setImage(image);
+                          closeModal();
+                        }}
+                      />
+                    ),
                     title: 'Modal Title super duper',
                   },
                 });

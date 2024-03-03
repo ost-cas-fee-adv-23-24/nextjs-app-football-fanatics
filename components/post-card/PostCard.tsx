@@ -53,8 +53,6 @@ export const PostCard = ({
         creator={creator}
         postIdentifier={id}
       />
-      {/*if we want to highlight hashtags, we need to create a new component to*/}
-      {/*enrich the text with html*/}
       <Paragraph text={text} size={EParagraphSizes.MEDIUM} />
       {getAndRenderHashTags(text)}
       {mediaUrl && (

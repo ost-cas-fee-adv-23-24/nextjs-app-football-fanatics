@@ -1,33 +1,112 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import {
-  EParagraphSizes,
-  Paragraph,
+  Button,
+  ButtonIconRounded,
+  EButtonTypes,
+  EIConTypes,
+  EImageLoadingType,
+  ETypographyLevels,
+  Heading,
+  Icon,
+  Image,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
-interface IProps {}
+import ButtonImageUpload from '@/components/button/ButtonImageUpload';
+import ImagePreview from '@/components/image-preview/ImagePreview';
 
-const ImageUploader = ({}: IProps) => {
+interface IProps {
+  onCancel: () => void;
+  onSuccess: (image: File) => void;
+}
+
+const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
+  const [image, setImage] = useState<File | null>(null);
+  const [imageInMemory, setImageInMemory] = useState<
+    string | ArrayBuffer | null | undefined
+  >(null);
+
+  useEffect(() => {
+    return () => {
+      setImage(null);
+      setImageInMemory(null);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (image) {
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        setImageInMemory(evt.target?.result);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      setImageInMemory(null);
+    }
+  }, [image]);
+
   return (
-    <div className="">
-      <Paragraph
-        size={EParagraphSizes.LARGE}
-        text="Did you hear that? They've shut down the main reactor. We'll be destroyed for sure. This is madness! We're doomed! There'll be no escape for the Princess this time. What's that? Artoo! Artoo-Detoo, where are you? At last! Where have you been? They're heading in this direction."
-      />
-      <hr className="mb-4 mt-4" />
-      <Paragraph
-        size={EParagraphSizes.LARGE}
-        text="An analysis of the plans provided by Princess Leia has demonstrated a weakness in the battle station. The approach will not be easy. You are required to maneuver straight down this trench and skim the surface to this point. The target area is only two meters wide. It's a small thermal exhaust port, right below the main port. The shaft leads directly to the reactor system."
-      />
-      <hr className="mb-4 mt-4" />
-      <Paragraph
-        size={EParagraphSizes.LARGE}
-        text="He betrayed and murdered your father. Now the Jedi are all but extinct. Vader was seduced by the dark side of the Force. The Force? Well, the Force is what gives a Jedi his power. It's an energy field created by all living things."
-      />
-      <hr className="mb-4 mt-4" />
-      <Paragraph
-        size={EParagraphSizes.LARGE}
-        text="No, I don't think he likes you at all. No, I don't like you either. You know, I think that R2 unit we bought might have been stolen. What makes you think that? Well, I stumbled across a recording while I was cleaning him."
-      />
+    <div>
+      {imageInMemory && (
+        <ImagePreview
+          imageInMemory={imageInMemory}
+          onCancel={() => {
+            setImage(null);
+          }}
+        />
+      )}
+      {!imageInMemory && (
+        <div className="border-2 border-dashed rounded-lg bg-slate-100 px-[16px] py-[50px]">
+          <div className="w-16 h-16 mx-auto">
+            <Icon type={EIConTypes.UPLOAD} fitParent={true} />
+          </div>
+          <div className="text-center color-slate-500">
+            <Heading
+              text="Drag File to upload"
+              level={ETypographyLevels.THREE}
+              inheritColor={true}
+            />
+            <p className="color-slate-400 text-lg leading-5 mt-2">
+              JPEG or PNG, Max. 50Mb
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div className="mb-12 mt-6">
+        <ButtonImageUpload
+          onError={() => {}}
+          onSuccess={(imageFile) => {
+            if (imageFile) {
+              // @ts-ignore
+              setImage(imageFile);
+            }
+          }}
+        />
+      </div>
+      <div className="flex gap-4">
+        <Button
+          fitParent={true}
+          type={EButtonTypes.PRIMARY}
+          icon={EIConTypes.CANCEL}
+          label="Cancel"
+          name="cancel-upload"
+          onCustomClick={onCancel}
+        />
+        <Button
+          disabled={!image}
+          fitParent={true}
+          type={EButtonTypes.SECONDARY}
+          icon={EIConTypes.CHECKMARK}
+          label="Save"
+          name="save-upload"
+          onCustomClick={() => {
+            if (image) {
+              onSuccess(image);
+            }
+          }}
+        />
+      </div>
     </div>
   );
 };
