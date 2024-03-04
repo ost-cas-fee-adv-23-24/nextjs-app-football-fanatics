@@ -8,6 +8,7 @@ export const {
 } = NextAuth({
   providers: [
     Zitadel({
+      clientSecret: config.zitadel.clientSecret,
       clientId: config.zitadel.clientId,
       issuer: config.zitadel.authority,
       authorization: {
