@@ -22,7 +22,8 @@ export const {
       },
     }),
   ],
-  trustHost: config.environment === 'local',
+  trustHost:
+    config.environment === 'local' || config.environment === 'development',
   callbacks: {
     jwt({ token, user, account }) {
       if (account) {
