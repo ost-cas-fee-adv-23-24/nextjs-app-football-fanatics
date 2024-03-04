@@ -25,12 +25,12 @@ const reducer = (
     case EModalActions.CLEAR_CONTENT:
       stateCopy.content = null;
       stateCopy.title = '';
-      state.fullWidth = false;
-      state.isOpen = false;
+      stateCopy.fullWidth = false;
+      stateCopy.isOpen = false;
       return stateCopy;
     case EModalActions.SET_CONTENT:
-      state.isOpen = true;
-      state.fullWidth = payload.fullWidth || state.fullWidth;
+      stateCopy.isOpen = true;
+      stateCopy.fullWidth = payload.fullWidth || state.fullWidth;
       stateCopy.title = payload.title;
       stateCopy.content = payload.content;
       return stateCopy;

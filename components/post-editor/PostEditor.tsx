@@ -2,12 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import {
   Button,
-  ButtonIconRounded,
   EButtonKinds,
   EButtonTypes,
   EIConTypes,
-  EImageLoadingType,
-  Image,
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
