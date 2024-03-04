@@ -24,8 +24,7 @@ const config = {
   zitadel: {
     clientId: process.env.ZITADEL_CLIENT_ID,
     authority:
-      process.env.ZITADEL_AUTHORITY ||
-      'https://cas-fee-adv-ed1ide.zitadel.cloud',
+      process.env.ZITADEL_ISSUER || 'https://cas-fee-adv-ed1ide.zitadel.cloud',
     codeVerifier: 'this-is-very-secret',
   },
   avatar: {
