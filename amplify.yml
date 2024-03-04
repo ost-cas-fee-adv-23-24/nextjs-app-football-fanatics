@@ -8,7 +8,6 @@ frontend:
       commands:
         - env | grep -e NEXTAUTH_URL -e ZITADEL_CLIENT_ID -e ZITADEL_ISSUER -e MUMBLE_API_URL -e ENVIRONMENT >> .env
         - npm run build
-        - printenv
   artifacts:
     baseDirectory: .next
     files:
