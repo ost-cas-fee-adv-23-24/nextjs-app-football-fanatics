@@ -27,8 +27,8 @@ const PostImage = ({ src, alt }: IProps) => {
         className={`${loaded ? 'opacity-100' : 'opacity-0'} rounded-2xl relative h-0 overflow-hidden group cursor-pointer ${imageProportions} ${imageTransition}`}
       >
         <div className="group-hover:opacity-70 bg-violet-600 top-0 left-0 right-0 bottom-0 opacity-0 z-30 absolute transition duration-500 flex items-center justify-center">
-          <div className="group-hover:w-12 group-hover:h-12 w-2 h-2 text-white transition[width] duration-500 group-hover:opacity-90 opacity-0">
-            <Icon type={EIConTypes.FULL_SCREEN} fitParent={true} />{' '}
+          <div className="group-hover:size-12 w-2 h-2 text-white transition[width] duration-500 group-hover:opacity-90 opacity-0">
+            <Icon type={EIConTypes.FULL_SCREEN} fitParent={true} />
           </div>
         </div>
         <Image

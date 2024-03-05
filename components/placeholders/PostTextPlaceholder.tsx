@@ -1,6 +1,8 @@
-import { PostHeaderPlaceholder } from '@/components/placeholders/PostHeader';
+interface IProps {
+  lines?: number;
+}
 
-export const PostTextPlaceholder = ({ lines }: { lines: number }) => {
+export const PostTextPlaceholder = ({ lines = 3 }: IProps) => {
   const linesArray = new Array(lines).fill(0);
   return (
     <>

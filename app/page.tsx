@@ -16,7 +16,7 @@ export default async function Page() {
       </div>
       <div className="content-bottom max-w-4xl mx-auto">
         {session && (
-          <div className="">
+          <div>
             <PostEditorPlaceholder />
             <PostEditor isFeedPage={true} />
           </div>
