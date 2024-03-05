@@ -10,11 +10,11 @@ import {
 interface IProps extends IPostsApiResponse {}
 
 const PostFeed = async ({ data, next, prev, count }: IProps) => {
-  return data.map((post: IPostItem, index: number) => {
+  return data.map((post: IPostItem) => {
     return (
       <div
         className="bg-white py-8 px-12 relative rounded-2xl mb-6"
-        key={index}
+        key={post.id}
         data-identifier={post.id}
       >
         <PostCard

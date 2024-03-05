@@ -9,14 +9,19 @@ interface IProps {
 const PostText = ({ text }: IProps) => {
   const regexExp = /#[\p{L}\p{M}0-9_]+/gu;
 
-  const getAndRenderHashTags = (text: string) => {
+  const getHashTags = (text: string): string[] | null => {
     const matches = text.match(regexExp);
-
     if (!matches) return null;
-    const uniqMatches = _uniq(matches);
+    return _uniq(matches);
+  };
+
+  const renderHashTags = (text: string) => {
+    const matches = getHashTags(text);
+    if (!matches) return null;
+
     return (
       <div className="mt-6 mb-6 gap-2 flex flex-wrap">
-        {uniqMatches.map((match, index) => {
+        {matches.map((match, index) => {
           const searchKeyword = match.replace('#', '').toLowerCase();
           return (
             <Link
@@ -43,7 +48,7 @@ const PostText = ({ text }: IProps) => {
   return (
     <div className="text-slate-600 font-poppins not-italic font-medium text-lg leading-[1.40]">
       <div dangerouslySetInnerHTML={{ __html: replaceHashtags(text) }}></div>
-      {getAndRenderHashTags(text)}
+      {renderHashTags(text)}
     </div>
   );
 };
