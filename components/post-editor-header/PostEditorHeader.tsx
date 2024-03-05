@@ -49,7 +49,7 @@ export const PostEditorHeader = ({
         <div className="grow">
           <Paragraph
             size={EParagraphSizes.MEDIUM}
-            text={`${firstName} ${lastName}`}
+            text={`${firstName || userName} ${lastName || ''}`}
           />
           <div className="flex items-center mt-2">
             {/*TODO extend to support Next Link ... hence server component too */}

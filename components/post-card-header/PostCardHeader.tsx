@@ -61,7 +61,7 @@ export const PostCardHeader = ({
             size={EParagraphSizes.MEDIUM}
             text={
               identifier === creator.id
-                ? `${firstName} ${lastName}`
+                ? `${firstName || userName} ${lastName || ''}`
                 : creator.username
             }
           />

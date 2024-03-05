@@ -1,16 +1,12 @@
 import React from 'react';
-import {
-  EAvatarSizes,
-  EParagraphSizes,
-  Paragraph,
-} from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { EAvatarSizes } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostImage from '@/components/post-image/PostImage';
 import { PostCardHeader } from '@/components/post-card-header/PostCardHeader';
 import { IPostItemBase } from '@/utils/interfaces/mumblePost.interface';
-import Link from 'next/link';
 import { truncate as _truncate } from 'lodash';
+import PostText from '@/components/post-text/PostText';
 
 interface IProps extends IPostItemBase {
   parentId?: string;
@@ -24,27 +20,6 @@ export const PostCard = ({
   id,
   parentId,
 }: IProps) => {
-  const getAndRenderHashTags = (text: string) => {
-    const regexExp = /#[\p{L}\p{M}0-9_]+/gu;
-    const matches = text.match(regexExp);
-    if (!matches) return null;
-    return (
-      <div className="mt-6 mb-6 gap-2 flex flex-wrap">
-        {matches?.map((match, index) => {
-          return (
-            <Link
-              href={`/posts/tags/${match.replace('#', '')}`}
-              className="text-violet-600 text-xl leading-[1.40] font-bold"
-              key={`${match}-${index}`}
-            >
-              {match}
-            </Link>
-          );
-        })}
-      </div>
-    );
-  };
-
   return (
     <div className="post-card">
       <PostCardHeader
@@ -53,8 +28,7 @@ export const PostCard = ({
         creator={creator}
         postIdentifier={id}
       />
-      <Paragraph text={text} size={EParagraphSizes.MEDIUM} />
-      {getAndRenderHashTags(text)}
+      <PostText text={text} />
       {mediaUrl && (
         <div className="mt-4">
           {mediaType === EMediaTypes.IMAGE ? (

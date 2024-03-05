@@ -163,9 +163,10 @@ export class MumblePostService extends MumbleService {
     data: IGetPostsParams;
   }): Promise<IPostsApiResponse> {
     const params = this.getParams(data);
+    const path = `${EEndpointsBackend.POSTS}?${params}`;
     const responseMumbleApi = await this.performRequest({
       method: EApiMethods.GET,
-      path: `${EEndpointsBackend.POSTS}?${params}`,
+      path,
       token,
       message: 'Fetching posts From Mumble API',
     });
@@ -182,7 +183,7 @@ export class MumblePostService extends MumbleService {
       if (typeof value === 'string' || typeof value === 'number') {
         params.append(key, value.toString());
       } else if (Array.isArray(value)) {
-        for (const single in value) {
+        for (const single of value) {
           value.forEach((val) => {
             params.append(key, single);
           });
