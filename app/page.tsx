@@ -2,6 +2,7 @@ import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
 import PostFeed from '@/components/post-feed/PostFeed';
 import { PostEditor } from '@/components/post-editor/PostEditor';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 
 export default async function Page() {
@@ -17,7 +18,8 @@ export default async function Page() {
       </div>
       <div className="max-w-4xl mx-auto">
         {session && (
-          <div className="">
+          <div>
+            <PostEditorPlaceholder />
             <PostEditor isFeedPage={true} />
           </div>
         )}

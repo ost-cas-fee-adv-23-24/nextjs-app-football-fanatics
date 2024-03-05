@@ -8,8 +8,8 @@ export const {
 } = NextAuth({
   providers: [
     Zitadel({
-      clientId: process.env.ZITADEL_CLIENT_ID,
-      issuer: 'https://cas-fee-adv-ed1ide.zitadel.cloud',
+      clientId: config.zitadel.clientId,
+      issuer: config.zitadel.authority,
       authorization: {
         params: {
           scope:
