@@ -5,11 +5,12 @@ import { auth } from '@/app/api/auth/[...nextauth]/auth';
 
 import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
+import frontendConfig from '@/config';
 
 export default async function Page() {
   const session = await auth();
   const initialOffset = 0;
-  const initialLimit = 1;
+  const initialLimit = frontendConfig.feed.defaultAmount;
   const feedData = await getMumblePosts({
     offset: initialOffset,
     limit: initialLimit,
@@ -37,7 +38,11 @@ export default async function Page() {
             count={feedData.count}
           />
         </div>
-        <PostsLoader offset={initialOffset} limit={10} />
+        <PostsLoader
+          offset={initialOffset + frontendConfig.feed.defaultAmount}
+          limit={initialLimit}
+          hasNext={!!feedData.next}
+        />
       </div>
     </div>
   );

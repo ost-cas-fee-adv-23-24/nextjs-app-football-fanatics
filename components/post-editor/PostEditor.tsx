@@ -60,13 +60,18 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
           if (image) {
             formData.append('media', image);
           }
-          if (identifier) {
-            await createPostReply(formData, identifier);
-          } else {
-            await createPost(formData);
+          try {
+            if (identifier) {
+              await createPostReply(formData, identifier);
+            } else {
+              await createPost(formData);
+            }
+          } catch (error) {
+            console.log(error);
+          } finally {
+            setText('');
+            setImage(null);
           }
-          setText('');
-          setImage(null);
         }}
       >
         <div

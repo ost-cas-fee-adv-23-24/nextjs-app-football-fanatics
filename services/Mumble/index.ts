@@ -63,8 +63,13 @@ export class MumbleService {
       }
 
       const response = await fetch(`${this.baseUrl}/${path}`, options);
+
+      // all but 200s are going to be rejected?
+
       if (response.status === 401) {
         throw new Error(`Unauthorized`);
+      } else if (response.status === 400) {
+        throw new Error(`limit exceeded`);
       }
       if (expectedBack === 'json') return await response.json();
       if (expectedBack === 'text') return await response.text();
