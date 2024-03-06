@@ -4,15 +4,29 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../auth/[...nextauth]/auth';
 
 const dataSource = new MumblePostService(config.mumble.host);
+
+interface IParamsPosts {
+  params: {
+    offset: string;
+    limit: string;
+  };
+}
+
 export const GET = async (request: NextRequest): Promise<Response> => {
+  const searchParams = request.nextUrl.searchParams;
+  const limit = searchParams.get('limit');
+  const offset = searchParams.get('offset');
+
+  const limit1 = limit ? parseInt(limit, 10) : config.feed.defaultAmount;
+  const offset1 = offset ? parseInt(offset, 10) : 0;
+
   const session = await auth();
   try {
     const response = await dataSource.getPosts({
-      // @ts-ignore
       token: session ? session.accessToken : '',
       data: {
-        limit: config.feed.defaultAmount,
-        offset: 0,
+        limit: limit1,
+        offset: offset1,
       },
     });
     return NextResponse.json(response);

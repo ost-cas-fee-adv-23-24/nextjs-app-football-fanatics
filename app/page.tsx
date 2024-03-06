@@ -2,12 +2,18 @@ import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
 import PostFeed from '@/components/post-feed/PostFeed';
 import { PostEditor } from '@/components/post-editor/PostEditor';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
+
 import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
+import PostsLoader from '@/components/posts-loader/PostsLoader';
 
 export default async function Page() {
   const session = await auth();
-  const feedData = await getMumblePosts({});
+  const initialOffset = 0;
+  const initialLimit = 1;
+  const feedData = await getMumblePosts({
+    offset: initialOffset,
+    limit: initialLimit,
+  });
   return (
     <div className="mx-auto bg-slate-100 pt-8">
       <div className="max-w-4xl mx-auto py-8">
@@ -19,7 +25,6 @@ export default async function Page() {
       <div className="max-w-4xl mx-auto">
         {session && (
           <div>
-            <PostEditorPlaceholder />
             <PostEditor isFeedPage={true} />
           </div>
         )}
@@ -32,6 +37,7 @@ export default async function Page() {
             count={feedData.count}
           />
         </div>
+        <PostsLoader offset={initialOffset} limit={10} />
       </div>
     </div>
   );
