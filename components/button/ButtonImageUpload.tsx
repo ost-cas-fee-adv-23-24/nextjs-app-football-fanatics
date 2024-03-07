@@ -11,7 +11,6 @@ const ButtonImageUpload = ({ onSuccess, onError }: IProps) => {
   return (
     <div className="relative">
       <input
-        placeholder=""
         spellCheck="false"
         accept="image/*"
         type="file"
