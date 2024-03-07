@@ -38,11 +38,7 @@ export default async function Page() {
             count={feedData.count}
           />
         </div>
-        <PostsLoader
-          offset={initialOffset + frontendConfig.feed.defaultAmount}
-          limit={initialLimit}
-          hasNext={!!feedData.next}
-        />
+        <PostsLoader />
       </div>
     </div>
   );

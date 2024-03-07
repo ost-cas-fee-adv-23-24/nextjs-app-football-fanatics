@@ -1,50 +1,30 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { PostCard } from '@/components/post-card/PostCard';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
-import _ from 'lodash';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
+import usePosts from '@/hooks/usePosts';
+import { EPostsActions } from '@/stores/Posts.context';
 import { frontendConfig } from '@/config';
 
-interface IProps {
-  offset: number;
-  limit: number;
-  hasNext: boolean;
-}
-
-const PostsLoader = ({ offset, limit, hasNext }: IProps) => {
-  const [offsetIntern, setOffsetIntern] = useState(offset);
-  const [loading, setLoading] = useState(false);
-  const [posts, setPosts] = useState<Array<any>>([]);
-  const [hasNextIntern, setHasNextIntern] = useState(hasNext);
+const PostsLoader = () => {
+  const { posts, limit, offset, isLoading, dispatchPosts } = usePosts();
 
   useEffect(() => {
-    (async () => {
-      if (hasNextIntern) {
-        setLoading(true);
-        // can we use a server action here?
-        const responseApi = await fetch(
-          `/api/posts?offset=${offsetIntern}&limit=${limit}`,
-          {
-            method: 'GET',
-          },
-        );
-        const { data, next } = await responseApi.json();
-        const postsUnique = _.uniqBy([...posts, ...data], 'id'); // to avoid strict mode 2x loading ... not needed in prod
-        setPosts(postsUnique);
-        setHasNextIntern(!!next);
-        setLoading(false);
-      } else {
-        console.log('no more posts to load');
-      }
-    })();
-  }, [offsetIntern, hasNext]);
+    dispatchPosts({
+      type: EPostsActions.SET_OPTIONS,
+      payload: {
+        offset: frontendConfig.feed.defaultAmount,
+        limit: frontendConfig.feed.defaultAmount,
+      },
+    });
+  }, []);
 
   const observer = useRef();
   const lastPostRef = useCallback(
     (node: any) => {
-      if (loading) return;
+      if (isLoading) return;
       if (observer.current) {
         // @ts-ignore
         observer.current.disconnect();
@@ -53,9 +33,13 @@ const PostsLoader = ({ offset, limit, hasNext }: IProps) => {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           console.log('reached to the last post');
-          setOffsetIntern(
-            (prevState) => prevState + frontendConfig.feed.defaultAmount,
-          );
+          dispatchPosts({
+            type: EPostsActions.SET_OPTIONS,
+            payload: {
+              offset: offset + frontendConfig.feed.defaultAmount,
+              limit,
+            },
+          });
         }
       });
       if (node) {
@@ -63,7 +47,7 @@ const PostsLoader = ({ offset, limit, hasNext }: IProps) => {
         observer.current.observe(node);
       }
     },
-    [loading],
+    [isLoading],
   );
 
   return (
@@ -101,7 +85,7 @@ const PostsLoader = ({ offset, limit, hasNext }: IProps) => {
           );
         })}
       </div>
-      {loading && (
+      {isLoading && (
         <div>
           <PostEditorPlaceholder />
         </div>
