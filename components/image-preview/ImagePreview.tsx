@@ -13,6 +13,15 @@ interface IProps {
 }
 
 const ImagePreview = ({ imageInMemory, onCancel }: IProps) => {
+  let imageSource: string | null = null;
+  try {
+    if (imageInMemory) {
+      imageSource = imageInMemory.toString();
+    }
+  } catch (error) {
+    // alert message (could not produce preview) or add onErrorPreviewImage
+  }
+
   return (
     <div className="relative">
       <div className="absolute z-20 top-4 right-4">
@@ -26,11 +35,14 @@ const ImagePreview = ({ imageInMemory, onCancel }: IProps) => {
         />
       </div>
       <div className="mt-4 mb-4 rounded-lg overflow-hidden border-4 border-dashed border-slate-400">
-        <Image
-          src={imageInMemory as string}
-          alt="image-preview"
-          loadingType={EImageLoadingType.EAGER}
-        />
+        {/*add mask to show the same ratio as the image in the post and exactly what is going to be seen on the post*/}
+        {imageSource && (
+          <Image
+            src={imageSource}
+            alt="image-preview"
+            loadingType={EImageLoadingType.EAGER}
+          />
+        )}
       </div>
     </div>
   );
