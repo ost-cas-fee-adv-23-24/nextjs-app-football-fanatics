@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { EAvatarSizes } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostImage from '@/components/post-image/PostImage';
 import { PostCardHeader } from '@/components/post-card-header/PostCardHeader';
 import { IPostItemBase } from '@/utils/interfaces/mumblePost.interface';
+import { truncate as _truncate } from 'lodash';
 import PostText from '@/components/post-text/PostText';
 
 interface IProps extends IPostItemBase {
@@ -31,9 +32,7 @@ export const PostCard = ({
       {mediaUrl && (
         <div className="mt-4">
           {mediaType === EMediaTypes.IMAGE ? (
-            <Suspense fallback="Loading... place here nice image loading">
-              <PostImage src={mediaUrl} alt="test" />
-            </Suspense>
+            <PostImage src={mediaUrl} alt={_truncate(text)} /> // no image title :-(
           ) : null}
         </div>
       )}
