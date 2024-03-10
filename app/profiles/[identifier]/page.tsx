@@ -11,7 +11,13 @@ export default async function Profile(context: {
       context.params.identifier.toString(),
     );
 
-    return <Header user={profileData} />;
+    return (
+      <div className="mx-auto bg-slate-100 pt-8">
+        <div className="max-w-4xl mx-auto py-8">
+          <Header user={profileData} />
+        </div>
+      </div>
+    );
   } catch (error) {
     return notFound();
   }
