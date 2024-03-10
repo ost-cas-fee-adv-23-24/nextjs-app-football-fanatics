@@ -28,22 +28,25 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const mainWrapperCss =
+    'main-wrapper w-full flex flex-col h-screen min-h-screen overflow-y-hidden';
+  const headerCss = 'header bg-violet-600 py-3';
+  const contentCss = 'content bg-slate-100 px-10 lg:px-0 grow overflow-y-auto';
+
   return (
     <html>
-      <body className={inter.className}>
+      <body className={`${inter.className} `}>
         <SessionProvider>
           <UserInfoProvider>
             <ModalProvider>
               <PostsProvider>
-                <div className="w-full">
-                  <div className="bg-violet-600 py-3">
+                <div className={mainWrapperCss}>
+                  <div className={headerCss}>
                     <div className="max-w-4xl mx-auto px-10 lg:px-0">
                       <GlobalHeader />
                     </div>
                   </div>
-                  <div className=" mx-auto bg-slate-100 px-10 lg:px-0">
-                    <div className="max-w-4xl mx-auto">{children}</div>
-                  </div>
+                  <div className={contentCss}>{children}</div>
                 </div>
               </PostsProvider>
             </ModalProvider>
