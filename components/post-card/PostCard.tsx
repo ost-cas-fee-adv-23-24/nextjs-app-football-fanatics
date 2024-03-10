@@ -32,7 +32,7 @@ export const PostCard = ({
       {mediaUrl && (
         <div className="mt-4">
           {mediaType === EMediaTypes.IMAGE ? (
-            <PostImage src={mediaUrl} alt={_truncate(text)} /> // no image title :-(
+            <PostImage src={mediaUrl} alt={text} /> // no image title :-(
           ) : null}
         </div>
       )}
