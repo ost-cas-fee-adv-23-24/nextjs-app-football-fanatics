@@ -46,7 +46,7 @@ function Header({ user }: Props) {
             nameHtml="avatar"
             size={EAvatarSizes.XL}
             editable={user.id === identifier}
-            imgSrc={avatarUrl}
+            imgSrc={user.id === identifier ? avatarUrl : user.avatarUrl}
             onSuccess={(newAvatar) => {
               const reader = new FileReader();
               reader.onload = (evt) => {
