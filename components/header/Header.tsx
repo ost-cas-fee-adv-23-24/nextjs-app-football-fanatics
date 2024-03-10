@@ -23,7 +23,8 @@ interface Props {
 }
 
 function Header({ user }: Props) {
-  const { identifier, setUserAvatar, avatarUrl } = useUserInfo();
+  const { identifier, setUserAvatar, avatarUrl, lastName, firstName } =
+    useUserInfo();
   const { dispatchModal, closeModal } = useModal();
   return (
     <>
@@ -104,7 +105,7 @@ function Header({ user }: Props) {
         <div className="pb-2 text-slate-900">
           <Heading
             level={ETypographyLevels.THREE}
-            text={user.username}
+            text={`${user.id === identifier ? `${firstName} ${lastName} ` : user.username}`}
             inheritColor
           />
         </div>
