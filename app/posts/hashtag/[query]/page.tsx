@@ -17,13 +17,13 @@ export default async function Page({ params }: { params: { query: string } }) {
 
   return (
     <div className="mx-auto bg-slate-100 pt-8">
-      <div className="max-w-4xl mx-auto py-8">
+      <div className="global-width mx-auto py-8">
         <Heading
           text={`#${query}`}
           level={ETypographyLevels.ONE}
           inheritColor={true}
         />
-        <div className="max-w-4xl mr-auto ml-auto">
+        <div className="global-width mr-auto ml-auto">
           <PostFeed
             data={feedData.data}
             next={feedData.next}

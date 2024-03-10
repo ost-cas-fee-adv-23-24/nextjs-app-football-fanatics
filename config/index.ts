@@ -41,6 +41,7 @@ export const frontendConfig = {
   feed: {
     defaultAmount: 5,
   },
+  maxWidth: '680px',
 };
 
 export default config as IConfig;
