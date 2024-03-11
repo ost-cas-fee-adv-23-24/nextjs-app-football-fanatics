@@ -14,19 +14,21 @@ interface IParamsPosts {
 
 export const GET = async (request: NextRequest): Promise<Response> => {
   const searchParams = request.nextUrl.searchParams;
-  const limit = searchParams.get('limit');
-  const offset = searchParams.get('offset');
+  const limitQueryParam = searchParams.get('limit');
+  const offsetQueryParam = searchParams.get('offset');
 
-  const limit1 = limit ? parseInt(limit, 10) : config.feed.defaultAmount;
-  const offset1 = offset ? parseInt(offset, 10) : 0;
+  const limit = limitQueryParam
+    ? parseInt(limitQueryParam, 10)
+    : config.feed.defaultAmount;
+  const offset = offsetQueryParam ? parseInt(offsetQueryParam, 10) : 0;
 
   const session = await auth();
   try {
     const response = await dataSource.getPosts({
       token: session ? session.accessToken : '',
       data: {
-        limit: limit1,
-        offset: offset1,
+        limit,
+        offset,
       },
     });
     return NextResponse.json(response);

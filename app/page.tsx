@@ -28,14 +28,12 @@ export default async function Page() {
         )}
 
         <div className="max-w-4xl mr-auto ml-auto">
-          {/*server side rendered*/}
           <PostFeed
             data={feedData.data}
             next={feedData.next}
             prev={feedData.prev}
             count={feedData.count}
           />
-          {/*client side rendered*/}
           <PostsLoader />
         </div>
       </div>

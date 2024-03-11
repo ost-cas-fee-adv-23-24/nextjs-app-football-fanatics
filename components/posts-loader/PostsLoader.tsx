@@ -33,7 +33,6 @@ const PostsLoader = () => {
       // @ts-ignore
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          // console.log('reached to the last post');
           dispatchPosts({
             type: EPostsActions.SET_OPTIONS,
             payload: {
