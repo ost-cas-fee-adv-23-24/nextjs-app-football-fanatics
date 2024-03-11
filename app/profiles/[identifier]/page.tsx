@@ -8,11 +8,10 @@ import { frontendConfig } from '@/config';
 export default async function Profile(context: {
   params: { identifier: number };
 }) {
-  // TODO: redirect to profile/me if userID === current signed in userID
+  const userIdentifier = context.params.identifier.toString();
+
   try {
-    const profileData = await getMumbleUserByIdentifier(
-      context.params.identifier.toString(),
-    );
+    const profileData = await getMumbleUserByIdentifier(userIdentifier);
 
     const userMumbles = await getMumblePosts({
       creators: [profileData.id],
@@ -25,6 +24,7 @@ export default async function Profile(context: {
         <div className="global-width  mx-auto py-8">
           <Header user={profileData} />
           <ProfileFeed
+            userIdentifier={userIdentifier}
             count={userMumbles.count}
             data={userMumbles.data}
             next={userMumbles.next}
