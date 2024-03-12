@@ -3,6 +3,10 @@ import PostFeed from '@/components/post-feed/PostFeed';
 import { IPostsApiResponse } from '@/utils/interfaces/mumblePost.interface';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
+import {
+  EParagraphSizes,
+  Paragraph,
+} from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 interface IProps extends IPostsApiResponse {
   userIdentifier: string;
@@ -21,12 +25,22 @@ const ProfileFeed = ({
     <>
       <div className="mt-8 mb-4">
         <ProfileSwitch
+          redirectionDelay={500}
           selectedTab={isLikes ? 1 : 0}
           userIdentifier={userIdentifier}
         />
       </div>
-      <PostFeed data={data} next={next} prev={prev} count={count} />
-      <PostsLoader userIdentifier={userIdentifier} isLikes={isLikes} />
+      {data.length === 0 ? (
+        <Paragraph
+          size={EParagraphSizes.MEDIUM}
+          text="No Likes yet, Hurry up! like some posts!"
+        />
+      ) : (
+        <>
+          <PostFeed data={data} next={next} prev={prev} count={count} />
+          <PostsLoader userIdentifier={userIdentifier} isLikes={isLikes} />
+        </>
+      )}
     </>
   );
 };
