@@ -11,12 +11,12 @@ export const createPost = async (formData: FormData): Promise<void> => {
 
   if (!session) throw new Error('No session');
   try {
-    await dataSource.createPost({
+    const response = await dataSource.createPost({
       token: session ? session.accessToken : '',
       formData,
     });
     revalidatePath(`/`);
   } catch (error) {
-    throw new Error(`Error creating post  - ${JSON.stringify(error)}`);
+    throw new Error(`Error creating post ${(error as Error).message}`);
   }
 };

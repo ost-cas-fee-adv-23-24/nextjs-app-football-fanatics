@@ -16,6 +16,8 @@ export interface IConfig {
   };
 }
 
+// only use in backend!!!!
+
 const config = {
   environment: process.env.ENVIRONMENT,
   mumble: {
@@ -31,7 +33,13 @@ const config = {
     fileNameUploader: 'media',
   },
   feed: {
-    defaultAmount: 30,
+    defaultAmount: 5,
+  },
+};
+
+export const frontendConfig = {
+  feed: {
+    defaultAmount: 5,
   },
 };
 

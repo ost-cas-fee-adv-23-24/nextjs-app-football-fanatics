@@ -52,7 +52,7 @@ const Modal = () => {
           className={`o-overlay-content overflow-hidden grow flex flex-col ${width} max-h-full mx-auto`}
         >
           <div className="bg-violet-600 flex pt-6 pb-6 pl-8 pr-8 justify-between items-center self-stretch rounded-t-2xl z-60 relative">
-            <h5 className="text-white text-3xl not-italic font-semibold leading-10">
+            <h5 className="text-white text-3xl not-italic font-semibold leading-10 truncate">
               {title}
             </h5>
             <div className="modal-close">
