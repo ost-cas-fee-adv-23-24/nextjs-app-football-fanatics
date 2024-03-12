@@ -2,6 +2,12 @@ import NextAuth, { User } from 'next-auth';
 import Zitadel from 'next-auth/providers/zitadel';
 import config from '@/config';
 
+const trustedDomains = [
+  'http://localhost:3000',
+  'https://elbmum.netlify.app',
+  'https://www.cusconews.com',
+  'https://dev.cusconews.com',
+];
 export const {
   handlers: { GET, POST },
   auth,
@@ -22,7 +28,9 @@ export const {
       },
     }),
   ],
-  trustHost: config.environment === 'local',
+  trustHost: process.env.NEXTAUTH_URL
+    ? trustedDomains.includes(process.env.NEXTAUTH_URL)
+    : false,
   callbacks: {
     jwt({ token, user, account }) {
       if (account) {
