@@ -11,13 +11,18 @@ export const GET = async (request: NextRequest): Promise<Response> => {
   const limit = searchParams.get('limit');
   const offset = searchParams.get('offset');
   const userIdentifier = searchParams.get('userIdentifier');
+  const likedBy = searchParams.get('likedBy');
 
   const params: IGetPostsParams = {
     limit: limit ? parseInt(limit, 10) : config.feed.defaultAmount,
     offset: offset ? parseInt(offset, 10) : 0,
   };
   if (userIdentifier) {
-    params.creators = [userIdentifier];
+    if (likedBy) {
+      params.likedBy = [userIdentifier];
+    } else {
+      params.creators = [userIdentifier];
+    }
   }
 
   const session = await auth();

@@ -16,6 +16,7 @@ export interface IPostsProviderState {
   limit: number;
   hasNext: boolean;
   userIdentifier?: string;
+  isLikes?: boolean;
 }
 
 const reducer = (
@@ -34,6 +35,7 @@ const reducer = (
         offset: payload.offset,
         limit: payload.limit,
         userIdentifier: payload.userIdentifier || undefined,
+        isLikes: payload.isLikes || undefined,
       };
     case EPostsActions.RESET:
       return {
@@ -43,6 +45,7 @@ const reducer = (
         hasNext: true,
         offset: 0,
         limit: 0,
+        isLikes: undefined,
       };
     default:
       return state;
@@ -53,10 +56,12 @@ const fetchPosts = async ({
   offset,
   limit,
   userIdentifier,
+  isLikes = false,
 }: {
   offset: number;
   limit: number;
   userIdentifier?: string;
+  isLikes?: boolean;
 }): Promise<{ posts: IPostItem[]; hasNext: boolean }> => {
   const params = new URLSearchParams({
     offset: offset.toString(),
@@ -64,7 +69,11 @@ const fetchPosts = async ({
   });
   if (userIdentifier) {
     params.append('userIdentifier', userIdentifier);
+    if (isLikes) {
+      params.append('likedBy', userIdentifier);
+    }
   }
+
   const responseApi = await fetch(`/api/posts?${params.toString()}`, {
     method: 'GET',
   });

@@ -12,11 +12,13 @@ export const getMumblePosts = async ({
   limit = config.feed.defaultAmount,
   tags,
   creators,
+  likedBy,
 }: {
   offset?: number;
   limit?: number;
   tags?: string[];
   creators?: string[];
+  likedBy?: string[];
 }): Promise<IPostsApiResponse> => {
   const session = await auth();
   const dataSrc = new MumblePostService(config.mumble.host);
@@ -32,6 +34,10 @@ export const getMumblePosts = async ({
 
   if (creators && creators.length > 0) {
     options.creators = creators;
+  }
+
+  if (likedBy && likedBy.length > 0) {
+    options.likedBy = likedBy;
   }
 
   try {

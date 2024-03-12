@@ -10,9 +10,10 @@ import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlace
 
 interface IProps {
   userIdentifier?: string;
+  isLikes?: boolean;
 }
 
-const PostsLoader = ({ userIdentifier }: IProps) => {
+const PostsLoader = ({ userIdentifier, isLikes = false }: IProps) => {
   const { posts, limit, offset, isLoading, dispatchPosts } = usePosts();
 
   // fire only once
@@ -23,6 +24,7 @@ const PostsLoader = ({ userIdentifier }: IProps) => {
         offset: frontendConfig.feed.defaultAmount,
         limit: frontendConfig.feed.defaultAmount,
         userIdentifier,
+        isLikes,
       },
     });
     return () => {
@@ -50,6 +52,7 @@ const PostsLoader = ({ userIdentifier }: IProps) => {
               offset: offset + frontendConfig.feed.defaultAmount,
               limit,
               userIdentifier,
+              isLikes,
             },
           });
         }

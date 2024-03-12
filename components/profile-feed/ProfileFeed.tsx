@@ -1,38 +1,32 @@
-'use client';
 import React from 'react';
-import { Tabs } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import PostFeed from '@/components/post-feed/PostFeed';
 import { IPostsApiResponse } from '@/utils/interfaces/mumblePost.interface';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
-import { IUserMumble } from '@/services/Mumble/MumbleUser';
+import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 
 interface IProps extends IPostsApiResponse {
   userIdentifier: string;
+  isLikes?: boolean;
 }
 
-const ProfileFeed = ({ data, next, prev, count, userIdentifier }: IProps) => {
-  console.log('userIdentifier', userIdentifier);
+const ProfileFeed = ({
+  data,
+  next,
+  prev,
+  count,
+  userIdentifier,
+  isLikes = false,
+}: IProps) => {
   return (
     <>
       <div className="mt-8 mb-4">
-        <Tabs
-          updateSelection={() => {}}
-          tabItems={[
-            {
-              isActive: true,
-              text: 'Mumbles',
-              identifier: 'tab-1',
-            },
-            {
-              isActive: false,
-              text: 'Likes',
-              identifier: 'tab-2',
-            },
-          ]}
+        <ProfileSwitch
+          selectedTab={isLikes ? 1 : 0}
+          userIdentifier={userIdentifier}
         />
       </div>
       <PostFeed data={data} next={next} prev={prev} count={count} />
-      <PostsLoader userIdentifier={userIdentifier} />
+      <PostsLoader userIdentifier={userIdentifier} isLikes={isLikes} />
     </>
   );
 };
