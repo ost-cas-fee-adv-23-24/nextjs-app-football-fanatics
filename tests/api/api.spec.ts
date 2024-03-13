@@ -7,3 +7,6 @@ test('GET Mumble Posts', async ({ request }) => {
   const responseJson = await getPosts.json();
   expect(() => postSchema.parse(responseJson)).not.toThrow();
 });
+
+// useful test only with invalid data from api response and what happens with the app with such data
+

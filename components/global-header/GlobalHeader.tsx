@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import useUserInfo from '@/hooks/useUserInfo';
 import {
   Avatar,
   ButtonMenu,
@@ -11,13 +11,12 @@ import {
   Icon,
   Logo,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { signOut, signIn } from 'next-auth/react';
-import useUserInfo from '@/hooks/useUserInfo';
 
-interface IProps {}
+interface IProps { }
 
-export const GlobalHeader = ({}: IProps) => {
+export const GlobalHeader = ({ }: IProps) => {
   const { avatarUrl, identifier } = useUserInfo();
   return (
     <div className="flex justify-between items-center">
@@ -37,7 +36,7 @@ export const GlobalHeader = ({}: IProps) => {
       <div className="flex items-center gap-6">
         {identifier ? (
           <>
-            <Link href={`/profiles/${identifier}`}>
+            <Link aria-label='Profile' href={`/profiles/${identifier}`}>
               <Avatar
                 imgSrc={avatarUrl}
                 size={EAvatarSizes.SM}
