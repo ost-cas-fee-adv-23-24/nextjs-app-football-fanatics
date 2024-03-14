@@ -2,35 +2,34 @@ import NextAuth, { User } from 'next-auth';
 import Zitadel from 'next-auth/providers/zitadel';
 import config from '@/config';
 
-const trustedDomains = [
-  'http://localhost:3000',
-  'https://elbmum.netlify.app',
-  'https://www.cusconews.com',
-  'https://dev.cusconews.com',
-];
 export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
+  session: {
+    strategy: config.sessionStrategy,
+    maxAge: config.sessionMaxAge,
+  },
+  secret: config.nextSecret,
+  trustHost: config.nextAuthUrl
+    ? config.trustedDomains.includes(config.nextAuthUrl)
+    : false,
   providers: [
     Zitadel({
       clientId: config.zitadel.clientId,
       issuer: config.zitadel.authority,
       authorization: {
         params: {
-          scope:
-            'openid profile email urn:zitadel:iam:org:project:id:229389352298352392:aud',
+          scope: config.zitadel.scope,
         },
       },
-      checks: ['pkce', 'state'],
+      checks: config.zitadel.checks,
       client: {
-        token_endpoint_auth_method: 'none',
+        token_endpoint_auth_method: config.zitadel.tokenEndpointAuthMethod,
       },
     }),
   ],
-  trustHost: process.env.NEXTAUTH_URL
-    ? trustedDomains.includes(process.env.NEXTAUTH_URL)
-    : false,
+
   callbacks: {
     jwt({ token, user, account }) {
       if (account) {
@@ -51,5 +50,4 @@ export const {
       return session;
     },
   },
-  secret: 'this-is-very-secret',
 });
