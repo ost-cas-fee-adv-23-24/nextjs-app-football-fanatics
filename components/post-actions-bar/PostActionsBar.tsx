@@ -1,17 +1,22 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import {
+  ButtonMenu,
   ButtonTimed,
   EIConTypes,
+  EParagraphSizes,
+  Paragraph,
   ToggleComment,
-  ToggleLike,
   ToggleGeneric,
+  ToggleLike,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
 import useUserInfo from '@/hooks/useUserInfo';
+import { toast } from 'react-toastify';
+import { signIn } from 'next-auth/react';
 
 interface IProps {
   amountLikes: number;
@@ -30,7 +35,30 @@ const PostActionsBar = ({
 }: IProps) => {
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
-  const { identifier: userIdentifier } = useUserInfo();
+  const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
+  const notify = () => {
+    toast(
+      <div className="bg-violet-200 p-4 rounded-lg flex flex-col text-center">
+        <div className="mb-4">
+          <Paragraph
+            size={EParagraphSizes.MEDIUM}
+            text="Please Login to like"
+          />
+        </div>
+        <ButtonMenu
+          name="login"
+          label="Login"
+          icon={EIConTypes.LOGOUT}
+          onCustomClick={() => {
+            signIn('zitadel');
+          }}
+        />
+      </div>,
+      {
+        position: 'bottom-left',
+      },
+    );
+  };
 
   // to avoid hydrate mismatch
   useEffect(() => {
@@ -42,6 +70,10 @@ const PostActionsBar = ({
       <div className="mb-4 sm:mb-0">
         <ToggleLike
           onIncrease={async () => {
+            if (!isLoggedIn) {
+              notify();
+              return;
+            }
             if (selfLiked) {
               await decreasePostLike(identifier);
             } else {

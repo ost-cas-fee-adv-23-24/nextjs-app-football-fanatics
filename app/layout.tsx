@@ -10,7 +10,8 @@ const inter = Inter({ subsets: ['latin'] });
 import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 import { ModalProvider } from '@/providers/Modal.provider';
 import { PostsProvider } from '@/providers/Posts.provider';
-import { frontendConfig } from '@/config';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',
@@ -53,6 +54,7 @@ export default function RootLayout({
             </ModalProvider>
           </UserInfoProvider>
         </SessionProvider>
+        <ToastContainer autoClose={5000} />
       </body>
     </html>
   );
