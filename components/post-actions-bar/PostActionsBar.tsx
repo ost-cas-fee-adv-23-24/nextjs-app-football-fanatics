@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ButtonTimed,
   EIConTypes,
@@ -29,8 +29,14 @@ const PostActionsBar = ({
   creatorIdentifier,
 }: IProps) => {
   const router = useRouter();
-  const linkToCopy = `${window.location.origin}/posts/${identifier}`;
+  const [linkToCopy, setLinkToCopy] = useState<string>('');
   const { identifier: userIdentifier } = useUserInfo();
+
+  // to avoid hydrate mismatch
+  useEffect(() => {
+    setLinkToCopy(`${window.location.origin}/posts/${identifier}`);
+  }, []);
+
   return (
     <div className="flex flex-col justify-start sm:flex-row">
       <div className="mb-4 sm:mb-0">
