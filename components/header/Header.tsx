@@ -17,6 +17,8 @@ import useUserInfo from '@/hooks/useUserInfo';
 import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
 import ImagePreview from '@/components/image-preview/ImagePreview';
+import React from 'react';
+import ImageWithPlaceholder from '@/components/image-placeholder/ImageWithPlaceholder';
 
 interface Props {
   user: IPostCreator;
@@ -26,21 +28,11 @@ function Header({ user }: Props) {
   const { identifier, setUserAvatar, avatarUrl, lastName, firstName } =
     useUserInfo();
   const { dispatchModal, closeModal } = useModal();
+  const imageSource = `https://source.unsplash.com/random/?landscape&${Date.now().toString().toLowerCase().trim()}`;
   return (
     <>
       <div className="relative">
-        <div
-          className="rounded-2xl overflow-hidden"
-          style={{ maskImage: 'radial-gradient(white, black)' }}
-        >
-          <div className="h-0 pb-[calc((8/17)*100%)]">
-            <Image
-              src={`https://source.unsplash.com/random/?landscape&${Date.now().toString().toLowerCase().trim()}`}
-              alt="Header Image"
-              fill
-            />
-          </div>
-        </div>
+        <ImageWithPlaceholder src={imageSource} alt="header Image" />
         <div className="absolute bottom-[-80px] right-8">
           <Avatar
             nameHtml="avatar"
