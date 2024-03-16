@@ -81,7 +81,7 @@ const PostActionsBar = ({
             }
             router.refresh();
           }}
-          effectDuration={1000}
+          effectDuration={!isLoggedIn ? 0 : 1000}
           labelLiked={selfLiked ? 'Unliked' : 'Liked'}
           labelSingular="Like"
           labelPlural="Likes"
