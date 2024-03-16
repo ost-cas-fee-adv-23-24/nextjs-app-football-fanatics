@@ -149,7 +149,7 @@ export const PostsProvider = ({ children }: IProps) => {
   };
 
   useEffect(() => {
-    // if (newPostsQueue.length === 0) return;
+    if (newPostsQueue.length === 0) return;
     toast(
       <div className="flex flex-col text-center">
         <Paragraph size={EParagraphSizes.MEDIUM} text="New Posts Available" />
