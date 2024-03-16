@@ -10,6 +10,7 @@ export const GET = async (request: NextRequest): Promise<Response> => {
   const searchParams = request.nextUrl.searchParams;
   const limit = searchParams.get('limit');
   const offset = searchParams.get('offset');
+  const newerThan = searchParams.get('newerThan');
   const userIdentifier = searchParams.get('userIdentifier');
   const likedBy = searchParams.get('likedBy');
 
@@ -17,6 +18,11 @@ export const GET = async (request: NextRequest): Promise<Response> => {
     limit: limit ? parseInt(limit, 10) : config.feed.defaultAmount,
     offset: offset ? parseInt(offset, 10) : 0,
   };
+
+  if (newerThan) {
+    params.newerThan = newerThan;
+  }
+
   if (userIdentifier) {
     if (likedBy) {
       params.likedBy = [userIdentifier];
