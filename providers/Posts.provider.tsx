@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
 import { fetchPostsFrontend } from '@/utils/helpers/posts/getMumblePostsFrontend';
-import { toast } from 'react-toastify';
+import { Id, toast } from 'react-toastify';
 import {
   EIConTypes,
   EParagraphSizes,
@@ -80,6 +80,7 @@ const reducer = (
 
 export const PostsProvider = ({ children }: IProps) => {
   const [remainingTime, setRemainingTime] = useState<number>(0);
+  const currentNotification = useRef<null | Id>(null);
   const [state, dispatch] = useReducer(reducer, {
     posts: [],
     isLoading: false,
@@ -150,7 +151,7 @@ export const PostsProvider = ({ children }: IProps) => {
 
   useEffect(() => {
     if (newPostsQueue.length === 0) return;
-    toast(
+    currentNotification.current = toast(
       <div className="flex flex-col text-center">
         <Paragraph size={EParagraphSizes.MEDIUM} text="New Posts Available" />
         <ToggleGeneric
@@ -163,6 +164,8 @@ export const PostsProvider = ({ children }: IProps) => {
               type: EPostsActions.SET_POSTS_QUEUE,
               payload: null,
             });
+            toast.dismiss(currentNotification.current as Id);
+            // scroll to top in posts Wrapper?
           }}
         />
       </div>,
