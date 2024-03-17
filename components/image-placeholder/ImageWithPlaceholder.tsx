@@ -27,6 +27,7 @@ const ImageWithPlaceholder = ({ src, alt }: IProps) => {
         className={`${loaded ? 'opacity-100' : 'opacity-0'} h-0 pb-[calc((8/17)*100%)]`}
       >
         <Image
+          suppressHydrationWarning
           onLoad={() => {
             setLoaded(true);
           }}
