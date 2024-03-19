@@ -17,7 +17,6 @@ import ImageUploader from '@/components/image-uploader/ImageUploader';
 import ImagePreview, {
   TFireReaderResult,
 } from '@/components/image-preview/ImagePreview';
-import { toast } from 'react-toastify';
 
 interface IProps {
   identifier?: string;

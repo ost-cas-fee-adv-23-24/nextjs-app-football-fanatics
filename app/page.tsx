@@ -20,7 +20,7 @@ export default async function Page() {
           description="Did you hear that? They've shut down the main reactor."
         />
       </div>
-      <div className={`global-width mx-auto`}>
+      <div className="global-width mx-auto">
         {session && (
           <div>
             <PostEditor isFeedPage={true} />
