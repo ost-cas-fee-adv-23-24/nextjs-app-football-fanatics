@@ -1,8 +1,5 @@
 'use client';
-import PostsContext, {
-  EPostsActions,
-  initialValuesPostProvider,
-} from '@/stores/Posts.context';
+import PostsContext, { EPostsActions } from '@/stores/Posts.context';
 import { ReactNode, useEffect, useReducer } from 'react';
 import {
   IPostItem,
@@ -18,6 +15,8 @@ export interface IPostsProviderState {
   offset: number;
   limit: number;
   hasNext: boolean;
+  userIdentifier?: string;
+  isLikes?: boolean;
 }
 
 const reducer = (
@@ -31,7 +30,23 @@ const reducer = (
     case EPostsActions.SET_POSTS_PAYLOAD:
       return { ...state, posts: payload.posts, hasNext: payload.hasNext };
     case EPostsActions.SET_OPTIONS:
-      return { ...state, offset: payload.offset, limit: payload.limit };
+      return {
+        ...state,
+        offset: payload.offset,
+        limit: payload.limit,
+        userIdentifier: payload.userIdentifier || undefined,
+        isLikes: payload.isLikes || undefined,
+      };
+    case EPostsActions.RESET:
+      return {
+        userIdentifier: undefined,
+        posts: [],
+        isLoading: false,
+        hasNext: true,
+        offset: 0,
+        limit: 0,
+        isLikes: undefined,
+      };
     default:
       return state;
   }
@@ -40,16 +55,28 @@ const reducer = (
 const fetchPosts = async ({
   offset,
   limit,
+  userIdentifier,
+  isLikes = false,
 }: {
   offset: number;
   limit: number;
+  userIdentifier?: string;
+  isLikes?: boolean;
 }): Promise<{ posts: IPostItem[]; hasNext: boolean }> => {
-  const responseApi = await fetch(
-    `/api/posts?offset=${offset}&limit=${limit}`,
-    {
-      method: 'GET',
-    },
-  );
+  const params = new URLSearchParams({
+    offset: offset.toString(),
+    limit: limit.toString(),
+  });
+  if (userIdentifier) {
+    params.append('userIdentifier', userIdentifier);
+    if (isLikes) {
+      params.append('likedBy', userIdentifier);
+    }
+  }
+
+  const responseApi = await fetch(`/api/posts?${params.toString()}`, {
+    method: 'GET',
+  });
 
   const { data, next } = (await responseApi.json()) as IPostsApiResponse;
   return { posts: data, hasNext: !!next };
@@ -57,9 +84,13 @@ const fetchPosts = async ({
 
 export const PostsProvider = ({ children }: IProps) => {
   const [state, dispatch] = useReducer(reducer, {
-    ...initialValuesPostProvider,
+    posts: [],
+    isLoading: false,
+    hasNext: true,
+    offset: 0,
+    limit: 0,
   });
-  const { offset, hasNext, posts, limit, isLoading } = state;
+  const { offset, hasNext, posts, limit, isLoading, userIdentifier } = state;
 
   useEffect(() => {
     // we dont fetch initially. the first batch is rendered by the server
@@ -74,6 +105,7 @@ export const PostsProvider = ({ children }: IProps) => {
         const { posts: postsFetched, hasNext } = await fetchPosts({
           limit: limit,
           offset: offset,
+          userIdentifier: userIdentifier,
         });
         dispatch({
           type: EPostsActions.SET_POSTS_PAYLOAD,
@@ -85,7 +117,7 @@ export const PostsProvider = ({ children }: IProps) => {
         });
       } catch (error) {}
     })();
-  }, [offset, limit]);
+  }, [offset, limit, userIdentifier]);
 
   return (
     <PostsContext.Provider

@@ -35,6 +35,9 @@ const Modal = () => {
       const scrollTop = document.documentElement.scrollTop;
       document.body.style.top = `${scrollTop}px`;
       document.body.style.overflow = `hidden`;
+
+      // @ts-ignore
+      document.activeElement?.focus();
     } else {
       document.body.style.overflow = `auto`;
     }

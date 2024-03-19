@@ -30,7 +30,7 @@ const PostImage = ({ src, alt }: IProps) => {
         <PostImagePlaceholder />
       </div>
       <div
-        className={`${loaded ? 'opacity-100' : 'opacity-0'} rounded-2xl relative h-0 overflow-hidden group cursor-pointer ${imageProportions} ${imageTransition}`}
+        className={`group ${loaded ? 'opacity-100' : 'opacity-0'} rounded-2xl relative h-0 overflow-hidden cursor-pointer ${imageProportions} ${imageTransition}`}
         onClick={() => {
           dispatchModal({
             type: EModalActions.SET_CONTENT,

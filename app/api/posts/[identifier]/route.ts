@@ -15,7 +15,6 @@ export const GET = async (
   const session = await auth();
   try {
     const response = await dataSource.getPostById({
-      // @ts-ignore
       token: session ? session.accessToken : '',
       identifier,
       includeReplies,

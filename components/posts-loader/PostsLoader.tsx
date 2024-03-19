@@ -8,7 +8,12 @@ import { EPostsActions } from '@/stores/Posts.context';
 import { frontendConfig } from '@/config';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 
-const PostsLoader = () => {
+interface IProps {
+  userIdentifier?: string;
+  isLikes?: boolean;
+}
+
+const PostsLoader = ({ userIdentifier, isLikes = false }: IProps) => {
   const { posts, limit, offset, isLoading, dispatchPosts } = usePosts();
 
   // fire only once
@@ -18,8 +23,16 @@ const PostsLoader = () => {
       payload: {
         offset: frontendConfig.feed.defaultAmount,
         limit: frontendConfig.feed.defaultAmount,
+        userIdentifier,
+        isLikes,
       },
     });
+    return () => {
+      dispatchPosts({
+        type: EPostsActions.RESET,
+        payload: null,
+      });
+    };
   }, []);
 
   const observer = useRef();
@@ -38,6 +51,8 @@ const PostsLoader = () => {
             payload: {
               offset: offset + frontendConfig.feed.defaultAmount,
               limit,
+              userIdentifier,
+              isLikes,
             },
           });
         }
@@ -47,7 +62,14 @@ const PostsLoader = () => {
         observer.current.observe(node);
       }
     },
-    [isLoading],
+    [
+      isLoading,
+      userIdentifier,
+      offset,
+      limit,
+      frontendConfig.feed.defaultAmount,
+      dispatchPosts,
+    ],
   );
 
   return (

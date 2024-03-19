@@ -10,6 +10,7 @@ const PostText = ({ text }: IProps) => {
   const regexExp = /#[\p{L}\p{M}0-9_]+/gu;
 
   const getHashTags = (text: string): string[] | null => {
+    if (!text) return null;
     const matches = text.match(regexExp);
     if (!matches) return null;
     return _uniq(matches);
@@ -37,7 +38,8 @@ const PostText = ({ text }: IProps) => {
     );
   };
 
-  const replaceHashtags = (text: string) => {
+  const replaceHashtags = (text: string): TrustedHTML | null => {
+    if (!text) return null;
     return text.replace(regexExp, (match: string, hashtag: string): string => {
       const searchKeyword = match.replace('#', '').toLowerCase();
       // this is not jsx. it's a simple string
@@ -47,8 +49,19 @@ const PostText = ({ text }: IProps) => {
 
   return (
     <div className="text-slate-600 font-poppins not-italic font-medium text-lg leading-[1.40]">
-      <div dangerouslySetInnerHTML={{ __html: replaceHashtags(text) }}></div>
-      {renderHashTags(text)}
+      {(() => {
+        const html = replaceHashtags(text);
+        if (!html) return;
+        return (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: html,
+            }}
+          ></div>
+        );
+      })()}
+
+      {text && renderHashTags(text)}
     </div>
   );
 };

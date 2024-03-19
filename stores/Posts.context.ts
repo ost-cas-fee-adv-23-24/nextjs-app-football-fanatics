@@ -5,6 +5,7 @@ export enum EPostsActions {
   SET_LOADING = 'setLoading',
   SET_POSTS_PAYLOAD = 'setPostsPayload',
   SET_OPTIONS = 'setOptions',
+  RESET = 'reset',
 }
 
 export const initialValuesPostProvider = {
