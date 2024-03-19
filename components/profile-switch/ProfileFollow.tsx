@@ -8,11 +8,12 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { followUserToggle } from '@/actions/followUser';
+import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 
 interface IProps {
   profileIdentifier: string;
   loggedInUserIdentifier: string;
-  followers: string[];
+  followers: IMumbleFollowers[];
 }
 
 const ProfileFollow = ({
@@ -20,7 +21,9 @@ const ProfileFollow = ({
   followers,
   loggedInUserIdentifier,
 }: IProps) => {
-  const followingCurrentUser = followers.includes(loggedInUserIdentifier);
+  const followingCurrentUser = followers.find((follower) => {
+    return follower.id === loggedInUserIdentifier;
+  });
   return (
     <div className="flex justify-end items-center">
       <div className={followingCurrentUser ? 'text-violet-700' : ''}>

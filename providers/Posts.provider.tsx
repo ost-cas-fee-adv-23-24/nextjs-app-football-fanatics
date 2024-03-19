@@ -5,6 +5,7 @@ import {
   IPostItem,
   IPostsApiResponse,
 } from '@/utils/interfaces/mumblePost.interface';
+import { forEach } from 'lodash';
 
 interface IProps {
   children: ReactNode;
@@ -17,6 +18,7 @@ export interface IPostsProviderState {
   hasNext: boolean;
   userIdentifier?: string;
   isLikes?: boolean;
+  creators?: string[];
 }
 
 const reducer = (
@@ -36,6 +38,7 @@ const reducer = (
         limit: payload.limit,
         userIdentifier: payload.userIdentifier || undefined,
         isLikes: payload.isLikes || undefined,
+        creators: payload.creators || undefined,
       };
     case EPostsActions.RESET:
       return {
@@ -46,6 +49,7 @@ const reducer = (
         offset: 0,
         limit: 0,
         isLikes: undefined,
+        creators: undefined,
       };
     default:
       return state;
@@ -57,11 +61,13 @@ const fetchPosts = async ({
   limit,
   userIdentifier,
   isLikes = false,
+  creators,
 }: {
   offset: number;
   limit: number;
   userIdentifier?: string;
   isLikes?: boolean;
+  creators?: string[];
 }): Promise<{ posts: IPostItem[]; hasNext: boolean }> => {
   const params = new URLSearchParams({
     offset: offset.toString(),
@@ -72,6 +78,10 @@ const fetchPosts = async ({
     if (isLikes) {
       params.append('likedBy', userIdentifier);
     }
+  }
+
+  if (creators && creators.length > 0) {
+    params.append('creators', creators.join(','));
   }
 
   const responseApi = await fetch(`/api/posts?${params.toString()}`, {
@@ -89,8 +99,10 @@ export const PostsProvider = ({ children }: IProps) => {
     hasNext: true,
     offset: 0,
     limit: 0,
+    creators: undefined,
   });
-  const { offset, hasNext, posts, limit, isLoading, userIdentifier } = state;
+  const { offset, hasNext, posts, limit, isLoading, userIdentifier, creators } =
+    state;
 
   useEffect(() => {
     // we dont fetch initially. the first batch is rendered by the server
@@ -106,6 +118,7 @@ export const PostsProvider = ({ children }: IProps) => {
           limit: limit,
           offset: offset,
           userIdentifier: userIdentifier,
+          creators,
         });
         dispatch({
           type: EPostsActions.SET_POSTS_PAYLOAD,
@@ -117,7 +130,7 @@ export const PostsProvider = ({ children }: IProps) => {
         });
       } catch (error) {}
     })();
-  }, [offset, limit, userIdentifier]);
+  }, [offset, limit, userIdentifier, creators]);
 
   return (
     <PostsContext.Provider

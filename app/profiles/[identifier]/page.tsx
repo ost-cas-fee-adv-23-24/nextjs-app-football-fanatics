@@ -9,6 +9,7 @@ import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
+import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 
 export default async function Profile(context: {
   params: { identifier: number };
@@ -16,7 +17,7 @@ export default async function Profile(context: {
   const currentProfileUserIdentifier = context.params.identifier.toString();
   const session = await auth();
 
-  let userFollowers: string[] = await getAllFollowers({
+  let userFollowers: IMumbleFollowers[] = await getAllFollowers({
     identifier: currentProfileUserIdentifier,
   });
 
