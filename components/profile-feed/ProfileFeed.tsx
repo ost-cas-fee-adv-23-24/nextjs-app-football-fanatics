@@ -23,13 +23,6 @@ const ProfileFeed = ({
 }: IProps) => {
   return (
     <>
-      <div className="mt-8 mb-4">
-        <ProfileSwitch
-          redirectionDelay={500}
-          selectedTab={isLikes ? 1 : 0}
-          userIdentifier={userIdentifier}
-        />
-      </div>
       {data.length === 0 ? (
         <Paragraph
           size={EParagraphSizes.MEDIUM}

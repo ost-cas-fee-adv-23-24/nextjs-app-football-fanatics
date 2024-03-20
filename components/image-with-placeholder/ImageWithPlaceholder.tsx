@@ -26,6 +26,7 @@ const ImageWithPlaceholder = ({ src, alt }: IProps) => {
         className={`${loaded ? 'opacity-100' : 'opacity-0'} h-0 mumble-image`}
       >
         <Image
+          suppressHydrationWarning
           onLoad={() => {
             setLoaded(true);
           }}
