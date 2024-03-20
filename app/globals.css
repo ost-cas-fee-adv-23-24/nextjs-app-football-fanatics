@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+@layer components {
 }
 
-body {
+.global-width {
+    @apply max-w-[680px];
+}
+
+.mumble-image {
+    @apply pb-[calc((8/17)*100%)];
 }

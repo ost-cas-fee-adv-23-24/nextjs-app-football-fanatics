@@ -14,14 +14,13 @@ interface IProps {
 const WelcomeTexts = ({ title, description }: IProps) => {
   return (
     <div className="text-violet-600">
-      <div className="mb-4 ">
+      <div className="mb-4">
         <Heading
           level={ETypographyLevels.TWO}
           text={title}
           inheritColor={true}
         />
       </div>
-
       <div>
         <Paragraph text={description} size={EParagraphSizes.LARGE} />
       </div>

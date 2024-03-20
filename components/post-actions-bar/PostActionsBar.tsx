@@ -1,17 +1,20 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ButtonTimed,
   EIConTypes,
   ToggleComment,
-  ToggleLike,
   ToggleGeneric,
+  ToggleLike,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
 import useUserInfo from '@/hooks/useUserInfo';
+import { toast } from 'react-toastify';
+import DialogLogin from '@/components/dialog-login/DialogLogin';
+import { signIn } from 'next-auth/react';
 
 interface IProps {
   amountLikes: number;
@@ -29,13 +32,38 @@ const PostActionsBar = ({
   creatorIdentifier,
 }: IProps) => {
   const router = useRouter();
-  const linkToCopy = `https://wwww.domain.con/posts/${identifier}`;
-  const { identifier: userIdentifier } = useUserInfo();
+  const [linkToCopy, setLinkToCopy] = useState<string>('');
+  const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
+  const notify = () => {
+    toast(
+      <DialogLogin
+        labelButton="Login"
+        message="You need to be logged in to like a post"
+        icon={EIConTypes.PROFILE}
+        customClick={() => {
+          signIn('zitadel');
+        }}
+      />,
+      {
+        position: 'bottom-left',
+      },
+    );
+  };
+
+  // to avoid hydrate mismatch
+  useEffect(() => {
+    setLinkToCopy(`${window.location.origin}/posts/${identifier}`);
+  }, []);
+
   return (
     <div className="flex flex-col justify-start sm:flex-row">
       <div className="mb-4 sm:mb-0">
         <ToggleLike
           onIncrease={async () => {
+            if (!isLoggedIn) {
+              notify();
+              return;
+            }
             if (selfLiked) {
               await decreasePostLike(identifier);
             } else {
@@ -43,7 +71,7 @@ const PostActionsBar = ({
             }
             router.refresh();
           }}
-          effectDuration={1000}
+          effectDuration={!isLoggedIn ? 0 : 1000}
           labelLiked={selfLiked ? 'Unliked' : 'Liked'}
           labelSingular="Like"
           labelPlural="Likes"
