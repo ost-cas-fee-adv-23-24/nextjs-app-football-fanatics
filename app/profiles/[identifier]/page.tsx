@@ -16,7 +16,7 @@ export default async function Profile(context: {
   const currentProfileUserIdentifier = context.params.identifier.toString();
   const session = await auth();
 
-  let userFollowers: string[] = await getAllFollowers({
+  const userFollowers: string[] = await getAllFollowers({
     identifier: currentProfileUserIdentifier,
   });
 
