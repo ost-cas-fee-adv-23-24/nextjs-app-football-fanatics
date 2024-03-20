@@ -6,6 +6,8 @@ import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
 import { frontendConfig } from '@/config';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
+import Recommendation from '@/components/recommendation/Recommendation';
+import RecommendationsBox from '@/components/recommendations-box/RecommendationsBox';
 
 export default async function Page() {
   const session = await auth();
@@ -46,13 +48,35 @@ export default async function Page() {
         )}
 
         <div className="max-w-4xl mr-auto ml-auto">
-          <PostFeed
-            data={feedData.data}
-            next={feedData.next}
-            prev={feedData.prev}
-            count={feedData.count}
-          />
-          <PostsLoader creators={session ? creators : undefined} />
+          {(() => {
+            if (session && creators.length > 0) {
+              return (
+                <>
+                  <PostFeed
+                    data={feedData.data}
+                    next={feedData.next}
+                    prev={feedData.prev}
+                    count={feedData.count}
+                  />
+                  <PostsLoader creators={session ? creators : undefined} />
+                </>
+              );
+            } else if (session && creators.length === 0) {
+              return <RecommendationsBox />;
+            } else {
+              return (
+                <>
+                  <PostFeed
+                    data={feedData.data}
+                    next={feedData.next}
+                    prev={feedData.prev}
+                    count={feedData.count}
+                  />
+                  <PostsLoader />
+                </>
+              );
+            }
+          })()}
         </div>
       </div>
     </div>

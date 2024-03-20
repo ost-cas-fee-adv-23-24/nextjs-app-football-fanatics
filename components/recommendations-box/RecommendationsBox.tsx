@@ -6,6 +6,11 @@
  * Date: Mon 18/03/2024 - 20:46
  */
 import Recommendation from '@/components/recommendation/Recommendation';
+import React from 'react';
+import {
+  ETypographyLevels,
+  Heading,
+} from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 const mockData = [
   {
@@ -94,13 +99,17 @@ const mockData = [
   },
 ];
 
-import React from 'react';
-
 interface IProps {}
 
 const RecommendationsBox = ({}: IProps) => {
   return (
     <div className="flex flex-wrap">
+      <div className="mb-4">
+        <Heading
+          level={ETypographyLevels.THREE}
+          text="Recommended users for you"
+        />
+      </div>
       {mockData.map((item, index) => {
         return (
           <div

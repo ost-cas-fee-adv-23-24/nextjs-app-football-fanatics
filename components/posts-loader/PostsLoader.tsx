@@ -55,6 +55,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
               limit,
               userIdentifier,
               isLikes,
+              creators: creators ? creators : undefined,
             },
           });
         }
