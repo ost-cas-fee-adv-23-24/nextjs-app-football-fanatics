@@ -3,13 +3,15 @@ import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import mumbleUserServiceInstance from '@/services/Mumble/MumbleUser';
 import { revalidatePath } from 'next/cache';
 
+export interface IFollowUserToggle {
+  identifier: string;
+  unfollow: boolean;
+}
+
 export const followUserToggle = async ({
   identifier,
   unfollow = false,
-}: {
-  identifier: string;
-  unfollow: boolean;
-}): Promise<void> => {
+}: IFollowUserToggle): Promise<void> => {
   const session = await auth();
   try {
     await mumbleUserServiceInstance.followUserToggle({
