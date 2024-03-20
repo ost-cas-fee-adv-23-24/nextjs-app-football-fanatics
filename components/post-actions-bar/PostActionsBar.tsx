@@ -1,11 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import {
-  ButtonMenu,
   ButtonTimed,
   EIConTypes,
-  EParagraphSizes,
-  Paragraph,
   ToggleComment,
   ToggleGeneric,
   ToggleLike,
@@ -16,6 +13,7 @@ import Link from 'next/link';
 import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
 import useUserInfo from '@/hooks/useUserInfo';
 import { toast } from 'react-toastify';
+import DialogLogin from '@/components/dialog-login/DialogLogin';
 import { signIn } from 'next-auth/react';
 
 interface IProps {
@@ -38,22 +36,14 @@ const PostActionsBar = ({
   const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
   const notify = () => {
     toast(
-      <div className="bg-violet-200 p-4 rounded-lg flex flex-col text-center">
-        <div className="mb-4">
-          <Paragraph
-            size={EParagraphSizes.MEDIUM}
-            text="Please Login to like"
-          />
-        </div>
-        <ButtonMenu
-          name="login"
-          label="Login"
-          icon={EIConTypes.LOGOUT}
-          onCustomClick={() => {
-            signIn('zitadel');
-          }}
-        />
-      </div>,
+      <DialogLogin
+        labelButton="Login"
+        message="You need to be logged in to like a post"
+        icon={EIConTypes.PROFILE}
+        customClick={() => {
+          signIn('zitadel');
+        }}
+      />,
       {
         position: 'bottom-left',
       },
