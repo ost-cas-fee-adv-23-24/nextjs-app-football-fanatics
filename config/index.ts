@@ -65,6 +65,7 @@ export const frontendConfig = {
     defaultAmount: feedAmountItems,
   },
   maxWidth: '680px', // not in usage. Tailwind cannot add classes dynamically. class MUST be in the code
+  notificationDuration: 5000,
 };
 
 export default config as IConfig;
