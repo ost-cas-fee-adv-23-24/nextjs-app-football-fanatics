@@ -6,7 +6,7 @@ frontend:
         - npm ci
     build:
       commands:
-        - env | grep -e NEXTAUTH_URL grep -e NEXTAUTH_SECRET -e ZITADEL_CLIENT_ID -e ZITADEL_ISSUER -e MUMBLE_API_URL -e ENVIRONMENT >> .env
+        - env | grep -e NEXTAUTH_URL -e NEXTAUTH_SECRET -e ZITADEL_CLIENT_ID -e ZITADEL_ISSUER -e MUMBLE_API_URL -e ENVIRONMENT  >> .env
         - npm run build
   artifacts:
     baseDirectory: .next
