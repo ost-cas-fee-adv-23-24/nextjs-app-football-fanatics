@@ -5,7 +5,6 @@ import {
   IPostItem,
   IPostsApiResponse,
 } from '@/utils/interfaces/mumblePost.interface';
-import { forEach } from 'lodash';
 
 interface IProps {
   children: ReactNode;
