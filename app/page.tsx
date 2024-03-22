@@ -6,7 +6,6 @@ import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
 import { frontendConfig } from '@/config';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
-import Recommendation from '@/components/recommendation/Recommendation';
 import RecommendationsBox from '@/components/recommendations-box/RecommendationsBox';
 
 export default async function Page() {
