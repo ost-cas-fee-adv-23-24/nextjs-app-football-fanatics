@@ -13,6 +13,7 @@ import { PostsProvider } from '@/providers/Posts.provider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { frontendConfig } from '@/config';
+import { RecommendationsProvider } from '@/providers/Recommendations.provider';
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',
@@ -43,14 +44,16 @@ export default function RootLayout({
           <UserInfoProvider>
             <ModalProvider>
               <PostsProvider>
-                <div className={mainWrapperCss}>
-                  <div className={headerCss}>
-                    <div className="global-width mx-auto px-10 lg:px-0">
-                      <GlobalHeader />
+                <RecommendationsProvider>
+                  <div className={mainWrapperCss}>
+                    <div className={headerCss}>
+                      <div className="global-width mx-auto px-10 lg:px-0">
+                        <GlobalHeader />
+                      </div>
                     </div>
+                    <div className={contentCss}>{children}</div>
                   </div>
-                  <div className={contentCss}>{children}</div>
-                </div>
+                </RecommendationsProvider>
               </PostsProvider>
             </ModalProvider>
           </UserInfoProvider>

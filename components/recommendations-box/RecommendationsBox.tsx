@@ -1,107 +1,25 @@
-/**
- * Author: bladimirardiles
- * Component File Name: RecomendationsBox.js
- * Component Name: RecomendationsBox
- * Project: nextjs-app
- * Date: Mon 18/03/2024 - 20:46
- */
+'use client';
 import Recommendation from '@/components/recommendation/Recommendation';
 import React from 'react';
 import {
+  Button,
+  EButtonSizes,
+  EButtonTypes,
+  EIConTypes,
   ETypographyLevels,
   Heading,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
-const mockData = [
-  {
-    firstname: 'Christoph',
-    lastname: 'Bühler',
-    id: '229387640351294793',
-    username: 'christoph@smartive.ch',
-    avatarUrl: null,
-  },
-  {
-    firstname: 'Christoph',
-    lastname: 'Bühler',
-    id: '243142103851459040',
-    username: 'cb-auth-demo',
-    avatarUrl: null,
-  },
-  {
-    firstname: 'Peter',
-    lastname: 'Manser',
-    id: '243752335757595349',
-    username: 'petermanser',
-    avatarUrl:
-      'https://storage.googleapis.com/mumble-api-data/74a47cec-8de0-4675-8b41-d11ef904f0a7',
-  },
-  {
-    firstname: 'Patrick',
-    lastname: 'Lehmann',
-    id: '245807822799993686',
-    username: 'patrick',
-    avatarUrl: null,
-  },
-  {
-    firstname: 'Albin',
-    lastname: 'Hoti',
-    id: '245807989095758678',
-    username: 'allphii_🔺',
-    avatarUrl:
-      'https://storage.googleapis.com/mumble-api-data/d116d06e-b254-4aa3-b02b-b759a3f786fe',
-  },
-  {
-    firstname: 'Nico',
-    lastname: 'Lutz',
-    id: '245808067160180753',
-    username: 'nico',
-    avatarUrl:
-      'https://storage.googleapis.com/mumble-api-data/3dd7812f-1161-4ba2-915d-e38ae9a3e251',
-  },
-  {
-    firstname: 'Claudio',
-    lastname: 'Steffen',
-    id: '245808142053636950',
-    username: 'claudio',
-    avatarUrl:
-      'https://storage.googleapis.com/mumble-api-data/96249871-b544-48cf-b3ae-bad12deca7fb',
-  },
-  {
-    firstname: 'R',
-    lastname: 'Vögeli',
-    id: '245808535730944854',
-    username: 'richard',
-    avatarUrl:
-      'https://storage.googleapis.com/mumble-api-data/19b781c1-08bb-42f7-86e8-915cee9b54b6',
-  },
-  {
-    firstname: 'Malinovic',
-    lastname: 'Danijel',
-    id: '245808936706407254',
-    username: 'malinovic',
-    avatarUrl: null,
-  },
-  {
-    firstname: 'André',
-    lastname: 'Ceres',
-    id: '245809311459051537',
-    username: 'andre',
-    avatarUrl:
-      'https://storage.googleapis.com/mumble-api-data/28e17313-a62b-411f-8128-f005b908a853',
-  },
-  {
-    firstname: 'Bladimir',
-    lastname: 'Ardiles Cruz',
-    id: '245810520291018769',
-    username: 'Bladimir',
-    avatarUrl:
-      'https://storage.googleapis.com/mumble-api-data/a38e4d67-abd2-4a87-91c9-570949945f33',
-  },
-];
+import useRecommendations from '@/hooks/useRecommendations';
+import { ERecommendationsActions } from '@/stores/Recommendations.context';
+import { followUserToggle } from '@/actions/followUser';
 
 interface IProps {}
 
 const RecommendationsBox = ({}: IProps) => {
+  const { recommendedUsers, users, dispatchRecommendations } =
+    useRecommendations();
+
   return (
     <div className="flex flex-wrap">
       <div className="mb-4">
@@ -111,7 +29,7 @@ const RecommendationsBox = ({}: IProps) => {
         />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {mockData.map((item, index) => {
+        {recommendedUsers.map((item, index) => {
           return (
             <Recommendation
               key={item.id}
@@ -124,6 +42,23 @@ const RecommendationsBox = ({}: IProps) => {
           );
         })}
       </div>
+      {users.length !== recommendedUsers.length && (
+        <div className="mx-auto mb-4">
+          <Button
+            onCustomClick={() => {
+              dispatchRecommendations({
+                type: ERecommendationsActions.LOAD_MORE_RECOMMENDATIONS,
+                payload: null,
+              });
+            }}
+            size={EButtonSizes.MEDIUM}
+            type={EButtonTypes.TERTIARY}
+            icon={EIConTypes.TIME}
+            label="Load more"
+            name="load-more-recommendations"
+          />
+        </div>
+      )}
     </div>
   );
 };

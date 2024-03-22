@@ -6,26 +6,62 @@ import {
   IMumbleFollowers,
   IMumbleFollowersApiResponse,
 } from '@/utils/interfaces/mumbleFollowers.interface';
+import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 
 export interface IUploadAvatarParams {
   token: string;
   image: File;
 }
 
-export interface IUserMumble {
-  id: string;
-  username: string;
-  avatarUrl: string;
-}
-
 export class MumbleUserService extends MumbleService {
+  async getAllUsers({
+    token,
+    users,
+    url,
+  }: {
+    token: string;
+    users?: IMumbleUser[];
+    url?: string;
+  }): Promise<IMumbleUser[]> {
+    const usersIntern: IMumbleUser[] = users ? users : [];
+    const queryParams = new URLSearchParams({ limit: '5', offset: '0' });
+    const urlIntern = url
+      ? url
+      : EEndpointsBackend.USER + '?' + queryParams.toString();
+    const responseApi = await this.performRequest({
+      method: EApiMethods.GET,
+      path: `${urlIntern}`,
+      token,
+      message: 'Getting users',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        accept: 'application/json',
+      },
+    });
+
+    usersIntern.push(...responseApi.data);
+
+    if (responseApi.next) {
+      await this.getAllUsers({
+        token,
+        url: responseApi.next.replace(
+          'https://mumble-api-prod-4cxdci3drq-oa.a.run.app/',
+          '',
+        ),
+        users: usersIntern,
+      });
+    }
+
+    return usersIntern;
+  }
+
   async getUserByIdentifier({
     token,
     identifier,
   }: {
     token: string;
     identifier: string;
-  }): Promise<IUserMumble> {
+  }): Promise<IMumbleUser> {
     const responseApi = await this.performRequest({
       method: EApiMethods.GET,
       path: `${EEndpointsBackend.USER}/${identifier}`,
@@ -37,7 +73,7 @@ export class MumbleUserService extends MumbleService {
       },
     });
 
-    return responseApi as IUserMumble;
+    return responseApi as IMumbleUser;
   }
 
   async getAllFollowers({
@@ -76,7 +112,10 @@ export class MumbleUserService extends MumbleService {
       await this.getAllFollowers({
         token,
         identifier,
-        url: responseApi.next,
+        url: responseApi.next.replace(
+          'https://mumble-api-prod-4cxdci3drq-oa.a.run.app/',
+          '',
+        ),
         followers: followersIntern,
       });
     }
@@ -125,7 +164,10 @@ export class MumbleUserService extends MumbleService {
       await this.getAllFollowers({
         token,
         identifier,
-        url: responseApi.next,
+        url: responseApi.next.replace(
+          'https://mumble-api-prod-4cxdci3drq-oa.a.run.app/',
+          '',
+        ),
         followers: followeesIntern,
       });
     }

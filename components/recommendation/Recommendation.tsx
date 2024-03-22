@@ -7,15 +7,12 @@ import {
   EAvatarSizes,
   EButtonTypes,
   EIConTypes,
-  EParagraphSizes,
-  ETypographyLevels,
-  Heading,
-  Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import { IMumbleUsers } from '@/utils/interfaces/mumbleUsers.interface';
+import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import Link from 'next/link';
+import { followUserToggle } from '@/actions/followUser';
 
-interface IProps extends IMumbleUsers {}
+interface IProps extends IMumbleUser {}
 
 const Recommendation = ({
   avatarUrl,
@@ -24,26 +21,11 @@ const Recommendation = ({
   username,
   firstname,
 }: IProps) => {
-  const test =
-    'https://storage.googleapis.com/mumble-api-data/f36b7115-9ed5-4ec4-b5bb-47d72f6f2732';
-
-  // const profilePic = useMemo(() => {
-  //   const fallbackImages = [
-  //     'https://storage.googleapis.com/mumble-api-data/08cff403-bc67-4155-aa5d-b6124e282f7c',
-  //     'https://storage.googleapis.com/mumble-api-data/f36b7115-9ed5-4ec4-b5bb-47d72f6f2732',
-  //   ];
-  //   if (avatarUrl) {
-  //     return avatarUrl;
-  //   }
-  //
-  //   return fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
-  // }, [avatarUrl]);
-
   return (
     <div className="p-4 rounded-lg bg-white flex flex-col items-center w-full">
       <Avatar
         size={EAvatarSizes.LG}
-        imgSrc={avatarUrl || test}
+        imgSrc={avatarUrl || undefined}
         nameHtml="avatar"
       />
       <div className="mt-4 w-full text-center">
@@ -51,7 +33,7 @@ const Recommendation = ({
           {firstname && lastname ? `${firstname} ${lastname}` : username}
         </p>
       </div>
-      <div className="mt-2 w-full">
+      <div className="mt-2 w-full text-center">
         <ButtonIcon
           truncate={true}
           icon={EIConTypes.PROFILE}
@@ -72,6 +54,12 @@ const Recommendation = ({
           icon={EIConTypes.MUMBLE}
           label="Follow"
           name={`user-follow-${identifier}`}
+          onCustomClick={async () => {
+            await followUserToggle({
+              identifier,
+              unfollow: false,
+            });
+          }}
         />
       </div>
     </div>

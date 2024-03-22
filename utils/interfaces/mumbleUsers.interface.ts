@@ -1,4 +1,4 @@
-export interface IMumbleUsers {
+export interface IMumbleUser {
   id: string;
   username: string;
   avatarUrl: null | string;
