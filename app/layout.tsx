@@ -55,6 +55,7 @@ export default function RootLayout({
             </ModalProvider>
           </UserInfoProvider>
         </SessionProvider>
+
         <ToastContainer autoClose={frontendConfig.notificationDuration} />
       </body>
     </html>

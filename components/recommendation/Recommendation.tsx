@@ -40,7 +40,7 @@ const Recommendation = ({
   // }, [avatarUrl]);
 
   return (
-    <div className="p-4 rounded-lg bg-white flex flex-col items-center">
+    <div className="p-4 rounded-lg bg-white flex flex-col items-center w-full">
       <Avatar
         size={EAvatarSizes.LG}
         imgSrc={avatarUrl || test}
@@ -51,8 +51,9 @@ const Recommendation = ({
           {firstname && lastname ? `${firstname} ${lastname}` : username}
         </p>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 w-full">
         <ButtonIcon
+          truncate={true}
           icon={EIConTypes.PROFILE}
           type={EButtonTypes.PRIMARY}
           label={username}

@@ -110,22 +110,20 @@ const RecommendationsBox = ({}: IProps) => {
           text="Recommended users for you"
         />
       </div>
-      {mockData.map((item, index) => {
-        return (
-          <div
-            key={item.id}
-            className={`${(index + 1) % 3 === 0 ? '' : 'mr-[2%]'} w-[32%] mb-4`}
-          >
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {mockData.map((item, index) => {
+          return (
             <Recommendation
+              key={item.id}
               id={item.id}
               username={item.username}
               avatarUrl={item.avatarUrl}
               firstname={item.firstname}
               lastname={item.lastname}
             />
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
