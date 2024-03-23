@@ -10,7 +10,6 @@ import RecommendationsBox from '@/components/recommendations-box/Recommendations
 
 export default async function Page() {
   const session = await auth();
-
   const creators: string[] = [];
 
   const options = {

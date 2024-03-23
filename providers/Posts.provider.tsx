@@ -1,10 +1,8 @@
 'use client';
 import PostsContext, { EPostsActions } from '@/stores/Posts.context';
 import { ReactNode, useEffect, useReducer } from 'react';
-import {
-  IPostItem,
-  IPostsApiResponse,
-} from '@/utils/interfaces/mumblePost.interface';
+import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
+import { fetchPosts } from '@/utils/helpers/posts/fetchPostsFrontend';
 
 interface IProps {
   children: ReactNode;
@@ -53,42 +51,6 @@ const reducer = (
     default:
       return state;
   }
-};
-
-const fetchPosts = async ({
-  offset,
-  limit,
-  userIdentifier,
-  isLikes = false,
-  creators,
-}: {
-  offset: number;
-  limit: number;
-  userIdentifier?: string;
-  isLikes?: boolean;
-  creators?: string[];
-}): Promise<{ posts: IPostItem[]; hasNext: boolean }> => {
-  const params = new URLSearchParams({
-    offset: offset.toString(),
-    limit: limit.toString(),
-  });
-  if (userIdentifier) {
-    params.append('userIdentifier', userIdentifier);
-    if (isLikes) {
-      params.append('likedBy', userIdentifier);
-    }
-  }
-
-  if (creators && creators.length > 0) {
-    params.append('creators', creators.join(','));
-  }
-
-  const responseApi = await fetch(`/api/posts?${params.toString()}`, {
-    method: 'GET',
-  });
-
-  const { data, next } = (await responseApi.json()) as IPostsApiResponse;
-  return { posts: data, hasNext: !!next };
 };
 
 export const PostsProvider = ({ children }: IProps) => {

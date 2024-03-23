@@ -62,7 +62,12 @@ export class MumbleService {
         options.body = data;
       }
 
-      const response = await fetch(`${this.baseUrl}/${path}`, options);
+      // to be able to use the next property in the  mumble response
+      const requestUrl = path.includes(this.baseUrl)
+        ? path
+        : `${this.baseUrl}/${path}`;
+
+      const response = await fetch(`${requestUrl}`, options);
 
       if (response.status === 401) {
         throw new Error(`Unauthorized`);

@@ -44,10 +44,7 @@ export class MumbleUserService extends MumbleService {
     if (responseApi.next) {
       await this.getAllUsers({
         token,
-        url: responseApi.next.replace(
-          'https://mumble-api-prod-4cxdci3drq-oa.a.run.app/',
-          '',
-        ),
+        url: responseApi.next,
         users: usersIntern,
       });
     }
@@ -112,10 +109,7 @@ export class MumbleUserService extends MumbleService {
       await this.getAllFollowers({
         token,
         identifier,
-        url: responseApi.next.replace(
-          'https://mumble-api-prod-4cxdci3drq-oa.a.run.app/',
-          '',
-        ),
+        url: responseApi.next,
         followers: followersIntern,
       });
     }
@@ -164,10 +158,7 @@ export class MumbleUserService extends MumbleService {
       await this.getAllFollowers({
         token,
         identifier,
-        url: responseApi.next.replace(
-          'https://mumble-api-prod-4cxdci3drq-oa.a.run.app/',
-          '',
-        ),
+        url,
         followers: followeesIntern,
       });
     }
