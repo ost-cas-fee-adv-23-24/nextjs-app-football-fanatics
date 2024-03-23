@@ -6,11 +6,20 @@ import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import { frontendConfig } from '@/config';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
+import ProfileFollow from '@/components/profile-switch/ProfileFollow';
+import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
+import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
 
 export default async function ProfileLikes(context: {
   params: { identifier: number };
 }) {
   const userIdentifier = context.params.identifier.toString();
+  const session = await auth();
+
+  let userFollowers: IMumbleFollowers[] = await getAllFollowers({
+    identifier: userIdentifier,
+  });
 
   try {
     const profileData = await getMumbleUserByIdentifier(userIdentifier);
@@ -25,6 +34,15 @@ export default async function ProfileLikes(context: {
       <div className="mx-auto bg-slate-100 pt-8">
         <div className="global-width  mx-auto py-8">
           <Header user={profileData} />
+          {session && (
+            <div className="mt-8 mb-4">
+              <ProfileFollow
+                loggedInUserIdentifier={session.user.identifier}
+                profileIdentifier={userIdentifier}
+                followers={userFollowers}
+              />
+            </div>
+          )}
           <div className="mt-8 mb-4">
             <ProfileSwitch
               redirectionDelay={500}
