@@ -46,35 +46,20 @@ export default async function Page() {
         )}
 
         <div className="max-w-4xl mr-auto ml-auto">
-          {(() => {
-            if (session && creators.length > 0) {
-              return (
-                <>
-                  <PostFeed
-                    data={feedData.data}
-                    next={feedData.next}
-                    prev={feedData.prev}
-                    count={feedData.count}
-                  />
-                  <PostsLoader creators={session ? creators : undefined} />
-                </>
-              );
-            } else if (session && creators.length === 0) {
-              return <RecommendationsBox />;
-            } else {
-              return (
-                <>
-                  <PostFeed
-                    data={feedData.data}
-                    next={feedData.next}
-                    prev={feedData.prev}
-                    count={feedData.count}
-                  />
-                  <PostsLoader />
-                </>
-              );
-            }
-          })()}
+          <>
+            {session && (
+              <div className="mb-8">
+                <RecommendationsBox followees={creators} />
+              </div>
+            )}
+            <PostFeed
+              data={feedData.data}
+              next={feedData.next}
+              prev={feedData.prev}
+              count={feedData.count}
+            />
+            <PostsLoader />
+          </>
         </div>
       </div>
     </div>
