@@ -10,6 +10,7 @@ import {
   completeRecommendations,
   getSelectableUsers,
 } from '@/utils/helpers/recommendations';
+import { frontendConfig } from '@/config';
 
 interface IProps {
   children: ReactNode;
@@ -77,7 +78,7 @@ export interface IRecommendationsProviderState {
 
 export const RecommendationsProvider = ({ children }: IProps) => {
   const [state, dispatch] = useReducer(reducer, {
-    maxAmount: 3,
+    maxAmount: frontendConfig.recommendationsAmount,
     rawUsers: [],
     followedUsersIdentifiers: [],
     currentRecommendations: [],
