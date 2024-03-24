@@ -14,6 +14,7 @@ import useRecommendations from '@/hooks/useRecommendations';
 import { ERecommendationsActions } from '@/stores/Recommendations.context';
 import { followUserToggle } from '@/actions/followUser';
 import { toast } from 'react-toastify';
+import { frontendConfig } from '@/config';
 
 interface IProps {
   followees?: string[];
@@ -62,10 +63,17 @@ const RecommendationsBox = ({ followees }: IProps) => {
                     unfollow: false,
                   });
                 } catch (error) {
-                  toast.warning('Error following user, please try again later');
+                  toast.warning(
+                    'Error following user, please try again later',
+                    {
+                      autoClose: frontendConfig.notificationDuration,
+                    },
+                  );
                 }
 
-                toast.success(`${user.username} followed successfully`);
+                toast.success(`${user.username} followed successfully`, {
+                  autoClose: frontendConfig.notificationDuration,
+                });
 
                 // we only update the state if the followUserToggle was successful
                 dispatchRecommendations({
@@ -94,6 +102,7 @@ const RecommendationsBox = ({ followees }: IProps) => {
         {hasMoreRecommendations ? (
           <Button
             onCustomClick={() => {
+              console.log('refreshing recommendations');
               refreshRecommendations();
             }}
             size={EButtonSizes.MEDIUM}
