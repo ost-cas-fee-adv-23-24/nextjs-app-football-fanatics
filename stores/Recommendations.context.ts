@@ -22,6 +22,7 @@ export interface IRecommendationsContextData {
   }>;
   refreshRecommendations: () => void;
   loadUsers: () => void;
+  followedUsersIdentifiers: string[];
 }
 
 const RecommendationsContext =

@@ -11,10 +11,10 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import Link from 'next/link';
-import { followUserToggle } from '@/actions/followUser';
 
 interface IProps extends IMumbleUser {
   onDismiss: (identifier: string) => void;
+  onFollow: (identifier: string) => void;
 }
 
 const Recommendation = ({
@@ -24,6 +24,7 @@ const Recommendation = ({
   username,
   firstname,
   onDismiss,
+  onFollow,
 }: IProps) => {
   return (
     <div className="p-4 rounded-lg bg-white flex flex-col items-center w-full relative">
@@ -71,10 +72,7 @@ const Recommendation = ({
           label="Follow"
           name={`user-follow-${identifier}`}
           onCustomClick={async () => {
-            await followUserToggle({
-              identifier,
-              unfollow: false,
-            });
+            onFollow(identifier);
           }}
         />
       </div>

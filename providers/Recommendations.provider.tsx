@@ -44,6 +44,12 @@ const reducer = (state: IRecommendationsProviderState, action: any) => {
       return copyState;
     case ERecommendationsActions.SET_ALREADY_FOLLOWED_USERS:
       copyState.followedUsersIdentifiers = payload;
+      const recommendationWithoutFollowed =
+        copyState.currentRecommendations.filter(
+          (recommendation) =>
+            !copyState.followedUsersIdentifiers.includes(recommendation.id),
+        );
+      copyState.currentRecommendations = recommendationWithoutFollowed;
       return copyState;
     case ERecommendationsActions.SET_RECOMMENDED_USERS:
       copyState.currentRecommendations = payload;
@@ -168,6 +174,7 @@ export const RecommendationsProvider = ({ children }: IProps) => {
       }
     }
   }, [
+    followedUsersIdentifiers,
     currentRecommendations,
     loaded,
     maxAmount,
@@ -178,6 +185,7 @@ export const RecommendationsProvider = ({ children }: IProps) => {
   return (
     <RecommendationsContext.Provider
       value={{
+        followedUsersIdentifiers,
         loadUsers,
         dispatchRecommendations: dispatch,
         maxAmount: state.maxAmount,

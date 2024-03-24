@@ -13,6 +13,7 @@ import {
 import useRecommendations from '@/hooks/useRecommendations';
 import { ERecommendationsActions } from '@/stores/Recommendations.context';
 import { followUserToggle } from '@/actions/followUser';
+import { toast } from 'react-toastify';
 
 interface IProps {
   followees?: string[];
@@ -21,10 +22,11 @@ interface IProps {
 const RecommendationsBox = ({ followees }: IProps) => {
   const {
     loadUsers,
+    refreshRecommendations,
     recommendedUsers,
     dispatchRecommendations,
-    refreshRecommendations,
     hasMoreRecommendations,
+    followedUsersIdentifiers,
   } = useRecommendations();
 
   useEffect(() => {
@@ -50,21 +52,39 @@ const RecommendationsBox = ({ followees }: IProps) => {
         />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {recommendedUsers.map((item, index) => {
+        {recommendedUsers.map((user, index) => {
           return (
             <Recommendation
+              onFollow={async (identifier) => {
+                try {
+                  await followUserToggle({
+                    identifier,
+                    unfollow: false,
+                  });
+                } catch (error) {
+                  toast.warning('Error following user, please try again later');
+                }
+
+                toast.success(`${user.username} followed successfully`);
+
+                // we only update the state if the followUserToggle was successful
+                dispatchRecommendations({
+                  type: ERecommendationsActions.SET_ALREADY_FOLLOWED_USERS,
+                  payload: [...followedUsersIdentifiers, identifier],
+                });
+              }}
               onDismiss={(identifier) => {
                 dispatchRecommendations({
                   type: ERecommendationsActions.SET_REJECTED_USER,
                   payload: identifier,
                 });
               }}
-              key={item.id}
-              id={item.id}
-              username={item.username}
-              avatarUrl={item.avatarUrl}
-              firstname={item.firstname}
-              lastname={item.lastname}
+              key={user.id}
+              id={user.id}
+              username={user.username}
+              avatarUrl={user.avatarUrl}
+              firstname={user.firstname}
+              lastname={user.lastname}
             />
           );
         })}
