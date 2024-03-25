@@ -22,7 +22,7 @@ const reducer = (state: IRecommendationsProviderState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case ERecommendationsActions.RESET_RECOMMENDATIONS:
-      localStorage.setItem('rejectedUsers', JSON.stringify([]));
+      window.localStorage.setItem('rejectedUsers', JSON.stringify([]));
       copyState.rejectedUsersIdentifiers = [];
       copyState.noMoreRecommendations = false;
       copyState.currentRecommendations = completeRecommendations({
@@ -82,7 +82,7 @@ export interface IRecommendationsProviderState {
 }
 
 export const RecommendationsProvider = ({ children }: IProps) => {
-  const localStorageData = localStorage.getItem('rejectedUsers');
+  const localStorageData = window.localStorage.getItem('rejectedUsers');
   const rejectedUsersLocal = localStorageData
     ? JSON.parse(localStorageData)
     : [];
@@ -140,7 +140,7 @@ export const RecommendationsProvider = ({ children }: IProps) => {
 
   useEffect(() => {
     if (rejectedUsersIdentifiers.length > 0) {
-      localStorage.setItem(
+      window.localStorage.setItem(
         'rejectedUsers',
         JSON.stringify(rejectedUsersIdentifiers),
       );
