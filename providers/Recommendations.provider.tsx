@@ -40,6 +40,9 @@ const reducer = (state: IRecommendationsProviderState, action: any) => {
         (user: IMumbleUser) => user.id,
       );
       return copyState;
+    case ERecommendationsActions.SET_REJECTED_USERS:
+      copyState.rejectedUsersIdentifiers = payload;
+      return copyState;
     case ERecommendationsActions.SET_REJECTED_USER:
       copyState.rejectedUsersIdentifiers.push(payload);
       const recommendationWithoutRejected =
@@ -115,6 +118,13 @@ export const RecommendationsProvider = ({ children }: IProps) => {
         dispatch({
           type: ERecommendationsActions.SET_USERS,
           payload: users,
+        });
+
+        // because of localStorage not available on definition of
+        // initial state we need to set it here. ¯\_(ツ)_/¯
+        dispatch({
+          type: ERecommendationsActions.SET_REJECTED_USERS,
+          payload: rejectedUsersLocal,
         });
 
         const newRecommendations = completeRecommendations({

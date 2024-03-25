@@ -5,6 +5,7 @@ export enum ERecommendationsActions {
   SET_USERS = 'setUsers',
   SET_LOADED = 'setLoaded',
   SET_REJECTED_USER = 'setRejectedUser',
+  SET_REJECTED_USERS = 'setRejectedUsers',
   SET_ALREADY_FOLLOWED_USERS = 'setAlreadyFollowedUsers',
   SET_RECOMMENDED_USERS = 'setRecommendedUsers',
   RESET_RECOMMENDATIONS = 'refreshRecommendations',
