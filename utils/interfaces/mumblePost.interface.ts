@@ -55,7 +55,7 @@ export interface ICreatePost {
 export interface IPostCreator {
   id: string;
   username: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
   firstname?: string;
   lastname?: string;
 }

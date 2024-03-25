@@ -9,6 +9,14 @@ export interface IMumbleServiceRequestParams {
   data?: any;
   headers?: any;
   expectedBack?: 'json' | 'text' | 'empty';
+  ttl?: number;
+}
+
+interface IRequestOptions {
+  method: EApiMethods;
+  headers: any;
+  body?: any;
+  next?: any;
 }
 
 export class MumbleService {
@@ -51,18 +59,27 @@ export class MumbleService {
     data,
     headers,
     expectedBack = 'json',
+    ttl,
   }: IMumbleServiceRequestParams) {
     try {
-      const options = {
+      const options: IRequestOptions = {
         method,
         headers: headers ? headers : this.getHeaders(method, token),
       };
       if (data) {
-        // @ts-ignore
         options.body = data;
       }
 
-      const response = await fetch(`${this.baseUrl}/${path}`, options);
+      if (ttl) {
+        options.next = { revalidate: ttl };
+      }
+
+      // to be able to use the next property in the  mumble response
+      const requestUrl = path.includes(this.baseUrl)
+        ? path
+        : `${this.baseUrl}/${path}`;
+
+      const response = await fetch(`${requestUrl}`, options);
 
       if (response.status === 401) {
         throw new Error(`Unauthorized`);

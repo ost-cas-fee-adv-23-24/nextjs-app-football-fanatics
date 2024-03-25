@@ -5,13 +5,31 @@ import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
 import { frontendConfig } from '@/config';
+import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
+import RecommendationsBox from '@/components/recommendations-box/RecommendationsBox';
 
 export default async function Page() {
   const session = await auth();
-  const feedData = await getMumblePosts({
+  const creators: string[] = [];
+
+  const options = {
     offset: 0,
     limit: frontendConfig.feed.defaultAmount,
-  });
+    creators: undefined as string[] | undefined,
+  };
+
+  if (session) {
+    const allFollowees = await getAllFollowees({
+      identifier: session.user.identifier,
+    });
+    allFollowees.forEach((followee) => {
+      creators.push(followee.id);
+    });
+    options.creators = creators;
+  }
+
+  const feedData = await getMumblePosts(options);
+
   return (
     <div className="mx-auto bg-slate-100 pt-8">
       <div className="global-width mx-auto py-8">
@@ -28,13 +46,20 @@ export default async function Page() {
         )}
 
         <div className="max-w-4xl mr-auto ml-auto">
-          <PostFeed
-            data={feedData.data}
-            next={feedData.next}
-            prev={feedData.prev}
-            count={feedData.count}
-          />
-          <PostsLoader />
+          <>
+            {session && (
+              <div className="mb-8">
+                <RecommendationsBox userIdentifier={session.user.identifier} />
+              </div>
+            )}
+            <PostFeed
+              data={feedData.data}
+              next={feedData.next}
+              prev={feedData.prev}
+              count={feedData.count}
+            />
+            <PostsLoader />
+          </>
         </div>
       </div>
     </div>

@@ -1,10 +1,8 @@
 'use client';
 import PostsContext, { EPostsActions } from '@/stores/Posts.context';
 import { ReactNode, useEffect, useReducer } from 'react';
-import {
-  IPostItem,
-  IPostsApiResponse,
-} from '@/utils/interfaces/mumblePost.interface';
+import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
+import { fetchPosts } from '@/utils/helpers/posts/fetchPostsFrontend';
 
 interface IProps {
   children: ReactNode;
@@ -17,6 +15,7 @@ export interface IPostsProviderState {
   hasNext: boolean;
   userIdentifier?: string;
   isLikes?: boolean;
+  creators?: string[];
 }
 
 const reducer = (
@@ -36,6 +35,7 @@ const reducer = (
         limit: payload.limit,
         userIdentifier: payload.userIdentifier || undefined,
         isLikes: payload.isLikes || undefined,
+        creators: payload.creators || undefined,
       };
     case EPostsActions.RESET:
       return {
@@ -46,40 +46,11 @@ const reducer = (
         offset: 0,
         limit: 0,
         isLikes: undefined,
+        creators: undefined,
       };
     default:
       return state;
   }
-};
-
-const fetchPosts = async ({
-  offset,
-  limit,
-  userIdentifier,
-  isLikes = false,
-}: {
-  offset: number;
-  limit: number;
-  userIdentifier?: string;
-  isLikes?: boolean;
-}): Promise<{ posts: IPostItem[]; hasNext: boolean }> => {
-  const params = new URLSearchParams({
-    offset: offset.toString(),
-    limit: limit.toString(),
-  });
-  if (userIdentifier) {
-    params.append('userIdentifier', userIdentifier);
-    if (isLikes) {
-      params.append('likedBy', userIdentifier);
-    }
-  }
-
-  const responseApi = await fetch(`/api/posts?${params.toString()}`, {
-    method: 'GET',
-  });
-
-  const { data, next } = (await responseApi.json()) as IPostsApiResponse;
-  return { posts: data, hasNext: !!next };
 };
 
 export const PostsProvider = ({ children }: IProps) => {
@@ -89,8 +60,10 @@ export const PostsProvider = ({ children }: IProps) => {
     hasNext: true,
     offset: 0,
     limit: 0,
+    creators: undefined,
   });
-  const { offset, hasNext, posts, limit, isLoading, userIdentifier } = state;
+  const { offset, hasNext, posts, limit, isLoading, userIdentifier, creators } =
+    state;
 
   useEffect(() => {
     // we dont fetch initially. the first batch is rendered by the server
@@ -106,6 +79,7 @@ export const PostsProvider = ({ children }: IProps) => {
           limit: limit,
           offset: offset,
           userIdentifier: userIdentifier,
+          creators,
         });
         dispatch({
           type: EPostsActions.SET_POSTS_PAYLOAD,
@@ -117,7 +91,7 @@ export const PostsProvider = ({ children }: IProps) => {
         });
       } catch (error) {}
     })();
-  }, [offset, limit, userIdentifier]);
+  }, [offset, limit, userIdentifier, creators]);
 
   return (
     <PostsContext.Provider

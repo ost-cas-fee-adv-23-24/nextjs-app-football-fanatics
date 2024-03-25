@@ -1,19 +1,19 @@
-import { createContext, ReactElement } from 'react';
+import { createContext, Dispatch, ReactElement } from 'react';
 
 export enum EModalActions {
   SET_CONTENT = 'setContent',
   CLEAR_CONTENT = 'clearContent',
 }
 
-const initialValues = {
-  closeModal: () => {},
-  dispatchModal: (options: { type: EModalActions; payload: any }) => {},
-  content: null as ReactElement | null,
-  title: '',
-  isOpen: false,
-  fullWidth: false,
-};
+export interface IModalContextOptions {
+  closeModal: () => void;
+  dispatchModal: Dispatch<{ type: EModalActions; payload: any }>; // maybe use generics to set payload type
+  content: ReactElement | null;
+  title: string;
+  isOpen: boolean;
+  fullWidth: boolean;
+}
 
-const ModalContext = createContext(initialValues);
+const ModalContext = createContext<IModalContextOptions | null>(null);
 ModalContext.displayName = 'ModalContext';
 export default ModalContext;

@@ -1,6 +1,10 @@
 import NextAuth, { User } from 'next-auth';
 import Zitadel from 'next-auth/providers/zitadel';
 import config from '@/config';
+const trustHost =
+  config.environment === 'development' // netlify should be dev
+    ? true
+    : config.trustedDomains.includes(config.nextAuthUrl);
 
 export const {
   handlers: { GET, POST },
@@ -11,9 +15,7 @@ export const {
     maxAge: config.sessionMaxAge,
   },
   secret: config.nextSecret,
-  trustHost: config.nextAuthUrl
-    ? config.trustedDomains.includes(config.nextAuthUrl)
-    : false,
+  trustHost,
   providers: [
     Zitadel({
       clientId: config.zitadel.clientId,

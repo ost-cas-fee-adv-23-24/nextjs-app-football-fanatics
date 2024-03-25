@@ -2,27 +2,65 @@ import config from '@/config';
 import { MumbleService } from '@/services/Mumble/index';
 import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
 import { generateBoundary } from '@/utils/helpers/generateBoundary';
-import { IMumbleFollowersApiResponse } from '@/utils/interfaces/mumbleFollowers.interface';
+import {
+  IMumbleFollowers,
+  IMumbleFollowersApiResponse,
+} from '@/utils/interfaces/mumbleFollowers.interface';
+import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 
 export interface IUploadAvatarParams {
   token: string;
   image: File;
 }
 
-export interface IUserMumble {
-  id: string;
-  username: string;
-  avatarUrl: string;
-}
-
 export class MumbleUserService extends MumbleService {
+  async getAllUsers({
+    token,
+    users,
+    url,
+    ttl,
+  }: {
+    token: string;
+    users?: IMumbleUser[];
+    url?: string;
+    ttl?: number;
+  }): Promise<IMumbleUser[]> {
+    const usersIntern: IMumbleUser[] = users ? users : [];
+    const queryParams = new URLSearchParams({ limit: '5', offset: '0' });
+    const urlIntern = url
+      ? url
+      : EEndpointsBackend.USER + '?' + queryParams.toString();
+    const responseApi = await this.performRequest({
+      method: EApiMethods.GET,
+      path: `${urlIntern}`,
+      ttl,
+      token,
+      message: 'Getting users',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        accept: 'application/json',
+      },
+    });
+
+    usersIntern.push(...responseApi.data);
+
+    if (responseApi.next) {
+      await this.getAllUsers({
+        token,
+        url: responseApi.next,
+        users: usersIntern,
+      });
+    }
+    return usersIntern;
+  }
+
   async getUserByIdentifier({
     token,
     identifier,
   }: {
     token: string;
     identifier: string;
-  }): Promise<IUserMumble> {
+  }): Promise<IMumbleUser> {
     const responseApi = await this.performRequest({
       method: EApiMethods.GET,
       path: `${EEndpointsBackend.USER}/${identifier}`,
@@ -34,7 +72,7 @@ export class MumbleUserService extends MumbleService {
       },
     });
 
-    return responseApi as IUserMumble;
+    return responseApi as IMumbleUser;
   }
 
   async getAllFollowers({
@@ -45,10 +83,10 @@ export class MumbleUserService extends MumbleService {
   }: {
     token: string;
     identifier: string;
-    followers?: string[];
+    followers?: IMumbleFollowers[];
     url?: string;
-  }): Promise<string[]> {
-    const followersIntern: string[] = followers ? followers : [];
+  }): Promise<IMumbleFollowers[]> {
+    const followersIntern: IMumbleFollowers[] = followers ? followers : [];
     const queryParams = new URLSearchParams({ limit: '100', offset: '0' });
     const urlIntern = url
       ? url
@@ -66,7 +104,7 @@ export class MumbleUserService extends MumbleService {
     })) as IMumbleFollowersApiResponse;
 
     responseApi.data.map((follower) => {
-      followersIntern.push(follower.id);
+      followersIntern.push(follower);
     });
 
     if (responseApi.next) {
@@ -84,6 +122,50 @@ export class MumbleUserService extends MumbleService {
     // time to live like 1 hour and clearing if a new follow comes
 
     return followersIntern;
+  }
+
+  async getAllFollowees({
+    token,
+    identifier,
+    followees,
+    url,
+  }: {
+    token: string;
+    identifier: string;
+    followees?: IMumbleFollowers[];
+    url?: string;
+  }): Promise<IMumbleFollowers[]> {
+    const followeesIntern: IMumbleFollowers[] = followees ? followees : [];
+    const queryParams = new URLSearchParams({ limit: '100', offset: '0' });
+    const urlIntern = url
+      ? url
+      : EEndpointsBackend.USER_FOLLOWEES.replace('*identifier*', identifier) +
+        `?${queryParams.toString()}`;
+    const responseApi = (await this.performRequest({
+      method: EApiMethods.GET,
+      path: urlIntern,
+      token,
+      message: 'Getting user followees',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        accept: 'application/json',
+      },
+    })) as IMumbleFollowersApiResponse;
+
+    responseApi.data.map((follower) => {
+      followeesIntern.push(follower);
+    });
+
+    if (responseApi.next) {
+      await this.getAllFollowers({
+        token,
+        identifier,
+        url,
+        followers: followeesIntern,
+      });
+    }
+
+    return followeesIntern;
   }
 
   async uploadAvatar({ token, image }: IUploadAvatarParams): Promise<string> {

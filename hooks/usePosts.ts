@@ -2,7 +2,11 @@ import { useContext } from 'react';
 import PostsContext from '@/stores/Posts.context';
 
 const usePosts = () => {
-  return useContext(PostsContext);
+  const context = useContext(PostsContext);
+  if (context === null) {
+    throw new Error('usePosts must be used within a PostsProvider');
+  }
+  return context;
 };
 
 export default usePosts;
