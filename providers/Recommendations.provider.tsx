@@ -11,6 +11,7 @@ import {
   getSelectableUsers,
 } from '@/utils/helpers/recommendations';
 import { frontendConfig } from '@/config';
+import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
 
 interface IProps {
   children: ReactNode;
@@ -21,6 +22,7 @@ const reducer = (state: IRecommendationsProviderState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case ERecommendationsActions.RESET_RECOMMENDATIONS:
+      localStorage.setItem('rejectedUsers', JSON.stringify([]));
       copyState.rejectedUsersIdentifiers = [];
       copyState.noMoreRecommendations = false;
       copyState.currentRecommendations = completeRecommendations({
@@ -32,7 +34,10 @@ const reducer = (state: IRecommendationsProviderState, action: any) => {
       });
       return copyState;
     case ERecommendationsActions.SET_USERS:
-      copyState.rawUsers = payload;
+      copyState.rawUsers = payload.users;
+      copyState.followedUsersIdentifiers = payload.userFollowees.map(
+        (user: IMumbleUser) => user.id,
+      );
       return copyState;
     case ERecommendationsActions.SET_REJECTED_USER:
       copyState.rejectedUsersIdentifiers.push(payload);
@@ -77,12 +82,17 @@ export interface IRecommendationsProviderState {
 }
 
 export const RecommendationsProvider = ({ children }: IProps) => {
+  const localStorageData = localStorage.getItem('rejectedUsers');
+  const rejectedUsersLocal = localStorageData
+    ? JSON.parse(localStorageData)
+    : [];
+
   const [state, dispatch] = useReducer(reducer, {
     maxAmount: frontendConfig.recommendationsAmount,
     rawUsers: [],
     followedUsersIdentifiers: [],
     currentRecommendations: [],
-    rejectedUsersIdentifiers: [],
+    rejectedUsersIdentifiers: rejectedUsersLocal,
     loaded: false,
     noMoreRecommendations: false,
   });
@@ -96,10 +106,10 @@ export const RecommendationsProvider = ({ children }: IProps) => {
     noMoreRecommendations,
   } = state;
 
-  const loadUsers = async () => {
+  const loadData = async (userIdentifier: string) => {
     if (!loaded) {
       try {
-        const users = await getAllUsers();
+        const users = await getRecommendationsData(userIdentifier);
         dispatch({
           type: ERecommendationsActions.SET_USERS,
           payload: users,
@@ -107,16 +117,17 @@ export const RecommendationsProvider = ({ children }: IProps) => {
 
         const newRecommendations = completeRecommendations({
           maxAmount: maxAmount,
-          rawUsers: users,
+          rawUsers: users.users,
           currentRecommendations: [],
-          followedUsersIdentifiers: followedUsersIdentifiers,
-          rejectedUsersIdentifiers: rejectedUsersIdentifiers,
+          followedUsersIdentifiers: users.userFollowees.map((user) => user.id),
+          rejectedUsersIdentifiers,
         });
         dispatch({
           type: ERecommendationsActions.SET_RECOMMENDED_USERS,
           payload: newRecommendations,
         });
       } catch (error) {
+        console.log(error);
         console.error('Error fetching users, no recommendations available.');
       } finally {
         dispatch({
@@ -126,6 +137,15 @@ export const RecommendationsProvider = ({ children }: IProps) => {
       }
     }
   };
+
+  useEffect(() => {
+    if (rejectedUsersIdentifiers.length > 0) {
+      localStorage.setItem(
+        'rejectedUsers',
+        JSON.stringify(rejectedUsersIdentifiers),
+      );
+    }
+  }, [rejectedUsersIdentifiers]);
 
   const refreshRecommendations = () => {
     currentRecommendations.forEach((user: IMumbleUser) => {
@@ -187,7 +207,7 @@ export const RecommendationsProvider = ({ children }: IProps) => {
     <RecommendationsContext.Provider
       value={{
         followedUsersIdentifiers,
-        loadUsers,
+        loadData,
         dispatchRecommendations: dispatch,
         maxAmount: state.maxAmount,
         users: state.rawUsers,

@@ -21,7 +21,7 @@ export interface IRecommendationsContextData {
     payload: any;
   }>;
   refreshRecommendations: () => void;
-  loadUsers: () => void;
+  loadData: (userIdentifier: string) => void;
   followedUsersIdentifiers: string[];
 }
 

@@ -17,12 +17,12 @@ import { toast } from 'react-toastify';
 import { frontendConfig } from '@/config';
 
 interface IProps {
-  followees?: string[];
+  userIdentifier: string;
 }
 
-const RecommendationsBox = ({ followees }: IProps) => {
+const RecommendationsBox = ({ userIdentifier }: IProps) => {
   const {
-    loadUsers,
+    loadData,
     refreshRecommendations,
     recommendedUsers,
     dispatchRecommendations,
@@ -31,13 +31,9 @@ const RecommendationsBox = ({ followees }: IProps) => {
   } = useRecommendations();
 
   useEffect(() => {
-    loadUsers();
-    if (followees && followees.length) {
-      dispatchRecommendations({
-        type: ERecommendationsActions.SET_ALREADY_FOLLOWED_USERS,
-        payload: followees,
-      });
-    }
+    (async () => {
+      loadData(userIdentifier);
+    })();
   }, []);
 
   return (

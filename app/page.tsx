@@ -49,7 +49,7 @@ export default async function Page() {
           <>
             {session && (
               <div className="mb-8">
-                <RecommendationsBox followees={creators} />
+                <RecommendationsBox userIdentifier={session.user.identifier} />
               </div>
             )}
             <PostFeed

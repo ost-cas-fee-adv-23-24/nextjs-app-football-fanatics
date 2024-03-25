@@ -18,10 +18,12 @@ export class MumbleUserService extends MumbleService {
     token,
     users,
     url,
+    ttl,
   }: {
     token: string;
     users?: IMumbleUser[];
     url?: string;
+    ttl?: number;
   }): Promise<IMumbleUser[]> {
     const usersIntern: IMumbleUser[] = users ? users : [];
     const queryParams = new URLSearchParams({ limit: '5', offset: '0' });
@@ -31,6 +33,7 @@ export class MumbleUserService extends MumbleService {
     const responseApi = await this.performRequest({
       method: EApiMethods.GET,
       path: `${urlIntern}`,
+      ttl,
       token,
       message: 'Getting users',
       headers: {
@@ -48,7 +51,6 @@ export class MumbleUserService extends MumbleService {
         users: usersIntern,
       });
     }
-
     return usersIntern;
   }
 
