@@ -3,7 +3,6 @@ import { ReactNode, useEffect, useReducer } from 'react';
 import RecommendationsContext, {
   ERecommendationsActions,
 } from '@/stores/Recommendations.context';
-import { getAllUsers } from '@/utils/helpers/users/getUsers';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import { cloneDeep } from 'lodash';
 import {
@@ -22,7 +21,10 @@ const reducer = (state: IRecommendationsProviderState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case ERecommendationsActions.RESET_RECOMMENDATIONS:
-      window.localStorage.setItem('rejectedUsers', JSON.stringify([]));
+      if (localStorage) {
+        localStorage.setItem('rejectedUsers', JSON.stringify([]));
+      }
+
       copyState.rejectedUsersIdentifiers = [];
       copyState.noMoreRecommendations = false;
       copyState.currentRecommendations = completeRecommendations({
@@ -82,7 +84,13 @@ export interface IRecommendationsProviderState {
 }
 
 export const RecommendationsProvider = ({ children }: IProps) => {
-  const localStorageData = window.localStorage.getItem('rejectedUsers');
+  const localStorageHack = localStorage
+    ? localStorage
+    : {
+        getItem: (key: string) => null,
+        setItem: (key: string, value: string) => null,
+      };
+  const localStorageData = localStorageHack.getItem('rejectedUsers');
   const rejectedUsersLocal = localStorageData
     ? JSON.parse(localStorageData)
     : [];
@@ -140,7 +148,7 @@ export const RecommendationsProvider = ({ children }: IProps) => {
 
   useEffect(() => {
     if (rejectedUsersIdentifiers.length > 0) {
-      window.localStorage.setItem(
+      localStorageHack.setItem(
         'rejectedUsers',
         JSON.stringify(rejectedUsersIdentifiers),
       );
