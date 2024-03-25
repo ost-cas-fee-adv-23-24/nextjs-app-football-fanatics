@@ -24,7 +24,6 @@ const reducer = (state: IRecommendationsProviderState, action: any) => {
       if (localStorage) {
         localStorage.setItem('rejectedUsers', JSON.stringify([]));
       }
-
       copyState.rejectedUsersIdentifiers = [];
       copyState.noMoreRecommendations = false;
       copyState.currentRecommendations = completeRecommendations({
@@ -84,23 +83,12 @@ export interface IRecommendationsProviderState {
 }
 
 export const RecommendationsProvider = ({ children }: IProps) => {
-  const localStorageHack = localStorage
-    ? localStorage
-    : {
-        getItem: (key: string) => null,
-        setItem: (key: string, value: string) => null,
-      };
-  const localStorageData = localStorageHack.getItem('rejectedUsers');
-  const rejectedUsersLocal = localStorageData
-    ? JSON.parse(localStorageData)
-    : [];
-
   const [state, dispatch] = useReducer(reducer, {
     maxAmount: frontendConfig.recommendationsAmount,
     rawUsers: [],
     followedUsersIdentifiers: [],
     currentRecommendations: [],
-    rejectedUsersIdentifiers: rejectedUsersLocal,
+    rejectedUsersIdentifiers: [],
     loaded: false,
     noMoreRecommendations: false,
   });
@@ -115,6 +103,12 @@ export const RecommendationsProvider = ({ children }: IProps) => {
   } = state;
 
   const loadData = async (userIdentifier: string) => {
+    let rejectedUsersLocal = [];
+    if (localStorage) {
+      const localStorageData = localStorage.getItem('rejectedUsers');
+      rejectedUsersLocal = localStorageData ? JSON.parse(localStorageData) : [];
+    }
+
     if (!loaded) {
       try {
         const users = await getRecommendationsData(userIdentifier);
@@ -128,7 +122,7 @@ export const RecommendationsProvider = ({ children }: IProps) => {
           rawUsers: users.users,
           currentRecommendations: [],
           followedUsersIdentifiers: users.userFollowees.map((user) => user.id),
-          rejectedUsersIdentifiers,
+          rejectedUsersIdentifiers: rejectedUsersLocal,
         });
         dispatch({
           type: ERecommendationsActions.SET_RECOMMENDED_USERS,
@@ -148,10 +142,12 @@ export const RecommendationsProvider = ({ children }: IProps) => {
 
   useEffect(() => {
     if (rejectedUsersIdentifiers.length > 0) {
-      localStorageHack.setItem(
-        'rejectedUsers',
-        JSON.stringify(rejectedUsersIdentifiers),
-      );
+      if (localStorage) {
+        localStorage.setItem(
+          'rejectedUsers',
+          JSON.stringify(rejectedUsersIdentifiers),
+        );
+      }
     }
   }, [rejectedUsersIdentifiers]);
 
@@ -209,6 +205,7 @@ export const RecommendationsProvider = ({ children }: IProps) => {
     maxAmount,
     rawUsers,
     noMoreRecommendations,
+    rejectedUsersIdentifiers,
   ]);
 
   return (
