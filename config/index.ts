@@ -64,6 +64,7 @@ export const frontendConfig = {
   feed: {
     defaultAmount: feedAmountItems,
   },
+  notificationDuration: 5000,
 };
 
 export default config as IConfig;

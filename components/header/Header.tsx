@@ -12,13 +12,13 @@ import {
   Heading,
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import Image from 'next/image';
 import useUserInfo from '@/hooks/useUserInfo';
 import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
 import ImagePreview from '@/components/image-preview/ImagePreview';
 import React from 'react';
-import ImageWithPlaceholder from '@/components/image-placeholder/ImageWithPlaceholder';
+import ImageWithPlaceholder from '@/components/image-with-placeholder/ImageWithPlaceholder';
+import { toast } from 'react-toastify';
 
 interface Props {
   user: IPostCreator;
@@ -76,8 +76,7 @@ function Header({ user }: Props) {
                               closeModal();
                             } catch (error) {
                               closeModal();
-                              // toast alert... we could use toasts to show problems
-                              // https://www.npmjs.com/package/react-toastify
+                              toast.error('Error while uploading the image');
                             }
                           }}
                         />
