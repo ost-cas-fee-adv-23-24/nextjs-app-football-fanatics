@@ -1,0 +1,14 @@
+/*@tailwind base;*/
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+}
+
+.global-width {
+    @apply max-w-[680px];
+}
+
+.mumble-image {
+    @apply pb-[calc((8/17)*100%)];
+}
