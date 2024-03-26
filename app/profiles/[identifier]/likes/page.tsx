@@ -4,12 +4,11 @@ import { notFound } from 'next/navigation';
 import ProfileFeed from '@/components/profile-feed/ProfileFeed';
 import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import { frontendConfig } from '@/config';
+import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
 
-export default async function ProfileLikes(context: {
-  params: { identifier: number };
-}) {
+export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
   const userIdentifier = context.params.identifier.toString();
 
   try {

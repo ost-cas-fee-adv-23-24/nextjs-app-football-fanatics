@@ -40,11 +40,13 @@ const PostText = ({ text }: IProps) => {
 
   const replaceHashtags = (text: string): TrustedHTML | null => {
     if (!text) return null;
-    return text.replace(regexExp, (match: string, hashtag: string): string => {
-      const searchKeyword = match.replace('#', '').toLowerCase();
-      // this is not jsx. it's a simple string
-      return `<a class="text-violet-600" href="/posts/hashtag/${searchKeyword}">${match}</a>`;
-    });
+    return text
+      .replace(/\n/g, '<br>')
+      .replace(regexExp, (match: string, hashtag: string): string => {
+        const searchKeyword = match.replace('#', '').toLowerCase();
+        // this is not jsx. it's a simple string
+        return `<a class="text-violet-600" href="/posts/hashtag/${searchKeyword}">${match}</a>`;
+      });
   };
 
   return (
