@@ -12,11 +12,8 @@ import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
 
 export default async function Profile(context: IParamsOnlyIdentifierCtx) {
-  const userIdentifier = context.params.identifier.toString();
-export default async function Profile(context: {
-  params: { identifier: number };
-}) {
   const currentProfileUserIdentifier = context.params.identifier.toString();
+
   const session = await auth();
 
   const userFollowers: string[] = await getAllFollowers({
