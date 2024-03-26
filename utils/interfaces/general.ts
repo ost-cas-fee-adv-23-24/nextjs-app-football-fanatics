@@ -5,3 +5,7 @@ export interface IFetchPostsOptions {
   isLikes?: boolean;
   newerThan?: string;
 }
+
+export interface IParamsOnlyIdentifierCtx {
+  params: { identifier: number };
+}

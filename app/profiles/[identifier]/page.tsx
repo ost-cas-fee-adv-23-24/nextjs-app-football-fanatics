@@ -4,10 +4,9 @@ import { notFound } from 'next/navigation';
 import ProfileFeed from '@/components/profile-feed/ProfileFeed';
 import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import { frontendConfig } from '@/config';
+import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 
-export default async function Profile(context: {
-  params: { identifier: number };
-}) {
+export default async function Profile(context: IParamsOnlyIdentifierCtx) {
   const userIdentifier = context.params.identifier.toString();
 
   try {
