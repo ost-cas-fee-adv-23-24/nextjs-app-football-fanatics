@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, Dispatch } from 'react';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
 
 export enum EPostsActions {
@@ -11,18 +11,18 @@ export enum EPostsActions {
   SET_POSTS_QUEUE = 'setNewPosts',
 }
 
-export const initialValuesPostProvider = {
-  newestPost: null as IPostItem | null,
-  posts: [] as IPostItem[],
-  isLoading: false,
-  hasNext: true,
-  offset: 0,
-  limit: 0,
-  newPostsRendered: [] as IPostItem[],
-  dispatchPosts: (options: { type: EPostsActions; payload: any }) => {},
-};
+export interface IPostsProviderContextData {
+  posts: IPostItem[];
+  newestPost: IPostItem[];
+  newPostsRendered: IPostItem[];
+  isLoading: boolean;
+  hasNext: boolean;
+  offset: number;
+  limit: number;
+  dispatchPosts: Dispatch<{ type: EPostsActions; payload: any }>;
+}
 
-const PostsContext = createContext(initialValuesPostProvider);
+const PostsContext = createContext<IPostsProviderContextData | null>(null);
 PostsContext.displayName = 'PostsContext';
 
 export default PostsContext;

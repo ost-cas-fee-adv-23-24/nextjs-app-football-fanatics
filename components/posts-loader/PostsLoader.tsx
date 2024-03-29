@@ -11,9 +11,10 @@ import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlace
 interface IProps {
   userIdentifier?: string;
   isLikes?: boolean;
+  creators?: string[];
 }
 
-const PostsLoader = ({ userIdentifier, isLikes = false }: IProps) => {
+const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
   const { posts, limit, offset, isLoading, hasNext, dispatchPosts } =
     usePosts();
 
@@ -26,6 +27,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false }: IProps) => {
         limit: frontendConfig.feed.defaultAmount,
         userIdentifier,
         isLikes,
+        creators: creators || undefined,
       },
     });
     return () => {
@@ -34,6 +36,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false }: IProps) => {
         payload: null,
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const observer = useRef();
@@ -54,6 +57,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false }: IProps) => {
               limit,
               userIdentifier,
               isLikes,
+              creators: creators ? creators : undefined,
             },
           });
         }
@@ -69,8 +73,9 @@ const PostsLoader = ({ userIdentifier, isLikes = false }: IProps) => {
       offset,
       limit,
       hasNext,
-      frontendConfig.feed.defaultAmount,
       dispatchPosts,
+      creators,
+      isLikes,
     ],
   );
 

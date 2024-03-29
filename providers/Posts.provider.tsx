@@ -28,6 +28,7 @@ export interface IPostsProviderState {
   hasNext: boolean;
   userIdentifier?: string;
   isLikes?: boolean;
+  creators?: string[];
   newestPost?: IPostItem | null;
   newPostsQueue: IPostItem[];
   newPostsRendered: IPostItem[];
@@ -60,6 +61,7 @@ const reducer = (
         limit: payload.limit,
         userIdentifier: payload.userIdentifier || undefined,
         isLikes: payload.isLikes || undefined,
+        creators: payload.creators || undefined,
       };
     case EPostsActions.RESET:
       return {
@@ -72,6 +74,7 @@ const reducer = (
         offset: 0,
         limit: 0,
         isLikes: undefined,
+        creators: undefined,
       };
     default:
       return state;
@@ -87,10 +90,12 @@ export const PostsProvider = ({ children }: IProps) => {
     hasNext: true,
     offset: 0,
     limit: 0,
+    creators: undefined,
     newestPost: null,
     newPostsRendered: [],
     newPostsQueue: [],
   });
+
   const {
     offset,
     hasNext,
@@ -101,6 +106,7 @@ export const PostsProvider = ({ children }: IProps) => {
     newestPost,
     newPostsRendered,
     newPostsQueue,
+    creators,
   } = state;
 
   const interval = useRef();
@@ -130,7 +136,7 @@ export const PostsProvider = ({ children }: IProps) => {
         });
       } catch (error) {}
     })();
-  }, [offset, limit, userIdentifier]);
+  }, [offset, limit, userIdentifier, creators]);
 
   const fetchNewestPosts = async (postIdentifier: string) => {
     const { posts: newestPostsFetched } = await fetchPostsFrontend({

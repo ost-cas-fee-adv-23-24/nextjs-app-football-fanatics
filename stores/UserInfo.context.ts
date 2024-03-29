@@ -1,15 +1,17 @@
 import { createContext } from 'react';
 
-const UserInfoContext = createContext({
-  avatarUrl: '',
-  firstName: '',
-  lastName: '',
-  userName: '',
-  identifier: '' as string | undefined,
-  token: '' as string | undefined,
-  zitadelName: '' as string | null | undefined,
-  isLoggedIn: false,
-  setUserAvatar: (avatarUrl: string) => {},
-});
+export interface IUserInfoContextData {
+  avatarUrl: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  zitadelName: string | null | undefined;
+  identifier?: string;
+  token?: string;
+  isLoggedIn: boolean;
+  setUserAvatar: (avatarUrl: string) => void;
+}
+
+const UserInfoContext = createContext<IUserInfoContextData | null>(null);
 UserInfoContext.displayName = 'ProfileContext';
 export default UserInfoContext;

@@ -13,6 +13,7 @@ import {
 } from '@/utils/interfaces/mumblePost.interface';
 import { decodeTime } from 'ulidx';
 import { MumbleService } from '@/services/Mumble/index';
+import config from '@/config';
 
 export interface IPost {
   postData: IPostItem;
@@ -199,3 +200,6 @@ export class MumblePostService extends MumbleService {
     };
   }
 }
+
+const mumblePostService = new MumblePostService(config.mumble.host);
+export default mumblePostService;

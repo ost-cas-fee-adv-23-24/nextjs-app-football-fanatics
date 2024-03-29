@@ -23,6 +23,9 @@ export interface IConfig {
     defaultAmount: number;
   };
   trustedDomains: string[];
+  cacheRules: {
+    getAllUsers: number;
+  };
 }
 
 // only use in backend!!!!
@@ -58,6 +61,9 @@ const config = {
     'https://www.cusconews.com',
     'https://dev.cusconews.com',
   ],
+  cacheRules: {
+    getAllUsers: 1000 * 60 * 60, // 1 hour . On User Created then we would need to clear it
+  },
 };
 
 export const frontendConfig = {
@@ -65,6 +71,7 @@ export const frontendConfig = {
     defaultAmount: feedAmountItems,
   },
   notificationDuration: 5000,
+  recommendationsAmount: 3,
 };
 
 export default config as IConfig;

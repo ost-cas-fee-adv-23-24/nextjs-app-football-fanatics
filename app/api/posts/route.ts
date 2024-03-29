@@ -12,6 +12,7 @@ export const GET = async (request: NextRequest): Promise<Response> => {
   const offset = searchParams.get('offset');
   const newerThan = searchParams.get('newerThan');
   const userIdentifier = searchParams.get('userIdentifier');
+  const creators = searchParams.get('creators');
   const likedBy = searchParams.get('likedBy');
 
   const params: IGetPostsParams = {
@@ -29,6 +30,10 @@ export const GET = async (request: NextRequest): Promise<Response> => {
     } else {
       params.creators = [userIdentifier];
     }
+  }
+
+  if (creators) {
+    params.creators = creators.split(',');
   }
 
   const session = await auth();

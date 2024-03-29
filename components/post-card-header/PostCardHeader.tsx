@@ -40,7 +40,7 @@ export const PostCardHeader = ({
           <Link href={`/profiles/${creator.id}`}>
             <Avatar
               size={EAvatarSizes.MD}
-              imgSrc={creator.avatarUrl}
+              imgSrc={creator.avatarUrl || undefined}
               nameHtml="avatar"
             />
           </Link>
@@ -51,7 +51,7 @@ export const PostCardHeader = ({
           <Link href={`/profiles/${creator.id}`}>
             <Avatar
               size={EAvatarSizes.MD}
-              imgSrc={creator.avatarUrl}
+              imgSrc={creator.avatarUrl || undefined}
               nameHtml="avatar"
             />
           </Link>
