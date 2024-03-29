@@ -125,6 +125,7 @@ export const PostsProvider = ({ children }: IProps) => {
           limit: limit,
           offset: offset,
           userIdentifier: userIdentifier,
+          creators: creators,
         });
         dispatch({
           type: EPostsActions.SET_POSTS_PAYLOAD,
@@ -143,6 +144,7 @@ export const PostsProvider = ({ children }: IProps) => {
       limit: 20,
       offset: 0,
       newerThan: postIdentifier,
+      creators: creators,
     });
 
     if (newestPostsFetched.length === 0) return;

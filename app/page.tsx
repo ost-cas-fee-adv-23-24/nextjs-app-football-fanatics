@@ -58,7 +58,7 @@ export default async function Page() {
             prev={feedData.prev}
             count={feedData.count}
           />
-          <PostsLoader />
+          <PostsLoader creators={creators} />
         </div>
       </div>
     </div>

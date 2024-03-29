@@ -10,6 +10,7 @@ export const fetchPostsFrontend = async ({
   userIdentifier,
   isLikes = false,
   newerThan,
+  creators,
 }: IFetchPostsOptions): Promise<{ posts: IPostItem[]; hasNext: boolean }> => {
   const params = new URLSearchParams({
     offset: offset.toString(),
@@ -23,6 +24,10 @@ export const fetchPostsFrontend = async ({
     if (isLikes) {
       params.append('likedBy', userIdentifier);
     }
+  }
+
+  if (creators && creators.length > 0) {
+    params.append('creators', creators.join(','));
   }
 
   const responseApi = await fetch(`/api/posts?${params.toString()}`, {
