@@ -18,6 +18,7 @@ const PostsNewLoader = ({ newestPost }: IProps) => {
       type: EPostsActions.SET_NEWEST_POST,
       payload: newestPost,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

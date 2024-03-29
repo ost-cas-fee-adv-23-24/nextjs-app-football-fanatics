@@ -5,7 +5,9 @@ import {
   IGetPostsParams,
   IPostsApiResponse,
 } from '@/utils/interfaces/mumblePost.interface';
-import { MumblePostService } from '@/services/Mumble/MumblePost';
+import mumblePostService, {
+  MumblePostService,
+} from '@/services/Mumble/MumblePost';
 
 export const getMumblePosts = async ({
   offset = 0,
@@ -21,7 +23,7 @@ export const getMumblePosts = async ({
   likedBy?: string[];
 }): Promise<IPostsApiResponse> => {
   const session = await auth();
-  const dataSrc = new MumblePostService(config.mumble.host);
+  const dataSrc = mumblePostService;
 
   const options: IGetPostsParams = {
     limit,

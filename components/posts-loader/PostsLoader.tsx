@@ -36,6 +36,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
         payload: null,
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const observer = useRef();
@@ -72,8 +73,9 @@ const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
       offset,
       limit,
       hasNext,
-      frontendConfig.feed.defaultAmount,
       dispatchPosts,
+      creators,
+      isLikes,
     ],
   );
 

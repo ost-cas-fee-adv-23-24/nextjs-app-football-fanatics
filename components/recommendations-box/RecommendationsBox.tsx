@@ -34,6 +34,7 @@ const RecommendationsBox = ({ userIdentifier }: IProps) => {
     (async () => {
       loadData(userIdentifier);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

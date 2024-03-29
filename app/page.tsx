@@ -50,7 +50,7 @@ export default async function Page() {
               <RecommendationsBox userIdentifier={session.user.identifier} />
             </div>
           )}
-
+          {/*if loggedIn restrict newest posts only to followees posts*/}
           <PostsNewLoader newestPost={newestPost} />
           <PostFeed
             data={feedData.data}

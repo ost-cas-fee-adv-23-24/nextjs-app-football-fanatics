@@ -53,7 +53,7 @@ const PostActionsBar = ({
   // to avoid hydrate mismatch
   useEffect(() => {
     setLinkToCopy(`${window.location.origin}/posts/${identifier}`);
-  }, []);
+  }, [identifier]);
 
   return (
     <div className="flex flex-col justify-start sm:flex-row">
