@@ -63,8 +63,8 @@ export interface IPostCreator {
 export interface IGetPostsParams {
   limit?: number;
   offset?: number;
-  newerThanPostId?: string;
-  olderThanPostId?: string;
+  newerThan?: string;
+  olderThan?: string;
   text?: string;
   likedBy?: string[];
   creators?: string[];

@@ -1,8 +1,21 @@
 'use client';
 import PostsContext, { EPostsActions } from '@/stores/Posts.context';
-import { ReactNode, useEffect, useReducer } from 'react';
+import React, {
+  ReactNode,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
-import { fetchPosts } from '@/utils/helpers/posts/fetchPostsFrontend';
+import { fetchPostsFrontend } from '@/utils/helpers/posts/getMumblePostsFrontend';
+import { Id, toast } from 'react-toastify';
+import {
+  EIConTypes,
+  EParagraphSizes,
+  Paragraph,
+  ToggleGeneric,
+} from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 interface IProps {
   children: ReactNode;
@@ -16,6 +29,9 @@ export interface IPostsProviderState {
   userIdentifier?: string;
   isLikes?: boolean;
   creators?: string[];
+  newestPost?: IPostItem | null;
+  newPostsQueue: IPostItem[];
+  newPostsRendered: IPostItem[];
 }
 
 const reducer = (
@@ -24,6 +40,16 @@ const reducer = (
 ) => {
   const { type, payload } = action;
   switch (type) {
+    case EPostsActions.SET_POSTS_QUEUE:
+      return {
+        ...state,
+        newPostsRendered: [...state.newPostsQueue, ...state.newPostsRendered],
+        newPostsQueue: [],
+      };
+    case EPostsActions.SET_NEW_POSTS_QUEUE_PAYLOAD:
+      return { ...state, newPostsQueue: payload };
+    case EPostsActions.SET_NEWEST_POST:
+      return { ...state, newestPost: payload };
     case EPostsActions.SET_LOADING:
       return { ...state, isLoading: payload };
     case EPostsActions.SET_POSTS_PAYLOAD:
@@ -41,6 +67,8 @@ const reducer = (
       return {
         userIdentifier: undefined,
         posts: [],
+        newPostsRendered: [],
+        newPostsQueue: [],
         isLoading: false,
         hasNext: true,
         offset: 0,
@@ -54,6 +82,8 @@ const reducer = (
 };
 
 export const PostsProvider = ({ children }: IProps) => {
+  const [remainingTime, setRemainingTime] = useState<number>(0);
+  const currentNotification = useRef<null | Id>(null);
   const [state, dispatch] = useReducer(reducer, {
     posts: [],
     isLoading: false,
@@ -61,9 +91,25 @@ export const PostsProvider = ({ children }: IProps) => {
     offset: 0,
     limit: 0,
     creators: undefined,
+    newestPost: null,
+    newPostsRendered: [],
+    newPostsQueue: [],
   });
-  const { offset, hasNext, posts, limit, isLoading, userIdentifier, creators } =
-    state;
+
+  const {
+    offset,
+    hasNext,
+    posts,
+    limit,
+    isLoading,
+    userIdentifier,
+    newestPost,
+    newPostsRendered,
+    newPostsQueue,
+    creators,
+  } = state;
+
+  const interval = useRef();
 
   useEffect(() => {
     // we dont fetch initially. the first batch is rendered by the server
@@ -75,11 +121,10 @@ export const PostsProvider = ({ children }: IProps) => {
           type: EPostsActions.SET_LOADING,
           payload: true,
         });
-        const { posts: postsFetched, hasNext } = await fetchPosts({
+        const { posts: postsFetched, hasNext } = await fetchPostsFrontend({
           limit: limit,
           offset: offset,
           userIdentifier: userIdentifier,
-          creators,
         });
         dispatch({
           type: EPostsActions.SET_POSTS_PAYLOAD,
@@ -93,9 +138,73 @@ export const PostsProvider = ({ children }: IProps) => {
     })();
   }, [offset, limit, userIdentifier, creators]);
 
+  const fetchNewestPosts = async (postIdentifier: string) => {
+    const { posts: newestPostsFetched } = await fetchPostsFrontend({
+      limit: 20,
+      offset: 0,
+      newerThan: postIdentifier,
+    });
+
+    if (newestPostsFetched.length === 0) return;
+
+    const newNewestPost = newestPostsFetched[0];
+    dispatch({ type: EPostsActions.SET_NEWEST_POST, payload: newNewestPost });
+    dispatch({
+      type: EPostsActions.SET_NEW_POSTS_QUEUE_PAYLOAD,
+      payload: [...newestPostsFetched, ...newPostsQueue],
+    });
+  };
+
+  useEffect(() => {
+    if (newPostsQueue.length === 0) return;
+    currentNotification.current = toast(
+      <div className="flex flex-col text-center">
+        <Paragraph size={EParagraphSizes.MEDIUM} text="New Posts Available" />
+        <ToggleGeneric
+          icon={EIConTypes.TIME}
+          label={`Load posts (${newPostsQueue.length})`}
+          labelActive="Loading..."
+          effectDuration={300}
+          customClickEvent={() => {
+            dispatch({
+              type: EPostsActions.SET_POSTS_QUEUE,
+              payload: null,
+            });
+            toast.dismiss(currentNotification.current as Id);
+            // scroll to top in posts Wrapper?
+          }}
+        />
+      </div>,
+      {
+        position: 'bottom-right',
+        autoClose: false,
+      },
+    );
+  }, [newPostsQueue]);
+
+  useEffect(() => {
+    if (remainingTime === 0) {
+      setTimer();
+      if (newestPost && newestPost.id) {
+        fetchNewestPosts(newestPost.id);
+      }
+    }
+  }, [remainingTime, newestPost]);
+
+  const setTimer = () => {
+    setRemainingTime(1000 * 10);
+    clearInterval(interval.current);
+    // @ts-ignore
+    interval.current = setInterval(() => {
+      setRemainingTime((prev) => prev - 1000);
+    }, 1000);
+  };
+
   return (
     <PostsContext.Provider
       value={{
+        newPostsRendered,
+        newestPost,
         isLoading,
         posts,
         offset,

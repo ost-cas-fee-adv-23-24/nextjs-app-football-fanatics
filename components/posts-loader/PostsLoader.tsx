@@ -15,7 +15,8 @@ interface IProps {
 }
 
 const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
-  const { posts, limit, offset, isLoading, dispatchPosts } = usePosts();
+  const { posts, limit, offset, isLoading, hasNext, dispatchPosts } =
+    usePosts();
 
   // fire only once
   useEffect(() => {
@@ -47,7 +48,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
       }
       // @ts-ignore
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && hasNext) {
           dispatchPosts({
             type: EPostsActions.SET_OPTIONS,
             payload: {
@@ -70,6 +71,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
       userIdentifier,
       offset,
       limit,
+      hasNext,
       frontendConfig.feed.defaultAmount,
       dispatchPosts,
     ],

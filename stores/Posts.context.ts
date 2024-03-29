@@ -6,10 +6,15 @@ export enum EPostsActions {
   SET_POSTS_PAYLOAD = 'setPostsPayload',
   SET_OPTIONS = 'setOptions',
   RESET = 'reset',
+  SET_NEWEST_POST = 'setNewestPost',
+  SET_NEW_POSTS_QUEUE_PAYLOAD = 'setNewPostsPayload',
+  SET_POSTS_QUEUE = 'setNewPosts',
 }
 
 export interface IPostsProviderContextData {
   posts: IPostItem[];
+  newestPost: IPostItem[];
+  newPostsRendered: IPostItem[];
   isLoading: boolean;
   hasNext: boolean;
   offset: number;
