@@ -20,9 +20,7 @@ export default async function Page() {
   };
 
   if (session) {
-    const allFollowees = await getAllFollowees({
-      identifier: session.user.identifier,
-    });
+    const allFollowees = await getAllFollowees(session.user.identifier);
     allFollowees.forEach((followee) => {
       creators.push(followee.id);
     });

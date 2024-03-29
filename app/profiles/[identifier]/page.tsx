@@ -17,7 +17,7 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
 
   const session = await auth();
 
-  let userFollowers: IMumbleFollowers[] = await getAllFollowers({
+  const userFollowers: IMumbleFollowers[] = await getAllFollowers({
     identifier: currentProfileUserIdentifier,
   });
 

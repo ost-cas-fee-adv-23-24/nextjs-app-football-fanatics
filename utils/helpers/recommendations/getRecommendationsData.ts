@@ -7,11 +7,16 @@ import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 // we just get all the users and the user followees. In a real world scenario we would set a batch number of recommendations
 // we have only 11 users on the DB. So we just get all the users and the user followees
 // also the rejected recommendations would be stored in the DB, so that they are not shown again (for a while)
+
+export interface IRecommendationsArgs {
+  users: IMumbleUser[];
+  userFollowees: IMumbleUser[];
+}
 export const getRecommendationsData = async (
   userIdentifier: string,
-): Promise<{ users: IMumbleUser[]; userFollowees: IMumbleUser[] }> => {
+): Promise<IRecommendationsArgs> => {
   const users = await getAllUsers(true);
-  const userFollowees = await getAllFollowees({ identifier: userIdentifier });
+  const userFollowees = await getAllFollowees(userIdentifier);
 
   return {
     users,

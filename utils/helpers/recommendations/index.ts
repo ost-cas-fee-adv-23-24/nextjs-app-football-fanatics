@@ -1,18 +1,31 @@
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 
+export interface RecommendationsArgs {
+  maxAmount: number;
+  rawUsers: IMumbleUser[];
+  currentRecommendations: IMumbleUser[];
+  followedUsersIdentifiers: string[];
+  rejectedUsersIdentifiers: string[];
+}
+
+export interface ISelectableUsersArgs {
+  rawUsers: IMumbleUser[];
+  followedUsersIdentifiers: string[];
+  rejectedUsersIdentifiers: string[];
+}
+
+export interface IPickRecommendationArgs {
+  selectableUsers: IMumbleUser[];
+  pickedUsers: IMumbleUser[];
+}
+
 export const completeRecommendations = ({
   maxAmount,
   rawUsers,
   followedUsersIdentifiers,
   rejectedUsersIdentifiers,
   currentRecommendations,
-}: {
-  maxAmount: number;
-  rawUsers: IMumbleUser[];
-  currentRecommendations: IMumbleUser[];
-  followedUsersIdentifiers: string[];
-  rejectedUsersIdentifiers: string[];
-}): IMumbleUser[] => {
+}: RecommendationsArgs): IMumbleUser[] => {
   const selectableUsers = getSelectableUsers({
     rawUsers,
     followedUsersIdentifiers,
@@ -44,11 +57,7 @@ export const getSelectableUsers = ({
   rawUsers,
   followedUsersIdentifiers,
   rejectedUsersIdentifiers,
-}: {
-  rawUsers: IMumbleUser[];
-  followedUsersIdentifiers: string[];
-  rejectedUsersIdentifiers: string[];
-}): IMumbleUser[] => {
+}: ISelectableUsersArgs): IMumbleUser[] => {
   return rawUsers
     .filter(
       (rawUser: IMumbleUser) => !followedUsersIdentifiers.includes(rawUser.id),
@@ -61,10 +70,7 @@ export const getSelectableUsers = ({
 export const pickRecommendation = ({
   selectableUsers,
   pickedUsers,
-}: {
-  selectableUsers: IMumbleUser[];
-  pickedUsers: IMumbleUser[];
-}): IMumbleUser | null => {
+}: IPickRecommendationArgs): IMumbleUser | null => {
   const randomIndex = Math.floor(Math.random() * selectableUsers.length);
   const recommendedUser = selectableUsers[randomIndex];
   const alreadyInBag = pickedUsers.find(

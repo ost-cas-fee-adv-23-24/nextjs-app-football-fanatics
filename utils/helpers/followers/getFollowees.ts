@@ -2,11 +2,9 @@ import mumbleUserServiceInstance from '@/services/Mumble/MumbleUser';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 
-export const getAllFollowees = async ({
-  identifier,
-}: {
-  identifier: string;
-}): Promise<IMumbleFollowers[]> => {
+export const getAllFollowees = async (
+  identifier: string,
+): Promise<IMumbleFollowers[]> => {
   const session = await auth();
   try {
     return await mumbleUserServiceInstance.getAllFollowees({

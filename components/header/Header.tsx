@@ -40,12 +40,8 @@ function Header({ user }: Props) {
             editable={user.id === identifier}
             imgSrc={
               user.id === identifier
-                ? avatarUrl
-                  ? avatarUrl
-                  : undefined
-                : user.avatarUrl
-                  ? user.avatarUrl
-                  : undefined
+                ? avatarUrl || undefined
+                : user.avatarUrl || undefined
             }
             onSuccess={(newAvatar) => {
               const reader = new FileReader();

@@ -16,7 +16,7 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
   const userIdentifier = context.params.identifier.toString();
   const session = await auth();
 
-  let userFollowers: IMumbleFollowers[] = await getAllFollowers({
+  const userFollowers: IMumbleFollowers[] = await getAllFollowers({
     identifier: userIdentifier,
   });
 

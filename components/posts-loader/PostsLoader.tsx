@@ -27,7 +27,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
         limit: frontendConfig.feed.defaultAmount,
         userIdentifier,
         isLikes,
-        creators: creators ? creators : undefined,
+        creators: creators || undefined,
       },
     });
     return () => {
