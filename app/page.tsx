@@ -10,22 +10,11 @@ import RecommendationsBox from '@/components/recommendations-box/Recommendations
 import PostsNewLoader from '@/components/posts-new-loader/PostsNewLoader';
 
 export default async function Page() {
-  const session = await auth();
-  const creators: string[] = [];
-
   const options = {
     offset: 0,
     limit: frontendConfig.feed.defaultAmount,
     creators: undefined as string[] | undefined,
   };
-
-  if (session) {
-    const allFollowees = await getAllFollowees(session.user.identifier);
-    allFollowees.forEach((followee) => {
-      creators.push(followee.id);
-    });
-    options.creators = creators;
-  }
 
   const feedData = await getMumblePosts(options);
   const newestPost = feedData.data[0];
@@ -38,19 +27,7 @@ export default async function Page() {
         />
       </div>
       <div className="global-width mx-auto">
-        {session && (
-          <div>
-            <PostEditor isFeedPage={true} />
-          </div>
-        )}
-
         <div className="max-w-4xl mr-auto ml-auto">
-          {session && (
-            <div className="mb-8">
-              <RecommendationsBox userIdentifier={session.user.identifier} />
-            </div>
-          )}
-          {/*if loggedIn restrict newest posts only to followees posts*/}
           <PostsNewLoader newestPost={newestPost} />
           <PostFeed
             data={feedData.data}
@@ -58,7 +35,7 @@ export default async function Page() {
             prev={feedData.prev}
             count={feedData.count}
           />
-          <PostsLoader creators={creators} />
+          <PostsLoader />
         </div>
       </div>
     </div>

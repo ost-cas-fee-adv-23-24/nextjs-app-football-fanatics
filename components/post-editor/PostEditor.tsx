@@ -21,9 +21,16 @@ import ImagePreview, {
 interface IProps {
   identifier?: string;
   isFeedPage: boolean;
+  title?: string;
+  subTitle?: string;
 }
 
-export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
+export const PostEditor = ({
+  identifier,
+  isFeedPage = false,
+  title,
+  subTitle,
+}: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
@@ -78,7 +85,11 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
           className={`bg-white py-8  relative rounded-2xl mb-6 ${isFeedPage ? 'px-12' : ''}`}
         >
           <div className="mb-4">
-            <PostEditorHeader avatarFloating={isFeedPage} />
+            <PostEditorHeader
+              avatarFloating={isFeedPage}
+              title={title}
+              subTitle={subTitle}
+            />
           </div>
           <Textarea
             name="text"

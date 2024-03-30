@@ -18,9 +18,15 @@ import { frontendConfig } from '@/config';
 
 interface IProps {
   userIdentifier: string;
+  title: string;
+  titleNoMoreRecommendations: string;
 }
 
-const RecommendationsBox = ({ userIdentifier }: IProps) => {
+const RecommendationsBox = ({
+  userIdentifier,
+  title,
+  titleNoMoreRecommendations,
+}: IProps) => {
   const {
     loadData,
     refreshRecommendations,
@@ -38,18 +44,12 @@ const RecommendationsBox = ({ userIdentifier }: IProps) => {
   }, []);
 
   return (
-    <div className="">
-      <div className="mb-4">
-        <Heading
-          level={ETypographyLevels.THREE}
-          text={
-            hasMoreRecommendations
-              ? 'Recommended users for you'
-              : 'You already swiped away all tinder garden!'
-          }
-        />
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+    <>
+      <Heading
+        level={ETypographyLevels.THREE}
+        text={hasMoreRecommendations ? title : titleNoMoreRecommendations}
+      />
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
         {recommendedUsers.map((user, index) => {
           return (
             <Recommendation
@@ -124,7 +124,7 @@ const RecommendationsBox = ({ userIdentifier }: IProps) => {
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
 
