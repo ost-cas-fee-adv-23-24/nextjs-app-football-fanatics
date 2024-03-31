@@ -1,4 +1,4 @@
-import config from '@/config';
+import config, { frontendConfig } from '@/config';
 import { MumblePostService } from '@/services/Mumble/MumblePost';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../auth/[...nextauth]/auth';
@@ -14,9 +14,12 @@ export const GET = async (request: NextRequest): Promise<Response> => {
   const userIdentifier = searchParams.get('userIdentifier');
   const creators = searchParams.get('creators');
   const likedBy = searchParams.get('likedBy');
+  const mumbleNextUrl = searchParams.get('mumbleNextUrl');
+
+  // if mumbleNextUrl is set, we don't need to pass anything else
 
   const params: IGetPostsParams = {
-    limit: limit ? parseInt(limit, 10) : config.feed.defaultAmount,
+    limit: limit ? parseInt(limit, 10) : frontendConfig.feed.defaultAmount,
     offset: offset ? parseInt(offset, 10) : 0,
   };
 
@@ -40,7 +43,7 @@ export const GET = async (request: NextRequest): Promise<Response> => {
   try {
     const response = await dataSource.getPosts({
       token: session ? session.accessToken : '',
-      data: params,
+      data: mumbleNextUrl ? { mumbleNextUrl } : params,
     });
     return NextResponse.json(response);
   } catch (error) {

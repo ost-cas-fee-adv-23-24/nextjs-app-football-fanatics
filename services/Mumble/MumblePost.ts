@@ -163,8 +163,14 @@ export class MumblePostService extends MumbleService {
     token: string;
     data: IGetPostsParams;
   }): Promise<IPostsApiResponse> {
-    const params = this.getParams(data);
-    const path = `${EEndpointsBackend.POSTS}?${params}`;
+    let path: string;
+    if (data.mumbleNextUrl) {
+      path = data.mumbleNextUrl;
+    } else {
+      const params = this.getParams(data);
+      path = `${EEndpointsBackend.POSTS}?${params}`;
+    }
+
     const responseMumbleApi = await this.performRequest({
       method: EApiMethods.GET,
       path,

@@ -6,20 +6,8 @@ import { EPostsActions } from '@/stores/Posts.context';
 import { PostCard } from '@/components/post-card/PostCard';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 
-interface IProps {
-  newestPost: IPostItem;
-}
-
-const PostsNewLoader = ({ newestPost }: IProps) => {
+const PostsNewLoader = () => {
   const { dispatchPosts, newPostsRendered } = usePosts();
-  useEffect(() => {
-    // to get the id of the newest post. to be fired once
-    dispatchPosts({
-      type: EPostsActions.SET_NEWEST_POST,
-      payload: newestPost,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>

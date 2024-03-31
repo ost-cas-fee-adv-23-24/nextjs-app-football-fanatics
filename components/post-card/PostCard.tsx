@@ -7,6 +7,7 @@ import { PostCardHeader } from '@/components/post-card-header/PostCardHeader';
 import { IPostItemBase } from '@/utils/interfaces/mumblePost.interface';
 import { truncate as _truncate } from 'lodash';
 import PostText from '@/components/post-text/PostText';
+import { PostImagePlaceholder } from '@/components/placeholders/PostImagePlaceholder';
 
 interface IProps extends IPostItemBase {
   parentId?: string;

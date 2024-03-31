@@ -19,7 +19,7 @@ export const followUserToggle = async ({
       identifier,
       unfollow,
     });
-    revalidatePath(`/profiles/${identifier}}`);
+    revalidatePath(`/profiles/${identifier}`);
   } catch (error) {
     throw new Error(`Error following user ${identifier}`);
   }

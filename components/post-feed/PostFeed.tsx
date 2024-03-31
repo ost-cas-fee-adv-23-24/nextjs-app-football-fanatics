@@ -7,9 +7,11 @@ import {
   IPostsApiResponse,
 } from '@/utils/interfaces/mumblePost.interface';
 
-interface IProps extends IPostsApiResponse {}
+interface IProps {
+  data: IPostItem[];
+}
 
-const PostFeed = async ({ data, next, prev, count }: IProps) => {
+const PostFeed = async ({ data }: IProps) => {
   return data.map((post: IPostItem) => {
     return (
       <div

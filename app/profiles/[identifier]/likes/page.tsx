@@ -23,12 +23,6 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
   try {
     const profileData = await getMumbleUserByIdentifier(userIdentifier);
 
-    const userMumbleLikes = await getMumblePosts({
-      likedBy: [userIdentifier],
-      offset: 0,
-      limit: frontendConfig.feed.defaultAmount,
-    });
-
     return (
       <div className="mx-auto bg-slate-100 pt-8">
         <div className="global-width  mx-auto py-8">
@@ -49,14 +43,7 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
               userIdentifier={userIdentifier}
             />
           </div>
-          <ProfileFeed
-            isLikes={true}
-            userIdentifier={userIdentifier}
-            count={userMumbleLikes.count}
-            data={userMumbleLikes.data}
-            next={userMumbleLikes.next}
-            prev={userMumbleLikes.prev}
-          />
+          <ProfileFeed isLikes={true} userIdentifier={userIdentifier} />
         </div>
       </div>
     );

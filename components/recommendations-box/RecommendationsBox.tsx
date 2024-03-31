@@ -1,6 +1,6 @@
 'use client';
 import Recommendation from '@/components/recommendation/Recommendation';
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import {
   Button,
   EButtonSizes,
@@ -15,6 +15,7 @@ import { ERecommendationsActions } from '@/stores/Recommendations.context';
 import { followUserToggle } from '@/actions/followUser';
 import { toast } from 'react-toastify';
 import { frontendConfig } from '@/config';
+import { RecommendationPlaceholder } from '@/components/placeholders/RecommendationPlaceholder';
 
 interface IProps {
   userIdentifier: string;
@@ -43,54 +44,63 @@ const RecommendationsBox = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const placeHolders = new Array(frontendConfig.recommendationsAmount).fill(0);
+
   return (
     <>
       <Heading
         level={ETypographyLevels.THREE}
         text={hasMoreRecommendations ? title : titleNoMoreRecommendations}
       />
+
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+        {recommendedUsers.length === 0 &&
+          placeHolders.map((_, index) => (
+            <RecommendationPlaceholder key={index} />
+          ))}
         {recommendedUsers.map((user, index) => {
           return (
-            <Recommendation
-              onFollow={async (identifier) => {
-                try {
-                  await followUserToggle({
-                    identifier,
-                    unfollow: false,
+            <Suspense fallback={<RecommendationPlaceholder key={index} />}>
+              <Recommendation
+                onFollow={async (identifier) => {
+                  try {
+                    await followUserToggle({
+                      identifier,
+                      unfollow: false,
+                    });
+                  } catch (error) {
+                    toast.warning(
+                      'Error following user, please try again later',
+                      {
+                        autoClose: frontendConfig.notificationDuration,
+                      },
+                    );
+                  }
+
+                  toast.success(`${user.username} followed successfully`, {
+                    autoClose: frontendConfig.notificationDuration,
                   });
-                } catch (error) {
-                  toast.warning(
-                    'Error following user, please try again later',
-                    {
-                      autoClose: frontendConfig.notificationDuration,
-                    },
-                  );
-                }
 
-                toast.success(`${user.username} followed successfully`, {
-                  autoClose: frontendConfig.notificationDuration,
-                });
-
-                // we only update the state if the followUserToggle was successful
-                dispatchRecommendations({
-                  type: ERecommendationsActions.SET_ALREADY_FOLLOWED_USERS,
-                  payload: [...followedUsersIdentifiers, identifier],
-                });
-              }}
-              onDismiss={(identifier) => {
-                dispatchRecommendations({
-                  type: ERecommendationsActions.SET_REJECTED_USER,
-                  payload: identifier,
-                });
-              }}
-              key={user.id}
-              id={user.id}
-              username={user.username}
-              avatarUrl={user.avatarUrl}
-              firstname={user.firstname}
-              lastname={user.lastname}
-            />
+                  // we only update the state if the followUserToggle was successful
+                  dispatchRecommendations({
+                    type: ERecommendationsActions.SET_ALREADY_FOLLOWED_USERS,
+                    payload: [...followedUsersIdentifiers, identifier],
+                  });
+                }}
+                onDismiss={(identifier) => {
+                  dispatchRecommendations({
+                    type: ERecommendationsActions.SET_REJECTED_USER,
+                    payload: identifier,
+                  });
+                }}
+                key={user.id}
+                id={user.id}
+                username={user.username}
+                avatarUrl={user.avatarUrl}
+                firstname={user.firstname}
+                lastname={user.lastname}
+              />
+            </Suspense>
           );
         })}
       </div>

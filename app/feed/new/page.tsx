@@ -31,13 +31,12 @@ export default async function Page() {
         <Header user={profileData} />
       </div>
       <div className="global-width mx-auto">
-        <div>
-          <PostEditor
-            isFeedPage={true}
-            title="All is too empty over here"
-            subTitle="Start following people to see their posts"
-          />
-        </div>
+        <PostEditor
+          isFeedPage={true}
+          title="All is too empty over here"
+          subTitle="Start following people to see their posts"
+        />
+
         <div className="max-w-4xl mr-auto ml-auto">
           <div className="mb-8">
             <RecommendationsBox
@@ -52,12 +51,7 @@ export default async function Page() {
               text="Recommended mumbles"
             />
           </div>
-          <PostFeed
-            data={feedData.data}
-            next={feedData.next}
-            prev={feedData.prev}
-            count={feedData.count}
-          />
+          <PostFeed data={feedData.data} />
         </div>
       </div>
     </div>

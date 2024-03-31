@@ -9,11 +9,11 @@ import { UserInfoProvider } from '@/providers/UserInfo.provider';
 const inter = Inter({ subsets: ['latin'] });
 import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 import { ModalProvider } from '@/providers/Modal.provider';
-import { PostsProvider } from '@/providers/Posts.provider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { frontendConfig } from '@/config';
 import { RecommendationsProvider } from '@/providers/Recommendations.provider';
+import { PostsProvider } from '@/providers/posts/Posts.provider';
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',

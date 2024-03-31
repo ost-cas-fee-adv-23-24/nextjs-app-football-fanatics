@@ -34,7 +34,6 @@ export const PostEditor = ({
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
-  const { isLoggedIn } = useUserInfo();
   const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
@@ -59,7 +58,6 @@ export const PostEditor = ({
     };
   }, []);
 
-  if (!isLoggedIn) return null;
   return (
     <>
       <form

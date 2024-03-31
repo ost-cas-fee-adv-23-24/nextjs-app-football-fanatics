@@ -69,4 +69,5 @@ export interface IGetPostsParams {
   likedBy?: string[];
   creators?: string[];
   tags?: string[];
+  mumbleNextUrl?: string;
 }
