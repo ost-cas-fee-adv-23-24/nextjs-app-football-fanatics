@@ -60,47 +60,45 @@ const RecommendationsBox = ({
           ))}
         {recommendedUsers.map((user, index) => {
           return (
-            <Suspense fallback={<RecommendationPlaceholder key={index} />}>
-              <Recommendation
-                onFollow={async (identifier) => {
-                  try {
-                    await followUserToggle({
-                      identifier,
-                      unfollow: false,
-                    });
-                  } catch (error) {
-                    toast.warning(
-                      'Error following user, please try again later',
-                      {
-                        autoClose: frontendConfig.notificationDuration,
-                      },
-                    );
-                  }
+            <Recommendation
+              onFollow={async (identifier) => {
+                try {
+                  await followUserToggle({
+                    identifier,
+                    unfollow: false,
+                  });
+                } catch (error) {
+                  toast.warning(
+                    'Error following user, please try again later',
+                    {
+                      autoClose: frontendConfig.notificationDuration,
+                    },
+                  );
+                }
 
-                  toast.success(`${user.username} followed successfully`, {
-                    autoClose: frontendConfig.notificationDuration,
-                  });
+                toast.success(`${user.username} followed successfully`, {
+                  autoClose: frontendConfig.notificationDuration,
+                });
 
-                  // we only update the state if the followUserToggle was successful
-                  dispatchRecommendations({
-                    type: ERecommendationsActions.SET_ALREADY_FOLLOWED_USERS,
-                    payload: [...followedUsersIdentifiers, identifier],
-                  });
-                }}
-                onDismiss={(identifier) => {
-                  dispatchRecommendations({
-                    type: ERecommendationsActions.SET_REJECTED_USER,
-                    payload: identifier,
-                  });
-                }}
-                key={user.id}
-                id={user.id}
-                username={user.username}
-                avatarUrl={user.avatarUrl}
-                firstname={user.firstname}
-                lastname={user.lastname}
-              />
-            </Suspense>
+                // we only update the state if the followUserToggle was successful
+                dispatchRecommendations({
+                  type: ERecommendationsActions.SET_ALREADY_FOLLOWED_USERS,
+                  payload: [...followedUsersIdentifiers, identifier],
+                });
+              }}
+              onDismiss={(identifier) => {
+                dispatchRecommendations({
+                  type: ERecommendationsActions.SET_REJECTED_USER,
+                  payload: identifier,
+                });
+              }}
+              key={user.id}
+              id={user.id}
+              username={user.username}
+              avatarUrl={user.avatarUrl}
+              firstname={user.firstname}
+              lastname={user.lastname}
+            />
           );
         })}
       </div>

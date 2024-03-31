@@ -82,8 +82,8 @@ export const PostsProvider = ({ children }: IProps) => {
         const { posts: postsFetched, next } = await fetchPostsFrontend({
           limit: frontendConfig.feed.defaultAmount,
           offset: 0,
-          userIdentifier: userIdentifier,
-          creators: creators,
+          userIdentifier,
+          creators,
           isLikes,
         });
         dispatch({
@@ -116,7 +116,7 @@ export const PostsProvider = ({ children }: IProps) => {
         });
       }
     },
-    [posts, userIdentifier, creators, nextMumblePostsUrl],
+    [posts, isLoading],
   );
 
   const fetchNewestPosts = useCallback(
@@ -138,7 +138,7 @@ export const PostsProvider = ({ children }: IProps) => {
         payload: [...newestPostsFetched, ...newPostsQueue],
       });
     },
-    [newPostsQueue, creators],
+    [newPostsQueue],
   );
 
   useEffect(() => {
@@ -175,7 +175,7 @@ export const PostsProvider = ({ children }: IProps) => {
       if (isLikes) return;
       fetchNewestPosts(newestPost.id, creators);
     }
-  }, [newestPost, remainingTime, isLikes, creators]);
+  }, [newestPost, remainingTime, isLikes, creators, fetchNewestPosts]);
 
   const setTimer = () => {
     setRemainingTime((prev) => {

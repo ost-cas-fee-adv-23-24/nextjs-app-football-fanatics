@@ -101,6 +101,7 @@ const PostsLoader = ({ userIdentifier, isLikes = false, creators }: IProps) => {
       dispatchPosts,
       creators,
       isLikes,
+      fetchPostsBatch,
     ],
   );
 
