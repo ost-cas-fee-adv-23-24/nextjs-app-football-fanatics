@@ -11,13 +11,11 @@ export interface IPostsProviderState {
   creators?: string[];
   newestPost?: IPostItem | null;
   newPostsQueue: IPostItem[];
-  newPostsRendered: IPostItem[];
 }
 
 export interface IPostsProviderContextData {
   posts: IPostItem[];
   newestPost: IPostItem | null | undefined;
-  newPostsRendered: IPostItem[];
   isLoading: boolean;
   nextMumblePostsUrl: string | null;
   dispatchPosts: Dispatch<{ type: EPostsActions; payload: any }>;

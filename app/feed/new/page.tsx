@@ -1,7 +1,5 @@
-import PostFeed from '@/components/post-feed/PostFeed';
 import { PostEditor } from '@/components/post-editor/PostEditor';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
 import { frontendConfig } from '@/config';
 import RecommendationsBox from '@/components/recommendations-box/RecommendationsBox';
 import Header from '@/components/header/Header';
@@ -12,6 +10,10 @@ import {
   ETypographyLevels,
   Heading,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import PostsLoader from '@/components/posts-loader/PostsLoader';
+
+// Is new user if the user is not following anyone
+// see middleware.ts
 
 export default async function Page() {
   // middleware checks if user is authenticated before hitting this page
@@ -23,7 +25,6 @@ export default async function Page() {
   };
 
   const profileData = await getMumbleUserByIdentifier(session.user.identifier);
-  const feedData = await getMumblePosts(options);
 
   return (
     <div className="mx-auto bg-slate-100 pt-8">
@@ -51,7 +52,11 @@ export default async function Page() {
               text="Recommended mumbles"
             />
           </div>
-          <PostFeed data={feedData.data} />
+          {/* we could add a IsPreview to only load a couple of
+          posts "recommended" and not all, and pass it to the postsProvider
+          at the moment all the feed will be loaded
+          */}
+          <PostsLoader />
         </div>
       </div>
     </div>

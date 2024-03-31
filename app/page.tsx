@@ -1,13 +1,6 @@
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
-import PostFeed from '@/components/post-feed/PostFeed';
-import { PostEditor } from '@/components/post-editor/PostEditor';
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
+
 import PostsLoader from '@/components/posts-loader/PostsLoader';
-import { frontendConfig } from '@/config';
-import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
-import RecommendationsBox from '@/components/recommendations-box/RecommendationsBox';
-import PostsNewLoader from '@/components/posts-new-loader/PostsNewLoader';
 
 export default async function Page() {
   return (

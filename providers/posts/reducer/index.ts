@@ -10,10 +10,7 @@ export const reducerPosts = (
   const { type, payload } = action;
   switch (type) {
     case EPostsActions.SET_POSTS_QUEUE:
-      copyState.newPostsRendered = [
-        ...copyState.newPostsQueue,
-        ...copyState.newPostsRendered,
-      ];
+      copyState.posts = [...copyState.newPostsQueue, ...copyState.posts];
       copyState.newPostsQueue = [];
       return copyState;
     case EPostsActions.SET_NEW_POSTS_QUEUE_PAYLOAD:
@@ -37,7 +34,6 @@ export const reducerPosts = (
       return copyState;
     case EPostsActions.RESET:
       copyState.posts = [];
-      copyState.newPostsRendered = [];
       copyState.newPostsQueue = [];
       copyState.userIdentifier = undefined;
       copyState.isLoading = false;

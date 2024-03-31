@@ -34,7 +34,6 @@ export const PostsProvider = ({ children }: IProps) => {
   const [remainingTime, setRemainingTime] = useState(0);
   const [state, dispatch] = useReducer(reducerPosts, {
     posts: [],
-    newPostsRendered: [],
     newPostsQueue: [],
     userIdentifier: undefined,
     isLoading: false,
@@ -50,7 +49,6 @@ export const PostsProvider = ({ children }: IProps) => {
     isLoading,
     userIdentifier,
     newestPost,
-    newPostsRendered,
     newPostsQueue,
     creators,
     isLikes,
@@ -120,8 +118,7 @@ export const PostsProvider = ({ children }: IProps) => {
   );
 
   const fetchNewestPosts = useCallback(
-    async (postIdentifier: string, creators?: string[]) => {
-      console.log('fetchNewestPosts', postIdentifier, creators);
+    async (postIdentifier: string, creators?: string[]): Promise<void> => {
       const { posts: newestPostsFetched } = await fetchPostsFrontend({
         limit: 20,
         offset: 0,
@@ -143,6 +140,7 @@ export const PostsProvider = ({ children }: IProps) => {
 
   useEffect(() => {
     if (newPostsQueue.length === 0) return;
+    toast.dismiss();
     currentNotification.current = toast(
       <div className="flex flex-col text-center">
         <Paragraph size={EParagraphSizes.MEDIUM} text="New Posts Available" />
@@ -169,11 +167,12 @@ export const PostsProvider = ({ children }: IProps) => {
   }, [newPostsQueue]);
 
   useEffect(() => {
-    if (remainingTime !== 0) return;
-    setTimer();
-    if (newestPost && newestPost.id) {
-      if (isLikes) return;
-      fetchNewestPosts(newestPost.id, creators);
+    if (remainingTime === 0) {
+      setTimer();
+      if (newestPost && newestPost.id) {
+        if (isLikes) return; // no newest check on likes only feed
+        fetchNewestPosts(newestPost.id, creators);
+      }
     }
   }, [newestPost, remainingTime, isLikes, creators, fetchNewestPosts]);
 
@@ -195,7 +194,6 @@ export const PostsProvider = ({ children }: IProps) => {
     <PostsContext.Provider
       value={{
         nextMumblePostsUrl,
-        newPostsRendered,
         newestPost,
         isLoading,
         posts,

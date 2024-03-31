@@ -2,10 +2,7 @@ import React from 'react';
 import { PostCard } from '@/components/post-card/PostCard';
 import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
-import {
-  IPostItem,
-  IPostsApiResponse,
-} from '@/utils/interfaces/mumblePost.interface';
+import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
   data: IPostItem[];
