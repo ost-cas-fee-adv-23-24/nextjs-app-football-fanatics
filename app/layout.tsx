@@ -38,7 +38,7 @@ export default function RootLayout({
   const contentCss = 'content bg-slate-100 px-10 lg:px-0 grow overflow-y-auto';
 
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <SessionProvider>
           <UserInfoProvider>

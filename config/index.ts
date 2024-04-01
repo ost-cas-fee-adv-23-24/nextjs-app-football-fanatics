@@ -64,6 +64,10 @@ const config = {
 export const frontendConfig = {
   feed: {
     defaultAmount: 5,
+    sample: {
+      toFetch: 100,
+      toPick: 5,
+    },
   },
   newPostsRequestInterval: 1000 * 10,
   notificationDuration: 1000 * 5,

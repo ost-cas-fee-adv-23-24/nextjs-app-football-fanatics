@@ -28,14 +28,14 @@ export const reducerPosts = (
       return copyState;
     case EPostsActions.SET_OPTIONS:
       copyState.nextMumblePostsUrl = null;
-      copyState.userIdentifier = payload.userIdentifier || undefined;
+      copyState.isSample = payload.isSample || false;
       copyState.isLikes = payload.isLikes || undefined;
       copyState.creators = payload.creators || undefined;
       return copyState;
     case EPostsActions.RESET:
       copyState.posts = [];
       copyState.newPostsQueue = [];
-      copyState.userIdentifier = undefined;
+      copyState.isSample = false;
       copyState.isLoading = false;
       copyState.nextMumblePostsUrl = null;
       copyState.newestPost = null;

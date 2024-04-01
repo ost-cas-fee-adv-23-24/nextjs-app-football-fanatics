@@ -5,6 +5,7 @@ export interface IFetchPostsOptions {
   isLikes?: boolean;
   newerThan?: string;
   creators?: string[];
+  isRecommended?: boolean;
 }
 
 export interface IParamsOnlyIdentifierCtx {

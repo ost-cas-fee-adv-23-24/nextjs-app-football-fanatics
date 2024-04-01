@@ -23,6 +23,7 @@ import {
 import { frontendConfig } from '@/config';
 import { reducerPosts } from '@/providers/posts/reducer';
 import { IFetchPostsBatchArgs } from '@/providers/posts/utils/posts.interface';
+import _ from 'lodash';
 
 interface IProps {
   children: ReactNode;
@@ -35,23 +36,23 @@ export const PostsProvider = ({ children }: IProps) => {
   const [state, dispatch] = useReducer(reducerPosts, {
     posts: [],
     newPostsQueue: [],
-    userIdentifier: undefined,
     isLoading: false,
     nextMumblePostsUrl: null,
     newestPost: null,
     isLikes: undefined,
     creators: undefined,
+    isSample: false,
   });
 
   const {
     nextMumblePostsUrl,
     posts,
     isLoading,
-    userIdentifier,
     newestPost,
     newPostsQueue,
     creators,
     isLikes,
+    isSample,
   } = state;
 
   const interval = useRef();
@@ -63,6 +64,7 @@ export const PostsProvider = ({ children }: IProps) => {
       userIdentifier,
       creators,
       isLikes = false,
+      isSample = false,
     }: IFetchPostsBatchArgs) => {
       dispatch({
         type: EPostsActions.SET_LOADING,
@@ -74,11 +76,14 @@ export const PostsProvider = ({ children }: IProps) => {
         payload: {
           creators,
           isLikes,
+          isSample, // to not fetch newer posts than the newest post
         },
       });
       if (!nextUrl) {
         const { posts: postsFetched, next } = await fetchPostsFrontend({
-          limit: frontendConfig.feed.defaultAmount,
+          limit: isSample
+            ? frontendConfig.feed.sample.toFetch
+            : frontendConfig.feed.defaultAmount,
           offset: 0,
           userIdentifier,
           creators,
@@ -88,9 +93,18 @@ export const PostsProvider = ({ children }: IProps) => {
           type: EPostsActions.SET_NEWEST_POST,
           payload: postsFetched[0],
         });
+
         dispatch({
           type: EPostsActions.SET_POSTS_PAYLOAD,
-          payload: { posts: postsFetched, next },
+          payload: {
+            posts: isSample // sample contains most liked posts
+              ? _.take(
+                  _.orderBy(postsFetched, ['likes'], ['desc']),
+                  frontendConfig.feed.sample.toPick,
+                )
+              : postsFetched,
+            next: isSample ? null : next,
+          },
         });
         dispatch({
           type: EPostsActions.SET_LOADING,
@@ -170,7 +184,7 @@ export const PostsProvider = ({ children }: IProps) => {
     if (remainingTime === 0) {
       setTimer();
       if (newestPost && newestPost.id) {
-        if (isLikes) return; // no newest check on likes only feed
+        if (isLikes || isSample) return; // no newest check on likes only feed nor sample for new users
         fetchNewestPosts(newestPost.id, creators);
       }
     }

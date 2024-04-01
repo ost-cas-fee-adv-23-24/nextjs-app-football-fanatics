@@ -20,6 +20,7 @@ export const fetchPostsFrontend = async ({
     offset: offset.toString(),
     limit: limit.toString(),
   });
+
   if (newerThan) {
     params.append('newerThan', newerThan);
   }

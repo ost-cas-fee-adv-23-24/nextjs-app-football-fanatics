@@ -52,11 +52,7 @@ export default async function Page() {
               text="Recommended mumbles"
             />
           </div>
-          {/* we could add a IsPreview to only load a couple of
-          posts "recommended" and not all, and pass it to the postsProvider
-          at the moment all the feed will be loaded
-          */}
-          <PostsLoader />
+          <PostsLoader isSample={true} />
         </div>
       </div>
     </div>

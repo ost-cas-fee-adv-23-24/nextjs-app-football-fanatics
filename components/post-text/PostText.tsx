@@ -45,7 +45,7 @@ const PostText = ({ text }: IProps) => {
       .replace(regexExp, (match: string, hashtag: string): string => {
         const searchKeyword = match.replace('#', '').toLowerCase();
         // this is not jsx. it's a simple string
-        return `<a class="text-violet-600" href="/posts/hashtag/${searchKeyword}">${match}</a>`;
+        return `<a class="text-violet-600 underline" href="/posts/hashtag/${searchKeyword}" aria-label="see more of this thema here">${match}</a>`;
       });
   };
 

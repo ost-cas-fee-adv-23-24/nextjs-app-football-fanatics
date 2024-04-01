@@ -6,8 +6,8 @@ export interface IPostsProviderState {
   isLoading: boolean;
   posts: IPostItem[];
   nextMumblePostsUrl: string | null;
-  userIdentifier?: string;
   isLikes?: boolean;
+  isSample?: boolean;
   creators?: string[];
   newestPost?: IPostItem | null;
   newPostsQueue: IPostItem[];
@@ -27,4 +27,5 @@ export interface IFetchPostsBatchArgs {
   userIdentifier?: string;
   creators?: string[];
   isLikes?: boolean;
+  isSample?: boolean;
 }
