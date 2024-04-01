@@ -14,11 +14,16 @@ import {
 import Link from 'next/link';
 import { signIn, signOut } from 'next-auth/react';
 import useUserInfo from '@/hooks/useUserInfo';
+import useModal from '@/hooks/useModal';
+import { EModalActions } from '@/stores/Modal.context';
+import UserSettings from '@/components/user-settings/UserSettings';
+import { toast } from 'react-toastify';
 
 interface IProps {}
 
 export const GlobalHeader = ({}: IProps) => {
   const { avatarUrl, identifier } = useUserInfo();
+  const { dispatchModal, closeModal } = useModal();
 
   return (
     <div className="flex justify-between items-center">
@@ -50,6 +55,27 @@ export const GlobalHeader = ({}: IProps) => {
               label="Settings"
               icon={EIConTypes.SETTINGS}
               name="settings"
+              onCustomClick={() => {
+                dispatchModal({
+                  type: EModalActions.SET_CONTENT,
+                  payload: {
+                    title: 'Settings',
+                    content: (
+                      <UserSettings
+                        onClose={closeModal}
+                        onSave={(options) => {
+                          toast(
+                            'Saved! Sorry. No apis for this at the moment ¯\\_(ツ)_/¯',
+                          );
+                          setTimeout(() => {
+                            closeModal();
+                          }, 2000);
+                        }}
+                      />
+                    ),
+                  },
+                });
+              }}
             />
             <ButtonMenu
               name="logout"
