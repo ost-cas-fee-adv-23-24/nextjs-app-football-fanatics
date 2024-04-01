@@ -31,6 +31,7 @@ const UserSettings = ({ onClose, onSave }: IProps) => {
   useEffect(() => {
     setFirstNameIntern(firstName);
     setLastNameIntern(lastName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // todo: Add Name attribute to the input fields (design system)
