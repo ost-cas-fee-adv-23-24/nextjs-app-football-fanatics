@@ -29,8 +29,6 @@ export interface IConfig {
 }
 
 // only use in backend!!!!
-const feedAmountItems = 5;
-
 const config = {
   environment: process.env.ENVIRONMENT,
   sessionMaxAge: 36000,
@@ -52,9 +50,6 @@ const config = {
   avatar: {
     fileNameUploader: 'media',
   },
-  feed: {
-    defaultAmount: feedAmountItems,
-  },
   trustedDomains: [
     'http://localhost:3000',
     'https://elbmum.netlify.app',
@@ -68,9 +63,14 @@ const config = {
 
 export const frontendConfig = {
   feed: {
-    defaultAmount: feedAmountItems,
+    defaultAmount: 5,
+    sample: {
+      toFetch: 100,
+      toPick: 5,
+    },
   },
-  notificationDuration: 5000,
+  newPostsRequestInterval: 1000 * 10,
+  notificationDuration: 1000 * 5,
   recommendationsAmount: 3,
 };
 

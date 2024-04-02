@@ -21,6 +21,24 @@ export interface IPost {
 }
 
 export class MumblePostService extends MumbleService {
+  public async deletePost({
+    token,
+    identifier,
+  }: {
+    identifier: string;
+    token: string;
+  }) {
+    await this.performRequest({
+      method: EApiMethods.DELETE,
+      path: `${EEndpointsBackend.POSTS}/${identifier}`,
+      token,
+      message: 'Deleting post',
+      expectedBack: 'empty',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
   public async getPostById({
     includeReplies,
     identifier,
@@ -163,8 +181,14 @@ export class MumblePostService extends MumbleService {
     token: string;
     data: IGetPostsParams;
   }): Promise<IPostsApiResponse> {
-    const params = this.getParams(data);
-    const path = `${EEndpointsBackend.POSTS}?${params}`;
+    let path: string;
+    if (data.mumbleNextUrl) {
+      path = data.mumbleNextUrl;
+    } else {
+      const params = this.getParams(data);
+      path = `${EEndpointsBackend.POSTS}?${params}`;
+    }
+
     const responseMumbleApi = await this.performRequest({
       method: EApiMethods.GET,
       path,

@@ -11,6 +11,7 @@ import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
+import PostsLoader from '@/components/posts-loader/PostsLoader';
 
 export default async function Profile(context: IParamsOnlyIdentifierCtx) {
   const currentProfileUserIdentifier = context.params.identifier.toString();
@@ -25,12 +26,6 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
     const profileData = await getMumbleUserByIdentifier(
       currentProfileUserIdentifier,
     );
-
-    const userMumbles = await getMumblePosts({
-      creators: [profileData.id],
-      offset: 0,
-      limit: frontendConfig.feed.defaultAmount,
-    });
 
     return (
       <div className="mx-auto bg-slate-100 pt-8">
@@ -53,11 +48,9 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
             />
           </div>
           <ProfileFeed
+            creators={[currentProfileUserIdentifier]}
             userIdentifier={currentProfileUserIdentifier}
-            count={userMumbles.count}
-            data={userMumbles.data}
-            next={userMumbles.next}
-            prev={userMumbles.prev}
+            isLikes={false}
           />
         </div>
       </div>

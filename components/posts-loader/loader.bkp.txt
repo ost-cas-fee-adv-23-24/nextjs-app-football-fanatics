@@ -1,24 +1,21 @@
 'use client';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { PostCard } from '@/components/post-card/PostCard';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 import usePosts from '@/hooks/usePosts';
 import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
-import { frontendConfig } from '@/config';
 interface IProps {
   userIdentifier?: string;
   isLikes?: boolean;
   creators?: string[];
-  isSample?: boolean;
 }
 
-const PostsLoader = ({
+const PostsLoaderBkp = ({
   userIdentifier,
   isLikes = false,
   creators,
-  isSample = false,
 }: IProps) => {
   const {
     posts,
@@ -27,6 +24,17 @@ const PostsLoader = ({
     dispatchPosts,
     fetchPostsBatch,
   } = usePosts();
+  const numRows = posts.length;
+  const [scrollTop, setScrollTop] = useState(0);
+  const [availableHeight, setAvailableHeight] = useState(0);
+  const rowHeight = 100;
+  const totalHeight = rowHeight * numRows;
+  const containerRef = useRef(null);
+  let startIndex = Math.floor(scrollTop / rowHeight);
+  let endIndex = Math.min(
+    startIndex + Math.ceil(availableHeight / rowHeight) + 1,
+    numRows,
+  );
 
   const renderSinglePost = (post: IPostItem, index: number) => {
     return (
@@ -61,12 +69,12 @@ const PostsLoader = ({
   };
 
   useEffect(() => {
-    fetchPostsBatch({
-      userIdentifier,
-      creators,
-      isLikes,
-      isSample,
-    });
+    // @ts-ignore
+    setAvailableHeight(containerRef.current.clientHeight || 0);
+  }, []);
+
+  useEffect(() => {
+    fetchPostsBatch();
     return () => {
       dispatchPosts({
         type: EPostsActions.RESET,
@@ -88,11 +96,7 @@ const PostsLoader = ({
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && !isLoading) {
           if (nextMumblePostsUrl) {
-            fetchPostsBatch({
-              nextUrl: nextMumblePostsUrl,
-              creators,
-              isLikes,
-            });
+            fetchPostsBatch(nextMumblePostsUrl);
           }
         }
       });
@@ -101,29 +105,49 @@ const PostsLoader = ({
         observer.current.observe(node);
       }
     },
-    [isLoading, nextMumblePostsUrl, creators, isLikes, fetchPostsBatch],
+    [
+      isLoading,
+      userIdentifier,
+      nextMumblePostsUrl,
+      dispatchPosts,
+      creators,
+      isLikes,
+    ],
   );
 
+  const postsToRender = [];
+  let index = startIndex;
+
+  while (index < endIndex) {
+    const currentPost = posts[index];
+    postsToRender.push(renderSinglePost(currentPost, index));
+    index++;
+  }
+
   return (
-    <div className="global-width mx-auto">
-      {(() => {
-        if (posts.length === 0 && !isLoading) {
-          const placeholders = Array.from({
-            length: frontendConfig.feed.defaultAmount,
-          });
-          return (
-            <>
-              {placeholders.map((_, index) => (
-                <PostEditorPlaceholder key={index} />
-              ))}
-            </>
-          );
-        } else {
-          return posts.map((post, index) => renderSinglePost(post, index));
-        }
-      })()}
+    <div className="posts-container grow overflow-hidden flex flex-col">
+      <div
+        className="overflow-y-scroll grow"
+        ref={containerRef}
+        onScroll={(evt) => {
+          const target = evt.target as HTMLTextAreaElement;
+          setScrollTop(target.scrollTop);
+        }}
+      >
+        <div
+          className="global-width mx-auto"
+          style={{
+            height: totalHeight,
+            paddingTop: startIndex * rowHeight,
+          }}
+        >
+          {posts.length === 0 && <PostEditorPlaceholder />}
+          {postsToRender}
+          {isLoading && <PostEditorPlaceholder />}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default PostsLoader;
+export default PostsLoaderBkp;
