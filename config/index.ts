@@ -71,7 +71,7 @@ export const frontendConfig = {
   },
   newPostsRequestInterval: 1000 * 10,
   notificationDuration: 1000 * 5,
-  recommendationsAmount: 3,
+  recommendationsAmount: 6,
 };
 
 export default config as IConfig;
