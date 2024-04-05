@@ -54,7 +54,6 @@ export default async function ProfileFollowers(
               profileFollowees={profileFollowees}
               profileIdentifier={userIdentifier}
               cards={profileFollowers}
-              type={EUserCardGroup.FOLLOWING}
             />
           </div>
         </div>

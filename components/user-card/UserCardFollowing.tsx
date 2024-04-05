@@ -19,7 +19,7 @@ interface IProps {
   followable?: boolean;
 }
 
-export const UserCardFollower = ({
+export const UserCardFollowing = ({
   data,
   loggedInUserIdentifier,
   followable = true,
@@ -64,7 +64,7 @@ export const UserCardFollower = ({
               await followUserToggle({
                 identifier,
                 unfollow: !followable,
-                revalidationPath: `/profiles/${identifier}/followers`,
+                revalidationPath: `/profiles/${identifier}/following`,
               });
             }}
           />

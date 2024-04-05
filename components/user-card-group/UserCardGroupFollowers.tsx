@@ -11,7 +11,6 @@ interface IProps {
   loggedInUserFollowees: IMumbleFollowers[];
   profileFollowees: IMumbleFollowers[];
   loggedInUserIdentifier?: string;
-  type: EUserCardGroup;
   profileIdentifier: string;
 }
 
@@ -21,12 +20,12 @@ export const UserCardGroupFollowers = ({
   loggedInUserFollowees,
   profileFollowees,
 }: IProps) => {
-  const { identifier, isLoggedIn } = useUserInfo();
+  const { identifier: loggedInProfileIdentifier, isLoggedIn } = useUserInfo();
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {cards.map((userCardInfo) => {
         let isFollowable = true;
-        if (profileIdentifier === identifier) {
+        if (profileIdentifier === loggedInProfileIdentifier) {
           const isFollowing = loggedInUserFollowees.find(
             (userCard) => userCard.id === userCardInfo.id,
           );
@@ -46,7 +45,7 @@ export const UserCardGroupFollowers = ({
           <UserCardFollower
             followable={isFollowable}
             profileIdentifier={profileIdentifier}
-            loggedInUserIdentifier={identifier}
+            loggedInUserIdentifier={loggedInProfileIdentifier}
             data={userCardInfo}
             key={userCardInfo.id}
           />

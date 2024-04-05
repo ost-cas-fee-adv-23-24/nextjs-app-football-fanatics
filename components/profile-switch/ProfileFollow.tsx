@@ -56,6 +56,7 @@ const ProfileFollow = ({
                 await followUserToggle({
                   identifier: profileIdentifier,
                   unfollow: false,
+                  revalidationPath: `/profiles/${profileIdentifier}`,
                 });
               } catch (error) {
                 toast.error('Error following user, please try again later', {
@@ -81,6 +82,7 @@ const ProfileFollow = ({
                 await followUserToggle({
                   identifier: profileIdentifier,
                   unfollow: true,
+                  revalidationPath: `/profiles/${profileIdentifier}`,
                 });
               } catch (error) {
                 toast.error('Error unfollowing user, please try again later', {

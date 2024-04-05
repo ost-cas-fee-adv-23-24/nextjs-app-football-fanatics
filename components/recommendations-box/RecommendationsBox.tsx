@@ -21,12 +21,14 @@ interface IProps {
   userIdentifier: string;
   title: string;
   titleNoMoreRecommendations: string;
+  revalidationPath: string;
 }
 
 const RecommendationsBox = ({
   userIdentifier,
   title,
   titleNoMoreRecommendations,
+  revalidationPath,
 }: IProps) => {
   const {
     loadData,
@@ -66,6 +68,7 @@ const RecommendationsBox = ({
                   await followUserToggle({
                     identifier,
                     unfollow: false,
+                    revalidationPath,
                   });
                 } catch (error) {
                   toast.warning(

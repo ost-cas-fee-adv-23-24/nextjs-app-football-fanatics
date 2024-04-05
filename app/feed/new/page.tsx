@@ -12,17 +12,13 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
 
-// Is new user if the user is not following anyone
+// Is new user if the user is not following anyone.
+// We could also check if the user has any posts.
 // see middleware.ts
 
 export default async function Page() {
   // middleware checks if user is authenticated before hitting this page
   const session = (await auth()) as Session;
-
-  const options = {
-    offset: 0,
-    limit: frontendConfig.feed.defaultAmount,
-  };
 
   const profileData = await getMumbleUserByIdentifier(session.user.identifier);
 
@@ -44,6 +40,7 @@ export default async function Page() {
               userIdentifier={session.user.identifier}
               titleNoMoreRecommendations="No more suggestions"
               title="Recommended users"
+              revalidationPath={'/feed/new'}
             />
           </div>
           <div className="mb-4">

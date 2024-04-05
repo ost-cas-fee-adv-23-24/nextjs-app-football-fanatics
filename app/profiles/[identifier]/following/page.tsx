@@ -11,24 +11,24 @@ import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
 import { UserCardGroupFollowers } from '@/components/user-card-group/UserCardGroupFollowers';
 import { EUserCardGroup } from '@/utils/enums/general.enum';
+import { getProfileData } from '@/actions/getProfileData';
+import { UserCardGroupFollowing } from '@/components/user-card-group/UserCardGroupFollowing';
 
 export default async function ProfileFollowers(
   context: IParamsOnlyIdentifierCtx,
 ) {
-  const userIdentifier = context.params.identifier.toString();
   const session = await auth();
-
-  const userFollowers: IMumbleFollowers[] = await getAllFollowers({
-    identifier: userIdentifier,
-  });
-
-  const userFollowees: IMumbleFollowers[] =
-    await getAllFollowees(userIdentifier);
-
-  console.log(userFollowees);
-
+  const userIdentifier = context.params.identifier.toString();
   try {
-    const profileData = await getMumbleUserByIdentifier(userIdentifier);
+    const {
+      profileFollowers,
+      profileData,
+      loggedUserFollowees,
+      profileFollowees,
+    } = await getProfileData({
+      profileIdentifier: userIdentifier,
+      loggedInUserIdentifier: session?.user.identifier,
+    });
 
     return (
       <div className="mx-auto bg-slate-100 pt-8">
@@ -39,7 +39,7 @@ export default async function ProfileFollowers(
               <ProfileFollow
                 loggedInUserIdentifier={session.user.identifier}
                 profileIdentifier={userIdentifier}
-                followers={userFollowers}
+                followers={profileFollowers}
               />
             </div>
           )}
@@ -51,7 +51,12 @@ export default async function ProfileFollowers(
             />
           </div>
           <div className="mt-8 mb-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
+            <UserCardGroupFollowing
+              loggedInUserIdentifier={session?.user.identifier}
+              loggedInUserFollowees={loggedUserFollowees}
+              profileIdentifier={userIdentifier}
+              cards={profileFollowees}
+            />
           </div>
         </div>
       </div>
