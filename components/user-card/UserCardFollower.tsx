@@ -12,20 +12,19 @@ import Link from 'next/link';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import { followUserToggle } from '@/actions/followUser';
 
-interface IProps extends IMumbleUser {
-  isFollowee?: boolean;
-  type: 'following' | 'followers';
+interface IProps {
+  data: IMumbleUser;
+  profileIdentifier: string;
+  loggedInUserIdentifier?: string;
+  followable?: boolean;
 }
 
-export const UserCard = ({
-  avatarUrl,
-  id: identifier,
-  lastname,
-  username,
-  firstname,
-  isFollowee = false,
-  type,
+export const UserCardFollower = ({
+  data,
+  loggedInUserIdentifier,
+  followable = true,
 }: IProps) => {
+  const { avatarUrl, username, firstname, lastname, id: identifier } = data;
   return (
     <div className="p-4 rounded-lg bg-white flex flex-col items-center w-full relative">
       <Avatar
@@ -53,35 +52,18 @@ export const UserCard = ({
           }}
         />
       </div>
-      {type === 'following' && (
+      {loggedInUserIdentifier && (
         <div className="mt-4 w-full">
           <Button
             fitParent={true}
-            type={EButtonTypes.TERTIARY}
+            type={followable ? EButtonTypes.SECONDARY : EButtonTypes.TERTIARY}
             icon={EIConTypes.MUMBLE}
-            label="Unfollow"
-            name={`user-unfollow-${identifier}`}
+            label={followable ? 'Follow' : 'Unfollow'}
+            name={`user-follow-toggle-${identifier}`}
             onCustomClick={async () => {
               await followUserToggle({
                 identifier,
-                unfollow: true,
-              });
-            }}
-          />
-        </div>
-      )}
-      {type === 'followers' && (
-        <div className="mt-4 w-full">
-          <Button
-            fitParent={true}
-            type={isFollowee ? EButtonTypes.TERTIARY : EButtonTypes.SECONDARY}
-            icon={EIConTypes.MUMBLE}
-            label={isFollowee ? 'Unfollow' : 'Follow back'}
-            name={`user-unfollow-${identifier}`}
-            onCustomClick={async () => {
-              await followUserToggle({
-                identifier,
-                unfollow: isFollowee,
+                unfollow: !followable,
               });
             }}
           />

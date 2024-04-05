@@ -8,8 +8,9 @@ import ProfileFollow from '@/components/profile-switch/ProfileFollow';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
-import { UserCard } from '@/components/user-card/UserCard';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
+import { UserCardGroupFollowers } from '@/components/user-card-group/UserCardGroupFollowers';
+import { EUserCardGroup } from '@/utils/enums/general.enum';
 
 export default async function ProfileFollowers(
   context: IParamsOnlyIdentifierCtx,
@@ -23,6 +24,8 @@ export default async function ProfileFollowers(
 
   const userFollowees: IMumbleFollowers[] =
     await getAllFollowees(userIdentifier);
+
+  console.log(userFollowees);
 
   try {
     const profileData = await getMumbleUserByIdentifier(userIdentifier);
@@ -48,16 +51,7 @@ export default async function ProfileFollowers(
             />
           </div>
           <div className="mt-8 mb-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {userFollowees.map((follower) => {
-                const isFollowee = userFollowers.some(
-                  (user) => user.id === follower.id,
-                );
-                return (
-                  <UserCard {...follower} key={follower.id} type="following" />
-                );
-              })}
-            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
           </div>
         </div>
       </div>

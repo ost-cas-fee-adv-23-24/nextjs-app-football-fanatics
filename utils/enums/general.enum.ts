@@ -26,3 +26,8 @@ export enum EEndpointsBackend {
   LIKE_POST = 'posts/*identifier*/likes',
   REPLY_POST = 'posts/*identifier*/replies',
 }
+
+export enum EUserCardGroup {
+  FOLLOWING = 'following',
+  FOLLOWERS = 'followers',
+}
