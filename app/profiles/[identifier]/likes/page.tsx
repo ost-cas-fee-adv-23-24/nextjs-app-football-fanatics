@@ -7,10 +7,10 @@ import { frontendConfig } from '@/config';
 import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
-import ProfileFollow from '@/components/profile-switch/ProfileFollow';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
+import ProfileFollow from '@/components/profile-follow/ProfileFollow';
 
 export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
   const userIdentifier = context.params.identifier.toString();
@@ -33,6 +33,7 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
                 loggedInUserIdentifier={session.user.identifier}
                 profileIdentifier={userIdentifier}
                 followers={userFollowers}
+                revalidationPath={`/profiles/${userIdentifier}/likes`}
               />
             </div>
           )}

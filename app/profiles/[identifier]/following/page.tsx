@@ -1,18 +1,12 @@
 import Header from '@/components/header/Header';
-import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
 import { notFound } from 'next/navigation';
 import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
-import ProfileFollow from '@/components/profile-switch/ProfileFollow';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
-import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
-import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
-import { UserCardGroupFollowers } from '@/components/user-card-group/UserCardGroupFollowers';
-import { EUserCardGroup } from '@/utils/enums/general.enum';
 import { getProfileData } from '@/actions/getProfileData';
 import { UserCardGroupFollowing } from '@/components/user-card-group/UserCardGroupFollowing';
+import ProfileFollow from '@/components/profile-follow/ProfileFollow';
 
 export default async function ProfileFollowers(
   context: IParamsOnlyIdentifierCtx,
@@ -40,6 +34,7 @@ export default async function ProfileFollowers(
                 loggedInUserIdentifier={session.user.identifier}
                 profileIdentifier={userIdentifier}
                 followers={profileFollowers}
+                revalidationPath={`/profiles/${userIdentifier}/following`}
               />
             </div>
           )}

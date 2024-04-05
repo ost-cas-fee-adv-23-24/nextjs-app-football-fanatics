@@ -3,12 +3,11 @@ import { notFound } from 'next/navigation';
 import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
-import ProfileFollow from '@/components/profile-switch/ProfileFollow';
 
 import { UserCardGroupFollowers } from '@/components/user-card-group/UserCardGroupFollowers';
-import { EUserCardGroup } from '@/utils/enums/general.enum';
 import { getProfileData } from '@/actions/getProfileData';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import ProfileFollow from '@/components/profile-follow/ProfileFollow';
 
 export default async function ProfileFollowers(
   context: IParamsOnlyIdentifierCtx,
@@ -37,6 +36,7 @@ export default async function ProfileFollowers(
                 loggedInUserIdentifier={session.user.identifier}
                 profileIdentifier={userIdentifier}
                 followers={profileFollowers}
+                revalidationPath={`/profiles/${userIdentifier}/followers`}
               />
             </div>
           )}
