@@ -88,19 +88,22 @@ const PostsLoader = ({
         observer.current.disconnect();
       }
       // @ts-ignore
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          if (nextMumblePostsUrl) {
-            fetchPostsBatch({
-              nextUrl: nextMumblePostsUrl,
-              creators,
-              subscribeToNewestPost,
-              fetchOnlyOneBatch,
-              isLikes,
-            });
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            if (nextMumblePostsUrl) {
+              fetchPostsBatch({
+                nextUrl: nextMumblePostsUrl,
+                creators,
+                subscribeToNewestPost,
+                fetchOnlyOneBatch,
+                isLikes,
+              });
+            }
           }
-        }
-      });
+        },
+        { rootMargin: '0px 0px 200px 0px' },
+      );
       if (node) {
         // @ts-ignore
         observer.current.observe(node);
@@ -116,7 +119,7 @@ const PostsLoader = ({
   );
 
   return (
-    <div className="global-width mx-auto">
+    <div className="global-width mx-auto post-loader">
       {(() => {
         if (posts.length === 0 && !isLoading) {
           const placeholders = Array.from({
