@@ -5,18 +5,21 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { UserCardFollower } from '@/components/user-card/UserCardFollower';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { UserCardFollowing } from '@/components/user-card/UserCardFollowing';
+import { UserCard } from '@/components/user-card/UserCard';
 
 interface IProps {
   cards: IMumbleUser[];
   loggedInUserFollowees: IMumbleFollowers[];
   loggedInUserIdentifier?: string;
   profileIdentifier: string;
+  revalidationPath: string;
 }
 
 export const UserCardGroupFollowing = ({
   cards,
   profileIdentifier,
   loggedInUserFollowees,
+  revalidationPath,
 }: IProps) => {
   const { identifier: loggedInProfileIdentifier } = useUserInfo();
   const isSameProfileAndVisitor =
@@ -45,7 +48,8 @@ export const UserCardGroupFollowing = ({
           );
 
           return (
-            <UserCardFollowing
+            <UserCard
+              revalidationPath={revalidationPath}
               followable={!IsFolloweeOfLoggedInUser}
               profileIdentifier={profileIdentifier}
               loggedInUserIdentifier={loggedInProfileIdentifier}

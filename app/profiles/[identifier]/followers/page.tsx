@@ -15,16 +15,11 @@ export default async function ProfileFollowers(
   const session = await auth();
   const userIdentifier = context.params.identifier.toString();
   try {
-    const {
-      profileFollowers,
-      profileData,
-      loggedUserFollowers,
-      loggedUserFollowees,
-      profileFollowees,
-    } = await getProfileData({
-      profileIdentifier: userIdentifier,
-      loggedInUserIdentifier: session?.user.identifier,
-    });
+    const { profileFollowers, profileData, loggedUserFollowees } =
+      await getProfileData({
+        profileIdentifier: userIdentifier,
+        loggedInUserIdentifier: session?.user.identifier,
+      });
 
     return (
       <div className="mx-auto bg-slate-100 pt-8">
@@ -49,9 +44,9 @@ export default async function ProfileFollowers(
           </div>
           <div className="mt-8 mb-4">
             <UserCardGroupFollowers
+              revalidationPath={`/profiles/${userIdentifier}/followers`}
               loggedInUserIdentifier={session?.user.identifier}
               loggedInUserFollowees={loggedUserFollowees}
-              profileFollowees={profileFollowees}
               profileIdentifier={userIdentifier}
               cards={profileFollowers}
             />

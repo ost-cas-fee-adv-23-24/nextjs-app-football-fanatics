@@ -3,46 +3,38 @@ import React from 'react';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import useUserInfo from '@/hooks/useUserInfo';
 import { UserCardFollower } from '@/components/user-card/UserCardFollower';
-import { EUserCardGroup } from '@/utils/enums/general.enum';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
+import { UserCard } from '@/components/user-card/UserCard';
 
 interface IProps {
   cards: IMumbleUser[];
   loggedInUserFollowees: IMumbleFollowers[];
-  profileFollowees: IMumbleFollowers[];
   loggedInUserIdentifier?: string;
   profileIdentifier: string;
+  revalidationPath: string;
 }
 
 export const UserCardGroupFollowers = ({
   cards,
   profileIdentifier,
   loggedInUserFollowees,
-  profileFollowees,
+  revalidationPath,
 }: IProps) => {
   const { identifier: loggedInProfileIdentifier, isLoggedIn } = useUserInfo();
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
       {cards.map((userCardInfo) => {
         let isFollowable = true;
-        if (profileIdentifier === loggedInProfileIdentifier) {
-          const isFollowing = loggedInUserFollowees.find(
-            (userCard) => userCard.id === userCardInfo.id,
-          );
-          if (isFollowing) {
-            isFollowable = false;
-          }
-        } else {
-          const isFollowing = profileFollowees.find(
-            (userCard) => userCard.id === userCardInfo.id,
-          );
-          if (isFollowing) {
-            isFollowable = true;
-          }
+        const isFollowing = loggedInUserFollowees.find(
+          (userCard) => userCard.id === userCardInfo.id,
+        );
+        if (isFollowing) {
+          isFollowable = false;
         }
 
         return (
-          <UserCardFollower
+          <UserCard
+            revalidationPath={revalidationPath}
             followable={isFollowable}
             profileIdentifier={profileIdentifier}
             loggedInUserIdentifier={loggedInProfileIdentifier}

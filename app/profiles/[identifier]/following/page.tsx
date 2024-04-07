@@ -47,6 +47,7 @@ export default async function ProfileFollowers(
           </div>
           <div className="mt-8 mb-4">
             <UserCardGroupFollowing
+              revalidationPath={`/profiles/${userIdentifier}/following`}
               loggedInUserIdentifier={session?.user.identifier}
               loggedInUserFollowees={loggedUserFollowees}
               profileIdentifier={userIdentifier}
