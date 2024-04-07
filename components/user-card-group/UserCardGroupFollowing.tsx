@@ -2,9 +2,7 @@
 import React from 'react';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import useUserInfo from '@/hooks/useUserInfo';
-import { UserCardFollower } from '@/components/user-card/UserCardFollower';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
-import { UserCardFollowing } from '@/components/user-card/UserCardFollowing';
 import { UserCard } from '@/components/user-card/UserCard';
 
 interface IProps {
@@ -32,7 +30,8 @@ export const UserCardGroupFollowing = ({
           // if the loggedInUser is the same as the profile visitor
           // then it is only possible to unfollow. on Unfollow the userCard will be removed from the list
           return (
-            <UserCardFollower
+            <UserCard
+              revalidationPath={revalidationPath}
               followable={false}
               profileIdentifier={profileIdentifier}
               loggedInUserIdentifier={loggedInProfileIdentifier}

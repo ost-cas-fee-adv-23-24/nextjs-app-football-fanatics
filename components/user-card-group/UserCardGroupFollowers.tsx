@@ -2,7 +2,6 @@
 import React from 'react';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import useUserInfo from '@/hooks/useUserInfo';
-import { UserCardFollower } from '@/components/user-card/UserCardFollower';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { UserCard } from '@/components/user-card/UserCard';
 
