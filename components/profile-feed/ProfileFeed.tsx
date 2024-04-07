@@ -9,11 +9,19 @@ import usePosts from '@/hooks/usePosts';
 
 interface IProps {
   userIdentifier: string;
-  isLikes?: boolean;
+  subscribeToNewestPost?: boolean;
   creators?: string[];
+  fetchOnlyOneBatch?: boolean;
+  isLikes?: boolean;
 }
 
-const ProfileFeed = ({ userIdentifier, isLikes = false, creators }: IProps) => {
+const ProfileFeed = ({
+  userIdentifier,
+  subscribeToNewestPost = false,
+  fetchOnlyOneBatch,
+  creators,
+  isLikes,
+}: IProps) => {
   const { posts } = usePosts();
 
   return (
@@ -26,9 +34,11 @@ const ProfileFeed = ({ userIdentifier, isLikes = false, creators }: IProps) => {
       )}
       <div className="mt-8">
         <PostsLoader
-          userIdentifier={userIdentifier}
           isLikes={isLikes}
+          userIdentifier={userIdentifier}
+          subscribeToNewestPost={subscribeToNewestPost}
           creators={creators}
+          fetchOnlyOneBatch={fetchOnlyOneBatch}
         />
       </div>
     </div>

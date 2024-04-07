@@ -29,7 +29,12 @@ export default async function Page() {
         </div>
 
         <div className="max-w-4xl mr-auto ml-auto">
-          <PostsLoader creators={creators} isLikes={false} />
+          <PostsLoader
+            creators={creators}
+            isLikes={false}
+            subscribeToNewestPost={true}
+            fetchOnlyOneBatch={false}
+          />
         </div>
       </div>
     </div>

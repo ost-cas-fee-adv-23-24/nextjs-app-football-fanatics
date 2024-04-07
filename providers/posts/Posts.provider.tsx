@@ -24,6 +24,7 @@ import { frontendConfig } from '@/config';
 import { reducerPosts } from '@/providers/posts/reducer';
 import { IFetchPostsBatchArgs } from '@/providers/posts/utils/posts.interface';
 import _ from 'lodash';
+import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
   children: ReactNode;
@@ -39,32 +40,20 @@ export const PostsProvider = ({ children }: IProps) => {
     isLoading: false,
     nextMumblePostsUrl: null,
     newestPost: null,
-    isLikes: undefined,
-    creators: undefined,
-    isSample: false,
+    subscribeToNewestPost: undefined,
+    fetchOnlyOneBatch: false,
   });
 
-  const {
-    nextMumblePostsUrl,
-    posts,
-    isLoading,
-    newestPost,
-    newPostsQueue,
-    creators,
-    isLikes,
-    isSample,
-  } = state;
-
   const interval = useRef();
-  const fetchedUrls = useRef<string[]>([]);
 
   const fetchPostsBatch = useCallback(
     async ({
       nextUrl,
       userIdentifier,
       creators,
+      subscribeToNewestPost = false,
+      fetchOnlyOneBatch = false,
       isLikes = false,
-      isSample = false,
     }: IFetchPostsBatchArgs) => {
       dispatch({
         type: EPostsActions.SET_LOADING,
@@ -75,13 +64,15 @@ export const PostsProvider = ({ children }: IProps) => {
         type: EPostsActions.SET_OPTIONS,
         payload: {
           creators,
+          subscribeToNewestPost,
+          fetchOnlyOneBatch,
           isLikes,
-          isSample, // to not fetch newer posts than the newest post
         },
       });
+
       if (!nextUrl) {
         const { posts: postsFetched, next } = await fetchPostsFrontend({
-          limit: isSample
+          limit: fetchOnlyOneBatch
             ? frontendConfig.feed.sample.toFetch
             : frontendConfig.feed.defaultAmount,
           offset: 0,
@@ -97,26 +88,24 @@ export const PostsProvider = ({ children }: IProps) => {
         dispatch({
           type: EPostsActions.SET_POSTS_PAYLOAD,
           payload: {
-            posts: isSample // sample contains most liked posts
+            posts: fetchOnlyOneBatch
               ? _.take(
                   _.orderBy(postsFetched, ['likes'], ['desc']),
                   frontendConfig.feed.sample.toPick,
                 )
               : postsFetched,
-            next: isSample ? null : next,
+            next: fetchOnlyOneBatch ? null : next,
           },
         });
         dispatch({
           type: EPostsActions.SET_LOADING,
           payload: false,
         });
-      } else if (nextUrl && !isLoading) {
-        if (fetchedUrls.current.includes(nextUrl)) return; // overreacting to not fetch the same url twice
-        fetchedUrls.current.push(nextUrl); // guard to fetch only once
+      } else if (nextUrl && !state.isLoading) {
         const { posts: postsFetched, next } =
           await fetchPostsFrontendByMumbleNextUrl(nextUrl);
 
-        const newPosts = [...posts, ...postsFetched];
+        const newPosts = [...state.posts, ...postsFetched];
 
         dispatch({
           type: EPostsActions.SET_POSTS_PAYLOAD,
@@ -128,39 +117,34 @@ export const PostsProvider = ({ children }: IProps) => {
         });
       }
     },
-    [posts, isLoading],
+    [state.posts, state.isLoading],
   );
 
   const fetchNewestPosts = useCallback(
-    async (postIdentifier: string, creators?: string[]): Promise<void> => {
-      const { posts: newestPostsFetched } = await fetchPostsFrontend({
+    async (
+      postIdentifier: string,
+      creators?: string[],
+    ): Promise<IPostItem[]> => {
+      const responseApi = await fetchPostsFrontend({
         limit: 20,
         offset: 0,
         newerThan: postIdentifier,
         creators,
       });
-
-      if (newestPostsFetched.length === 0) return;
-
-      const newNewestPost = newestPostsFetched[0];
-      dispatch({ type: EPostsActions.SET_NEWEST_POST, payload: newNewestPost });
-      dispatch({
-        type: EPostsActions.SET_NEW_POSTS_QUEUE_PAYLOAD,
-        payload: [...newestPostsFetched, ...newPostsQueue],
-      });
+      return responseApi.posts;
     },
-    [newPostsQueue],
+    [state.newPostsQueue],
   );
 
   useEffect(() => {
-    if (newPostsQueue.length === 0) return;
+    if (state.newPostsQueue.length === 0) return;
     toast.dismiss();
     currentNotification.current = toast(
       <div className="flex flex-col text-center">
         <Paragraph size={EParagraphSizes.MEDIUM} text="New Posts Available" />
         <ToggleGeneric
           icon={EIConTypes.TIME}
-          label={`Load posts (${newPostsQueue.length})`}
+          label={`Load posts (${state.newPostsQueue.length})`}
           labelActive="Loading..."
           effectDuration={300}
           customClickEvent={() => {
@@ -178,17 +162,41 @@ export const PostsProvider = ({ children }: IProps) => {
         autoClose: false,
       },
     );
-  }, [newPostsQueue]);
+  }, [state.newPostsQueue]);
 
   useEffect(() => {
     if (remainingTime === 0) {
       setTimer();
-      if (newestPost && newestPost.id) {
-        if (isLikes || isSample) return; // no newest check on likes only feed nor sample for new users
-        fetchNewestPosts(newestPost.id, creators);
+
+      if (state.newestPost && state.newestPost.id) {
+        if (!state.subscribeToNewestPost) {
+          return; // no newest check on likes only feed nor sample for new users
+        }
+
+        fetchNewestPosts(state.newestPost.id, state.creators).then(
+          (newestPostsFetched) => {
+            if (newestPostsFetched.length === 0) return;
+
+            const newNewestPost = newestPostsFetched[0];
+            dispatch({
+              type: EPostsActions.SET_NEWEST_POST,
+              payload: newNewestPost,
+            });
+            dispatch({
+              type: EPostsActions.SET_NEW_POSTS_QUEUE_PAYLOAD,
+              payload: [...newestPostsFetched, ...state.newPostsQueue],
+            });
+          },
+        );
       }
     }
-  }, [newestPost, remainingTime, isLikes, creators, fetchNewestPosts]);
+  }, [
+    state.newestPost,
+    remainingTime,
+    state.subscribeToNewestPost,
+    state.creators,
+    fetchNewestPosts,
+  ]);
 
   const setTimer = () => {
     setRemainingTime((prev) => {
@@ -207,10 +215,10 @@ export const PostsProvider = ({ children }: IProps) => {
   return (
     <PostsContext.Provider
       value={{
-        nextMumblePostsUrl,
-        newestPost,
-        isLoading,
-        posts,
+        nextMumblePostsUrl: state.nextMumblePostsUrl,
+        newestPost: state.newestPost,
+        isLoading: state.isLoading,
+        posts: state.posts,
         dispatchPosts: dispatch,
         fetchPostsBatch,
       }}

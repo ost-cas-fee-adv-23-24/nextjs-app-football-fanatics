@@ -44,7 +44,11 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
               userIdentifier={userIdentifier}
             />
           </div>
-          <ProfileFeed isLikes={true} userIdentifier={userIdentifier} />
+          <ProfileFeed
+            isLikes={true}
+            userIdentifier={userIdentifier}
+            subscribeToNewestPost={false}
+          />
         </div>
       </div>
     );

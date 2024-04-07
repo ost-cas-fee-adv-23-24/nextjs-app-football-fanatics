@@ -49,7 +49,11 @@ export default async function Page() {
               text="Recommended mumbles"
             />
           </div>
-          <PostsLoader isSample={true} />
+          <PostsLoader
+            subscribeToNewestPost={false}
+            isLikes={false}
+            fetchOnlyOneBatch={true}
+          />
         </div>
       </div>
     </div>
