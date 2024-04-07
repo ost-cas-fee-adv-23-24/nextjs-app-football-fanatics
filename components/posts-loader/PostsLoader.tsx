@@ -119,7 +119,7 @@ const PostsLoader = ({
   );
 
   return (
-    <div className="global-width mx-auto post-loader">
+    <div className="global-width mx-auto">
       {(() => {
         if (posts.length === 0 && !isLoading) {
           const placeholders = Array.from({
