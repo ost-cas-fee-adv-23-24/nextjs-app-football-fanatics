@@ -13,7 +13,7 @@ import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import { followUserToggle } from '@/actions/followUser';
 
 interface IProps {
-  data: IMumbleUser;
+  userData: IMumbleUser;
   profileIdentifier: string;
   loggedInUserIdentifier?: string;
   followable?: boolean;
@@ -21,12 +21,12 @@ interface IProps {
 }
 
 export const UserCard = ({
-  data,
+  userData,
   loggedInUserIdentifier,
   followable = true,
   revalidationPath,
 }: IProps) => {
-  const { avatarUrl, username, firstname, lastname, id: identifier } = data;
+  const { avatarUrl, username, firstname, lastname, id: identifier } = userData;
   return (
     <div className="p-4 rounded-lg bg-white flex flex-col items-center w-full relative">
       <Avatar

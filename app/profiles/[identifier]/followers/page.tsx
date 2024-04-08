@@ -9,11 +9,9 @@ import { getProfileData } from '@/actions/getProfileData';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import ProfileFollow from '@/components/profile-follow/ProfileFollow';
 
-export default async function ProfileFollowers(
-  context: IParamsOnlyIdentifierCtx,
-) {
+export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
   const session = await auth();
-  const userIdentifier = context.params.identifier.toString();
+  const userIdentifier = ctx.params.identifier.toString();
   try {
     const { profileFollowers, profileData, loggedUserFollowees } =
       await getProfileData({
@@ -48,7 +46,7 @@ export default async function ProfileFollowers(
               loggedInUserIdentifier={session?.user.identifier}
               loggedInUserFollowees={loggedUserFollowees}
               profileIdentifier={userIdentifier}
-              cards={profileFollowers}
+              followers={profileFollowers}
             />
           </div>
         </div>

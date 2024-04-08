@@ -1,12 +1,11 @@
 'use client';
 import React from 'react';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
-import useUserInfo from '@/hooks/useUserInfo';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { UserCard } from '@/components/user-card/UserCard';
 
 interface IProps {
-  cards: IMumbleUser[];
+  followees: IMumbleUser[];
   loggedInUserFollowees: IMumbleFollowers[];
   loggedInUserIdentifier?: string;
   profileIdentifier: string;
@@ -14,18 +13,17 @@ interface IProps {
 }
 
 export const UserCardGroupFollowing = ({
-  cards,
+  followees,
   profileIdentifier,
   loggedInUserFollowees,
   revalidationPath,
+  loggedInUserIdentifier,
 }: IProps) => {
-  const { identifier: loggedInProfileIdentifier } = useUserInfo();
-  const isSameProfileAndVisitor =
-    profileIdentifier === loggedInProfileIdentifier;
+  const isSameProfileAndVisitor = profileIdentifier === loggedInUserIdentifier;
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-      {cards.map((userCardInfo) => {
+      {followees.map((userCardInfo) => {
         if (isSameProfileAndVisitor) {
           // if the loggedInUser is the same as the profile visitor
           // then it is only possible to unfollow. on Unfollow the userCard will be removed from the list
@@ -34,8 +32,8 @@ export const UserCardGroupFollowing = ({
               revalidationPath={revalidationPath}
               followable={false}
               profileIdentifier={profileIdentifier}
-              loggedInUserIdentifier={loggedInProfileIdentifier}
-              data={userCardInfo}
+              loggedInUserIdentifier={loggedInUserIdentifier}
+              userData={userCardInfo}
               key={userCardInfo.id}
             />
           );
@@ -51,8 +49,8 @@ export const UserCardGroupFollowing = ({
               revalidationPath={revalidationPath}
               followable={!IsFolloweeOfLoggedInUser}
               profileIdentifier={profileIdentifier}
-              loggedInUserIdentifier={loggedInProfileIdentifier}
-              data={userCardInfo}
+              loggedInUserIdentifier={loggedInUserIdentifier}
+              userData={userCardInfo}
               key={userCardInfo.id}
             />
           );

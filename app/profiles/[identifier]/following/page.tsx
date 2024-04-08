@@ -8,11 +8,9 @@ import { getProfileData } from '@/actions/getProfileData';
 import { UserCardGroupFollowing } from '@/components/user-card-group/UserCardGroupFollowing';
 import ProfileFollow from '@/components/profile-follow/ProfileFollow';
 
-export default async function ProfileFollowers(
-  context: IParamsOnlyIdentifierCtx,
-) {
+export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
   const session = await auth();
-  const userIdentifier = context.params.identifier.toString();
+  const userIdentifier = ctx.params.identifier.toString();
   try {
     const {
       profileFollowers,
@@ -26,7 +24,7 @@ export default async function ProfileFollowers(
 
     return (
       <div className="mx-auto bg-slate-100 pt-8">
-        <div className="global-width  mx-auto py-8">
+        <div className="global-width mx-auto py-8">
           <Header user={profileData} />
           {session && (
             <div className="mt-8 mb-4">
@@ -51,7 +49,7 @@ export default async function ProfileFollowers(
               loggedInUserIdentifier={session?.user.identifier}
               loggedInUserFollowees={loggedUserFollowees}
               profileIdentifier={userIdentifier}
-              cards={profileFollowees}
+              followees={profileFollowees}
             />
           </div>
         </div>
