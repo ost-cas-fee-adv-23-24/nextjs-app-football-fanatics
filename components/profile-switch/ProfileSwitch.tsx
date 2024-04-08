@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Tabs } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { useRouter } from 'next/navigation';
 
@@ -17,6 +17,28 @@ const ProfileSwitch = ({
   const [tabInternal, setTabInternal] = useState(selectedTab);
   const { push } = useRouter();
 
+  useEffect(() => {
+    let redirectUrl = `/profiles/${userIdentifier}`;
+    switch (tabInternal) {
+      case 0:
+        redirectUrl = `/profiles/${userIdentifier}`;
+        break;
+      case 1:
+        redirectUrl = `/profiles/${userIdentifier}/likes`;
+        break;
+      case 2:
+        redirectUrl = `/profiles/${userIdentifier}/followers`;
+        break;
+      case 3:
+        redirectUrl = `/profiles/${userIdentifier}/following`;
+        break;
+    }
+
+    setTimeout(() => {
+      push(redirectUrl);
+    }, redirectionDelay);
+  }, [tabInternal, userIdentifier]);
+
   return (
     <>
       {/*fix tabs on design system to apply the effect on the tab position */}
@@ -24,13 +46,6 @@ const ProfileSwitch = ({
       <Tabs
         updateSelection={(item) => {
           setTabInternal(item);
-          setTimeout(() => {
-            const url =
-              item === 0
-                ? `/profiles/${userIdentifier}`
-                : `/profiles/${userIdentifier}/likes`;
-            push(url);
-          }, redirectionDelay);
         }}
         tabItems={[
           {
@@ -42,6 +57,16 @@ const ProfileSwitch = ({
             isActive: tabInternal === 1,
             text: 'Likes',
             identifier: 'tab-2',
+          },
+          {
+            isActive: tabInternal === 2,
+            text: 'Followers',
+            identifier: 'tab-3',
+          },
+          {
+            isActive: tabInternal === 3,
+            text: 'Following',
+            identifier: 'tab-4',
           },
         ]}
       />

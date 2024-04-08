@@ -1,27 +1,23 @@
 import Header from '@/components/header/Header';
-import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
 import { notFound } from 'next/navigation';
-import ProfileFeed from '@/components/profile-feed/ProfileFeed';
-import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
-import { frontendConfig } from '@/config';
 import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
+
+import { UserCardGroupFollowers } from '@/components/user-card-group/UserCardGroupFollowers';
+import { getProfileData } from '@/actions/getProfileData';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
-import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
 import ProfileFollow from '@/components/profile-follow/ProfileFollow';
 
-export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
-  const userIdentifier = context.params.identifier.toString();
+export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
   const session = await auth();
-
-  const userFollowers: IMumbleFollowers[] = await getAllFollowers({
-    identifier: userIdentifier,
-  });
-
+  const userIdentifier = ctx.params.identifier.toString();
   try {
-    const profileData = await getMumbleUserByIdentifier(userIdentifier);
+    const { profileFollowers, profileData, loggedUserFollowees } =
+      await getProfileData({
+        profileIdentifier: userIdentifier,
+        loggedInUserIdentifier: session?.user.identifier,
+      });
 
     return (
       <div className="mx-auto bg-slate-100 pt-8">
@@ -32,19 +28,27 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
               <ProfileFollow
                 loggedInUserIdentifier={session.user.identifier}
                 profileIdentifier={userIdentifier}
-                followers={userFollowers}
-                revalidationPath={`/profiles/${userIdentifier}/likes`}
+                followers={profileFollowers}
+                revalidationPath={`/profiles/${userIdentifier}/followers`}
               />
             </div>
           )}
           <div className="mt-8 mb-4">
             <ProfileSwitch
               redirectionDelay={500}
-              selectedTab={1}
+              selectedTab={2}
               userIdentifier={userIdentifier}
             />
           </div>
-          <ProfileFeed isLikes={true} userIdentifier={userIdentifier} />
+          <div className="mt-8 mb-4">
+            <UserCardGroupFollowers
+              revalidationPath={`/profiles/${userIdentifier}/followers`}
+              loggedInUserIdentifier={session?.user.identifier}
+              loggedInUserFollowees={loggedUserFollowees}
+              profileIdentifier={userIdentifier}
+              followers={profileFollowers}
+            />
+          </div>
         </div>
       </div>
     );
