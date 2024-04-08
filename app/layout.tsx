@@ -35,7 +35,9 @@ export default function RootLayout({
   const mainWrapperCss =
     'main-wrapper w-full flex flex-col h-screen min-h-screen overflow-y-hidden';
   const headerCss = 'header bg-violet-600 py-3';
-  const contentCss = 'content bg-slate-100 px-10 lg:px-0 grow overflow-y-auto';
+  // const contentCss = 'content bg-slate-100 px-10 lg:px-0 grow overflow-y-auto';
+  const contentCss =
+    'content bg-slate-100 px-10 lg:px-0 grow flex flex-col  overflow-y-hidden';
 
   return (
     <html lang="en" suppressHydrationWarning>

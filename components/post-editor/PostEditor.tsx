@@ -8,7 +8,6 @@ import {
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
-import useUserInfo from '@/hooks/useUserInfo';
 import { createPostReply } from '@/actions/createPostReply';
 import { createPost } from '@/actions/createPost';
 import useModal from '@/hooks/useModal';

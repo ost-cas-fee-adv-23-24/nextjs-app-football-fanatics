@@ -1,6 +1,6 @@
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
 
-import PostsLoader from '@/components/posts-loader/PostsLoader';
+import { PostsFixLoader } from '@/components/posts-loader/PostsFixLoader';
 
 export default async function Page() {
   return (
@@ -11,7 +11,7 @@ export default async function Page() {
           description="Did you hear that? They've shut down the main reactor."
         />
       </div>
-      <PostsLoader
+      <PostsFixLoader
         isLikes={false}
         subscribeToNewestPost={true}
         fetchOnlyOneBatch={false}

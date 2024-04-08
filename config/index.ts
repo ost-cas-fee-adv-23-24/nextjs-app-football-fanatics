@@ -63,7 +63,7 @@ const config = {
 
 export const frontendConfig = {
   feed: {
-    defaultAmount: 5,
+    defaultAmount: 100,
     sample: {
       toFetch: 100,
       toPick: 5,

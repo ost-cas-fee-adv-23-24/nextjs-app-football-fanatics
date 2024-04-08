@@ -6,16 +6,22 @@ import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 import usePosts from '@/hooks/usePosts';
 import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
+import { Post } from '@/components/post/Post';
+import { PostFix } from '@/components/post/PostFix';
 interface IProps {
   userIdentifier?: string;
-  isLikes?: boolean;
+  subscribeToNewestPost?: boolean;
   creators?: string[];
+  fetchOnlyOneBatch?: boolean;
+  isLikes?: boolean;
 }
 
-const PostsLoaderBkp = ({
+export const PostsFixLoader = ({
   userIdentifier,
-  isLikes = false,
+  subscribeToNewestPost = false,
   creators,
+  fetchOnlyOneBatch = false,
+  isLikes = false,
 }: IProps) => {
   const {
     posts,
@@ -24,10 +30,11 @@ const PostsLoaderBkp = ({
     dispatchPosts,
     fetchPostsBatch,
   } = usePosts();
+
   const numRows = posts.length;
   const [scrollTop, setScrollTop] = useState(0);
   const [availableHeight, setAvailableHeight] = useState(0);
-  const rowHeight = 100;
+  const rowHeight = 502.2;
   const totalHeight = rowHeight * numRows;
   const containerRef = useRef(null);
   let startIndex = Math.floor(scrollTop / rowHeight);
@@ -36,45 +43,19 @@ const PostsLoaderBkp = ({
     numRows,
   );
 
-  const renderSinglePost = (post: IPostItem, index: number) => {
-    return (
-      <div
-        ref={posts.length === index + 1 ? lastPostRef : undefined}
-        className="bg-white py-8 px-12 relative rounded-2xl mb-6 w-full"
-        key={post.id}
-        data-identifier={post.id}
-      >
-        <PostCard
-          key={`${post.id}`}
-          text={post.text}
-          id={post.id}
-          creator={post.creator}
-          mediaUrl={post.mediaUrl}
-          mediaType={post.mediaType}
-          likes={post.likes}
-          replies={post.replies}
-          likedBySelf={post.likedBySelf}
-        />
-        <div className="mt-3 ml-[-12px]">
-          <PostActionsBar
-            creatorIdentifier={post.creator.id}
-            identifier={post.id}
-            amountLikes={post.likes}
-            amountComments={post.replies}
-            selfLiked={post.likedBySelf}
-          />
-        </div>
-      </div>
-    );
-  };
-
   useEffect(() => {
     // @ts-ignore
     setAvailableHeight(containerRef.current.clientHeight || 0);
   }, []);
 
   useEffect(() => {
-    fetchPostsBatch();
+    fetchPostsBatch({
+      userIdentifier,
+      creators,
+      subscribeToNewestPost,
+      fetchOnlyOneBatch,
+      isLikes,
+    });
     return () => {
       dispatchPosts({
         type: EPostsActions.RESET,
@@ -96,7 +77,13 @@ const PostsLoaderBkp = ({
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && !isLoading) {
           if (nextMumblePostsUrl) {
-            fetchPostsBatch(nextMumblePostsUrl);
+            fetchPostsBatch({
+              nextUrl: nextMumblePostsUrl,
+              creators,
+              subscribeToNewestPost,
+              fetchOnlyOneBatch,
+              isLikes,
+            });
           }
         }
       });
@@ -120,7 +107,15 @@ const PostsLoaderBkp = ({
 
   while (index < endIndex) {
     const currentPost = posts[index];
-    postsToRender.push(renderSinglePost(currentPost, index));
+    postsToRender.push(
+      <div
+        data-identifier={currentPost.id}
+        ref={posts.length === index + 1 ? lastPostRef : undefined}
+        key={currentPost.id}
+      >
+        <PostFix postData={currentPost} />
+      </div>,
+    );
     index++;
   }
 
@@ -143,11 +138,8 @@ const PostsLoaderBkp = ({
         >
           {posts.length === 0 && <PostEditorPlaceholder />}
           {postsToRender}
-          {isLoading && <PostEditorPlaceholder />}
         </div>
       </div>
     </div>
   );
 };
-
-export default PostsLoaderBkp;
