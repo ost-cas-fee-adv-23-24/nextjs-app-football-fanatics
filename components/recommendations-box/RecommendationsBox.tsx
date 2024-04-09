@@ -130,7 +130,7 @@ const RecommendationsBox = ({
             size={EButtonSizes.MEDIUM}
             type={EButtonTypes.TERTIARY}
             icon={EIConTypes.TIME}
-            label="Star all over"
+            label="Start all over"
             name="reset-recommendations"
           />
         )}
