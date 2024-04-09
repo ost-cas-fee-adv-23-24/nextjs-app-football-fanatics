@@ -170,7 +170,7 @@ export const PostsProvider = ({ children }: IProps) => {
 
       if (state.newestPost && state.newestPost.id) {
         if (!state.subscribeToNewestPost) {
-          return; // no newest check on likes only feed nor sample for new users
+          return; // no newest check on likes only feed. neither for sample for new users
         }
 
         fetchNewestPosts(state.newestPost.id, state.creators).then(
