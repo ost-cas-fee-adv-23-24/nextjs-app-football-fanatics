@@ -20,6 +20,8 @@ import { signIn } from 'next-auth/react';
 import { deletePost } from '@/actions/deletePost';
 import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
+import usePosts from '@/hooks/usePosts';
+import { EPostsActions } from '@/stores/Posts.context';
 
 interface IProps {
   amountLikes: number;
@@ -40,6 +42,7 @@ const PostActionsBar = ({
   const [linkToCopy, setLinkToCopy] = useState<string>('');
   const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
   const { dispatchModal, closeModal } = useModal();
+  const { dispatchPosts } = usePosts();
   const notify = () => {
     toast(
       <DialogLogin
@@ -127,6 +130,12 @@ const PostActionsBar = ({
                       type={EButtonTypes.TERTIARY}
                       onCustomClick={async () => {
                         await deletePost({ postIdentifier: identifier });
+                        dispatchPosts({
+                          type: EPostsActions.DELETE_POST,
+                          payload: {
+                            identifier,
+                          },
+                        });
                         closeModal();
                         router.refresh();
                       }}
