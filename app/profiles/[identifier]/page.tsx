@@ -43,12 +43,19 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
               redirectionDelay={500}
               selectedTab={0}
               userIdentifier={currentProfileUserIdentifier}
+              showSuggestions={
+                !!(
+                  session &&
+                  currentProfileUserIdentifier === session.user.identifier
+                )
+              }
             />
           </div>
           <ProfileFeed
             creators={[currentProfileUserIdentifier]}
             userIdentifier={currentProfileUserIdentifier}
-            isLikes={false}
+            subscribeToNewestPost={true}
+            fetchOnlyOneBatch={false}
           />
         </div>
       </div>

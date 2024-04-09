@@ -27,19 +27,21 @@ export const reducerPosts = (
       copyState.nextMumblePostsUrl = payload.next;
       return copyState;
     case EPostsActions.SET_OPTIONS:
-      copyState.nextMumblePostsUrl = null;
-      copyState.isSample = payload.isSample || false;
+      copyState.fetchOnlyOneBatch = payload.isSample || false;
       copyState.isLikes = payload.isLikes || undefined;
       copyState.creators = payload.creators || undefined;
+      copyState.subscribeToNewestPost =
+        payload.subscribeToNewestPost || undefined;
       return copyState;
     case EPostsActions.RESET:
+      copyState.isLikes = undefined;
+      copyState.fetchOnlyOneBatch = undefined;
+      copyState.isLoading = false;
       copyState.posts = [];
       copyState.newPostsQueue = [];
-      copyState.isSample = false;
-      copyState.isLoading = false;
       copyState.nextMumblePostsUrl = null;
       copyState.newestPost = null;
-      copyState.isLikes = undefined;
+      copyState.subscribeToNewestPost = undefined;
       copyState.creators = undefined;
       return copyState;
     default:

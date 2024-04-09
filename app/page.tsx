@@ -11,7 +11,11 @@ export default async function Page() {
           description="Did you hear that? They've shut down the main reactor."
         />
       </div>
-      <PostsLoader />
+      <PostsLoader
+        isLikes={false}
+        subscribeToNewestPost={true}
+        fetchOnlyOneBatch={false}
+      />
     </div>
   );
 }

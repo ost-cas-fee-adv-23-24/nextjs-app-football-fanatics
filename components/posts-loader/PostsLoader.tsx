@@ -9,16 +9,18 @@ import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlace
 import { frontendConfig } from '@/config';
 interface IProps {
   userIdentifier?: string;
-  isLikes?: boolean;
+  subscribeToNewestPost?: boolean;
   creators?: string[];
-  isSample?: boolean;
+  fetchOnlyOneBatch?: boolean;
+  isLikes?: boolean;
 }
 
 const PostsLoader = ({
   userIdentifier,
-  isLikes = false,
+  subscribeToNewestPost = false,
   creators,
-  isSample = false,
+  fetchOnlyOneBatch = false,
+  isLikes = false,
 }: IProps) => {
   const {
     posts,
@@ -64,8 +66,9 @@ const PostsLoader = ({
     fetchPostsBatch({
       userIdentifier,
       creators,
+      subscribeToNewestPost,
+      fetchOnlyOneBatch,
       isLikes,
-      isSample,
     });
     return () => {
       dispatchPosts({
@@ -85,23 +88,34 @@ const PostsLoader = ({
         observer.current.disconnect();
       }
       // @ts-ignore
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && !isLoading) {
-          if (nextMumblePostsUrl) {
-            fetchPostsBatch({
-              nextUrl: nextMumblePostsUrl,
-              creators,
-              isLikes,
-            });
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            if (nextMumblePostsUrl) {
+              fetchPostsBatch({
+                nextUrl: nextMumblePostsUrl,
+                creators,
+                subscribeToNewestPost,
+                fetchOnlyOneBatch,
+                isLikes,
+              });
+            }
           }
-        }
-      });
+        },
+        { rootMargin: '0px 0px 200px 0px' },
+      );
       if (node) {
         // @ts-ignore
         observer.current.observe(node);
       }
     },
-    [isLoading, nextMumblePostsUrl, creators, isLikes, fetchPostsBatch],
+    [
+      isLoading,
+      nextMumblePostsUrl,
+      creators,
+      subscribeToNewestPost,
+      fetchPostsBatch,
+    ],
   );
 
   return (
