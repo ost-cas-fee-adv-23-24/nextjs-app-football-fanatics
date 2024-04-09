@@ -16,10 +16,11 @@ export const getRecommendationsData = async (
   userIdentifier: string,
 ): Promise<IRecommendationsArgs> => {
   const users = await getAllUsers(true);
+  const filteredUsers = users.filter((user) => user.id !== userIdentifier);
   const userFollowees = await getAllFollowees(userIdentifier);
 
   return {
-    users,
+    users: filteredUsers,
     userFollowees,
   };
 };
