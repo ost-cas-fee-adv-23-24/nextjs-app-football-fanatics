@@ -52,7 +52,7 @@ const Modal = () => {
       />
       <div className="modal-wrapper w-[calc(100%-48px)] h-[calc(100%-48px)] px-[50px] py-[50px] z-40">
         <div
-          className={`o-overlay-content overflow-hidden grow flex flex-col ${width} max-h-full mx-auto`}
+          className={`o-overlay-content overflow-hidden grow flex flex-col ${width} max-h-full mx-auto rounded-2xl`}
         >
           <div className="bg-violet-600 flex pt-6 pb-6 pl-8 pr-8 justify-between items-center self-stretch rounded-t-2xl z-60 relative">
             <h2 className="text-white text-3xl not-italic font-semibold leading-10 truncate">
