@@ -30,7 +30,7 @@ export default async function ProfileLayout({ children, params }: IProfileLayout
       <div className="mx-auto bg-slate-100 pt-8">
         <div className="global-width  mx-auto py-8">
           <Header user={profileData} />
-          {session && (
+          {session && session.user.identifier !== currentProfileUserIdentifier && (
             <div className="mt-8 mb-4">
               <ProfileFollow
                 loggedInUserIdentifier={session.user.identifier}
