@@ -70,7 +70,7 @@ const Modal = () => {
             </div>
           </div>
           <div className="modal-content-wrapper bg-white py-8 px-8 grow flex flex-col overflow-hidden">
-            <div className="modal-content-wrapper grow pt-4 overflow-auto">
+            <div className="modal-content-wrapper grow overflow-auto">
               {content ? content : ''}
             </div>
           </div>
