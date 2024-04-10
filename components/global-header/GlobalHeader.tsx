@@ -64,6 +64,9 @@ export const GlobalHeader = ({}: IProps) => {
                       <UserSettings
                         onClose={closeModal}
                         onSave={(options) => {
+                          // There is no endpoints on the mumble API to update an user. So we just show a toast
+                          // the only thing we can update is the avatar picture. what is done in the avatar component
+                          // shown in the profile page
                           toast(
                             'Saved! Sorry. No apis for this at the moment ¯\\_(ツ)_/¯',
                           );
