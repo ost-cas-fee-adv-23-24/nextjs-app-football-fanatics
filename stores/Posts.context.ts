@@ -9,6 +9,7 @@ export enum EPostsActions {
   SET_NEWEST_POST = 'setNewestPost',
   SET_NEW_POSTS_QUEUE_PAYLOAD = 'setNewPostsPayload',
   SET_POSTS_QUEUE = 'setNewPosts',
+  DELETE_POST = 'deletePost',
 }
 
 const PostsContext = createContext<IPostsProviderContextData | null>(null);

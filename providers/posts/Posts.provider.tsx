@@ -23,7 +23,7 @@ import {
 import { frontendConfig } from '@/config';
 import { reducerPosts } from '@/providers/posts/reducer';
 import { IFetchPostsBatchArgs } from '@/providers/posts/utils/posts.interface';
-import _ from 'lodash';
+import _orderBy from 'lodash/orderBy';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
@@ -89,8 +89,8 @@ export const PostsProvider = ({ children }: IProps) => {
           type: EPostsActions.SET_POSTS_PAYLOAD,
           payload: {
             posts: fetchOnlyOneBatch
-              ? _.take(
-                  _.orderBy(postsFetched, ['likes'], ['desc']),
+              ? _orderBy(postsFetched, ['likes'], ['desc']).slice(
+                  0,
                   frontendConfig.feed.sample.toPick,
                 )
               : postsFetched,
@@ -170,7 +170,7 @@ export const PostsProvider = ({ children }: IProps) => {
 
       if (state.newestPost && state.newestPost.id) {
         if (!state.subscribeToNewestPost) {
-          return; // no newest check on likes only feed nor sample for new users
+          return; // no newest check on likes only feed. neither for sample for new users
         }
 
         fetchNewestPosts(state.newestPost.id, state.creators).then(

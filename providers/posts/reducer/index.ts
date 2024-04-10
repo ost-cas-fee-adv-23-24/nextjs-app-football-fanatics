@@ -9,6 +9,11 @@ export const reducerPosts = (
   const copyState = cloneDeep(state);
   const { type, payload } = action;
   switch (type) {
+    case EPostsActions.DELETE_POST:
+      copyState.posts = copyState.posts.filter(
+        (post) => post.id !== payload.identifier,
+      );
+      return copyState;
     case EPostsActions.SET_POSTS_QUEUE:
       copyState.posts = [...copyState.newPostsQueue, ...copyState.posts];
       copyState.newPostsQueue = [];
