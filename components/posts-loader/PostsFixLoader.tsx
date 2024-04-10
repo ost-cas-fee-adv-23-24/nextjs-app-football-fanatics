@@ -32,9 +32,10 @@ export const PostsFixLoader = ({
   } = usePosts();
 
   const numRows = posts.length;
+
   const [scrollTop, setScrollTop] = useState(0);
   const [availableHeight, setAvailableHeight] = useState(0);
-  const rowHeight = 502.2;
+  const rowHeight = 291;
   const totalHeight = rowHeight * numRows;
   const containerRef = useRef(null);
   let startIndex = Math.floor(scrollTop / rowHeight);
@@ -46,6 +47,7 @@ export const PostsFixLoader = ({
   useEffect(() => {
     // @ts-ignore
     setAvailableHeight(containerRef.current.clientHeight || 0);
+    // @ts-ignore
   }, []);
 
   useEffect(() => {
@@ -55,6 +57,7 @@ export const PostsFixLoader = ({
       subscribeToNewestPost,
       fetchOnlyOneBatch,
       isLikes,
+      customAmount: 100,
     });
     return () => {
       dispatchPosts({

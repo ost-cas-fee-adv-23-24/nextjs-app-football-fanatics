@@ -54,6 +54,7 @@ export const PostsProvider = ({ children }: IProps) => {
       subscribeToNewestPost = false,
       fetchOnlyOneBatch = false,
       isLikes = false,
+      customAmount,
     }: IFetchPostsBatchArgs) => {
       dispatch({
         type: EPostsActions.SET_LOADING,
@@ -72,9 +73,11 @@ export const PostsProvider = ({ children }: IProps) => {
 
       if (!nextUrl) {
         const { posts: postsFetched, next } = await fetchPostsFrontend({
-          limit: fetchOnlyOneBatch
-            ? frontendConfig.feed.sample.toFetch
-            : frontendConfig.feed.defaultAmount,
+          limit: customAmount
+            ? customAmount
+            : fetchOnlyOneBatch
+              ? frontendConfig.feed.sample.toFetch
+              : frontendConfig.feed.defaultAmount,
           offset: 0,
           userIdentifier,
           creators,
