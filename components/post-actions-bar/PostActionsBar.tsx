@@ -1,7 +1,9 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import {
+  Button,
   ButtonTimed,
+  EButtonTypes,
   EIConTypes,
   ToggleComment,
   ToggleGeneric,
@@ -15,6 +17,11 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { toast } from 'react-toastify';
 import DialogLogin from '@/components/dialog-login/DialogLogin';
 import { signIn } from 'next-auth/react';
+import { deletePost } from '@/actions/deletePost';
+import useModal from '@/hooks/useModal';
+import { EModalActions } from '@/stores/Modal.context';
+import usePosts from '@/hooks/usePosts';
+import { EPostsActions } from '@/stores/Posts.context';
 
 interface IProps {
   amountLikes: number;
@@ -34,6 +41,8 @@ const PostActionsBar = ({
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
   const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
+  const { dispatchModal, closeModal } = useModal();
+  const { dispatchPosts } = usePosts();
   const notify = () => {
     toast(
       <DialogLogin
@@ -107,9 +116,33 @@ const PostActionsBar = ({
             icon={EIConTypes.CANCEL}
             label="Delete"
             labelActive="Deleted"
-            effectDuration={300}
-            customClickEvent={() => {
-              alert('delete post');
+            effectDuration={0}
+            customClickEvent={async () => {
+              dispatchModal({
+                type: EModalActions.SET_CONTENT,
+                payload: {
+                  title: 'Delete Post?',
+                  content: (
+                    <Button
+                      name="delete-post"
+                      icon={EIConTypes.EDIT}
+                      label="Delete"
+                      type={EButtonTypes.TERTIARY}
+                      onCustomClick={async () => {
+                        await deletePost({ postIdentifier: identifier });
+                        dispatchPosts({
+                          type: EPostsActions.DELETE_POST,
+                          payload: {
+                            identifier,
+                          },
+                        });
+                        closeModal();
+                        router.refresh();
+                      }}
+                    />
+                  ),
+                },
+              });
             }}
           />
         </div>

@@ -1,5 +1,5 @@
-import { createContext, Dispatch } from 'react';
-import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
+import { createContext } from 'react';
+import { IPostsProviderContextData } from '@/providers/posts/utils/posts.interface';
 
 export enum EPostsActions {
   SET_LOADING = 'setLoading',
@@ -9,17 +9,7 @@ export enum EPostsActions {
   SET_NEWEST_POST = 'setNewestPost',
   SET_NEW_POSTS_QUEUE_PAYLOAD = 'setNewPostsPayload',
   SET_POSTS_QUEUE = 'setNewPosts',
-}
-
-export interface IPostsProviderContextData {
-  posts: IPostItem[];
-  newestPost: IPostItem[];
-  newPostsRendered: IPostItem[];
-  isLoading: boolean;
-  hasNext: boolean;
-  offset: number;
-  limit: number;
-  dispatchPosts: Dispatch<{ type: EPostsActions; payload: any }>;
+  DELETE_POST = 'deletePost',
 }
 
 const PostsContext = createContext<IPostsProviderContextData | null>(null);

@@ -11,11 +11,16 @@ export const fetchPostsFrontend = async ({
   isLikes = false,
   newerThan,
   creators,
-}: IFetchPostsOptions): Promise<{ posts: IPostItem[]; hasNext: boolean }> => {
+}: IFetchPostsOptions): Promise<{
+  posts: IPostItem[];
+  hasNext: boolean;
+  next: string | null;
+}> => {
   const params = new URLSearchParams({
     offset: offset.toString(),
     limit: limit.toString(),
   });
+
   if (newerThan) {
     params.append('newerThan', newerThan);
   }
@@ -35,5 +40,16 @@ export const fetchPostsFrontend = async ({
   });
 
   const { data, next } = (await responseApi.json()) as IPostsApiResponse;
-  return { posts: data, hasNext: !!next };
+  return { posts: data, hasNext: !!next, next };
+};
+
+export const fetchPostsFrontendByMumbleNextUrl = async (
+  mumbleNextUrl: string,
+) => {
+  const encodedUrl = encodeURIComponent(mumbleNextUrl);
+  const responseApi = await fetch(`/api/posts?mumbleNextUrl=${encodedUrl}`, {
+    method: 'GET',
+  });
+  const { data, next } = (await responseApi.json()) as IPostsApiResponse;
+  return { posts: data, next };
 };

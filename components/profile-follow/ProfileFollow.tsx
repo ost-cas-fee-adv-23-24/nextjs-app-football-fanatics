@@ -18,12 +18,14 @@ interface IProps {
   profileIdentifier: string;
   loggedInUserIdentifier: string;
   followers: IMumbleFollowers[];
+  revalidationPath: string;
 }
 
 const ProfileFollow = ({
   profileIdentifier,
   followers,
   loggedInUserIdentifier,
+  revalidationPath,
 }: IProps) => {
   const followingCurrentUser = followers.find((follower) => {
     return follower.id === loggedInUserIdentifier;
@@ -56,6 +58,7 @@ const ProfileFollow = ({
                 await followUserToggle({
                   identifier: profileIdentifier,
                   unfollow: false,
+                  revalidationPath,
                 });
               } catch (error) {
                 toast.error('Error following user, please try again later', {
@@ -81,6 +84,7 @@ const ProfileFollow = ({
                 await followUserToggle({
                   identifier: profileIdentifier,
                   unfollow: true,
+                  revalidationPath: `/profiles/${profileIdentifier}`,
                 });
               } catch (error) {
                 toast.error('Error unfollowing user, please try again later', {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
-import config from '@/config';
+import { frontendConfig } from '@/config';
 import PostFeed from '@/components/post-feed/PostFeed';
 import {
   ETypographyLevels,
@@ -11,7 +11,7 @@ export default async function Page({ params }: { params: { query: string } }) {
   const { query } = params;
   const feedData = await getMumblePosts({
     offset: 0,
-    limit: config.feed.defaultAmount,
+    limit: frontendConfig.feed.defaultAmount,
     tags: [query],
   });
 
@@ -24,12 +24,7 @@ export default async function Page({ params }: { params: { query: string } }) {
           inheritColor={true}
         />
         <div className="global-width mr-auto ml-auto">
-          <PostFeed
-            data={feedData.data}
-            next={feedData.next}
-            prev={feedData.prev}
-            count={feedData.count}
-          />
+          <PostFeed data={feedData.data} />
         </div>
       </div>
     </div>

@@ -2,15 +2,13 @@ import Header from '@/components/header/Header';
 import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
 import { notFound } from 'next/navigation';
 import ProfileFeed from '@/components/profile-feed/ProfileFeed';
-import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
-import { frontendConfig } from '@/config';
 import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
-import ProfileFollow from '@/components/profile-switch/ProfileFollow';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
-import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import React from 'react';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
+import ProfileFollow from '@/components/profile-follow/ProfileFollow';
+import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 
 export default async function Profile(context: IParamsOnlyIdentifierCtx) {
   const currentProfileUserIdentifier = context.params.identifier.toString();
@@ -26,12 +24,6 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
       currentProfileUserIdentifier,
     );
 
-    const userMumbles = await getMumblePosts({
-      creators: [profileData.id],
-      offset: 0,
-      limit: frontendConfig.feed.defaultAmount,
-    });
-
     return (
       <div className="mx-auto bg-slate-100 pt-8">
         <div className="global-width  mx-auto py-8">
@@ -42,6 +34,7 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
                 loggedInUserIdentifier={session.user.identifier}
                 profileIdentifier={currentProfileUserIdentifier}
                 followers={userFollowers}
+                revalidationPath={`/profiles/${currentProfileUserIdentifier}`}
               />
             </div>
           )}
@@ -50,14 +43,19 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
               redirectionDelay={500}
               selectedTab={0}
               userIdentifier={currentProfileUserIdentifier}
+              showSuggestions={
+                !!(
+                  session &&
+                  currentProfileUserIdentifier === session.user.identifier
+                )
+              }
             />
           </div>
           <ProfileFeed
+            creators={[currentProfileUserIdentifier]}
             userIdentifier={currentProfileUserIdentifier}
-            count={userMumbles.count}
-            data={userMumbles.data}
-            next={userMumbles.next}
-            prev={userMumbles.prev}
+            subscribeToNewestPost={true}
+            fetchOnlyOneBatch={false}
           />
         </div>
       </div>

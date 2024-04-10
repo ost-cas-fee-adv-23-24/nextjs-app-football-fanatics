@@ -6,11 +6,13 @@ import { revalidatePath } from 'next/cache';
 export interface IFollowUserToggle {
   identifier: string;
   unfollow: boolean;
+  revalidationPath: string;
 }
 
 export const followUserToggle = async ({
   identifier,
   unfollow = false,
+  revalidationPath,
 }: IFollowUserToggle): Promise<void> => {
   const session = await auth();
   try {
@@ -19,7 +21,7 @@ export const followUserToggle = async ({
       identifier,
       unfollow,
     });
-    revalidatePath(`/profiles/${identifier}}`);
+    revalidatePath(revalidationPath);
   } catch (error) {
     throw new Error(`Error following user ${identifier}`);
   }

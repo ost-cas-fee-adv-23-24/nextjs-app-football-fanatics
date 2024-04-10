@@ -1,40 +1,47 @@
+'use client';
 import React from 'react';
-import PostFeed from '@/components/post-feed/PostFeed';
-import { IPostsApiResponse } from '@/utils/interfaces/mumblePost.interface';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
-import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import {
   EParagraphSizes,
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import usePosts from '@/hooks/usePosts';
 
-interface IProps extends IPostsApiResponse {
+interface IProps {
   userIdentifier: string;
+  subscribeToNewestPost?: boolean;
+  creators?: string[];
+  fetchOnlyOneBatch?: boolean;
   isLikes?: boolean;
 }
 
 const ProfileFeed = ({
-  data,
-  next,
-  prev,
-  count,
   userIdentifier,
-  isLikes = false,
+  subscribeToNewestPost = false,
+  fetchOnlyOneBatch,
+  creators,
+  isLikes,
 }: IProps) => {
+  const { posts } = usePosts();
+
   return (
-    <>
-      {data.length === 0 ? (
+    <div>
+      {posts.length === 0 && (
         <Paragraph
           size={EParagraphSizes.MEDIUM}
           text="No Likes yet, Hurry up! like some posts!"
         />
-      ) : (
-        <>
-          <PostFeed data={data} next={next} prev={prev} count={count} />
-          <PostsLoader userIdentifier={userIdentifier} isLikes={isLikes} />
-        </>
       )}
-    </>
+      <div className="mt-8">
+        <PostsLoader
+          isLikes={isLikes}
+          userIdentifier={userIdentifier}
+          subscribeToNewestPost={subscribeToNewestPost}
+          creators={creators}
+          fetchOnlyOneBatch={fetchOnlyOneBatch}
+        />
+      </div>
+    </div>
   );
 };
 

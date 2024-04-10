@@ -1,6 +1,6 @@
 'use client';
 import Recommendation from '@/components/recommendation/Recommendation';
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import {
   Button,
   EButtonSizes,
@@ -15,12 +15,21 @@ import { ERecommendationsActions } from '@/stores/Recommendations.context';
 import { followUserToggle } from '@/actions/followUser';
 import { toast } from 'react-toastify';
 import { frontendConfig } from '@/config';
+import { RecommendationPlaceholder } from '@/components/placeholders/RecommendationPlaceholder';
 
 interface IProps {
   userIdentifier: string;
+  title: string;
+  titleNoMoreRecommendations: string;
+  revalidationPath: string;
 }
 
-const RecommendationsBox = ({ userIdentifier }: IProps) => {
+const RecommendationsBox = ({
+  userIdentifier,
+  title,
+  titleNoMoreRecommendations,
+  revalidationPath,
+}: IProps) => {
   const {
     loadData,
     refreshRecommendations,
@@ -37,19 +46,20 @@ const RecommendationsBox = ({ userIdentifier }: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const placeHolders = new Array(frontendConfig.recommendationsAmount).fill(0);
+
   return (
-    <div className="">
-      <div className="mb-4">
-        <Heading
-          level={ETypographyLevels.THREE}
-          text={
-            hasMoreRecommendations
-              ? 'Recommended users for you'
-              : 'You already swiped away all tinder garden!'
-          }
-        />
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+    <>
+      <Heading
+        level={ETypographyLevels.THREE}
+        text={hasMoreRecommendations ? title : titleNoMoreRecommendations}
+      />
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+        {recommendedUsers.length === 0 &&
+          placeHolders.map((_, index) => (
+            <RecommendationPlaceholder key={index} />
+          ))}
         {recommendedUsers.map((user, index) => {
           return (
             <Recommendation
@@ -58,6 +68,7 @@ const RecommendationsBox = ({ userIdentifier }: IProps) => {
                   await followUserToggle({
                     identifier,
                     unfollow: false,
+                    revalidationPath,
                   });
                 } catch (error) {
                   toast.warning(
@@ -124,7 +135,7 @@ const RecommendationsBox = ({ userIdentifier }: IProps) => {
           />
         )}
       </div>
-    </div>
+    </>
   );
 };
 
