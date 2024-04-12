@@ -4,6 +4,7 @@ import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
 import { Session } from 'next-auth';
 import { PostsFixLoader } from '@/components/posts-loader/PostsFixLoader';
+import PostsLoader from '@/components/posts-loader/PostsLoader';
 
 export default async function Page() {
   // middleware checks if user is authenticated before hitting this page
@@ -41,7 +42,7 @@ export default async function Page() {
           <PostEditor isFeedPage={true} title="Hey, What is new?" />
         </div>
         <div className={postLoaderWrapperCss}>
-          <PostsFixLoader
+          <PostsLoader
             creators={creators}
             isLikes={false}
             subscribeToNewestPost={true}

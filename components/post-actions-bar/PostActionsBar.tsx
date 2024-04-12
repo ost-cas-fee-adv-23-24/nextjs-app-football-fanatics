@@ -11,7 +11,6 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
 import useUserInfo from '@/hooks/useUserInfo';
 import { toast } from 'react-toastify';
@@ -89,15 +88,19 @@ const PostActionsBar = ({
       </div>
       <div className="mb-4 sm:mb-0">
         <ToggleComment
-          // @ts-ignore
-          NextLinkComponent={Link}
-          href={`/posts/${identifier}`}
           labelSingular="Comment"
           labelPlural="Comments"
           amount={amountComments}
+          customClickEvent={() => {
+            // we could use the linkNext but the missing display set to flex or inline-block
+            // causes a beauty problem in small screens
+            router.push(`/posts/${identifier}`);
+          }}
         />
       </div>
-      <div>
+      <div
+        className={creatorIdentifier === userIdentifier ? 'mb-4 sm:mb-0' : ''}
+      >
         <ButtonTimed
           name="copy-link"
           icon={EIConTypes.SHARE}

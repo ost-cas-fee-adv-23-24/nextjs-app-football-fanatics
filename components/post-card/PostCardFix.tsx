@@ -12,7 +12,6 @@ interface IProps extends IPostItemBase {
 
 export const PostCardFix = ({
   mediaUrl,
-  mediaType,
   text,
   creator,
   id,
