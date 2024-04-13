@@ -29,9 +29,10 @@ export const PostsFixLoader = ({
 
   const numRows = posts.length;
   const customAmountPosts = 100;
+  const initialApproxHeight = 277;
   const [scrollTop, setScrollTop] = useState(0);
   const [availableHeight, setAvailableHeight] = useState(0);
-  const [rowHeight, setRowHeight] = useState(277);
+  const [rowHeight, setRowHeight] = useState(initialApproxHeight);
   const [totalHeight, setTotalHeight] = useState(rowHeight * customAmountPosts);
   const containerRef = useRef(null);
 
@@ -49,11 +50,11 @@ export const PostsFixLoader = ({
 
       const totalHeight =
         // @ts-ignore
-        (myElementReference?.offsetHeight || 277) * amountPosts;
+        (myElementReference?.offsetHeight || initialApproxHeight) * amountPosts;
       return {
         totalHeight,
         // @ts-ignore
-        row: myElementReference?.offsetHeight || 277,
+        row: myElementReference?.offsetHeight || initialApproxHeight,
         availableHeight,
       };
     },
@@ -68,7 +69,6 @@ export const PostsFixLoader = ({
       setRowHeight(newData.row);
       setTotalHeight(newData.totalHeight);
       setAvailableHeight(newData.availableHeight);
-      console.log('resize fired: ', newData);
     };
 
     // try to avoid adding the listener multiple times
@@ -178,7 +178,13 @@ export const PostsFixLoader = ({
             paddingTop: startIndex * rowHeight,
           }}
         >
-          {posts.length === 0 && <PostEditorPlaceholder />}
+          {posts.length === 0 && (
+            <>
+              <PostEditorPlaceholder />
+              <PostEditorPlaceholder />
+              <PostEditorPlaceholder />
+            </>
+          )}
           {postsToRender}
         </div>
       </div>

@@ -27,19 +27,25 @@ export const PostCardFix = ({
       />
       <div className="grid grid-cols-3 gap-3">
         {text ? (
-          <div className="text-slate-600 font-poppins not-italic font-medium text-lg leading-10 truncate col-span-2">
+          <div className="line-clamp-3 text-slate-600 font-poppins not-italic font-medium text-lg col-span-2">
             {text}
           </div>
         ) : (
-          <div className="bg-slate-100 h-[40px] col-span-2"></div>
+          <div className="col-span-2 line-clamp-3">
+            <div className="bg-slate-100 h-[20px] mb-1 col-span-2"></div>
+            <div className="bg-slate-100 h-[20px] mb-1 col-span-2 text-center text-slate-600 font-poppins not-italic font-medium text-xs lg:text-md">
+              No text in post
+            </div>
+            <div className="bg-slate-100 h-[20px] col-span-2"></div>
+          </div>
         )}
 
         {mediaUrl ? (
-          <div className="mt-4 ">
+          <div>
             <PostImage src={mediaUrl} alt={text} />
           </div>
         ) : (
-          <PostImagePlaceholder text="No image in post" />
+          <PostImagePlaceholder pulse={false} text="No image in post" />
         )}
       </div>
     </div>
