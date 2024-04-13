@@ -102,6 +102,7 @@ export const PostsFixLoader = ({
     setAvailableHeight(newData.availableHeight);
 
     return () => {
+      setLayoutKind(ELayoutKind.DEFAULT);
       dispatchPosts({
         type: EPostsActions.RESET,
         payload: null,

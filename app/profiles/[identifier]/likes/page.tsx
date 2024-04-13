@@ -11,12 +11,14 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
         <ProfileSwitch
           redirectionDelay={500}
           selectedTab={1}
-          userIdentifier={userIdentifier} />
-      </div><ProfileFeed
+          userIdentifier={userIdentifier}
+        />
+      </div>
+      <ProfileFeed
         isLikes={true}
         userIdentifier={userIdentifier}
-        subscribeToNewestPost={false} />
+        subscribeToNewestPost={false}
+      />
     </>
   );
-
 }
