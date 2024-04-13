@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import { frontendConfig } from '@/config';
 import { RecommendationsProvider } from '@/providers/Recommendations.provider';
 import { PostsProvider } from '@/providers/posts/Posts.provider';
+import { LayoutMumbleProvider } from '@/providers/LayoutMumble.provider';
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',
@@ -32,12 +33,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const mainWrapperCss =
-    'main-wrapper w-full flex flex-col h-screen min-h-screen overflow-y-hidden';
-  const headerCss = 'header bg-violet-600 py-3';
-  const contentCss = 'content bg-slate-100  flex flex-col overflow-y-hidden';
-  //px-10 lg:px-0 grow
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -46,14 +41,7 @@ export default function RootLayout({
             <ModalProvider>
               <PostsProvider>
                 <RecommendationsProvider>
-                  <div className={mainWrapperCss}>
-                    <div className={headerCss}>
-                      <div className="global-width mx-auto px-10 lg:px-0">
-                        <GlobalHeader />
-                      </div>
-                    </div>
-                    <div className={contentCss}>{children}</div>
-                  </div>
+                  <LayoutMumbleProvider>{children}</LayoutMumbleProvider>
                 </RecommendationsProvider>
               </PostsProvider>
             </ModalProvider>

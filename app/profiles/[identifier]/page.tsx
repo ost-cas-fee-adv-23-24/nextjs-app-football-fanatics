@@ -9,24 +9,26 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
   const session = await auth();
 
   return (
-
     <>
       <div className="mt-8 mb-4">
         <ProfileSwitch
           redirectionDelay={500}
           selectedTab={0}
           userIdentifier={currentProfileUserIdentifier}
-          showSuggestions={!!(
-            session &&
-            currentProfileUserIdentifier === session.user.identifier
-          )} />
-      </div><ProfileFeed
+          showSuggestions={
+            !!(
+              session &&
+              currentProfileUserIdentifier === session.user.identifier
+            )
+          }
+        />
+      </div>
+      <ProfileFeed
         creators={[currentProfileUserIdentifier]}
         userIdentifier={currentProfileUserIdentifier}
         subscribeToNewestPost={true}
-        fetchOnlyOneBatch={false} />
+        fetchOnlyOneBatch={false}
+      />
     </>
-
-
   );
 }

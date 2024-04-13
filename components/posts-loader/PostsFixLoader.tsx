@@ -4,6 +4,9 @@ import usePosts from '@/hooks/usePosts';
 import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { PostFix } from '@/components/post/PostFix';
+import useLayoutMumble from '@/hooks/useLayoutMumble';
+import { ELayoutKind } from '@/providers/LayoutMumble.provider';
+
 interface IProps {
   userIdentifier?: string;
   subscribeToNewestPost?: boolean;
@@ -35,6 +38,8 @@ export const PostsFixLoader = ({
   const [rowHeight, setRowHeight] = useState(initialApproxHeight);
   const [totalHeight, setTotalHeight] = useState(rowHeight * customAmountPosts);
   const containerRef = useRef(null);
+  const { setLayoutKind } = useLayoutMumble();
+  setLayoutKind(ELayoutKind.SCROLLABLE);
 
   let startIndex = Math.floor(scrollTop / rowHeight);
   let endIndex = Math.min(

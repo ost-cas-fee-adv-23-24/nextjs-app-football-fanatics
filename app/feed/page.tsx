@@ -16,39 +16,22 @@ export default async function Page() {
     creators.push(followee.id);
   });
 
-  // const introTextsContainerCss = 'global-width mx-auto py-8';
-  // const postLoaderWrapperCss = 'max-w-4xl mr-auto ml-auto';
-  // const topContainerCss = 'mx-auto bg-slate-100 pt-8';
-  // const editorAndPostsWrapperCss = 'global-width mx-auto grow overflow-hidden';
-  // const postEditorCss = '';
-
-  const topContainerCss =
-    'top-container py-8 flex flex-col grow overflow-hidden';
-  const introTextsContainerCss = 'global-width mx-auto py-8';
-  const editorAndPostsWrapperCss = 'grow flex flex-col overflow-hidden';
-  const postEditorCss = 'global-width  mx-auto w-full';
-  const postLoaderWrapperCss = 'grow overflow-hidden flex flex-col';
-
   return (
-    <div className={topContainerCss}>
-      <div className={introTextsContainerCss}>
+    <div className="mx-auto bg-slate-100 pt-8">
+      <div className="global-width mx-auto py-8">
         <WelcomeTexts
           title="Welcome to Mumble"
           description="Did you hear that? They've shut down the main reactor."
         />
       </div>
-      <div className={editorAndPostsWrapperCss}>
-        <div className={postEditorCss}>
-          <PostEditor isFeedPage={true} title="Hey, What is new?" />
-        </div>
-        <div className={postLoaderWrapperCss}>
-          <PostsLoader
-            creators={creators}
-            isLikes={false}
-            subscribeToNewestPost={true}
-            fetchOnlyOneBatch={false}
-          />
-        </div>
+      <div className="global-width mx-auto w-full">
+        <PostEditor isFeedPage={true} title="Hey, What is new?" />
+        <PostsLoader
+          creators={creators}
+          isLikes={false}
+          subscribeToNewestPost={true}
+          fetchOnlyOneBatch={false}
+        />
       </div>
     </div>
   );

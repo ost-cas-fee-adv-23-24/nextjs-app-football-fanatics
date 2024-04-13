@@ -6,7 +6,6 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import usePosts from '@/hooks/usePosts';
-import { PostsFixLoader } from '@/components/posts-loader/PostsFixLoader';
 
 interface IProps {
   userIdentifier: string;
@@ -34,7 +33,7 @@ const ProfileFeed = ({
         />
       )}
       <div className="mt-8">
-        <PostsFixLoader
+        <PostsLoader
           isLikes={isLikes}
           userIdentifier={userIdentifier}
           subscribeToNewestPost={subscribeToNewestPost}
