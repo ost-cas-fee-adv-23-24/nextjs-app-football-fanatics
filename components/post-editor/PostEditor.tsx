@@ -1,5 +1,7 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
 import {
   Button,
   EButtonKinds,
@@ -8,7 +10,7 @@ import {
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
-import useUserInfo from '@/hooks/useUserInfo';
+import { MentionsInput, Mention } from 'react-mentions';
 import { createPostReply } from '@/actions/createPostReply';
 import { createPost } from '@/actions/createPost';
 import useModal from '@/hooks/useModal';
@@ -17,6 +19,9 @@ import ImageUploader from '@/components/image-uploader/ImageUploader';
 import ImagePreview, {
   TFireReaderResult,
 } from '@/components/image-preview/ImagePreview';
+import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
+import useUserInfo from '@/hooks/useUserInfo';
+import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 
 interface IProps {
   identifier?: string;
@@ -24,6 +29,9 @@ interface IProps {
   title?: string;
   subTitle?: string;
 }
+
+const cssTextArea =
+  'c-textarea w-full h-40 p-4 text-xl not-italic font-medium leading-[1.35] font-poppins text-slate-900 placeholder:text-slate-500 rounded-lg outline-transparent border-solid border border-slate-200 bg-slate-100 hover:border-2 hover:border-slate-300 focus:outline focus:outline-2 focus:outline-violet-600';
 
 export const PostEditor = ({
   identifier,
@@ -39,6 +47,9 @@ export const PostEditor = ({
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
 
+  const { identifier: loggedInUserIdentifier } = useUserInfo();
+  const [users, setUsers] = useState<IMumbleUser[]>([]);
+
   useEffect(() => {
     if (image) {
       const reader = new FileReader();
@@ -50,6 +61,17 @@ export const PostEditor = ({
       setImageInMemory(null);
     }
   }, [image]);
+
+  useEffect(() => {
+    (async () => {
+      if (loggedInUserIdentifier) {
+        const { users: usersFetched } = await getRecommendationsData(
+          loggedInUserIdentifier,
+        );
+        setUsers(usersFetched);
+      }
+    })();
+  }, [loggedInUserIdentifier]);
 
   useEffect(() => {
     return () => {
@@ -89,12 +111,33 @@ export const PostEditor = ({
               subTitle={subTitle}
             />
           </div>
-          <Textarea
-            name="text"
-            placeholder={placeholder}
+          <MentionsInput
             value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
+            onChange={(event) => setText(event.target.value)}
+            className={clsx(
+              'c-textarea w-full h-40',
+              'text-xl not-italic font-medium leading-[1.35] font-poppins text-slate-900',
+              'placeholder:text-slate-500',
+              'rounded-lg outline-2 outline-transparent border-solid border-2 border-slate-200 bg-slate-100',
+              'hover:border-2 hover:border-slate-300',
+              'focus:outline focus:outline-2 focus:outline-violet-600',
+            )}
+            placeholder={placeholder}
+            a11ySuggestionsListLabel={'Suggested mentions'}
+          >
+            <Mention
+              className="bg-violet-200 rounded-lg"
+              data={() => {
+                return users.map((user) => {
+                  return {
+                    id: user.id,
+                    display: `@${user.username}`,
+                  };
+                });
+              }}
+              trigger="@"
+            />
+          </MentionsInput>
           {imageInMemory && (
             <ImagePreview
               imageInMemory={imageInMemory}
