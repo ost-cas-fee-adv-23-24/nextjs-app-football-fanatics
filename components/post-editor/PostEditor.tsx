@@ -22,6 +22,7 @@ import ImagePreview, {
 import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
 import useUserInfo from '@/hooks/useUserInfo';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
+import { frontendConfig } from '@/config';
 
 interface IProps {
   identifier?: string;
@@ -84,6 +85,7 @@ export const PostEditor = ({
     <>
       <form
         action={async (formData) => {
+          formData.append('text', text);
           if (image) {
             formData.append('media', image);
           }
@@ -111,33 +113,43 @@ export const PostEditor = ({
               subTitle={subTitle}
             />
           </div>
-          <MentionsInput
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            className={clsx(
-              'c-textarea w-full h-40',
-              'text-xl not-italic font-medium leading-[1.35] font-poppins text-slate-900',
-              'placeholder:text-slate-500',
-              'rounded-lg outline-2 outline-transparent border-solid border-2 border-slate-200 bg-slate-100',
-              'hover:border-2 hover:border-slate-300',
-              'focus:outline focus:outline-2 focus:outline-violet-600',
-            )}
-            placeholder={placeholder}
-            a11ySuggestionsListLabel={'Suggested mentions'}
-          >
-            <Mention
-              className="bg-violet-200 rounded-lg"
-              data={() => {
-                return users.map((user) => {
-                  return {
-                    id: user.id,
-                    display: `@${user.username}`,
-                  };
-                });
-              }}
-              trigger="@"
+          {frontendConfig.enableMentions ? (
+            <MentionsInput
+              value={text}
+              onChange={(event) => setText(event.target.value)}
+              className={clsx(
+                'c-textarea w-full h-40',
+                'text-xl not-italic font-medium leading-[1.35] font-poppins text-slate-900',
+                'placeholder:text-slate-500',
+                'rounded-lg outline-2 outline-transparent border-solid border-2 border-slate-200 bg-slate-100',
+                'hover:border-2 hover:border-slate-300',
+                'focus:outline focus:outline-2 focus:outline-violet-600',
+              )}
+              placeholder={placeholder}
+              a11ySuggestionsListLabel={'Suggested mentions'}
+            >
+              <Mention
+                markup="@[__display__](__id__)"
+                className="bg-violet-200 rounded-lg"
+                data={() => {
+                  return users.map((user) => {
+                    return {
+                      id: user.id,
+                      display: `@${user.username}`,
+                    };
+                  });
+                }}
+                trigger="@"
+              />
+            </MentionsInput>
+          ) : (
+            <Textarea
+              name="text"
+              placeholder={placeholder}
+              value={text}
+              onChange={(evt) => setText(evt.target.value)}
             />
-          </MentionsInput>
+          )}
           {imageInMemory && (
             <ImagePreview
               imageInMemory={imageInMemory}

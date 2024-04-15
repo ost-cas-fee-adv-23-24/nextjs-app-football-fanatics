@@ -32,7 +32,9 @@ export const PostCard = ({
       <PostText text={text} />
       {mediaUrl && (
         <div className="mt-4">
-          {mediaType === EMediaTypes.IMAGE ? (
+          {[EMediaTypes.IMAGE, EMediaTypes.PNG].includes(
+            mediaType as EMediaTypes,
+          ) ? (
             <PostImage src={mediaUrl} alt={text} /> // no image title :-(
           ) : null}
         </div>

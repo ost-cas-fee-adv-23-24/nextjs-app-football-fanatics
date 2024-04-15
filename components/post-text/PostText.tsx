@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { uniq as _uniq } from 'lodash';
+import { frontendConfig } from '@/config';
 
 interface IProps {
   text: string;
@@ -38,7 +39,7 @@ const PostText = ({ text }: IProps) => {
     );
   };
 
-  const replaceHashtags = (text: string): TrustedHTML | null => {
+  const replaceHashtags = (text: string): string | null => {
     if (!text) return null;
     return text
       .replace(/\n/g, '<br>')
@@ -49,10 +50,33 @@ const PostText = ({ text }: IProps) => {
       });
   };
 
+  const replaceMentions = (text: string): string | null => {
+    if (!text) return null;
+    // use this same pattern in the server action to catch mentions and trigger emails if needed
+    const pattern = /@\[@([^)]+)\]\(([^)]+)\)/g;
+    return text.replace(
+      pattern,
+      (
+        match: string,
+        textInBrackets: string,
+        textInParentheses: string,
+      ): string => {
+        return `<a class="text-violet-600 underline" href="/profiles/${textInParentheses}" aria-label="see more of this user here">@${textInBrackets}</a>`;
+      },
+    );
+  };
+
   return (
     <div className="text-slate-600 font-poppins not-italic font-medium text-lg leading-[1.40]">
       {(() => {
-        const html = replaceHashtags(text);
+        const textWithHashTags = replaceHashtags(text);
+        if (!textWithHashTags) return null;
+        let html;
+        if (frontendConfig.enableMentions) {
+          html = replaceMentions(textWithHashTags);
+        } else {
+          html = textWithHashTags;
+        }
         if (!html) return;
         return (
           <div
