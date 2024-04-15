@@ -135,7 +135,7 @@ export const PostEditor = ({
                   return users.map((user) => {
                     return {
                       id: user.id,
-                      display: `@${user.username}`,
+                      display: `${user.username}`,
                     };
                   });
                 }}

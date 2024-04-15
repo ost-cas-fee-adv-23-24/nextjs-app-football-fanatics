@@ -53,7 +53,7 @@ const PostText = ({ text }: IProps) => {
   const replaceMentions = (text: string): string | null => {
     if (!text) return null;
     // use this same pattern in the server action to catch mentions and trigger emails if needed
-    const pattern = /@\[@([^)]+)\]\(([^)]+)\)/g;
+    const pattern = /@\[([^)]+)\]\(([^)]+)\)/g;
     return text.replace(
       pattern,
       (
