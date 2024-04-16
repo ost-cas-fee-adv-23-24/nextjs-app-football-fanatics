@@ -14,6 +14,12 @@
     @apply pb-[calc((8/17)*100%)];
 }
 
+
+/*  This part needs to be improved. React mentions component makes it hard to style the markup inside ot it.
+    The Mentions can be disabled/enabled via configuration.
+    The goal is to style the PostEditorText just like the TextArea component from the Design System.
+
+*/
 .c-mentions--multiLine {}
 
 .c-mentions--control {}
