@@ -1,5 +1,6 @@
 export enum EMediaTypes {
   IMAGE = 'image/jpeg',
+  IMAGE_PNG = 'image/png',
 }
 
 export enum EEnvironments {

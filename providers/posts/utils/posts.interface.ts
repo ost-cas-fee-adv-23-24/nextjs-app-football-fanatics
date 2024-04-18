@@ -30,4 +30,5 @@ export interface IFetchPostsBatchArgs {
   subscribeToNewestPost?: boolean;
   fetchOnlyOneBatch?: boolean;
   isLikes?: boolean;
+  customAmount?: number;
 }
