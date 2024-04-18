@@ -90,7 +90,6 @@ export const PostsFixLoader = ({
   }, [getNewSizes, posts.length]);
 
   useEffect(() => {
-    // @ts-ignore
     fetchPostsBatch({
       userIdentifier,
       creators,
@@ -113,6 +112,7 @@ export const PostsFixLoader = ({
       });
     };
 
+    // needs to run only one time. so, no dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
