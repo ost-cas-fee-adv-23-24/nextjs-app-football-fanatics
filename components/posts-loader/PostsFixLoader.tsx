@@ -119,7 +119,7 @@ export const PostsFixLoader = ({
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastPostRef = useCallback(
-    (node: any) => {
+    (node: HTMLDivElement | undefined) => {
       if (observer.current) {
         observer.current.disconnect();
       }
@@ -160,6 +160,8 @@ export const PostsFixLoader = ({
       <div
         className="post-wrapper px-10 lg:px-0"
         data-identifier={currentPost.id}
+        // to be checked later on. typing of the element used as node in the intersection observer
+        // @ts-ignore
         ref={posts.length === index + 1 ? lastPostRef : undefined}
         key={currentPost.id}
       >
