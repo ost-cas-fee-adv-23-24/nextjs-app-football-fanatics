@@ -51,14 +51,17 @@ export const PostsFixLoader = ({
   const getNewSizes = useCallback(
     (amountPosts: number) => {
       const myElementReference = document.querySelector('.post-wrapper');
+      // intelliJ is not able to resolve the clientHeight
       // @ts-ignore
       const availableHeight = containerRef.current?.clientHeight;
 
       const totalHeight =
+        // intelliJ is not able to resolve the offsetHeight
         // @ts-ignore
         (myElementReference?.offsetHeight || initialApproxHeight) * amountPosts;
       return {
         totalHeight,
+        // intelliJ is not able to resolve the offsetHeight
         // @ts-ignore
         row: myElementReference?.offsetHeight || initialApproxHeight,
         availableHeight,
@@ -113,15 +116,14 @@ export const PostsFixLoader = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const observer = useRef();
+  const observer = useRef<IntersectionObserver | null>(null);
 
   const lastPostRef = useCallback(
     (node: any) => {
       if (observer.current) {
-        // @ts-ignore
         observer.current.disconnect();
       }
-      // @ts-ignore
+
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && !isLoading) {
           if (nextMumblePostsUrl) {
@@ -136,7 +138,6 @@ export const PostsFixLoader = ({
         }
       });
       if (node) {
-        // @ts-ignore
         observer.current.observe(node);
       }
     },
