@@ -6,6 +6,7 @@ import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlace
 import { PostFix } from '@/components/post/PostFix';
 import useLayoutMumble from '@/hooks/useLayoutMumble';
 import { ELayoutKind } from '@/providers/LayoutMumble.provider';
+import { frontendConfig } from '@/config';
 
 interface IProps {
   userIdentifier?: string;
@@ -31,7 +32,7 @@ export const PostsFixLoader = ({
   } = usePosts();
 
   const numRows = posts.length;
-  const customAmountPosts = 100;
+  const customAmountPosts = frontendConfig.feed.fixed.defaultAmount;
   const initialApproxHeight = 277;
   const [scrollTop, setScrollTop] = useState(0);
   const [availableHeight, setAvailableHeight] = useState(0);
