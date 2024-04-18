@@ -19,7 +19,7 @@ export const LayoutMumbleProvider = ({ children }: IProps) => {
 
   const contentCss = useMemo(() => {
     if (layoutKind === ELayoutKind.SCROLLABLE) {
-      return 'content bg-slate-100  flex flex-col overflow-y-hidden';
+      return 'content bg-slate-100 flex flex-col overflow-hidden grow';
     } else {
       return 'content bg-slate-100 px-10 lg:px-0 grow overflow-y-auto';
     }
