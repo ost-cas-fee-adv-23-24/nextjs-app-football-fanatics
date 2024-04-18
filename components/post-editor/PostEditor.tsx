@@ -30,9 +30,6 @@ interface IProps {
   subTitle?: string;
 }
 
-const cssTextArea =
-  'c-textarea w-full h-40 p-4 text-xl not-italic font-medium leading-[1.35] font-poppins text-slate-900 placeholder:text-slate-500 rounded-lg outline-transparent border-solid border border-slate-200 bg-slate-100 hover:border-2 hover:border-slate-300 focus:outline focus:outline-2 focus:outline-violet-600';
-
 export interface IMentionsProps {
   id: string;
   display: string;
@@ -47,13 +44,13 @@ export const PostEditor = ({
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
+  const { identifier: loggedInUserIdentifier } = useUserInfo();
+  const [users, setUsers] = useState<IMumbleUser[]>([]);
+
   const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
-
-  const { identifier: loggedInUserIdentifier } = useUserInfo();
-  const [users, setUsers] = useState<IMumbleUser[]>([]);
 
   useEffect(() => {
     if (image) {
