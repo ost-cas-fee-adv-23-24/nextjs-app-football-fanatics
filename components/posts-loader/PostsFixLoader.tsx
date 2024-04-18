@@ -48,27 +48,24 @@ export const PostsFixLoader = ({
     numRows,
   );
 
-  const getNewSizes = useCallback(
-    (amountPosts: number) => {
-      const myElementReference = document.querySelector('.post-wrapper');
-      // intelliJ is not able to resolve the clientHeight
-      // @ts-ignore
-      const availableHeight = containerRef.current?.clientHeight;
+  const getNewSizes = useCallback((amountPosts: number) => {
+    const myElementReference = document.querySelector('.post-wrapper');
+    // intelliJ is not able to resolve the clientHeight
+    // @ts-ignore
+    const availableHeight = containerRef.current?.clientHeight;
 
-      const totalHeight =
-        // intelliJ is not able to resolve the offsetHeight
-        // @ts-ignore
-        (myElementReference?.offsetHeight || initialApproxHeight) * amountPosts;
-      return {
-        totalHeight,
-        // intelliJ is not able to resolve the offsetHeight
-        // @ts-ignore
-        row: myElementReference?.offsetHeight || initialApproxHeight,
-        availableHeight,
-      };
-    },
-    [containerRef.current],
-  );
+    const totalHeight =
+      // intelliJ is not able to resolve the offsetHeight
+      // @ts-ignore
+      (myElementReference?.offsetHeight || initialApproxHeight) * amountPosts;
+    return {
+      totalHeight,
+      // intelliJ is not able to resolve the offsetHeight
+      // @ts-ignore
+      row: myElementReference?.offsetHeight || initialApproxHeight,
+      availableHeight,
+    };
+  }, []);
 
   useEffect(() => {
     const resizeListener = () => {
@@ -87,7 +84,7 @@ export const PostsFixLoader = ({
     return () => {
       window.removeEventListener('resize', resizeListener);
     };
-  }, [getNewSizes, posts.length]);
+  }, [getNewSizes, posts.length, customAmountPosts]);
 
   useEffect(() => {
     fetchPostsBatch({
@@ -148,6 +145,9 @@ export const PostsFixLoader = ({
       dispatchPosts,
       creators,
       isLikes,
+      fetchOnlyOneBatch,
+      fetchPostsBatch,
+      subscribeToNewestPost,
     ],
   );
 
