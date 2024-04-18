@@ -5,9 +5,7 @@ import { EMediaTypes } from '@/utils/enums/general.enum';
 import PostImage from '@/components/post-image/PostImage';
 import { PostCardHeader } from '@/components/post-card-header/PostCardHeader';
 import { IPostItemBase } from '@/utils/interfaces/mumblePost.interface';
-import { truncate as _truncate } from 'lodash';
 import PostText from '@/components/post-text/PostText';
-import { PostImagePlaceholder } from '@/components/placeholders/PostImagePlaceholder';
 
 interface IProps extends IPostItemBase {
   parentId?: string;
@@ -32,7 +30,9 @@ export const PostCard = ({
       <PostText text={text} />
       {mediaUrl && (
         <div className="mt-4">
-          {mediaType === EMediaTypes.IMAGE ? (
+          {[EMediaTypes.IMAGE, EMediaTypes.PNG].includes(
+            mediaType as EMediaTypes,
+          ) ? (
             <PostImage src={mediaUrl} alt={text} /> // no image title :-(
           ) : null}
         </div>

@@ -9,7 +9,8 @@ import PostsLoader from '@/components/posts-loader/PostsLoader';
 export default async function Page() {
   // middleware checks if user is authenticated before hitting this page
   const session = (await auth()) as Session;
-  const creators: string[] = [];
+  // lets include also the user itself
+  const creators: string[] = [session.user.identifier];
 
   const allFollowees = await getAllFollowees(session.user.identifier);
   allFollowees.forEach((followee) => {

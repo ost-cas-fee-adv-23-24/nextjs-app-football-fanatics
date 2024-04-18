@@ -5,10 +5,55 @@
 @layer components {
 }
 
+
 .global-width {
     @apply max-w-[680px];
 }
 
 .mumble-image {
     @apply pb-[calc((8/17)*100%)];
+}
+
+
+/*  This part needs to be improved. React mentions component makes it hard to style the markup inside ot it.
+    The Mentions can be disabled/enabled via configuration.
+    The goal is to style the PostEditorText just like the TextArea component from the Design System.
+
+*/
+.c-mentions--multiLine {}
+
+.c-mentions--control {}
+
+.c-mentions__input {
+    @apply font-poppins;
+    min-height: 160px;
+    padding: 12px;
+    border: 2px solid #f2f2f2;
+}
+
+.c-mentions__input::placeholder {
+    @apply font-poppins;
+    color: #64748b;
+}
+
+.c-mentions__highlighter {
+    @apply font-poppins;
+    padding: 12px;
+    min-height: 160px;
+}
+
+.c-mentions .c-mentions__suggestions {
+    @apply bg-transparent !important;
+}
+
+.c-mentions__suggestions__list {
+    @apply shadow-2xl rounded-2xl border-[2px] border-slate-200 overflow-hidden bg-white;
+}
+
+.c-mentions__suggestions__item {
+    @apply font-poppins px-2 border-slate-200 text-sm border-b-[1px];
+}
+
+.c-mentions__suggestions__item--focused {
+    @apply bg-violet-400 text-white;
 }

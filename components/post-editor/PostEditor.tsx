@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -16,12 +17,22 @@ import ImageUploader from '@/components/image-uploader/ImageUploader';
 import ImagePreview, {
   TFireReaderResult,
 } from '@/components/image-preview/ImagePreview';
+import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
+import useUserInfo from '@/hooks/useUserInfo';
+import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
+import { frontendConfig } from '@/config';
+import PostEditorText from '@/components/post-editor-text/PostEditorText';
 
 interface IProps {
   identifier?: string;
   isFeedPage: boolean;
   title?: string;
   subTitle?: string;
+}
+
+export interface IMentionsProps {
+  id: string;
+  display: string;
 }
 
 export const PostEditor = ({
@@ -33,6 +44,9 @@ export const PostEditor = ({
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
+  const { identifier: loggedInUserIdentifier } = useUserInfo();
+  const [users, setUsers] = useState<IMumbleUser[]>([]);
+
   const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
@@ -51,6 +65,17 @@ export const PostEditor = ({
   }, [image]);
 
   useEffect(() => {
+    (async () => {
+      if (loggedInUserIdentifier) {
+        const { users: usersFetched } = await getRecommendationsData(
+          loggedInUserIdentifier,
+        );
+        setUsers(usersFetched);
+      }
+    })();
+  }, [loggedInUserIdentifier]);
+
+  useEffect(() => {
     return () => {
       setImage(null);
       setImageInMemory(null);
@@ -61,6 +86,7 @@ export const PostEditor = ({
     <>
       <form
         action={async (formData) => {
+          formData.append('text', text);
           if (image) {
             formData.append('media', image);
           }
@@ -88,12 +114,26 @@ export const PostEditor = ({
               subTitle={subTitle}
             />
           </div>
-          <Textarea
-            name="text"
-            placeholder={placeholder}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
+          {frontendConfig.enableMentions ? (
+            <PostEditorText
+              text={text}
+              placeholder={placeholder}
+              notifyValueChange={setText}
+              users={users.map((user) => {
+                return {
+                  id: user.id,
+                  display: user.username,
+                };
+              })}
+            />
+          ) : (
+            <Textarea
+              name="text"
+              placeholder={placeholder}
+              value={text}
+              onChange={(evt) => setText(evt.target.value)}
+            />
+          )}
           {imageInMemory && (
             <ImagePreview
               imageInMemory={imageInMemory}
