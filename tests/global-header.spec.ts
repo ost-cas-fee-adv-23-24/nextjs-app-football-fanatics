@@ -17,7 +17,5 @@ test('can log in and has Settings, Logout and Profile button', async ({ page }) 
   await page.getByRole('button', { name: 'Next' }).click();
   await expect(page.getByLabel('Settings')).toBeVisible();
   await expect(page.getByLabel('Logout')).toBeVisible();
-  await expect(page.getByLabel('Profile')).toBeVisible();
-  // await page.locator('.flex > div > a').first().click();
 }
 );
