@@ -14,14 +14,22 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+interface IProps {
+  avatarFloating: boolean;
+  quote?: string;
+  title?: string;
+  subTitle?: string;
+}
+
 export const PostEditorHeader = ({
   avatarFloating,
-}: {
-  avatarFloating: boolean;
-}) => {
+  title,
+  subTitle,
+}: IProps) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
     useUserInfo();
   const router = useRouter();
+
   return (
     <div className="relative">
       {avatarFloating && (
@@ -47,22 +55,40 @@ export const PostEditorHeader = ({
           </Link>
         )}
         <div className="grow">
-          <Paragraph
-            size={EParagraphSizes.MEDIUM}
-            text={`${firstName || userName} ${lastName || ''}`}
-          />
-          <div className="flex items-center mt-2">
-            {/*TODO extend to support Next Link ... hence server component too */}
-            <ButtonIcon
-              name="profile"
-              type={EButtonTypes.PRIMARY}
-              icon={EIConTypes.PROFILE}
-              label={userName}
-              onCustomClick={() => {
-                router.push(`/profiles/${identifier}`);
-              }}
-            />
-          </div>
+          {title || subTitle ? (
+            <div className="mb-6 text-slate-600">
+              {title && <Paragraph size={EParagraphSizes.LARGE} text={title} />}
+              {subTitle && (
+                <div className="flex items-center mt-2">
+                  <Paragraph
+                    inheritColor={true}
+                    size={EParagraphSizes.MEDIUM}
+                    text={subTitle}
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Paragraph
+                size={EParagraphSizes.MEDIUM}
+                text={`${firstName || userName} ${lastName || ''}`}
+              />
+              <div className="flex items-center mt-2">
+                <ButtonIcon
+                  name="profile"
+                  type={EButtonTypes.PRIMARY}
+                  icon={EIConTypes.PROFILE}
+                  label={userName}
+                  next={{
+                    // @ts-ignore
+                    NextLinkComponent: Link,
+                    href: `/profiles/${identifier}`,
+                  }}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

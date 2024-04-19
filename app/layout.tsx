@@ -9,6 +9,12 @@ import { UserInfoProvider } from '@/providers/UserInfo.provider';
 const inter = Inter({ subsets: ['latin'] });
 import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 import { ModalProvider } from '@/providers/Modal.provider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { frontendConfig } from '@/config';
+import { RecommendationsProvider } from '@/providers/Recommendations.provider';
+import { PostsProvider } from '@/providers/posts/Posts.provider';
+import { LayoutMumbleProvider } from '@/providers/LayoutMumble.provider';
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',
@@ -28,24 +34,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <SessionProvider>
           <UserInfoProvider>
             <ModalProvider>
-              <div className="w-full">
-                <div className="bg-violet-600 py-3">
-                  <div className="max-w-4xl mx-auto px-10 lg:px-0">
-                    <GlobalHeader />
-                  </div>
-                </div>
-                <div className=" mx-auto bg-slate-100 px-10 lg:px-0">
-                  <div className="max-w-4xl mx-auto">{children}</div>
-                </div>
-              </div>
+              <PostsProvider>
+                <RecommendationsProvider>
+                  <LayoutMumbleProvider>{children}</LayoutMumbleProvider>
+                </RecommendationsProvider>
+              </PostsProvider>
             </ModalProvider>
           </UserInfoProvider>
         </SessionProvider>
+
+        <ToastContainer autoClose={frontendConfig.notificationDuration} />
       </body>
     </html>
   );

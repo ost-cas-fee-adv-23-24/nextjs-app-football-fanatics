@@ -55,7 +55,7 @@ export interface ICreatePost {
 export interface IPostCreator {
   id: string;
   username: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
   firstname?: string;
   lastname?: string;
 }
@@ -63,10 +63,11 @@ export interface IPostCreator {
 export interface IGetPostsParams {
   limit?: number;
   offset?: number;
-  newerThanPostId?: string;
-  olderThanPostId?: string;
+  newerThan?: string;
+  olderThan?: string;
   text?: string;
   likedBy?: string[];
   creators?: string[];
   tags?: string[];
+  mumbleNextUrl?: string;
 }

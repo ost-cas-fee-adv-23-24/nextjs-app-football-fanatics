@@ -1,18 +1,34 @@
-import Header from '@/components/header/Header';
-import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
-import { notFound } from 'next/navigation';
+import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import ProfileFeed from '@/components/profile-feed/ProfileFeed';
+import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
+import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 
-export default async function Profile(context: {
-  params: { identifier: number };
-}) {
-  // TODO: redirect to profile/me if userID === current signed in userID
-  try {
-    const profileData = await getMumbleUserByIdentifier(
-      context.params.identifier.toString(),
-    );
+export default async function Profile(context: IParamsOnlyIdentifierCtx) {
+  const currentProfileUserIdentifier = context.params.identifier.toString();
 
-    return <Header user={profileData} />;
-  } catch (error) {
-    return notFound();
-  }
+  const session = await auth();
+
+  return (
+    <>
+      <div className="mt-8 mb-4">
+        <ProfileSwitch
+          redirectionDelay={500}
+          selectedTab={0}
+          userIdentifier={currentProfileUserIdentifier}
+          showSuggestions={
+            !!(
+              session &&
+              currentProfileUserIdentifier === session.user.identifier
+            )
+          }
+        />
+      </div>
+      <ProfileFeed
+        creators={[currentProfileUserIdentifier]}
+        userIdentifier={currentProfileUserIdentifier}
+        subscribeToNewestPost={true}
+        fetchOnlyOneBatch={false}
+      />
+    </>
+  );
 }

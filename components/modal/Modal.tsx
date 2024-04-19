@@ -35,6 +35,9 @@ const Modal = () => {
       const scrollTop = document.documentElement.scrollTop;
       document.body.style.top = `${scrollTop}px`;
       document.body.style.overflow = `hidden`;
+
+      // @ts-ignore
+      document.activeElement?.focus();
     } else {
       document.body.style.overflow = `auto`;
     }
@@ -49,12 +52,12 @@ const Modal = () => {
       />
       <div className="modal-wrapper w-[calc(100%-48px)] h-[calc(100%-48px)] px-[50px] py-[50px] z-40">
         <div
-          className={`o-overlay-content overflow-hidden grow flex flex-col ${width} max-h-full mx-auto`}
+          className={`o-overlay-content overflow-hidden grow flex flex-col ${width} max-h-full mx-auto rounded-2xl`}
         >
-          <div className="bg-violet-600 flex pt-6 pb-6 pl-8 pr-8 justify-between items-center self-stretch rounded-t-2xl z-60 relative">
-            <h5 className="text-white text-3xl not-italic font-semibold leading-10">
+          <div className="bg-violet-600 flex pt-6 pb-6 pl-8 pr-8 justify-between items-center self-stretch z-60 relative">
+            <h2 className="text-white text-3xl not-italic font-semibold leading-10 truncate">
               {title}
-            </h5>
+            </h2>
             <div className="modal-close">
               <ButtonIconRounded
                 icon={EIConTypes.CANCEL}
@@ -67,7 +70,7 @@ const Modal = () => {
             </div>
           </div>
           <div className="modal-content-wrapper bg-white py-8 px-8 grow flex flex-col overflow-hidden">
-            <div className="modal-content-wrapper grow pt-4 overflow-auto">
+            <div className="modal-content-wrapper grow overflow-auto">
               {content ? content : ''}
             </div>
           </div>

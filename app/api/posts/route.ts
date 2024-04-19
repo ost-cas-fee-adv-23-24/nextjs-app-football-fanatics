@@ -1,19 +1,49 @@
-import config from '@/config';
+import config, { frontendConfig } from '@/config';
 import { MumblePostService } from '@/services/Mumble/MumblePost';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../auth/[...nextauth]/auth';
+import { IGetPostsParams } from '@/utils/interfaces/mumblePost.interface';
 
 const dataSource = new MumblePostService(config.mumble.host);
+
 export const GET = async (request: NextRequest): Promise<Response> => {
+  const searchParams = request.nextUrl.searchParams;
+  const limit = searchParams.get('limit');
+  const offset = searchParams.get('offset');
+  const newerThan = searchParams.get('newerThan');
+  const userIdentifier = searchParams.get('userIdentifier');
+  const creators = searchParams.get('creators');
+  const likedBy = searchParams.get('likedBy');
+  const mumbleNextUrl = searchParams.get('mumbleNextUrl');
+
+  // if mumbleNextUrl is set, we don't need to pass anything else
+
+  const params: IGetPostsParams = {
+    limit: limit ? parseInt(limit, 10) : frontendConfig.feed.defaultAmount,
+    offset: offset ? parseInt(offset, 10) : 0,
+  };
+
+  if (newerThan) {
+    params.newerThan = newerThan;
+  }
+
+  if (userIdentifier) {
+    if (likedBy) {
+      params.likedBy = [userIdentifier];
+    } else {
+      params.creators = [userIdentifier];
+    }
+  }
+
+  if (creators) {
+    params.creators = creators.split(',');
+  }
+
   const session = await auth();
   try {
     const response = await dataSource.getPosts({
-      // @ts-ignore
       token: session ? session.accessToken : '',
-      data: {
-        limit: config.feed.defaultAmount,
-        offset: 0,
-      },
+      data: mumbleNextUrl ? { mumbleNextUrl } : params,
     });
     return NextResponse.json(response);
   } catch (error) {

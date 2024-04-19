@@ -1,10 +1,11 @@
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import config from '@/config';
-import { IUserMumble, MumbleUserService } from '@/services/Mumble/MumbleUser';
+import { MumbleUserService } from '@/services/Mumble/MumbleUser';
+import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 
 export const getMumbleUserByIdentifier = async (
   identifier: string,
-): Promise<IUserMumble> => {
+): Promise<IMumbleUser> => {
   const session = await auth();
   const dataSrc = new MumbleUserService(config.mumble.host);
   try {

@@ -1,28 +1,37 @@
 import NextAuth, { User } from 'next-auth';
 import Zitadel from 'next-auth/providers/zitadel';
 import config from '@/config';
+const trustHost =
+  config.environment === 'development' // netlify should be dev
+    ? true
+    : config.trustedDomains.includes(config.nextAuthUrl);
 
 export const {
   handlers: { GET, POST },
   auth,
 } = NextAuth({
+  session: {
+    strategy: config.sessionStrategy,
+    maxAge: config.sessionMaxAge,
+  },
+  secret: config.nextSecret,
+  trustHost,
   providers: [
     Zitadel({
       clientId: config.zitadel.clientId,
       issuer: config.zitadel.authority,
       authorization: {
         params: {
-          scope:
-            'openid profile email urn:zitadel:iam:org:project:id:229389352298352392:aud',
+          scope: config.zitadel.scope,
         },
       },
-      checks: ['pkce', 'state'],
+      checks: config.zitadel.checks,
       client: {
-        token_endpoint_auth_method: 'none',
+        token_endpoint_auth_method: config.zitadel.tokenEndpointAuthMethod,
       },
     }),
   ],
-  trustHost: config.environment === 'local',
+
   callbacks: {
     jwt({ token, user, account }) {
       if (account) {
@@ -43,5 +52,4 @@ export const {
       return session;
     },
   },
-  secret: 'this-is-very-secret',
 });

@@ -21,7 +21,6 @@ import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
 export const PostCardHeader = ({
   postIdentifier,
   creator,
-  avatarSize,
   avatarFloating = true,
 }: {
   postIdentifier?: string;
@@ -37,10 +36,13 @@ export const PostCardHeader = ({
     <div className="relative">
       {avatarFloating && (
         <div className="absolute left-[-85px]">
-          <Link href={`/profiles/${creator.id}`}>
+          <Link
+            href={`/profiles/${creator.id}`}
+            aria-label={`more of this user ${creator.username || ''} here`}
+          >
             <Avatar
               size={EAvatarSizes.MD}
-              imgSrc={creator.avatarUrl}
+              imgSrc={creator.avatarUrl || undefined}
               nameHtml="avatar"
             />
           </Link>
@@ -51,7 +53,7 @@ export const PostCardHeader = ({
           <Link href={`/profiles/${creator.id}`}>
             <Avatar
               size={EAvatarSizes.MD}
-              imgSrc={creator.avatarUrl}
+              imgSrc={creator.avatarUrl || undefined}
               nameHtml="avatar"
             />
           </Link>

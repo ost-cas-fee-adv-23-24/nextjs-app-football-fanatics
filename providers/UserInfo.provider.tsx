@@ -59,9 +59,17 @@ export const UserInfoProvider = ({ children }: IProps) => {
     })();
   }, [session, status]);
 
+  const setUserAvatar = (avatarUrl: string) => {
+    setUserInfo({
+      ...userInfo,
+      avatarUrl,
+    });
+  };
+
   return (
     <UserInfoContext.Provider
       value={{
+        setUserAvatar,
         identifier: userInfo.identifier,
         firstName: userInfo.firstName,
         lastName: userInfo.lastName,

@@ -2,6 +2,7 @@
 import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
 import {
   Avatar,
+  Button,
   ButtonIcon,
   EAvatarSizes,
   EButtonTypes,
@@ -11,38 +12,95 @@ import {
   Heading,
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import Image from 'next/image';
+import useUserInfo from '@/hooks/useUserInfo';
+import useModal from '@/hooks/useModal';
+import { EModalActions } from '@/stores/Modal.context';
+import ImagePreview from '@/components/image-preview/ImagePreview';
+import React from 'react';
+import ImageWithPlaceholder from '@/components/image-with-placeholder/ImageWithPlaceholder';
+import { toast } from 'react-toastify';
 
 interface Props {
   user: IPostCreator;
 }
 
 function Header({ user }: Props) {
+  const { identifier, setUserAvatar, avatarUrl, lastName, firstName } =
+    useUserInfo();
+  const { dispatchModal, closeModal } = useModal();
+  const imageSource = `https://source.unsplash.com/random/?landscape&${Date.now().toString().toLowerCase().trim()}`;
   return (
-    <div className="w-[680px]">
-      <div className="rounded-2xl overflow-hidden">
-        <Image
-          src={'/header.png'}
-          alt="Header Image"
-          width={680}
-          height={320}
-        />
-      </div>
-
-      <div className="absolute">
-        <Avatar
-          nameHtml="avatar"
-          size={EAvatarSizes.XL}
-          editable={false}
-          imgSrc={user.avatarUrl}
-        />
+    <>
+      <div className="relative">
+        <ImageWithPlaceholder src={imageSource} alt="header Image" />
+        <div className="absolute bottom-[-80px] right-8">
+          <Avatar
+            nameHtml="avatar"
+            size={EAvatarSizes.XL}
+            editable={user.id === identifier}
+            imgSrc={
+              user.id === identifier
+                ? avatarUrl || undefined
+                : user.avatarUrl || undefined
+            }
+            onSuccess={(newAvatar) => {
+              const reader = new FileReader();
+              reader.onload = (evt) => {
+                dispatchModal({
+                  type: EModalActions.SET_CONTENT,
+                  payload: {
+                    title: 'Lets change that ugly pic',
+                    content: (
+                      <>
+                        <ImagePreview
+                          imageInMemory={evt.target?.result}
+                          onCancel={() => {
+                            closeModal();
+                          }}
+                        />
+                        <Button
+                          icon={EIConTypes.UPLOAD}
+                          label="Update Image"
+                          name="avatar-update"
+                          type={EButtonTypes.PRIMARY}
+                          onCustomClick={async () => {
+                            try {
+                              const formData = new FormData();
+                              // @ts-ignore
+                              formData.append('media', newAvatar);
+                              const response = await fetch(
+                                '/api/users/avatar',
+                                {
+                                  method: 'POST',
+                                  body: formData,
+                                },
+                              );
+                              const newPic = await response.json();
+                              setUserAvatar(newPic);
+                              closeModal();
+                            } catch (error) {
+                              closeModal();
+                              toast.error('Error while uploading the image');
+                            }
+                          }}
+                        />
+                      </>
+                    ),
+                  },
+                });
+              };
+              // @ts-ignore
+              reader.readAsDataURL(newAvatar);
+            }}
+          />
+        </div>
       </div>
 
       <div className="pt-6">
         <div className="pb-2 text-slate-900">
           <Heading
             level={ETypographyLevels.THREE}
-            text={user.username}
+            text={`${user.id === identifier ? `${firstName} ${lastName} ` : user.username}`}
             inheritColor
           />
         </div>
@@ -76,7 +134,7 @@ function Header({ user }: Props) {
           />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -8,7 +9,6 @@ import {
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
-import useUserInfo from '@/hooks/useUserInfo';
 import { createPostReply } from '@/actions/createPostReply';
 import { createPost } from '@/actions/createPost';
 import useModal from '@/hooks/useModal';
@@ -17,17 +17,36 @@ import ImageUploader from '@/components/image-uploader/ImageUploader';
 import ImagePreview, {
   TFireReaderResult,
 } from '@/components/image-preview/ImagePreview';
+import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
+import useUserInfo from '@/hooks/useUserInfo';
+import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
+import { frontendConfig } from '@/config';
+import PostEditorText from '@/components/post-editor-text/PostEditorText';
 
 interface IProps {
   identifier?: string;
   isFeedPage: boolean;
+  title?: string;
+  subTitle?: string;
 }
 
-export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
+export interface IMentionsProps {
+  id: string;
+  display: string;
+}
+
+export const PostEditor = ({
+  identifier,
+  isFeedPage = false,
+  title,
+  subTitle,
+}: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
-  const { isLoggedIn } = useUserInfo();
+  const { identifier: loggedInUserIdentifier } = useUserInfo();
+  const [users, setUsers] = useState<IMumbleUser[]>([]);
+
   const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
@@ -46,41 +65,75 @@ export const PostEditor = ({ identifier, isFeedPage = false }: IProps) => {
   }, [image]);
 
   useEffect(() => {
+    (async () => {
+      if (loggedInUserIdentifier) {
+        const { users: usersFetched } = await getRecommendationsData(
+          loggedInUserIdentifier,
+        );
+        setUsers(usersFetched);
+      }
+    })();
+  }, [loggedInUserIdentifier]);
+
+  useEffect(() => {
     return () => {
       setImage(null);
       setImageInMemory(null);
     };
   }, []);
 
-  if (!isLoggedIn) return null;
   return (
     <>
       <form
         action={async (formData) => {
+          formData.append('text', text);
           if (image) {
             formData.append('media', image);
           }
-          if (identifier) {
-            await createPostReply(formData, identifier);
-          } else {
-            await createPost(formData);
+          try {
+            if (identifier) {
+              await createPostReply(formData, identifier);
+            } else {
+              await createPost(formData);
+            }
+          } catch (error) {
+            console.log(error);
+          } finally {
+            setText('');
+            setImage(null);
           }
-          setText('');
-          setImage(null);
         }}
       >
         <div
           className={`bg-white py-8  relative rounded-2xl mb-6 ${isFeedPage ? 'px-12' : ''}`}
         >
           <div className="mb-4">
-            <PostEditorHeader avatarFloating={isFeedPage} />
+            <PostEditorHeader
+              avatarFloating={isFeedPage}
+              title={title}
+              subTitle={subTitle}
+            />
           </div>
-          <Textarea
-            name="text"
-            placeholder={placeholder}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
+          {frontendConfig.enableMentions ? (
+            <PostEditorText
+              text={text}
+              placeholder={placeholder}
+              notifyValueChange={setText}
+              users={users.map((user) => {
+                return {
+                  id: user.id,
+                  display: user.username,
+                };
+              })}
+            />
+          ) : (
+            <Textarea
+              name="text"
+              placeholder={placeholder}
+              value={text}
+              onChange={(evt) => setText(evt.target.value)}
+            />
+          )}
           {imageInMemory && (
             <ImagePreview
               imageInMemory={imageInMemory}

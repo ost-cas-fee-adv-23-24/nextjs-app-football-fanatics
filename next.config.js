@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -8,15 +9,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'source.unsplash.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'storage.googleapis.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'zitadel.cloud',
-      },
-      {
-        protocol: 'https',
-        hostname: 'amplifyapp.com',
       },
     ],
   },
