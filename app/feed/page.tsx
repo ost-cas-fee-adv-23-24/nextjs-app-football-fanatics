@@ -3,7 +3,6 @@ import { PostEditor } from '@/components/post-editor/PostEditor';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
 import { Session } from 'next-auth';
-import { PostsFixLoader } from '@/components/posts-loader/PostsFixLoader';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
 
 export default async function Page() {

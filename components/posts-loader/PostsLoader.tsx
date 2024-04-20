@@ -10,6 +10,7 @@ interface IProps {
   creators?: string[];
   fetchOnlyOneBatch?: boolean;
   isLikes?: boolean;
+  revalidationPath?: string;
 }
 
 const PostsLoader = ({
@@ -18,6 +19,7 @@ const PostsLoader = ({
   creators,
   fetchOnlyOneBatch = false,
   isLikes = false,
+  revalidationPath,
 }: IProps) => {
   const {
     posts,
@@ -96,7 +98,7 @@ const PostsLoader = ({
                 ref={posts.length === index + 1 ? lastPostRef : undefined}
                 key={post.id}
               >
-                <Post postData={post} />
+                <Post postData={post} revalidationPath={revalidationPath} />
               </div>
             );
           });

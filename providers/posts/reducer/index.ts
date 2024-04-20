@@ -9,6 +9,28 @@ export const reducerPosts = (
   const copyState = cloneDeep(state);
   const { type, payload } = action;
   switch (type) {
+    case EPostsActions.TOGGLE_LIKE_POST:
+      const postIndex = copyState.posts.findIndex(
+        (post) => post.id === payload.identifier,
+      );
+      if (postIndex !== -1) {
+        const post = copyState.posts[postIndex];
+        if (payload.toggleType === 'like') {
+          post.likes += 1;
+          post.likedBySelf = true;
+        } else {
+          post.likes -= 1;
+          post.likedBySelf = false;
+        }
+
+        if (post.likes === 0) {
+          copyState.posts.splice(postIndex, 1);
+          return copyState;
+        }
+
+        copyState.posts[postIndex] = post;
+      }
+      return copyState;
     case EPostsActions.DELETE_POST:
       copyState.posts = copyState.posts.filter(
         (post) => post.id !== payload.identifier,
