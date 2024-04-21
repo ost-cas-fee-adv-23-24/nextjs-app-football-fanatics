@@ -136,7 +136,7 @@ export const PostsProvider = ({ children }: IProps) => {
       });
       return responseApi.posts;
     },
-    [state.newPostsQueue],
+    [],
   );
 
   useEffect(() => {
@@ -194,6 +194,7 @@ export const PostsProvider = ({ children }: IProps) => {
       }
     }
   }, [
+    state.newPostsQueue,
     state.newestPost,
     remainingTime,
     state.subscribeToNewestPost,

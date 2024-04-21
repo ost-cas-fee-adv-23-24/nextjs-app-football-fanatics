@@ -140,9 +140,7 @@ export const PostsFixLoader = ({
     },
     [
       isLoading,
-      userIdentifier,
       nextMumblePostsUrl,
-      dispatchPosts,
       creators,
       isLikes,
       fetchOnlyOneBatch,

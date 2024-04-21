@@ -4,6 +4,7 @@ import usePosts from '@/hooks/usePosts';
 import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { Post } from '@/components/post/Post';
+import useBreakpoints from '@/hooks/useBreakpoints';
 interface IProps {
   userIdentifier?: string;
   subscribeToNewestPost?: boolean;
@@ -28,6 +29,7 @@ const PostsLoader = ({
     dispatchPosts,
     fetchPostsBatch,
   } = usePosts();
+  const { isBpMDDown } = useBreakpoints();
 
   useEffect(() => {
     fetchPostsBatch({
@@ -77,11 +79,12 @@ const PostsLoader = ({
       }
     },
     [
-      isLoading,
       nextMumblePostsUrl,
       creators,
       subscribeToNewestPost,
       fetchPostsBatch,
+      fetchOnlyOneBatch,
+      isLikes,
     ],
   );
 
@@ -99,6 +102,7 @@ const PostsLoader = ({
                 key={post.id}
               >
                 <Post
+                  useFloatingAvatar={!isBpMDDown}
                   postData={post}
                   revalidationPath={revalidationPath}
                   renderedInLikeFeed={isLikes}

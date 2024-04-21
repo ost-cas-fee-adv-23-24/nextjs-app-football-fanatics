@@ -15,6 +15,7 @@ import { frontendConfig } from '@/config';
 import { RecommendationsProvider } from '@/providers/Recommendations.provider';
 import { PostsProvider } from '@/providers/posts/Posts.provider';
 import { LayoutMumbleProvider } from '@/providers/LayoutMumble.provider';
+import { BreakpointsProvider } from '@/providers/Breakpoints.provider';
 
 export const metadata: Metadata = {
   title: 'Elbum Wep App',
@@ -41,7 +42,9 @@ export default function RootLayout({
             <ModalProvider>
               <PostsProvider>
                 <RecommendationsProvider>
-                  <LayoutMumbleProvider>{children}</LayoutMumbleProvider>
+                  <BreakpointsProvider>
+                    <LayoutMumbleProvider>{children}</LayoutMumbleProvider>
+                  </BreakpointsProvider>
                 </RecommendationsProvider>
               </PostsProvider>
             </ModalProvider>
