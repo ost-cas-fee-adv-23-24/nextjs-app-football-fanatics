@@ -33,7 +33,7 @@ function Header({ user }: Props) {
     <>
       <div className="relative">
         <ImageWithPlaceholder src={imageSource} alt="header Image" />
-        <div className="absolute bottom-[-80px] right-8">
+        <div className="absolute bottom-[20px] md:bottom-[-80px] right-6 md:right-8">
           <Avatar
             nameHtml="avatar"
             size={EAvatarSizes.XL}

@@ -18,13 +18,13 @@ export default async function Page() {
 
   return (
     <div className="mx-auto bg-slate-100">
-      <div className="global-width mx-auto py-8 px-8">
+      <div className="global-width mx-auto py-8 px-8 md:px-0">
         <WelcomeTexts
           title="Welcome to Mumble"
           description="Did you hear that? They've shut down the main reactor."
         />
       </div>
-      <div className="global-width px-8">
+      <div className="global-width px-8 md:px-0">
         <PostEditor isFeedPage={true} title="Hey, What is new?" />
         <PostsLoader
           creators={creators}
