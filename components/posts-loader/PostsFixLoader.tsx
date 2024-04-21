@@ -155,20 +155,24 @@ export const PostsFixLoader = ({
   let index = startIndex;
 
   while (index < endIndex) {
-    const currentPost = posts[index];
-    postsToRender.push(
-      <div
-        className="post-wrapper px-10 lg:px-0 pb-6"
-        data-identifier={currentPost.id}
-        // to be checked later on. typing of the element used as node in the intersection observer
-        // @ts-ignore
-        ref={posts.length === index + 1 ? lastPostRef : undefined}
-        key={currentPost.id}
-      >
-        <PostFix postData={currentPost} />
-      </div>,
-    );
-    index++;
+    if (posts[index]) {
+      const currentPost = posts[index];
+      postsToRender.push(
+        <div
+          className="post-wrapper px-10 lg:px-0 pb-6"
+          data-identifier={currentPost.id}
+          // to be checked later on. typing of the element used as node in the intersection observer
+          // @ts-ignore
+          ref={posts.length === index + 1 ? lastPostRef : undefined}
+          key={currentPost.id}
+        >
+          <PostFix postData={currentPost} />
+        </div>,
+      );
+      index++;
+    } else {
+      index = 0;
+    }
   }
 
   return (
