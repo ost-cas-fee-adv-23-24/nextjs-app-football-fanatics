@@ -29,6 +29,7 @@ interface IProps {
   identifier: string;
   creatorIdentifier: string;
   revalidationPath?: string;
+  renderedInLikeFeed?: boolean;
 }
 
 const PostActionsBar = ({
@@ -38,6 +39,7 @@ const PostActionsBar = ({
   identifier,
   creatorIdentifier,
   revalidationPath,
+  renderedInLikeFeed = false,
 }: IProps) => {
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
@@ -85,7 +87,7 @@ const PostActionsBar = ({
               // if no error thrown, we can update the state
               dispatchPosts({
                 type: EPostsActions.TOGGLE_LIKE_POST,
-                payload: { identifier, toggleType },
+                payload: { identifier, toggleType, renderedInLikeFeed },
               });
             } catch (error) {
               toast.warning('Error liking post, please try again later');

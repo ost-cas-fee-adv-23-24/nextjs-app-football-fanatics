@@ -98,7 +98,11 @@ const PostsLoader = ({
                 ref={posts.length === index + 1 ? lastPostRef : undefined}
                 key={post.id}
               >
-                <Post postData={post} revalidationPath={revalidationPath} />
+                <Post
+                  postData={post}
+                  revalidationPath={revalidationPath}
+                  renderedInLikeFeed={isLikes}
+                />
               </div>
             );
           });

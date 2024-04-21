@@ -28,13 +28,8 @@ export const GlobalHeader = ({}: IProps) => {
   return (
     <div className="flex justify-between items-center">
       <Link href={'/'} title="mumble">
-        <div className="w-10 h-10 md:hidden">
-          <Icon
-            type={EIConTypes.MUMBLE}
-            fitParent={true}
-            // extend to icon colo white or inherit color
-            color={EIconColors.VIOLET}
-          />
+        <div className="w-10 h-10 md:hidden text-white">
+          <Icon type={EIConTypes.MUMBLE} fitParent={true} />
         </div>
         <div className="hidden md:block">
           <Logo logoPosition={ELogoPositions.LEFT} color={ELogoTypes.HEADER} />

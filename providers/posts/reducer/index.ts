@@ -10,12 +10,13 @@ export const reducerPosts = (
   const { type, payload } = action;
   switch (type) {
     case EPostsActions.TOGGLE_LIKE_POST:
+      const { renderedInLikeFeed, identifier, toggleType } = payload;
       const postIndex = copyState.posts.findIndex(
-        (post) => post.id === payload.identifier,
+        (post) => post.id === identifier,
       );
       if (postIndex !== -1) {
         const post = copyState.posts[postIndex];
-        if (payload.toggleType === 'like') {
+        if (toggleType === 'like') {
           post.likes += 1;
           post.likedBySelf = true;
         } else {
@@ -23,7 +24,8 @@ export const reducerPosts = (
           post.likedBySelf = false;
         }
 
-        if (post.likes === 0) {
+        // only to be removed in likes feed if likes === 0
+        if (post.likes === 0 && renderedInLikeFeed) {
           copyState.posts.splice(postIndex, 1);
           return copyState;
         }

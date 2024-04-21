@@ -10,7 +10,7 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
 
   return (
     <>
-      <div className="mt-8 mb-4">
+      <div className="mt-8 mb-4 md:mx-auto">
         <ProfileSwitch
           redirectionDelay={500}
           selectedTab={0}

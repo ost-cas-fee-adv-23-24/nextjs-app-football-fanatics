@@ -96,8 +96,8 @@ function Header({ user }: Props) {
         </div>
       </div>
 
-      <div className="pt-6">
-        <div className="pb-2 text-slate-900">
+      <div className="pt-6 mx-8 md:mx-auto">
+        <div className="pb-2 text-slate-900 ">
           <Heading
             level={ETypographyLevels.THREE}
             text={`${user.id === identifier ? `${firstName} ${lastName} ` : user.username}`}

@@ -8,7 +8,7 @@ import PostsLoader from '@/components/posts-loader/PostsLoader';
 export default async function Page() {
   // middleware checks if user is authenticated before hitting this page
   const session = (await auth()) as Session;
-  // lets include also the user itself
+  // let's include also the user itself
   const creators: string[] = [session.user.identifier];
 
   const allFollowees = await getAllFollowees(session.user.identifier);
@@ -17,14 +17,14 @@ export default async function Page() {
   });
 
   return (
-    <div className="mx-auto bg-slate-100 pt-8">
-      <div className="global-width mx-auto py-8">
+    <div className="mx-auto bg-slate-100">
+      <div className="global-width mx-auto py-8 px-8">
         <WelcomeTexts
           title="Welcome to Mumble"
           description="Did you hear that? They've shut down the main reactor."
         />
       </div>
-      <div className="global-width mx-auto w-full">
+      <div className="global-width px-8">
         <PostEditor isFeedPage={true} title="Hey, What is new?" />
         <PostsLoader
           creators={creators}

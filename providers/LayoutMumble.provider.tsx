@@ -21,7 +21,8 @@ export const LayoutMumbleProvider = ({ children }: IProps) => {
     if (layoutKind === ELayoutKind.SCROLLABLE) {
       return 'content bg-slate-100 flex flex-col overflow-hidden grow';
     } else {
-      return 'content bg-slate-100 px-10 lg:px-0 grow overflow-y-auto';
+      return 'content flex flex-col bg-slate-100 overflow-y-scroll grow';
+      //px-10 lg:px-0
     }
   }, [layoutKind]);
 
