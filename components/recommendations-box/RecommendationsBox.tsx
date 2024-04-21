@@ -39,6 +39,8 @@ const RecommendationsBox = ({
     followedUsersIdentifiers,
   } = useRecommendations();
 
+  const [firstLoad, setFirstLoad] = React.useState(true);
+
   useEffect(() => {
     (async () => {
       loadData(userIdentifier);
@@ -46,7 +48,11 @@ const RecommendationsBox = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const placeHolders = new Array(frontendConfig.recommendationsAmount).fill(0);
+  useEffect(() => {
+    if (recommendedUsers.length > 0) {
+      setFirstLoad(false);
+    }
+  }, [recommendedUsers]);
 
   return (
     <>
@@ -56,10 +62,13 @@ const RecommendationsBox = ({
       />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
-        {recommendedUsers.length === 0 &&
-          placeHolders.map((_, index) => (
-            <RecommendationPlaceholder key={index} />
-          ))}
+        {firstLoad && (
+          <>
+            <RecommendationPlaceholder />
+            <RecommendationPlaceholder />
+            <RecommendationPlaceholder />
+          </>
+        )}
         {recommendedUsers.map((user, index) => {
           return (
             <Recommendation

@@ -21,7 +21,7 @@ export const LayoutMumbleProvider = ({ children }: IProps) => {
     if (layoutKind === ELayoutKind.SCROLLABLE) {
       return 'content bg-slate-100 flex flex-col overflow-hidden grow';
     } else {
-      return 'content bg-slate-100 px-10 lg:px-0 grow overflow-y-auto';
+      return 'content flex flex-col bg-slate-100 overflow-y-scroll grow';
     }
   }, [layoutKind]);
 
@@ -29,7 +29,7 @@ export const LayoutMumbleProvider = ({ children }: IProps) => {
     <LayoutMumbleContext.Provider value={{ setLayoutKind }}>
       <div className="main-wrapper w-full flex flex-col h-screen min-h-screen overflow-y-hidden">
         <div className="header bg-violet-600 py-3">
-          <div className="global-width mx-auto px-10 lg:px-0">
+          <div className="global-width mx-auto px-8 md:px-0">
             <GlobalHeader />
           </div>
         </div>

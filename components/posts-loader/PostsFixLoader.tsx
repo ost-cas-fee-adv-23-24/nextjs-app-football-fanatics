@@ -33,14 +33,14 @@ export const PostsFixLoader = ({
 
   const numRows = posts.length;
   const customAmountPosts = frontendConfig.feed.fixed.defaultAmount;
-  const initialApproxHeight = 277;
+  const initialApproxHeight = 301.04;
   const [scrollTop, setScrollTop] = useState(0);
   const [availableHeight, setAvailableHeight] = useState(0);
   const [rowHeight, setRowHeight] = useState(initialApproxHeight);
   const [totalHeight, setTotalHeight] = useState(rowHeight * customAmountPosts);
   const containerRef = useRef(null);
   const { setLayoutKind } = useLayoutMumble();
-  setLayoutKind(ELayoutKind.SCROLLABLE);
+  const showPlaceholder = posts.length === 0 || isLoading;
 
   let startIndex = Math.floor(scrollTop / rowHeight);
   let endIndex = Math.min(
@@ -95,7 +95,7 @@ export const PostsFixLoader = ({
       isLikes,
       customAmount: customAmountPosts,
     });
-
+    setLayoutKind(ELayoutKind.SCROLLABLE);
     const newData = getNewSizes(customAmountPosts);
     setRowHeight(newData.row);
     setTotalHeight(newData.totalHeight);
@@ -158,7 +158,7 @@ export const PostsFixLoader = ({
     const currentPost = posts[index];
     postsToRender.push(
       <div
-        className="post-wrapper px-10 lg:px-0"
+        className="post-wrapper px-10 lg:px-0 pb-6"
         data-identifier={currentPost.id}
         // to be checked later on. typing of the element used as node in the intersection observer
         // @ts-ignore
@@ -188,7 +188,7 @@ export const PostsFixLoader = ({
             paddingTop: startIndex * rowHeight,
           }}
         >
-          {posts.length === 0 && (
+          {showPlaceholder && (
             <>
               <PostEditorPlaceholder />
               <PostEditorPlaceholder />

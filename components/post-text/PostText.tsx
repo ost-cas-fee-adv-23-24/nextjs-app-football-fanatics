@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { uniq as _uniq } from 'lodash';
+import _uniq from 'lodash/uniq';
 import { frontendConfig } from '@/config';
 
 interface IProps {

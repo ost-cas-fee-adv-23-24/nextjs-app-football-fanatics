@@ -142,7 +142,7 @@ export const PostEditor = ({
               }}
             />
           )}
-          <div className="flex gap-4 mt-4">
+          <div className="flex gap-4 mt-4 flex-col md:flex-row">
             <Button
               name="picture-upload-trigger"
               fitParent={true}

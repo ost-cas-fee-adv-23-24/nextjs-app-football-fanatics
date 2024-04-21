@@ -20,7 +20,7 @@ import { deletePost } from '@/actions/deletePost';
 import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
 import usePosts from '@/hooks/usePosts';
-import { EPostsActions } from '@/stores/Posts.context';
+import { ELikeToggleType, EPostsActions } from '@/stores/Posts.context';
 
 interface IProps {
   amountLikes: number;
@@ -28,6 +28,8 @@ interface IProps {
   selfLiked: boolean;
   identifier: string;
   creatorIdentifier: string;
+  revalidationPath?: string;
+  renderedInLikeFeed?: boolean;
 }
 
 const PostActionsBar = ({
@@ -36,6 +38,8 @@ const PostActionsBar = ({
   selfLiked,
   identifier,
   creatorIdentifier,
+  revalidationPath,
+  renderedInLikeFeed = false,
 }: IProps) => {
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
@@ -72,12 +76,23 @@ const PostActionsBar = ({
               notify();
               return;
             }
-            if (selfLiked) {
-              await decreasePostLike(identifier);
-            } else {
-              await increasePostLikes(identifier);
+            let toggleType: ELikeToggleType = ELikeToggleType.LIKE;
+            try {
+              if (selfLiked) {
+                toggleType = ELikeToggleType.UNLIKE;
+                await decreasePostLike({ identifier, revalidationPath });
+              } else {
+                await increasePostLikes({ identifier, revalidationPath });
+              }
+              // if no error thrown, we can update the state
+              dispatchPosts({
+                type: EPostsActions.TOGGLE_LIKE_POST,
+                payload: { identifier, toggleType, renderedInLikeFeed },
+              });
+            } catch (error) {
+              toast.warning('Error liking post, please try again later');
+              // we could reload the page after toast is gone
             }
-            router.refresh();
           }}
           effectDuration={!isLoggedIn ? 0 : 1000}
           labelLiked={selfLiked ? 'Unliked' : 'Liked'}
