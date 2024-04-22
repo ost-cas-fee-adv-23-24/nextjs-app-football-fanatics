@@ -5,15 +5,17 @@ import { PostCardFix } from '@/components/post-card/PostCardFix';
 
 interface IProps {
   postData: IPostItem;
+  useFloatingAvatar?: boolean;
 }
 
-export const PostFix = ({ postData }: IProps) => {
+export const PostFix = ({ postData, useFloatingAvatar = false }: IProps) => {
   return (
     <div
       className="bg-white py-8 px-12 relative rounded-2xl  w-full"
       key={postData.id}
     >
       <PostCardFix
+        useFloatingAvatar={useFloatingAvatar}
         key={`${postData.id}`}
         text={postData.text}
         id={postData.id}

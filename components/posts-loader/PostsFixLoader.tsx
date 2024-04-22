@@ -7,6 +7,7 @@ import { PostFix } from '@/components/post/PostFix';
 import useLayoutMumble from '@/hooks/useLayoutMumble';
 import { ELayoutKind } from '@/providers/LayoutMumble.provider';
 import { frontendConfig } from '@/config';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
 interface IProps {
   userIdentifier?: string;
@@ -40,6 +41,7 @@ export const PostsFixLoader = ({
   const [totalHeight, setTotalHeight] = useState(rowHeight * customAmountPosts);
   const containerRef = useRef(null);
   const { setLayoutKind } = useLayoutMumble();
+  const { isBpMDDown } = useBreakpoints();
   const showPlaceholder = posts.length === 0 || isLoading;
 
   let startIndex = Math.floor(scrollTop / rowHeight);
@@ -164,7 +166,7 @@ export const PostsFixLoader = ({
           ref={posts.length === index + 1 ? lastPostRef : undefined}
           key={currentPost.id}
         >
-          <PostFix postData={currentPost} />
+          <PostFix postData={currentPost} useFloatingAvatar={!isBpMDDown} />
         </div>,
       );
       index++;
