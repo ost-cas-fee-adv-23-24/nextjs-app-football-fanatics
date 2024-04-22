@@ -44,21 +44,22 @@ const breakpoints: Array<IBreakpoint> = [
 ];
 
 export const BreakpointsProvider = ({ children }: IProps) => {
-  const [currentBreakpoint, setCurrentViewport] = useState<IBreakpoint>(
-    breakpoints[0],
-  );
+  const [currentBreakpoint, setCurrentBreakpoint] = useState<IBreakpoint>({
+    name: EBreakpointsEnum.UL,
+    value: EBreakpointValuesEnum.ULTRA_LARGE,
+    abbreviation: 'UL',
+  });
   const [, setCurrentWidth] = useState<number>(
-    EBreakpointValuesEnum.EXTRA_LARGE,
+    EBreakpointValuesEnum.ULTRA_LARGE,
   );
 
   const onResize = () => {
     const width = window.innerWidth;
     setCurrentWidth(width);
     breakpoints.forEach((breakpoint) => {
-      if (width >= breakpoint.value) {
-        if (currentBreakpoint.name !== breakpoint.name) {
-          setCurrentViewport(breakpoint);
-        }
+      const isSameBreakpoint = currentBreakpoint.name === breakpoint.name;
+      if (width >= breakpoint.value && !isSameBreakpoint) {
+        setCurrentBreakpoint(breakpoint);
       }
     });
   };
@@ -70,6 +71,7 @@ export const BreakpointsProvider = ({ children }: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // we could also expose the currentWith
   return (
     <BreakpointsContext.Provider
       value={{
