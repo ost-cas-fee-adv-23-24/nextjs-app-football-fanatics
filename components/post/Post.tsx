@@ -7,12 +7,14 @@ interface IProps {
   postData: IPostItem;
   revalidationPath?: string;
   renderedInLikeFeed?: boolean;
+  useFloatingAvatar?: boolean;
 }
 
 export const Post = ({
   postData,
   revalidationPath,
   renderedInLikeFeed = false,
+  useFloatingAvatar = false,
 }: IProps) => {
   return (
     <div
@@ -21,6 +23,7 @@ export const Post = ({
       data-identifier={postData.id}
     >
       <PostCard
+        useFloatingAvatar={useFloatingAvatar}
         key={`${postData.id}`}
         text={postData.text}
         id={postData.id}

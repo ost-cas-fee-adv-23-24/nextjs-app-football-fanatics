@@ -28,7 +28,7 @@ export const GlobalHeader = ({}: IProps) => {
   return (
     <div className="flex justify-between items-center">
       <Link href={'/'} title="mumble">
-        <div className="size-10 md:hidden text-white">
+        <div className="h-10 w-10 md:hidden text-white">
           <Icon type={EIConTypes.MUMBLE} fitParent={true} />
         </div>
         <div className="hidden md:block">

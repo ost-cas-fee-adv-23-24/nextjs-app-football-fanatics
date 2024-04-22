@@ -9,6 +9,7 @@ import PostText from '@/components/post-text/PostText';
 
 interface IProps extends IPostItemBase {
   parentId?: string;
+  useFloatingAvatar?: boolean;
 }
 
 export const PostCard = ({
@@ -18,11 +19,12 @@ export const PostCard = ({
   creator,
   id,
   parentId,
+  useFloatingAvatar = false,
 }: IProps) => {
   return (
     <div className="post-card">
       <PostCardHeader
-        avatarFloating={!parentId}
+        avatarFloating={useFloatingAvatar}
         avatarSize={EAvatarSizes.MD}
         creator={creator}
         postIdentifier={id}

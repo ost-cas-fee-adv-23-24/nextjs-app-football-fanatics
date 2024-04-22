@@ -67,7 +67,7 @@ const PostText = ({ text }: IProps) => {
   };
 
   return (
-    <div className="text-slate-600 font-poppins not-italic font-medium text-lg leading-[1.40]">
+    <div className="text-slate-600 font-poppins not-italic font-medium text-lg leading-[1.40] break-all">
       {(() => {
         const textWithHashTags = replaceHashtags(text);
         if (!textWithHashTags) return null;

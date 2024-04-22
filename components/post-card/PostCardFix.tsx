@@ -7,7 +7,7 @@ import { IPostItemBase } from '@/utils/interfaces/mumblePost.interface';
 import { PostImagePlaceholder } from '@/components/placeholders/PostImagePlaceholder';
 
 interface IProps extends IPostItemBase {
-  parentId?: string;
+  useFloatingAvatar?: boolean;
 }
 
 export const PostCardFix = ({
@@ -15,12 +15,12 @@ export const PostCardFix = ({
   text,
   creator,
   id,
-  parentId,
+  useFloatingAvatar = false,
 }: IProps) => {
   return (
     <div className="post-card">
       <PostCardHeader
-        avatarFloating={!parentId}
+        avatarFloating={useFloatingAvatar}
         avatarSize={EAvatarSizes.MD}
         creator={creator}
         postIdentifier={id}
