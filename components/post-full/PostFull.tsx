@@ -6,9 +6,10 @@ import { IPostReply } from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
   data: IPost;
+  isUserAuthenticated: boolean;
 }
 
-export const PostFull = ({ data }: IProps) => {
+export const PostFull = ({ data, isUserAuthenticated }: IProps) => {
   const { postData, repliesData } = data;
   return (
     <div className="bg-white py-8 px-12 relative rounded-2xl mb-6">
@@ -32,9 +33,13 @@ export const PostFull = ({ data }: IProps) => {
             selfLiked={postData.likedBySelf}
           />
         </div>
-        <div className="mt-3">
-          <PostEditor identifier={postData.id} isFeedPage={false} />
+
+        <div className="pt-3">
+          {isUserAuthenticated && (
+            <PostEditor identifier={postData.id} isFeedPage={false} />
+          )}
         </div>
+
         {repliesData?.data?.map((dataReply: IPostReply) => {
           return (
             <div className="mt-4" key={postData.id}>
