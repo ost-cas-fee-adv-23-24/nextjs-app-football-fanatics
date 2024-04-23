@@ -11,7 +11,7 @@ interface IProps {
 export const PostFix = ({ postData, useFloatingAvatar = false }: IProps) => {
   return (
     <div
-      className="bg-white py-8 px-12 relative rounded-2xl  w-full"
+      className="bg-white relative rounded-2xl w-full p-6 md:py-8 md:px-12"
       key={postData.id}
     >
       <PostCardFix
