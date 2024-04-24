@@ -85,14 +85,20 @@ export const GlobalHeader = ({}: IProps) => {
             />
           </>
         ) : (
-          <ButtonMenu
-            name="login"
-            label="Login"
-            icon={EIConTypes.LOGOUT}
-            onCustomClick={() => {
-              signIn('zitadel');
-            }}
-          />
+          <>
+            {/*to avoid layout shift*/}
+            <div className="w-10 h-10" />
+            {/*to avoid layout shift*/}
+            <div className="w-[94.6px] h-[54px]" />
+            <ButtonMenu
+              name="login"
+              label="Login"
+              icon={EIConTypes.LOGOUT}
+              onCustomClick={() => {
+                signIn('zitadel');
+              }}
+            />
+          </>
         )}
       </div>
     </div>
