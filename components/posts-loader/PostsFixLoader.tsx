@@ -69,6 +69,7 @@ export const PostsFixLoader = ({
     };
   }, []);
 
+  // sets the resize event listener
   useEffect(() => {
     const resizeListener = () => {
       const newData = getNewSizes(
@@ -88,6 +89,17 @@ export const PostsFixLoader = ({
     };
   }, [getNewSizes, posts.length, customAmountPosts]);
 
+  // if new posts are loaded, we need to update the initial data
+  useEffect(() => {
+    const { row, availableHeight, totalHeight } = getNewSizes(
+      posts.length === 0 ? customAmountPosts : posts.length,
+    );
+    setRowHeight(row);
+    setTotalHeight(totalHeight);
+    setAvailableHeight(availableHeight);
+  }, [posts]);
+
+  // fetches the first batch of posts just after the component is rendered
   useEffect(() => {
     fetchPostsBatch({
       userIdentifier,
@@ -159,7 +171,7 @@ export const PostsFixLoader = ({
       const currentPost = posts[index];
       postsToRender.push(
         <div
-          className="post-wrapper px-10 lg:px-0 pb-6"
+          className="post-wrapper px-8 lg:px-0 pb-6"
           data-identifier={currentPost.id}
           // to be checked later on. typing of the element used as node in the intersection observer
           // @ts-ignore

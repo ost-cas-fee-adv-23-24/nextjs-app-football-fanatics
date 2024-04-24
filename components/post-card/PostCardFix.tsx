@@ -30,20 +30,22 @@ export const PostCardFix = ({
         creator={creator}
         postIdentifier={id}
       />
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-4">
         {textTransformed.trim().length !== 0 ? (
           <div
-            className="line-clamp-3 text-slate-600 font-poppins not-italic font-medium text-lg col-span-2"
+            className="line-clamp-3 md:line-clamp-5 text-slate-600 font-poppins not-italic font-medium text-lg  break-all max-h-[84px] md:max-h-[140px]"
             dangerouslySetInnerHTML={{
               __html: textTransformed,
             }}
           ></div>
         ) : (
-          <div className="col-span-2 line-clamp-3">
+          <div className="line-clamp-3 md:line-clamp-5  max-h-[84px] md:max-h-[140px]">
+            <div className="bg-slate-100 h-[20px] mb-1 col-span-2 hidden md:block"></div>
             <div className="bg-slate-100 h-[20px] mb-1 col-span-2"></div>
             <div className="bg-slate-100 h-[20px] mb-1 col-span-2 text-center text-slate-600 font-poppins not-italic font-medium text-xs lg:text-md">
               No text in post
             </div>
+            <div className="bg-slate-100 h-[20px] mb-1 col-span-2 hidden md:block"></div>
             <div className="bg-slate-100 h-[20px] col-span-2"></div>
           </div>
         )}

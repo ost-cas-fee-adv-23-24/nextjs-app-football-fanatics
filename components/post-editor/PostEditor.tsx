@@ -111,7 +111,7 @@ export const PostEditor = ({
         >
           <div className="mb-4">
             <PostEditorHeader
-              avatarFloating={!isBpMDDown}
+              avatarFloating={!isFeedPage ? false : isBpMDDown}
               title={title}
               subTitle={subTitle}
             />

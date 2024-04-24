@@ -16,14 +16,14 @@ export default async function Page({ params }: { params: { query: string } }) {
   });
 
   return (
-    <div className="mx-auto bg-slate-100 pt-8">
-      <div className="global-width mx-auto py-8">
+    <div className="bg-slate-100 pt-8">
+      <div className="global-width mx-auto py-8 px-8 md:px-0">
         <Heading
           text={`#${query}`}
           level={ETypographyLevels.ONE}
           inheritColor={true}
         />
-        <div className="global-width mr-auto ml-auto">
+        <div className="global-width mx-auto">
           <PostFeed data={feedData.data} />
         </div>
       </div>
