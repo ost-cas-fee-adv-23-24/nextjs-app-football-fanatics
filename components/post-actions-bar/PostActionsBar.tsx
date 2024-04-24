@@ -30,6 +30,7 @@ interface IProps {
   creatorIdentifier: string;
   revalidationPath?: string;
   renderedInLikeFeed?: boolean;
+  parentIdentifier?: string;
 }
 
 const PostActionsBar = ({
@@ -40,6 +41,7 @@ const PostActionsBar = ({
   creatorIdentifier,
   revalidationPath,
   renderedInLikeFeed = false,
+  parentIdentifier,
 }: IProps) => {
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
@@ -64,8 +66,23 @@ const PostActionsBar = ({
 
   // to avoid hydrate mismatch
   useEffect(() => {
-    setLinkToCopy(`${window.location.origin}/posts/${identifier}`);
-  }, [identifier]);
+    let urlToCopy = `${window.location.origin}/posts/${identifier}`;
+    if (parentIdentifier) {
+      urlToCopy = `${window.location.origin}/posts/${parentIdentifier}#${identifier}`;
+    }
+
+    setLinkToCopy(urlToCopy);
+  }, [identifier, parentIdentifier]);
+
+  useEffect(() => {
+    const anchor = window.location.hash.slice(1);
+    if (anchor) {
+      const anchorEl = document.getElementById(anchor);
+      if (anchorEl) {
+        anchorEl.scrollIntoView();
+      }
+    }
+  }, []);
 
   return (
     <div className="flex flex-col justify-start sm:flex-row">
@@ -101,18 +118,20 @@ const PostActionsBar = ({
           amount={amountLikes}
         />
       </div>
-      <div className="mb-4 sm:mb-0">
-        <ToggleComment
-          labelSingular="Comment"
-          labelPlural="Comments"
-          amount={amountComments}
-          customClickEvent={() => {
-            // we could use the linkNext but the missing display set to flex or inline-block
-            // causes a beauty problem in small screens
-            router.push(`/posts/${identifier}`);
-          }}
-        />
-      </div>
+      {parentIdentifier ? null : (
+        <div className="mb-4 sm:mb-0">
+          <ToggleComment
+            labelSingular="Comment"
+            labelPlural="Comments"
+            amount={amountComments}
+            customClickEvent={() => {
+              // we could use the linkNext but the missing display set to flex or inline-block
+              // causes a beauty problem in small screens
+              router.push(`/posts/${identifier}`);
+            }}
+          />
+        </div>
+      )}
       <div
         className={creatorIdentifier === userIdentifier ? 'mb-4 sm:mb-0' : ''}
       >
