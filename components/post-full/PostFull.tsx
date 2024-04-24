@@ -56,7 +56,7 @@ export const PostFull = ({ data, isUserAuthenticated }: IProps) => {
               />
 
               <div className="mt-3 mb-4 ml-[-12px]">
-                {/*We cannot like nor reply to replies  API does not allow it*/}
+                {/*We cannot reply to replies  API does not allow it*/}
                 <PostActionsBar
                   parentIdentifier={postData.id}
                   creatorIdentifier={dataReply.creator.id}
