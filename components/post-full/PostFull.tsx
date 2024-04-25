@@ -40,35 +40,36 @@ export const PostFull = ({ data, isUserAuthenticated }: IProps) => {
           )}
         </div>
 
-        {repliesData?.data?.map((dataReply: IPostReply) => {
-          return (
-            <div className="mt-4" key={postData.id}>
-              <PostCard
-                text={dataReply.text}
-                id={dataReply.id}
-                likedBySelf={dataReply.likedBySelf}
-                likes={dataReply.likes}
-                mediaUrl={dataReply.mediaUrl}
-                mediaType={dataReply.mediaType}
-                replies={dataReply.replies}
-                creator={dataReply.creator}
-                parentId={dataReply.parentId}
-              />
-
-              <div className="mt-3 mb-4 ml-[-12px]">
-                {/*We cannot like nor reply to replies  API does not allow it*/}
-                <PostActionsBar
-                  creatorIdentifier={dataReply.creator.id}
-                  identifier={dataReply.id}
-                  amountLikes={dataReply.likes}
-                  amountComments={dataReply.replies}
-                  selfLiked={dataReply.likedBySelf}
+        {repliesData &&
+          repliesData.data?.map((dataReply: IPostReply) => {
+            return (
+              <div className="mt-4" key={dataReply.id}>
+                <PostCard
+                  text={dataReply.text}
+                  id={dataReply.id}
+                  likedBySelf={dataReply.likedBySelf}
+                  likes={dataReply.likes}
+                  mediaUrl={dataReply.mediaUrl}
+                  mediaType={dataReply.mediaType}
+                  replies={dataReply.replies}
+                  creator={dataReply.creator}
+                  parentId={dataReply.parentId}
                 />
+
+                <div className="mt-3 mb-4 ml-[-12px]">
+                  {/*We cannot like nor reply to replies  API does not allow it*/}
+                  <PostActionsBar
+                    creatorIdentifier={dataReply.creator.id}
+                    identifier={dataReply.id}
+                    amountLikes={dataReply.likes}
+                    amountComments={dataReply.replies}
+                    selfLiked={dataReply.likedBySelf}
+                  />
+                </div>
+                <hr />
               </div>
-              <hr />
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );

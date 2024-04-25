@@ -16,8 +16,8 @@ export default async function Page({ params }: { params: { query: string } }) {
   });
 
   return (
-    <div className="bg-slate-100 pt-8">
-      <div className="global-width mx-auto py-8 px-8 md:px-0">
+    <div className="global-width mx-auto">
+      <div className="py-8 px-8 md:px-0">
         <Heading
           text={`#${query}`}
           level={ETypographyLevels.ONE}

@@ -29,8 +29,8 @@ export default async function ProfileLayout({
     );
 
     return (
-      <div className="bg-slate-100 md:pt-8 grow overflow-y-scroll">
-        <div className="header global-width mx-8 md:mx-auto md:py-8">
+      <div className="global-width mx-auto">
+        <div className="px-8 md:py-8 md:px-0">
           <div className="-mx-8 md:mx-auto">
             <Header user={profileData} />
           </div>
