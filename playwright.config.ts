@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import envVariables from './config/env';
 
-const PORT = envVariables.PORT || '3000';
+const PORT = envVariables.PORT;
 
 const baseURL = `http://localhost:${PORT}`;
 
@@ -14,6 +14,7 @@ export default defineConfig({
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
+
   // retries: 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // reporter: 'html',
@@ -22,6 +23,7 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     url: baseURL,
+    reuseExistingServer: true,
   },
 
   use: {
@@ -34,9 +36,24 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      testDir: './tests/auth',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup'],
+    },
+
+    {
+      name: 'chromium',
+      testIgnore: '**\/tests/auth/**',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
     },
 
     // {
