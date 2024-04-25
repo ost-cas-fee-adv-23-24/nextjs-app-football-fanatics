@@ -11,7 +11,8 @@
     "format:fix": "prettier . --write",
     "type-check": "tsc --noEmit",
     "code:fix": "npm run lint && npm run format:fix && npm run type-check",
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@ost-cas-fee-adv-23-24/elbmum-design": "1.46.0",
