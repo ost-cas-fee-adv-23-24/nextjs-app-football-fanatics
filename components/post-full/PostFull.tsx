@@ -43,7 +43,7 @@ export const PostFull = ({ data, isUserAuthenticated }: IProps) => {
         {repliesData &&
           repliesData.data?.map((dataReply: IPostReply) => {
             return (
-              <div className="mt-4" key={dataReply.id}>
+              <div className="mt-4" key={dataReply.id} id={dataReply.id}>
                 <PostCard
                   text={dataReply.text}
                   id={dataReply.id}
@@ -57,8 +57,9 @@ export const PostFull = ({ data, isUserAuthenticated }: IProps) => {
                 />
 
                 <div className="mt-3 mb-4 ml-[-12px]">
-                  {/*We cannot like nor reply to replies  API does not allow it*/}
+                  {/*We cannot reply to replies  API does not allow it*/}
                   <PostActionsBar
+                    parentIdentifier={postData.id}
                     creatorIdentifier={dataReply.creator.id}
                     identifier={dataReply.id}
                     amountLikes={dataReply.likes}
