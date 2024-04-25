@@ -97,7 +97,7 @@ export const PostsFixLoader = ({
     setRowHeight(row);
     setTotalHeight(totalHeight);
     setAvailableHeight(availableHeight);
-  }, [posts]);
+  }, [posts, customAmountPosts, getNewSizes]);
 
   // fetches the first batch of posts just after the component is rendered
   useEffect(() => {
