@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ButtonIconRounded,
   EIConTypes,
@@ -17,7 +11,6 @@ const Modal = () => {
   const positionCommon = 'top-0 right-0 bottom-0 left-0';
   const transitionOptions = 'opacity duration-300 ease delay-300';
   const width = `${fullWidth ? 'max-width-[100%]' : 'max-w-[600px]'}`;
-  const [initialized, setInitialized] = useState(false);
 
   const escapeKeyUpHandler = useCallback(
     (evt: KeyboardEvent) => {
@@ -28,10 +21,6 @@ const Modal = () => {
     },
     [closeModal],
   );
-
-  useEffect(() => {
-    setInitialized(true);
-  }, []);
 
   useEffect(() => {
     if (isOpen) {
