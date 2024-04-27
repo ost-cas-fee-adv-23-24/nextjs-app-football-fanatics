@@ -29,7 +29,9 @@ export const PostCard = ({
         creator={creator}
         postIdentifier={id}
       />
+
       <PostText text={text} />
+
       {mediaUrl && (
         <div className="mt-4">
           {[EMediaTypes.IMAGE, EMediaTypes.PNG].includes(
