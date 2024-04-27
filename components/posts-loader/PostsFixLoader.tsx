@@ -204,13 +204,7 @@ export const PostsFixLoader = ({
             paddingTop: startIndex * rowHeight,
           }}
         >
-          {showPlaceholder && (
-            <>
-              <PostEditorPlaceholder />
-              <PostEditorPlaceholder />
-              <PostEditorPlaceholder />
-            </>
-          )}
+          {showPlaceholder && <PostEditorPlaceholder />}
           {postsToRender}
         </div>
       </div>
