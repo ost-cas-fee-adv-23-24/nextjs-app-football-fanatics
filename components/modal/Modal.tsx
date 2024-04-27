@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   ButtonIconRounded,
   EIConTypes,
@@ -11,6 +17,7 @@ const Modal = () => {
   const positionCommon = 'top-0 right-0 bottom-0 left-0';
   const transitionOptions = 'opacity duration-300 ease delay-300';
   const width = `${fullWidth ? 'max-width-[100%]' : 'max-w-[600px]'}`;
+  const [initialized, setInitialized] = useState(false);
 
   const escapeKeyUpHandler = useCallback(
     (evt: KeyboardEvent) => {
@@ -21,6 +28,10 @@ const Modal = () => {
     },
     [closeModal],
   );
+
+  useEffect(() => {
+    setInitialized(true);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -48,9 +59,11 @@ const Modal = () => {
       className={`flex items-center justify-center fixed  rounded  ${positionCommon} ${transitionOptions} ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
     >
       <div
-        className={`modal-backdrop fixed ${positionCommon} bg-violet-500 bg-opacity-50`}
+        className={`modal-backdrop fixed ${positionCommon} bg-violet-500 bg-opacity-50  ${isOpen ? 'block' : 'hidden'}`}
       />
-      <div className="modal-wrapper w-[calc(100%-48px)] h-[calc(100%-48px)] px-[50px] py-[50px] z-40">
+      <div
+        className={`modal-wrapper w-[calc(100%-48px)] h-[calc(100%-48px)] px-[50px] py-[50px] z-40 ${isOpen ? 'block' : 'hidden'}`}
+      >
         <div
           className={`o-overlay-content overflow-hidden grow flex flex-col ${width} max-h-full mx-auto rounded-2xl`}
         >
