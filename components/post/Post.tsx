@@ -34,7 +34,7 @@ export const Post = ({
         replies={postData.replies}
         likedBySelf={postData.likedBySelf}
       />
-      <div className="mt-3 ml-[-12px]">
+      <div className="mt-4 ml-[-12px]">
         <PostActionsBar
           renderedInLikeFeed={renderedInLikeFeed}
           revalidationPath={revalidationPath}
