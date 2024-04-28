@@ -1,6 +1,5 @@
 import { RecommendationPlaceholder } from '@/components/placeholders/RecommendationPlaceholder';
 import { frontendConfig } from '@/config';
-import { ProfileSwitchPlaceholder } from '@/components/placeholders/ProfileSwitchPlaceholder';
 
 export default function Loading() {
   const amount = new Array(frontendConfig.recommendationsAmount).fill(null);
