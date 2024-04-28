@@ -76,10 +76,11 @@ const PostActionsBar = ({
 
   useEffect(() => {
     const anchor = window.location.hash.slice(1);
+
     if (anchor) {
       const anchorEl = document.getElementById(anchor);
       if (anchorEl) {
-        anchorEl.scrollIntoView();
+        anchorEl.scrollIntoView({ behavior: 'smooth' });
       }
     }
   }, []);
