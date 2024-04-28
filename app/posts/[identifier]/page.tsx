@@ -15,7 +15,11 @@ export default async function Page({
   return (
     <div className="bg-slate-100 pt-8">
       <div className="global-width mx-auto py-8 px-8 md:px-0">
-        <PostFull data={responseService} isUserAuthenticated={!!session} />
+        <PostFull
+          data={responseService}
+          isUserAuthenticated={!!session}
+          revalidationPath={`/posts/${identifier}`}
+        />
       </div>
     </div>
   );

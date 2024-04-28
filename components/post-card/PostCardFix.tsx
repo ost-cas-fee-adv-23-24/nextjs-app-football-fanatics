@@ -33,7 +33,7 @@ export const PostCardFix = ({
       <div className="grid grid-cols-2 gap-4">
         {textTransformed.trim().length !== 0 ? (
           <div
-            className="line-clamp-3 md:line-clamp-5 text-slate-600 font-poppins not-italic font-medium text-lg  break-all max-h-[84px] md:max-h-[140px]"
+            className="line-clamp-3 md:line-clamp-5 text-slate-600 font-poppins not-italic font-medium text-lg max-h-[84px] md:max-h-[140px] break-words hyphens-auto"
             dangerouslySetInnerHTML={{
               __html: textTransformed,
             }}

@@ -46,6 +46,8 @@ export default async function ProfileLayout({
                 />
               </div>
             )}
+          {/*TODO: bring the profile switch here to share it between all profile pages*/}
+          {/*PS: profile switch is a client component*/}
           {children}
         </div>
       </div>

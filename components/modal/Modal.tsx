@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   ButtonIconRounded,
   EIConTypes,
@@ -48,9 +48,11 @@ const Modal = () => {
       className={`flex items-center justify-center fixed  rounded  ${positionCommon} ${transitionOptions} ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
     >
       <div
-        className={`modal-backdrop fixed ${positionCommon} bg-violet-500 bg-opacity-50`}
+        className={`modal-backdrop fixed ${positionCommon} bg-violet-500 bg-opacity-50  ${isOpen ? 'block' : 'hidden'}`}
       />
-      <div className="modal-wrapper w-[calc(100%-48px)] h-[calc(100%-48px)] px-[50px] py-[50px] z-40">
+      <div
+        className={`modal-wrapper w-[calc(100%-48px)] h-[calc(100%-48px)] px-[50px] py-[50px] z-40 ${isOpen ? 'block' : 'hidden'}`}
+      >
         <div
           className={`o-overlay-content overflow-hidden grow flex flex-col ${width} max-h-full mx-auto rounded-2xl`}
         >

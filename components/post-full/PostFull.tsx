@@ -7,9 +7,14 @@ import { IPostReply } from '@/utils/interfaces/mumblePost.interface';
 interface IProps {
   data: IPost;
   isUserAuthenticated: boolean;
+  revalidationPath?: string;
 }
 
-export const PostFull = ({ data, isUserAuthenticated }: IProps) => {
+export const PostFull = ({
+  data,
+  isUserAuthenticated,
+  revalidationPath,
+}: IProps) => {
   const { postData, repliesData } = data;
   return (
     <div className="bg-white py-8 px-12 relative rounded-2xl mb-6">
@@ -26,6 +31,7 @@ export const PostFull = ({ data, isUserAuthenticated }: IProps) => {
       <div className="">
         <div className="mt-3">
           <PostActionsBar
+            revalidationPath={revalidationPath}
             creatorIdentifier={postData.creator.id}
             identifier={postData.id}
             amountLikes={postData.likes}
@@ -59,6 +65,7 @@ export const PostFull = ({ data, isUserAuthenticated }: IProps) => {
                 <div className="mt-3 mb-4 ml-[-12px]">
                   {/*We cannot reply to replies  API does not allow it*/}
                   <PostActionsBar
+                    revalidationPath={revalidationPath}
                     parentIdentifier={postData.id}
                     creatorIdentifier={dataReply.creator.id}
                     identifier={dataReply.id}

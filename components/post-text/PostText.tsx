@@ -30,7 +30,7 @@ const PostText = ({ text }: IProps) => {
   };
 
   return (
-    <div className="text-slate-600 font-poppins not-italic font-medium text-lg leading-[1.40] break-all">
+    <div className="text-slate-600 font-poppins not-italic font-medium text-lg leading-[1.40]">
       {(() => {
         let htmlIntern = '';
         if (text && text.trim().length !== 0) {
@@ -38,6 +38,7 @@ const PostText = ({ text }: IProps) => {
         }
         return (
           <div
+            className="break-words hyphens-auto"
             dangerouslySetInnerHTML={{
               __html: htmlIntern,
             }}

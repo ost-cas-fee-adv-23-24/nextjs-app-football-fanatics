@@ -55,6 +55,7 @@ const ProfileSwitch = ({
     return (
       <div className="w-full flex flex-col gap-4">
         <Button
+          selected={tabInternal === 0}
           icon={EIConTypes.MUMBLE}
           label="Mumbles"
           name="mumbles-link"
@@ -64,6 +65,7 @@ const ProfileSwitch = ({
           onCustomClick={() => setTabInternal(0)}
         />
         <Button
+          selected={tabInternal === 1}
           icon={EIConTypes.HEART_BORDERED}
           label="Likes"
           name="likes-link"
@@ -73,6 +75,7 @@ const ProfileSwitch = ({
           onCustomClick={() => setTabInternal(1)}
         />
         <Button
+          selected={tabInternal === 2}
           icon={EIConTypes.SHARE}
           label="Followers"
           name="follers-link"
@@ -82,6 +85,7 @@ const ProfileSwitch = ({
           onCustomClick={() => setTabInternal(2)}
         />
         <Button
+          selected={tabInternal === 3}
           icon={EIConTypes.CHECKMARK}
           label="Following"
           name="follewing-link"
@@ -91,6 +95,7 @@ const ProfileSwitch = ({
           onCustomClick={() => setTabInternal(3)}
         />
         <Button
+          selected={tabInternal === 4}
           icon={EIConTypes.REPOST}
           label="Suggestions"
           name="suggestions-link"
