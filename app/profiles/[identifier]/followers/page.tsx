@@ -10,20 +10,19 @@ export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
   const session = await auth();
   const userIdentifier = ctx.params.identifier.toString();
   try {
-    const { profileFollowers, loggedUserFollowees } =
-      await getProfileData({
-        profileIdentifier: userIdentifier,
-        loggedInUserIdentifier: session?.user.identifier,
-      });
+    const { profileFollowers, loggedUserFollowees } = await getProfileData({
+      profileIdentifier: userIdentifier,
+      loggedInUserIdentifier: session?.user.identifier,
+    });
 
     return (
-
       <>
         <div className="mt-8 mb-4">
           <ProfileSwitch
-            redirectionDelay={500}
+            redirectionDelay={200}
             selectedTab={2}
-            userIdentifier={userIdentifier} />
+            userIdentifier={userIdentifier}
+          />
         </div>
         <div className="mt-8 mb-4">
           <UserCardGroupFollowers
@@ -31,7 +30,8 @@ export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
             loggedInUserIdentifier={session?.user.identifier}
             loggedInUserFollowees={loggedUserFollowees}
             profileIdentifier={userIdentifier}
-            followers={profileFollowers} />
+            followers={profileFollowers}
+          />
         </div>
       </>
     );

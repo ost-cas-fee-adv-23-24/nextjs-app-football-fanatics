@@ -9,32 +9,30 @@ export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
   const session = await auth();
   const userIdentifier = ctx.params.identifier.toString();
   try {
-    const {
-      loggedUserFollowees,
-      profileFollowees,
-    } = await getProfileData({
+    const { loggedUserFollowees, profileFollowees } = await getProfileData({
       profileIdentifier: userIdentifier,
       loggedInUserIdentifier: session?.user.identifier,
     });
 
     return (
-
       <>
         <div className="mt-8 mb-4">
           <ProfileSwitch
-            redirectionDelay={500}
+            redirectionDelay={200}
             selectedTab={3}
-            userIdentifier={userIdentifier} />
-        </div><div className="mt-8 mb-4">
+            userIdentifier={userIdentifier}
+          />
+        </div>
+        <div className="mt-8 mb-4">
           <UserCardGroupFollowing
             revalidationPath={`/profiles/${userIdentifier}/following`}
             loggedInUserIdentifier={session?.user.identifier}
             loggedInUserFollowees={loggedUserFollowees}
             profileIdentifier={userIdentifier}
-            followees={profileFollowees} />
+            followees={profileFollowees}
+          />
         </div>
       </>
-
     );
   } catch (error) {
     return notFound();

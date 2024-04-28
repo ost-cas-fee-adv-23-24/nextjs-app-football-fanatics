@@ -23,7 +23,7 @@ export default async function Page({ params }: { params: { query: string } }) {
           level={ETypographyLevels.ONE}
           inheritColor={true}
         />
-        <div className="global-width mx-auto">
+        <div className="global-width mx-auto mt-4">
           <PostFeed data={feedData.data} />
         </div>
       </div>

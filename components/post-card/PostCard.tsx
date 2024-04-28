@@ -8,7 +8,6 @@ import { IPostItemBase } from '@/utils/interfaces/mumblePost.interface';
 import PostText from '@/components/post-text/PostText';
 
 interface IProps extends IPostItemBase {
-  parentId?: string;
   useFloatingAvatar?: boolean;
 }
 
@@ -18,7 +17,6 @@ export const PostCard = ({
   text,
   creator,
   id,
-  parentId,
   useFloatingAvatar = false,
 }: IProps) => {
   return (

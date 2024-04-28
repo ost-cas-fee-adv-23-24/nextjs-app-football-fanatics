@@ -22,13 +22,13 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import { frontendConfig } from '@/config';
 import PostEditorText from '@/components/post-editor-text/PostEditorText';
-import useBreakpoints from '@/hooks/useBreakpoints';
 
 interface IProps {
   identifier?: string;
   isFeedPage: boolean;
   title?: string;
   subTitle?: string;
+  useFloatingAvatar?: boolean;
 }
 
 export interface IMentionsProps {
@@ -41,13 +41,13 @@ export const PostEditor = ({
   isFeedPage = false,
   title,
   subTitle,
+  useFloatingAvatar = false,
 }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
   const { identifier: loggedInUserIdentifier } = useUserInfo();
   const [users, setUsers] = useState<IMumbleUser[]>([]);
-  const { isBpMDDown } = useBreakpoints();
 
   const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
@@ -111,7 +111,7 @@ export const PostEditor = ({
         >
           <div className="mb-4">
             <PostEditorHeader
-              avatarFloating={!isFeedPage ? false : isBpMDDown}
+              avatarFloating={useFloatingAvatar}
               title={title}
               subTitle={subTitle}
             />
