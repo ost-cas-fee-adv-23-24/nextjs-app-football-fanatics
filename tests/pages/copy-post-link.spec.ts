@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 
-test("should display the profile page after clicking on the 'Profile' button", async ({ page }) => {
+test("should copy post link", async ({ page }) => {
   await page.goto("/");
 
   await page.getByLabel('Copy Link').first().isVisible();
