@@ -109,7 +109,7 @@ export const PostEditor = ({
         >
           <div className="mb-4">
             <PostEditorHeader
-              avatarFloating={true}
+              avatarFloating={false}
               title={title}
               subTitle={subTitle}
             />

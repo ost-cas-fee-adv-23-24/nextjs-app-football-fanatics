@@ -42,13 +42,13 @@ export const PostFull = ({
             selfLiked={postData.likedBySelf}
           />
         </div>
-        <div className="pt-3">
+        <div className="pt-16">
           {isUserAuthenticated && (
             <PostEditor identifier={postData.id} isFeedPage={false} />
           )}
         </div>
       </div>
-      <div className={`bg-white relative rounded-b-2xl`}>
+      <div className="bg-white relative rounded-b-2xl">
         {repliesData &&
           repliesData.data?.map((dataReply: IPostReply, index) => {
             return (
