@@ -11,12 +11,12 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { formatDistance } from 'date-fns';
-import React from 'react';
+import React, { useMemo } from 'react';
 import useUserInfo from '@/hooks/useUserInfo';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { decodeTime } from 'ulidx';
 import { IPostCreator } from '@/utils/interfaces/mumblePost.interface';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
 export const PostCardHeader = ({
   postIdentifier,
@@ -30,11 +30,18 @@ export const PostCardHeader = ({
 }) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
     useUserInfo();
-  const router = useRouter();
+  const { isBpMDDown } = useBreakpoints();
+
+  const avatarPosition = useMemo(() => {
+    if (isBpMDDown) {
+      return false;
+    }
+    return avatarFloating;
+  }, [isBpMDDown, avatarFloating]);
 
   return (
     <div className="relative">
-      {avatarFloating && (
+      {avatarPosition && (
         <div className="absolute left-[-85px]">
           <Link
             href={`/profiles/${creator.id}`}
@@ -49,7 +56,7 @@ export const PostCardHeader = ({
         </div>
       )}
       <div className="flex items-center gap-4">
-        {!avatarFloating && (
+        {!avatarPosition && (
           <Link href={`/profiles/${creator.id}`}>
             <Avatar
               size={EAvatarSizes.MD}
@@ -78,6 +85,7 @@ export const PostCardHeader = ({
           next={{
             // @ts-ignore
             NextLinkComponent: Link,
+            // @ts-ignore
             href: `/profiles/${creator ? creator.id : identifier}`,
           }}
         />
