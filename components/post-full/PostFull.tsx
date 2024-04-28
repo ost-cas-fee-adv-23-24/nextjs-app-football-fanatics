@@ -16,19 +16,22 @@ export const PostFull = ({
   revalidationPath,
 }: IProps) => {
   const { postData, repliesData } = data;
+
   return (
-    <div className="bg-white py-8 px-12 relative rounded-2xl mb-6">
-      <PostCard
-        text={postData.text}
-        id={postData.id}
-        creator={postData.creator}
-        mediaUrl={postData.mediaUrl}
-        mediaType={postData.mediaType}
-        likes={postData.likes}
-        replies={postData.replies}
-        likedBySelf={postData.likedBySelf}
-      />
-      <div className="">
+    <div data-post-identifier={postData.id}>
+      <div className="bg-white py-8 px-12 relative rounded-t-2xl">
+        <PostCard
+          useFloatingAvatar={true}
+          text={postData.text}
+          id={postData.id}
+          creator={postData.creator}
+          mediaUrl={postData.mediaUrl}
+          mediaType={postData.mediaType}
+          likes={postData.likes}
+          replies={postData.replies}
+          likedBySelf={postData.likedBySelf}
+        />
+
         <div className="mt-3">
           <PostActionsBar
             revalidationPath={revalidationPath}
@@ -39,42 +42,50 @@ export const PostFull = ({
             selfLiked={postData.likedBySelf}
           />
         </div>
-
         <div className="pt-3">
           {isUserAuthenticated && (
             <PostEditor identifier={postData.id} isFeedPage={false} />
           )}
         </div>
-
+      </div>
+      <div className={`bg-white relative rounded-b-2xl`}>
         {repliesData &&
-          repliesData.data?.map((dataReply: IPostReply) => {
+          repliesData.data?.map((dataReply: IPostReply, index) => {
             return (
-              <div className="mt-4" key={dataReply.id} id={dataReply.id}>
-                <PostCard
-                  text={dataReply.text}
-                  id={dataReply.id}
-                  likedBySelf={dataReply.likedBySelf}
-                  likes={dataReply.likes}
-                  mediaUrl={dataReply.mediaUrl}
-                  mediaType={dataReply.mediaType}
-                  replies={dataReply.replies}
-                  creator={dataReply.creator}
-                  parentId={dataReply.parentId}
-                />
-
-                <div className="mt-3 mb-4 ml-[-12px]">
-                  {/*We cannot reply to replies  API does not allow it*/}
-                  <PostActionsBar
-                    revalidationPath={revalidationPath}
-                    parentIdentifier={postData.id}
-                    creatorIdentifier={dataReply.creator.id}
-                    identifier={dataReply.id}
-                    amountLikes={dataReply.likes}
-                    amountComments={dataReply.replies}
-                    selfLiked={dataReply.likedBySelf}
+              <div
+                className={
+                  repliesData.data.length - 1 === index
+                    ? ``
+                    : `border-b-[1px] border-slate-100`
+                }
+                key={dataReply.id}
+                id={dataReply.id} // to jump to
+              >
+                <div className={`py-8 px-12 relative`}>
+                  <PostCard
+                    text={dataReply.text}
+                    id={dataReply.id}
+                    likedBySelf={dataReply.likedBySelf}
+                    likes={dataReply.likes}
+                    mediaUrl={dataReply.mediaUrl}
+                    mediaType={dataReply.mediaType}
+                    replies={dataReply.replies}
+                    creator={dataReply.creator}
                   />
+
+                  <div className="mt-3 mb-4 ml-[-12px]">
+                    {/*We cannot reply to replies  API does not allow it*/}
+                    <PostActionsBar
+                      revalidationPath={revalidationPath}
+                      parentIdentifier={postData.id}
+                      creatorIdentifier={dataReply.creator.id}
+                      identifier={dataReply.id}
+                      amountLikes={dataReply.likes}
+                      amountComments={dataReply.replies}
+                      selfLiked={dataReply.likedBySelf}
+                    />
+                  </div>
                 </div>
-                <hr />
               </div>
             );
           })}
