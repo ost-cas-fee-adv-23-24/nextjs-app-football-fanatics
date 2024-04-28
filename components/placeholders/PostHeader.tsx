@@ -10,7 +10,6 @@ export const PostHeaderPlaceholder = () => {
           <div className="bg-slate-200 w-16 h-4 animate-pulse"></div>
           <div className="bg-slate-200 w-16 h-4 animate-pulse"></div>
         </div>
-        <div></div>
       </div>
     </div>
   );

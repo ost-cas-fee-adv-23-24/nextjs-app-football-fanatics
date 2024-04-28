@@ -1,19 +1,13 @@
 import ProfileFeed from '@/components/profile-feed/ProfileFeed';
-import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
+import TabDispatcher from '@/components/tab-dispatcher/TabDispatcher';
 
 export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
   const userIdentifier = context.params.identifier.toString();
 
   return (
     <>
-      <div className="mt-8 mb-4">
-        <ProfileSwitch
-          redirectionDelay={200}
-          selectedTab={1}
-          userIdentifier={userIdentifier}
-        />
-      </div>
+      <TabDispatcher selectedTab={1} />
       <ProfileFeed
         revalidationPath={`/profiles/${userIdentifier}/likes`}
         isLikes={true}

@@ -16,9 +16,10 @@ import useUserInfo from '@/hooks/useUserInfo';
 import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
 import ImagePreview from '@/components/image-preview/ImagePreview';
-import React from 'react';
+import React, { useMemo } from 'react';
 import ImageWithPlaceholder from '@/components/image-with-placeholder/ImageWithPlaceholder';
 import { toast } from 'react-toastify';
+import { ProfileHeaderPlaceholder } from '@/components/placeholders/ProfileHeaderPlaceholder';
 
 interface Props {
   user: IPostCreator;
@@ -28,7 +29,11 @@ function Header({ user }: Props) {
   const { identifier, setUserAvatar, avatarUrl, lastName, firstName } =
     useUserInfo();
   const { dispatchModal, closeModal } = useModal();
-  const imageSource = `https://source.unsplash.com/random/?landscape&${Date.now().toString().toLowerCase().trim()}`;
+
+  const imageSource = useMemo(() => {
+    return `https://source.unsplash.com/random/?landscape&${Date.now().toString().toLowerCase().trim()}`;
+  }, []);
+
   return (
     <>
       <div className="relative">

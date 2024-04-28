@@ -5,6 +5,7 @@ import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
 import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { notFound } from 'next/navigation';
+import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 
 interface IProfileLayoutProps {
   children: React.ReactNode;
@@ -34,7 +35,6 @@ export default async function ProfileLayout({
           <div className="-mx-8 md:mx-auto">
             <Header user={profileData} />
           </div>
-
           {session &&
             session.user.identifier !== currentProfileUserIdentifier && (
               <div className="mt-8 mb-4 mx-4">
@@ -46,8 +46,9 @@ export default async function ProfileLayout({
                 />
               </div>
             )}
-          {/*TODO: bring the profile switch here to share it between all profile pages*/}
-          {/*PS: profile switch is a client component*/}
+          <div className="mt-8 mb-4">
+            <ProfileSwitch userIdentifier={currentProfileUserIdentifier} />
+          </div>
           {children}
         </div>
       </div>

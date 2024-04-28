@@ -1,10 +1,9 @@
-import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 import { notFound } from 'next/navigation';
-
 import { getProfileData } from '@/actions/getProfileData';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { UserCardGroupFollowers } from '@/components/user-card-group/UserCardGroupFollowers';
+import TabDispatcher from '@/components/tab-dispatcher/TabDispatcher';
 
 export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
   const session = await auth();
@@ -17,13 +16,7 @@ export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
 
     return (
       <>
-        <div className="mt-8 mb-4">
-          <ProfileSwitch
-            redirectionDelay={200}
-            selectedTab={2}
-            userIdentifier={userIdentifier}
-          />
-        </div>
+        <TabDispatcher selectedTab={2} />
         <div className="mt-8 mb-4">
           <UserCardGroupFollowers
             revalidationPath={`/profiles/${userIdentifier}/followers`}

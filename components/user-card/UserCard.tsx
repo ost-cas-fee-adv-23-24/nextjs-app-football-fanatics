@@ -50,7 +50,7 @@ export const UserCard = ({
           next={{
             // @ts-ignore
             NextLinkComponent: Link,
-            href: `/profiles/${identifier}`,
+            href: `/profiles/${identifier}/mumbles`,
           }}
         />
       </div>
