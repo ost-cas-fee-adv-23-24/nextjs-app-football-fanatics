@@ -32,7 +32,7 @@ export const PostFull = ({
           likedBySelf={postData.likedBySelf}
         />
 
-        <div className="mt-3">
+        <div className="mt-4">
           <PostActionsBar
             revalidationPath={revalidationPath}
             creatorIdentifier={postData.creator.id}
@@ -73,7 +73,7 @@ export const PostFull = ({
                     creator={dataReply.creator}
                   />
 
-                  <div className="mt-3 mb-4 ml-[-12px]">
+                  <div className="mt-4 mb-4 ml-[-12px]">
                     {/*We cannot reply to replies  API does not allow it*/}
                     <PostActionsBar
                       revalidationPath={revalidationPath}
