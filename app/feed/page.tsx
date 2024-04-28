@@ -25,7 +25,11 @@ export default async function Page() {
         />
       </div>
       <div className="px-8 md:px-0">
-        <PostEditor isFeedPage={true} title="Hey, What is new?" />
+        <PostEditor
+          isFeedPage={true}
+          title="Hey, What is new?"
+          useFloatingAvatar={true}
+        />
         <PostsLoader
           creators={creators}
           isLikes={false}

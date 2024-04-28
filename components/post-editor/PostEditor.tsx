@@ -28,6 +28,7 @@ interface IProps {
   isFeedPage: boolean;
   title?: string;
   subTitle?: string;
+  useFloatingAvatar?: boolean;
 }
 
 export interface IMentionsProps {
@@ -40,6 +41,7 @@ export const PostEditor = ({
   isFeedPage = false,
   title,
   subTitle,
+  useFloatingAvatar = false,
 }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
@@ -109,7 +111,7 @@ export const PostEditor = ({
         >
           <div className="mb-4">
             <PostEditorHeader
-              avatarFloating={false}
+              avatarFloating={useFloatingAvatar}
               title={title}
               subTitle={subTitle}
             />
