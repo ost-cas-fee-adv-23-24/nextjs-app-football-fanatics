@@ -9,7 +9,7 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
     <>
       <div className="mt-8 mb-4">
         <ProfileSwitch
-          redirectionDelay={500}
+          redirectionDelay={200}
           selectedTab={1}
           userIdentifier={userIdentifier}
         />

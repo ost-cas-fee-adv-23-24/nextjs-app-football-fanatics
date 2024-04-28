@@ -29,7 +29,7 @@ export const PostEditorHeader = ({
     useUserInfo();
   const { isBpMDDown } = useBreakpoints();
 
-  const avatarPosition = useMemo(() => {
+  const useAvatarPositionFloating = useMemo(() => {
     if (isBpMDDown) {
       return false;
     }
@@ -38,7 +38,7 @@ export const PostEditorHeader = ({
 
   return (
     <div className="relative">
-      {avatarPosition && (
+      {useAvatarPositionFloating && (
         <div className="absolute left-[-85px]">
           <Link href={`/profiles/${identifier}`}>
             <Avatar
@@ -50,8 +50,10 @@ export const PostEditorHeader = ({
         </div>
       )}
 
-      <div className={`${!avatarPosition ? 'flex items-center' : ''} gap-4`}>
-        {!avatarPosition && (
+      <div
+        className={`${!useAvatarPositionFloating ? 'flex items-center' : ''} gap-4`}
+      >
+        {!useAvatarPositionFloating && (
           <Link href={`/profiles/${identifier}`}>
             <Avatar
               size={EAvatarSizes.MD}

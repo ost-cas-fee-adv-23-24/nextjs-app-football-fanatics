@@ -32,7 +32,7 @@ export const PostCardHeader = ({
     useUserInfo();
   const { isBpMDDown } = useBreakpoints();
 
-  const avatarPosition = useMemo(() => {
+  const useAvatarPositionFloating = useMemo(() => {
     if (isBpMDDown) {
       return false;
     }
@@ -41,7 +41,7 @@ export const PostCardHeader = ({
 
   return (
     <div className="relative">
-      {avatarPosition && (
+      {useAvatarPositionFloating && (
         <div className="absolute left-[-85px]">
           <Link
             href={`/profiles/${creator.id}`}
@@ -56,7 +56,7 @@ export const PostCardHeader = ({
         </div>
       )}
       <div className="flex items-center gap-4">
-        {!avatarPosition && (
+        {!useAvatarPositionFloating && (
           <Link href={`/profiles/${creator.id}`}>
             <Avatar
               size={EAvatarSizes.MD}
