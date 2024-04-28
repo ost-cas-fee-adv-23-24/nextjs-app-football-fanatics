@@ -14,7 +14,7 @@ const ImageWithPlaceholder = ({ src, alt }: IProps) => {
 
   return (
     <div
-      className="rounded-2xl overflow-hidden"
+      className="md:rounded-2xl overflow-hidden"
       style={{ maskImage: 'radial-gradient(white, black)' }}
     >
       <div

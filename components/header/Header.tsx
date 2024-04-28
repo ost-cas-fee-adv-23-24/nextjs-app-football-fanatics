@@ -33,7 +33,7 @@ function Header({ user }: Props) {
     <>
       <div className="relative">
         <ImageWithPlaceholder src={imageSource} alt="header Image" />
-        <div className="absolute bottom-[-80px] right-8">
+        <div className="absolute bottom-[20px] md:bottom-[-80px] right-6 md:right-8">
           <Avatar
             nameHtml="avatar"
             size={EAvatarSizes.XL}
@@ -96,8 +96,8 @@ function Header({ user }: Props) {
         </div>
       </div>
 
-      <div className="pt-6">
-        <div className="pb-2 text-slate-900">
+      <div className="pt-6 mx-8 md:mx-auto">
+        <div className="pb-2 text-slate-900 ">
           <Heading
             level={ETypographyLevels.THREE}
             text={`${user.id === identifier ? `${firstName} ${lastName} ` : user.username}`}

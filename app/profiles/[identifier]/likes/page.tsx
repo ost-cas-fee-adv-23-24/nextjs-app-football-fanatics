@@ -15,6 +15,7 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
         />
       </div>
       <ProfileFeed
+        revalidationPath={`/profiles/${userIdentifier}/likes`}
         isLikes={true}
         userIdentifier={userIdentifier}
         subscribeToNewestPost={false}

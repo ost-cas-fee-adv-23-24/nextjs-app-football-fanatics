@@ -13,6 +13,7 @@ interface IProps {
   creators?: string[];
   fetchOnlyOneBatch?: boolean;
   isLikes?: boolean;
+  revalidationPath?: string;
 }
 
 const ProfileFeed = ({
@@ -21,6 +22,7 @@ const ProfileFeed = ({
   fetchOnlyOneBatch,
   creators,
   isLikes,
+  revalidationPath,
 }: IProps) => {
   const { posts } = usePosts();
 
@@ -34,6 +36,7 @@ const ProfileFeed = ({
       )}
       <div className="mt-8">
         <PostsLoader
+          revalidationPath={revalidationPath}
           isLikes={isLikes}
           userIdentifier={userIdentifier}
           subscribeToNewestPost={subscribeToNewestPost}

@@ -10,6 +10,12 @@ export enum EPostsActions {
   SET_NEW_POSTS_QUEUE_PAYLOAD = 'setNewPostsPayload',
   SET_POSTS_QUEUE = 'setNewPosts',
   DELETE_POST = 'deletePost',
+  TOGGLE_LIKE_POST = 'toggleLikePost',
+}
+
+export enum ELikeToggleType {
+  LIKE = 'like',
+  UNLIKE = 'unlike',
 }
 
 const PostsContext = createContext<IPostsProviderContextData | null>(null);

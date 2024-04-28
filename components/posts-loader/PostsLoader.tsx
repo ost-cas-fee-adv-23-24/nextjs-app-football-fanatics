@@ -4,12 +4,14 @@ import usePosts from '@/hooks/usePosts';
 import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { Post } from '@/components/post/Post';
+import useBreakpoints from '@/hooks/useBreakpoints';
 interface IProps {
   userIdentifier?: string;
   subscribeToNewestPost?: boolean;
   creators?: string[];
   fetchOnlyOneBatch?: boolean;
   isLikes?: boolean;
+  revalidationPath?: string;
 }
 
 const PostsLoader = ({
@@ -18,6 +20,7 @@ const PostsLoader = ({
   creators,
   fetchOnlyOneBatch = false,
   isLikes = false,
+  revalidationPath,
 }: IProps) => {
   const {
     posts,
@@ -26,6 +29,7 @@ const PostsLoader = ({
     dispatchPosts,
     fetchPostsBatch,
   } = usePosts();
+  const { isBpMDDown } = useBreakpoints();
 
   useEffect(() => {
     fetchPostsBatch({
@@ -75,11 +79,12 @@ const PostsLoader = ({
       }
     },
     [
-      isLoading,
       nextMumblePostsUrl,
       creators,
       subscribeToNewestPost,
       fetchPostsBatch,
+      fetchOnlyOneBatch,
+      isLikes,
     ],
   );
 
@@ -96,7 +101,12 @@ const PostsLoader = ({
                 ref={posts.length === index + 1 ? lastPostRef : undefined}
                 key={post.id}
               >
-                <Post postData={post} />
+                <Post
+                  useFloatingAvatar={!isBpMDDown}
+                  postData={post}
+                  revalidationPath={revalidationPath}
+                  renderedInLikeFeed={isLikes}
+                />
               </div>
             );
           });

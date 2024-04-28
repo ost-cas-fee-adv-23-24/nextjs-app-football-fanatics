@@ -1,20 +1,21 @@
 import React from 'react';
-import { PostCard } from '@/components/post-card/PostCard';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
 import { PostCardFix } from '@/components/post-card/PostCardFix';
 
 interface IProps {
   postData: IPostItem;
+  useFloatingAvatar?: boolean;
 }
 
-export const PostFix = ({ postData }: IProps) => {
+export const PostFix = ({ postData, useFloatingAvatar = false }: IProps) => {
   return (
     <div
-      className="bg-white py-8 px-12 relative rounded-2xl mb-6 w-full"
+      className="bg-white relative rounded-2xl w-full p-6 md:py-8 md:px-12"
       key={postData.id}
     >
       <PostCardFix
+        useFloatingAvatar={useFloatingAvatar}
         key={`${postData.id}`}
         text={postData.text}
         id={postData.id}

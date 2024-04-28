@@ -7,6 +7,7 @@ import { PostFix } from '@/components/post/PostFix';
 import useLayoutMumble from '@/hooks/useLayoutMumble';
 import { ELayoutKind } from '@/providers/LayoutMumble.provider';
 import { frontendConfig } from '@/config';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
 interface IProps {
   userIdentifier?: string;
@@ -33,14 +34,15 @@ export const PostsFixLoader = ({
 
   const numRows = posts.length;
   const customAmountPosts = frontendConfig.feed.fixed.defaultAmount;
-  const initialApproxHeight = 277;
+  const initialApproxHeight = 301.04;
   const [scrollTop, setScrollTop] = useState(0);
   const [availableHeight, setAvailableHeight] = useState(0);
   const [rowHeight, setRowHeight] = useState(initialApproxHeight);
   const [totalHeight, setTotalHeight] = useState(rowHeight * customAmountPosts);
   const containerRef = useRef(null);
   const { setLayoutKind } = useLayoutMumble();
-  setLayoutKind(ELayoutKind.SCROLLABLE);
+  const { isBpMDDown } = useBreakpoints();
+  const showPlaceholder = posts.length === 0 || isLoading;
 
   let startIndex = Math.floor(scrollTop / rowHeight);
   let endIndex = Math.min(
@@ -67,6 +69,7 @@ export const PostsFixLoader = ({
     };
   }, []);
 
+  // sets the resize event listener
   useEffect(() => {
     const resizeListener = () => {
       const newData = getNewSizes(
@@ -86,6 +89,17 @@ export const PostsFixLoader = ({
     };
   }, [getNewSizes, posts.length, customAmountPosts]);
 
+  // if new posts are loaded, we need to update the initial data
+  useEffect(() => {
+    const { row, availableHeight, totalHeight } = getNewSizes(
+      posts.length === 0 ? customAmountPosts : posts.length,
+    );
+    setRowHeight(row);
+    setTotalHeight(totalHeight);
+    setAvailableHeight(availableHeight);
+  }, [posts, customAmountPosts, getNewSizes]);
+
+  // fetches the first batch of posts just after the component is rendered
   useEffect(() => {
     fetchPostsBatch({
       userIdentifier,
@@ -95,7 +109,7 @@ export const PostsFixLoader = ({
       isLikes,
       customAmount: customAmountPosts,
     });
-
+    setLayoutKind(ELayoutKind.SCROLLABLE);
     const newData = getNewSizes(customAmountPosts);
     setRowHeight(newData.row);
     setTotalHeight(newData.totalHeight);
@@ -140,9 +154,7 @@ export const PostsFixLoader = ({
     },
     [
       isLoading,
-      userIdentifier,
       nextMumblePostsUrl,
-      dispatchPosts,
       creators,
       isLikes,
       fetchOnlyOneBatch,
@@ -155,20 +167,24 @@ export const PostsFixLoader = ({
   let index = startIndex;
 
   while (index < endIndex) {
-    const currentPost = posts[index];
-    postsToRender.push(
-      <div
-        className="post-wrapper px-10 lg:px-0"
-        data-identifier={currentPost.id}
-        // to be checked later on. typing of the element used as node in the intersection observer
-        // @ts-ignore
-        ref={posts.length === index + 1 ? lastPostRef : undefined}
-        key={currentPost.id}
-      >
-        <PostFix postData={currentPost} />
-      </div>,
-    );
-    index++;
+    if (posts[index]) {
+      const currentPost = posts[index];
+      postsToRender.push(
+        <div
+          className="post-wrapper px-8 lg:px-0 pb-6"
+          data-identifier={currentPost.id}
+          // to be checked later on. typing of the element used as node in the intersection observer
+          // @ts-ignore
+          ref={posts.length === index + 1 ? lastPostRef : undefined}
+          key={currentPost.id}
+        >
+          <PostFix postData={currentPost} useFloatingAvatar={!isBpMDDown} />
+        </div>,
+      );
+      index++;
+    } else {
+      index = 0;
+    }
   }
 
   return (
@@ -188,7 +204,7 @@ export const PostsFixLoader = ({
             paddingTop: startIndex * rowHeight,
           }}
         >
-          {posts.length === 0 && (
+          {showPlaceholder && (
             <>
               <PostEditorPlaceholder />
               <PostEditorPlaceholder />

@@ -22,6 +22,7 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import { frontendConfig } from '@/config';
 import PostEditorText from '@/components/post-editor-text/PostEditorText';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
 interface IProps {
   identifier?: string;
@@ -46,6 +47,7 @@ export const PostEditor = ({
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
   const { identifier: loggedInUserIdentifier } = useUserInfo();
   const [users, setUsers] = useState<IMumbleUser[]>([]);
+  const { isBpMDDown } = useBreakpoints();
 
   const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
@@ -109,7 +111,7 @@ export const PostEditor = ({
         >
           <div className="mb-4">
             <PostEditorHeader
-              avatarFloating={isFeedPage}
+              avatarFloating={!isFeedPage ? false : isBpMDDown}
               title={title}
               subTitle={subTitle}
             />
@@ -142,7 +144,7 @@ export const PostEditor = ({
               }}
             />
           )}
-          <div className="flex gap-4 mt-4">
+          <div className="flex gap-4 mt-4 flex-col md:flex-row">
             <Button
               name="picture-upload-trigger"
               fitParent={true}

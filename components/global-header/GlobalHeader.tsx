@@ -27,13 +27,8 @@ export const GlobalHeader = ({ }: IProps) => {
   return (
     <div className="flex justify-between items-center">
       <Link href={'/'} title="mumble">
-        <div className="w-10 h-10 md:hidden">
-          <Icon
-            type={EIConTypes.MUMBLE}
-            fitParent={true}
-            // extend to icon colo white or inherit color
-            color={EIconColors.VIOLET}
-          />
+        <div className="h-10 w-10 md:hidden text-white">
+          <Icon type={EIConTypes.MUMBLE} fitParent={true} />
         </div>
         <div className="hidden md:block">
           <Logo logoPosition={ELogoPositions.LEFT} color={ELogoTypes.HEADER} />
@@ -89,14 +84,20 @@ export const GlobalHeader = ({ }: IProps) => {
             />
           </>
         ) : (
-          <ButtonMenu
-            name="login"
-            label="Login"
-            icon={EIConTypes.LOGOUT}
-            onCustomClick={() => {
-              signIn('zitadel');
-            }}
-          />
+          <>
+            {/*to avoid layout shift*/}
+            <div className="w-10 h-10" />
+            {/*to avoid layout shift*/}
+            <div className="w-[94.6px] h-[54px]" />
+            <ButtonMenu
+              name="login"
+              label="Login"
+              icon={EIConTypes.LOGOUT}
+              onCustomClick={() => {
+                signIn('zitadel');
+              }}
+            />
+          </>
         )}
       </div>
     </div>
