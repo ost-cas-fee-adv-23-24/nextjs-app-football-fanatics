@@ -6,7 +6,7 @@ export const ProfileHeaderPlaceholder = () => {
   return (
     <div>
       <div className="mb-12">
-        <div className="relative mumble-image bg-red">
+        <div className="relative mumble-image">
           <div className="absolute top-0 left-0 right-0 bottom-0">
             <PostImagePlaceholder />
             <AvatarPlaceholder />
