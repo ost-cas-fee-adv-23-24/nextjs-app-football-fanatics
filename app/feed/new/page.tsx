@@ -21,6 +21,7 @@ export default async function Page() {
 
   const profileData = await getMumbleUserByIdentifier({
     identifier: session.user.identifier,
+    useCache: true,
   });
 
   return (

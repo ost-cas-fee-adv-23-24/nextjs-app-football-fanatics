@@ -5,12 +5,12 @@ import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 
 interface IGetMumbleUserByIdentifierArgs {
   identifier: string;
-  ttl?: number;
+  useCache?: boolean;
 }
 
 export const getMumbleUserByIdentifier = async ({
   identifier,
-  ttl,
+  useCache = false,
 }: IGetMumbleUserByIdentifierArgs): Promise<IMumbleUser> => {
   const session = await auth();
   const dataSrc = new MumbleUserService(config.mumble.host);
@@ -18,7 +18,7 @@ export const getMumbleUserByIdentifier = async ({
     return await dataSrc.getUserByIdentifier({
       token: session ? session.accessToken : '',
       identifier,
-      ttl,
+      ttl: useCache ? config.cacheRules.userProfileData : undefined,
     });
   } catch (error) {
     throw new Error(

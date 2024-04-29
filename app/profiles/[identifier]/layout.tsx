@@ -7,6 +7,7 @@ import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { notFound } from 'next/navigation';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import { ReactNode } from 'react';
+import { frontendConfig } from '@/config';
 
 interface IProfileLayoutProps {
   children: ReactNode;
@@ -28,6 +29,7 @@ export default async function ProfileLayout({
   try {
     const profileData = await getMumbleUserByIdentifier({
       identifier: currentProfileUserIdentifier,
+      useCache: true,
     });
 
     return (
