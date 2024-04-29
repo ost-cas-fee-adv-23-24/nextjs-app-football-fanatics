@@ -13,7 +13,7 @@ interface IProps {
 
 const PostImage = ({ src, alt }: IProps) => {
   const [loaded, setLoaded] = React.useState(false);
-  const imageTransition = 'transition-opacity duration-500 delay-500';
+  const imageTransition = 'transition-opacity duration-500 delay-500'; // remove delay-500 for faster loading
 
   const { dispatchModal } = useModal();
   return (
@@ -21,7 +21,7 @@ const PostImage = ({ src, alt }: IProps) => {
       <div
         className={`${loaded ? '-z-10 opacity-0' : 'z-10 opacity-100'} absolute top-0 left-0 right-0 bottom-0 mumble-image ${imageTransition}`}
       >
-        <PostImagePlaceholder />
+        <PostImagePlaceholder text="loading..." pulse={true} />
       </div>
       <div
         className={`group ${loaded ? 'opacity-100' : 'opacity-0'} rounded-2xl relative h-0 overflow-hidden cursor-pointer mumble-image ${imageTransition}`}
