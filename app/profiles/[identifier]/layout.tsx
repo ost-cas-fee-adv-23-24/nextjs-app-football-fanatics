@@ -6,9 +6,10 @@ import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserBy
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { notFound } from 'next/navigation';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
+import { ReactNode } from 'react';
 
 interface IProfileLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   params: { identifier: number };
 }
 
@@ -25,9 +26,9 @@ export default async function ProfileLayout({
   });
 
   try {
-    const profileData = await getMumbleUserByIdentifier(
-      currentProfileUserIdentifier,
-    );
+    const profileData = await getMumbleUserByIdentifier({
+      identifier: currentProfileUserIdentifier,
+    });
 
     return (
       <div className="global-width mx-auto">

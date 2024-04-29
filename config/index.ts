@@ -24,7 +24,8 @@ export interface IConfig {
   };
   trustedDomains: string[];
   cacheRules: {
-    getAllUsers: number;
+    allUsersData: number;
+    userProfileData: number;
   };
 }
 
@@ -57,7 +58,8 @@ const config = {
     'https://dev.cusconews.com',
   ],
   cacheRules: {
-    getAllUsers: 1000 * 60 * 60, // 1 hour . On User Created then we would need to clear it
+    allUsersData: 1000 * 60 * 60, // 1 hour . On User Created then we would need to clear it
+    userProfileData: 1000 * 60 * 60 * 2, // 2 hours
   },
 };
 

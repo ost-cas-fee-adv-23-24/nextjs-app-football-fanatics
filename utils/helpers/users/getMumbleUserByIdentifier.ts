@@ -1,17 +1,24 @@
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import config from '@/config';
+import config, { frontendConfig } from '@/config';
 import { MumbleUserService } from '@/services/Mumble/MumbleUser';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 
-export const getMumbleUserByIdentifier = async (
-  identifier: string,
-): Promise<IMumbleUser> => {
+interface IGetMumbleUserByIdentifierArgs {
+  identifier: string;
+  ttl?: number;
+}
+
+export const getMumbleUserByIdentifier = async ({
+  identifier,
+  ttl,
+}: IGetMumbleUserByIdentifierArgs): Promise<IMumbleUser> => {
   const session = await auth();
   const dataSrc = new MumbleUserService(config.mumble.host);
   try {
     return await dataSrc.getUserByIdentifier({
       token: session ? session.accessToken : '',
       identifier,
+      ttl,
     });
   } catch (error) {
     throw new Error(

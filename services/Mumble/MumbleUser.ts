@@ -57,14 +57,17 @@ export class MumbleUserService extends MumbleService {
   async getUserByIdentifier({
     token,
     identifier,
+    ttl,
   }: {
     token: string;
     identifier: string;
+    ttl?: number;
   }): Promise<IMumbleUser> {
     const responseApi = await this.performRequest({
       method: EApiMethods.GET,
       path: `${EEndpointsBackend.USER}/${identifier}`,
       token,
+      ttl,
       message: 'Getting user by identifier',
       headers: {
         Authorization: `Bearer ${token}`,

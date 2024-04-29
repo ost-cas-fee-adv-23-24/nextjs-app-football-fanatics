@@ -3,6 +3,7 @@ import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
+import config from '@/config';
 
 export interface IGetProfileDataArgs {
   profileIdentifier: string;
@@ -21,7 +22,10 @@ export const getProfileData = async ({
   profileIdentifier,
   loggedInUserIdentifier,
 }: IGetProfileDataArgs): Promise<IProfileData> => {
-  const profileData = await getMumbleUserByIdentifier(profileIdentifier);
+  const profileData = await getMumbleUserByIdentifier({
+    identifier: profileIdentifier,
+    ttl: config.cacheRules.userProfileData,
+  });
   const profileFollowers = await getAllFollowers({
     identifier: profileIdentifier,
   });

@@ -19,7 +19,9 @@ export default async function Page() {
   // middleware checks if user is authenticated before hitting this page
   const session = (await auth()) as Session;
 
-  const profileData = await getMumbleUserByIdentifier(session.user.identifier);
+  const profileData = await getMumbleUserByIdentifier({
+    identifier: session.user.identifier,
+  });
 
   return (
     <div className="mx-auto">
