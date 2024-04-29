@@ -11,7 +11,6 @@ interface IProps {
 
 const TabDispatcher = ({ selectedTab }: IProps) => {
   const { setCurrentTabProfile } = useLayoutMumble();
-  console.log(selectedTab);
   useEffect(() => {
     setCurrentTabProfile(selectedTab);
   }, [selectedTab]);

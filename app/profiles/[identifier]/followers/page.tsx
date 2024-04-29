@@ -4,6 +4,12 @@ import { getProfileData } from '@/actions/getProfileData';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { UserCardGroupFollowers } from '@/components/user-card-group/UserCardGroupFollowers';
 import TabDispatcher from '@/components/tab-dispatcher/TabDispatcher';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mumble | Profile Followers',
+  description: 'Mumbles/Likes/Followers/Following/Suggestions',
+};
 
 export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
   const session = await auth();

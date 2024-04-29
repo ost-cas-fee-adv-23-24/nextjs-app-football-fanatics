@@ -4,6 +4,12 @@ import { notFound } from 'next/navigation';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import RecommendationsBox from '@/components/recommendations-box/RecommendationsBox';
 import TabDispatcher from '@/components/tab-dispatcher/TabDispatcher';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Profile | Suggestions',
+  description: 'Mumbles/Likes/Followers/Following/Suggestions',
+};
 
 export default async function ProfileFollowers(
   context: IParamsOnlyIdentifierCtx,

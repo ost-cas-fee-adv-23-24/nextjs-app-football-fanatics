@@ -8,11 +8,17 @@ import { notFound } from 'next/navigation';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import { ReactNode } from 'react';
 import { frontendConfig } from '@/config';
+import type { Metadata } from 'next';
 
 interface IProfileLayoutProps {
   children: ReactNode;
   params: { identifier: number };
 }
+
+export const metadata: Metadata = {
+  title: 'Mumble | Profile Mumbles',
+  description: 'Mumbles/Likes/Followers/Following/Suggestions',
+};
 
 export default async function ProfileLayout({
   children,

@@ -4,6 +4,12 @@ import { UserCardGroupFollowing } from '@/components/user-card-group/UserCardGro
 import { IParamsOnlyIdentifierCtx } from '@/utils/interfaces/general';
 import { notFound } from 'next/navigation';
 import TabDispatcher from '@/components/tab-dispatcher/TabDispatcher';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mumble | Profile Following',
+  description: 'Mumbles/Likes/Followers/Following/Suggestions',
+};
 
 export default async function ProfileFollowers(ctx: IParamsOnlyIdentifierCtx) {
   const session = await auth();

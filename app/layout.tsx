@@ -17,7 +17,7 @@ import { LayoutMumbleProvider } from '@/providers/LayoutMumble.provider';
 import { BreakpointsProvider } from '@/providers/Breakpoints.provider';
 
 export const metadata: Metadata = {
-  title: 'Elbum Wep App',
+  title: 'Welcome to Mumble',
   description: 'by Bladimir and Patrick',
   openGraph: {
     title: 'Elbum Wep Apps',

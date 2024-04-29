@@ -6,6 +6,12 @@ import {
   ETypographyLevels,
   Heading,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mumble | HashTags',
+  description: 'Mumbles/Likes/Followers/Following/Suggestions',
+};
 
 export default async function Page({ params }: { params: { query: string } }) {
   const { query } = params;

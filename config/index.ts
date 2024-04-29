@@ -66,7 +66,7 @@ const config = {
 export const frontendConfig = {
   feed: {
     fixed: {
-      defaultAmount: 100,
+      defaultAmount: 20,
     },
     defaultAmount: 10,
     sample: {
