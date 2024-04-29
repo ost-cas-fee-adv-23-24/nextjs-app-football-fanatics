@@ -1,13 +1,12 @@
 import { PostImagePlaceholder } from '@/components/placeholders/PostImagePlaceholder';
 import { AvatarPlaceholder } from '@/components/placeholders/AvatarPlaceholder';
 import { PostTextPlaceholder } from '@/components/placeholders/PostTextPlaceholder';
-import { ProfileSwitchPlaceholder } from '@/components/placeholders/ProfileSwitchPlaceholder';
 
 export const ProfileHeaderPlaceholder = () => {
   return (
     <div>
       <div className="mb-12">
-        <div className="relative mumble-image">
+        <div className="relative mumble-image bg-red">
           <div className="absolute top-0 left-0 right-0 bottom-0">
             <PostImagePlaceholder />
             <AvatarPlaceholder />

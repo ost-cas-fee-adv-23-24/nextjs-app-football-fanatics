@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { PostImagePlaceholder } from '@/components/placeholders/PostImagePlaceholder';
-import Image from 'next/image';
+import ImageNext from 'next/image';
 
 interface IProps {
   src: string;
@@ -25,14 +25,16 @@ const ImageWithPlaceholder = ({ src, alt }: IProps) => {
       <div
         className={`${loaded ? 'opacity-100' : 'opacity-0'} h-0 mumble-image`}
       >
-        <Image
+        <ImageNext
           suppressHydrationWarning
           onLoad={() => {
             setLoaded(true);
           }}
           src={src}
           alt={alt}
-          fill
+          // aspect 17:8 (mumble image)
+          width={1290}
+          height={602.35}
         />
       </div>
     </div>

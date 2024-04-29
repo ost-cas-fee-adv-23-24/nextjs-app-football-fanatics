@@ -19,7 +19,6 @@ import ImagePreview from '@/components/image-preview/ImagePreview';
 import React, { useMemo } from 'react';
 import ImageWithPlaceholder from '@/components/image-with-placeholder/ImageWithPlaceholder';
 import { toast } from 'react-toastify';
-import { ProfileHeaderPlaceholder } from '@/components/placeholders/ProfileHeaderPlaceholder';
 
 interface Props {
   user: IPostCreator;
