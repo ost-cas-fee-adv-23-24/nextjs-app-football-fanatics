@@ -1,0 +1,28 @@
+{
+  "short_name": "Mumble",
+  "name": "Mumble - Social Media App",
+  "description": "A better twitter clone",
+  "id": "elbum-web-app-team-football-fanatics",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#7C3AED",
+  "theme_color": "#7C3AED",
+  "icons": [
+    {
+      "src": "images/icons/icon-160x160.png",
+      "type": "image/png",
+      "sizes": "160x160"
+    },
+    {
+      "src": "images/icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
