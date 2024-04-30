@@ -1,11 +1,6 @@
 'use client';
 import React from 'react';
-import {
-  EIConTypes,
-  EImageLoadingType,
-  Icon,
-  Image,
-} from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { EIConTypes, Icon } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
 import ImageNext from 'next/image';
@@ -18,7 +13,7 @@ interface IProps {
 
 const PostImage = ({ src, alt }: IProps) => {
   const [loaded, setLoaded] = React.useState(false);
-  const imageTransition = 'transition-opacity duration-500 delay-500';
+  const imageTransition = 'transition-opacity duration-500 delay-500'; // remove delay-500 for faster loading
 
   const { dispatchModal } = useModal();
   return (
@@ -26,7 +21,7 @@ const PostImage = ({ src, alt }: IProps) => {
       <div
         className={`${loaded ? '-z-10 opacity-0' : 'z-10 opacity-100'} absolute top-0 left-0 right-0 bottom-0 mumble-image ${imageTransition}`}
       >
-        <PostImagePlaceholder />
+        <PostImagePlaceholder text="loading..." pulse={true} />
       </div>
       <div
         className={`group ${loaded ? 'opacity-100' : 'opacity-0'} rounded-2xl relative h-0 overflow-hidden cursor-pointer mumble-image ${imageTransition}`}
@@ -37,12 +32,9 @@ const PostImage = ({ src, alt }: IProps) => {
               title: alt || 'Image no alt defined',
               fullWidth: true,
               content: (
-                <div className="w-full">
-                  <Image
-                    src={src}
-                    alt={alt}
-                    loadingType={EImageLoadingType.EAGER}
-                  />
+                <div className="global-width mx-auto">
+                  {/*aspect 17:8 (mumble image)*/}
+                  <ImageNext src={src} alt={alt} width={1280} height={602.35} />
                 </div>
               ),
             },
@@ -61,8 +53,9 @@ const PostImage = ({ src, alt }: IProps) => {
           className="group-hover:scale-100 scale-105 transition duration-500 top-0 left-0 right-0 bottom-0 block absolute object-cover object-center h-[100%] w-[100%]"
           src={src}
           alt={alt || 'Image no alt defined'}
-          width={1000}
-          height={600}
+          // aspect 17:8 (mumble image)
+          width={1280}
+          height={602.35}
         />
       </div>
     </div>

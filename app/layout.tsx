@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';
-import { GlobalHeader } from '@/components/global-header/GlobalHeader';
 import { SessionProvider } from 'next-auth/react';
 
 import { UserInfoProvider } from '@/providers/UserInfo.provider';
@@ -18,7 +17,7 @@ import { LayoutMumbleProvider } from '@/providers/LayoutMumble.provider';
 import { BreakpointsProvider } from '@/providers/Breakpoints.provider';
 
 export const metadata: Metadata = {
-  title: 'Elbum Wep App',
+  title: 'Welcome to Mumble',
   description: 'by Bladimir and Patrick',
   openGraph: {
     title: 'Elbum Wep Apps',

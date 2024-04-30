@@ -21,7 +21,10 @@ export const getProfileData = async ({
   profileIdentifier,
   loggedInUserIdentifier,
 }: IGetProfileDataArgs): Promise<IProfileData> => {
-  const profileData = await getMumbleUserByIdentifier(profileIdentifier);
+  const profileData = await getMumbleUserByIdentifier({
+    identifier: profileIdentifier,
+    useCache: true,
+  });
   const profileFollowers = await getAllFollowers({
     identifier: profileIdentifier,
   });

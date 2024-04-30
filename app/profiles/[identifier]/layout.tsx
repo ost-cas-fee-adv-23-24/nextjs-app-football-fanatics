@@ -5,11 +5,20 @@ import { getAllFollowers } from '@/utils/helpers/followers/getFollowers';
 import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
 import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { notFound } from 'next/navigation';
+import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
+import { ReactNode } from 'react';
+import { frontendConfig } from '@/config';
+import type { Metadata } from 'next';
 
 interface IProfileLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   params: { identifier: number };
 }
+
+export const metadata: Metadata = {
+  title: 'Mumble | Profile Mumbles',
+  description: 'Mumbles/Likes/Followers/Following/Suggestions',
+};
 
 export default async function ProfileLayout({
   children,
@@ -24,9 +33,10 @@ export default async function ProfileLayout({
   });
 
   try {
-    const profileData = await getMumbleUserByIdentifier(
-      currentProfileUserIdentifier,
-    );
+    const profileData = await getMumbleUserByIdentifier({
+      identifier: currentProfileUserIdentifier,
+      useCache: true,
+    });
 
     return (
       <div className="global-width mx-auto">
@@ -34,7 +44,6 @@ export default async function ProfileLayout({
           <div className="-mx-8 md:mx-auto">
             <Header user={profileData} />
           </div>
-
           {session &&
             session.user.identifier !== currentProfileUserIdentifier && (
               <div className="mt-8 mb-4 mx-4">
@@ -46,8 +55,9 @@ export default async function ProfileLayout({
                 />
               </div>
             )}
-          {/*TODO: bring the profile switch here to share it between all profile pages*/}
-          {/*PS: profile switch is a client component*/}
+          <div className="mt-8 mb-4">
+            <ProfileSwitch userIdentifier={currentProfileUserIdentifier} />
+          </div>
           {children}
         </div>
       </div>

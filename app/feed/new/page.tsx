@@ -1,6 +1,5 @@
 import { PostEditor } from '@/components/post-editor/PostEditor';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { frontendConfig } from '@/config';
 import RecommendationsBox from '@/components/recommendations-box/RecommendationsBox';
 import Header from '@/components/header/Header';
 import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
@@ -20,14 +19,17 @@ export default async function Page() {
   // middleware checks if user is authenticated before hitting this page
   const session = (await auth()) as Session;
 
-  const profileData = await getMumbleUserByIdentifier(session.user.identifier);
+  const profileData = await getMumbleUserByIdentifier({
+    identifier: session.user.identifier,
+    useCache: true,
+  });
 
   return (
-    <div className="mx-auto bg-slate-100 pt-8">
-      <div className="global-width mx-auto py-8">
+    <div className="mx-auto">
+      <div className="global-width mx-auto pb-8 md:py-8">
         <Header user={profileData} />
       </div>
-      <div className="global-width mx-auto">
+      <div className="global-width mx-auto px-8 md:px-0">
         <PostEditor
           isFeedPage={true}
           title="All is too empty over here"

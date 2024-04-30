@@ -3,6 +3,12 @@ import { getMumblePostAction } from '@/utils/helpers/posts/getMumblePost';
 import React from 'react';
 import { PostFull } from '@/components/post-full/PostFull';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mumble | Post Full',
+  description: 'Mumbles/Likes/Followers/Following/Suggestions',
+};
 
 export default async function Page({
   params,

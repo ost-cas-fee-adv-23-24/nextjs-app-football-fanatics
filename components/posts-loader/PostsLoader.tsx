@@ -22,13 +22,8 @@ const PostsLoader = ({
   isLikes = false,
   revalidationPath,
 }: IProps) => {
-  const {
-    posts,
-    isLoading,
-    nextMumblePostsUrl,
-    dispatchPosts,
-    fetchPostsBatch,
-  } = usePosts();
+  const { posts, nextMumblePostsUrl, dispatchPosts, fetchPostsBatch } =
+    usePosts();
   const { isBpMDDown } = useBreakpoints();
 
   useEffect(() => {

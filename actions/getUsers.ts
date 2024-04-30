@@ -16,7 +16,7 @@ export const getAllUsers = async (useCache = true): Promise<IMumbleUser[]> => {
       token: session ? session.accessToken : '',
     };
     if (useCache) {
-      options.ttl = config.cacheRules.getAllUsers;
+      options.ttl = config.cacheRules.allUsersData;
     }
     const users = await mumbleUserServiceInstance.getAllUsers(options);
     return users;
