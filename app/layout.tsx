@@ -19,6 +19,7 @@ import { BreakpointsProvider } from '@/providers/Breakpoints.provider';
 export const metadata: Metadata = {
   title: 'Welcome to Mumble',
   description: 'by Bladimir and Patrick',
+  manifest: '/manifest.json',
   openGraph: {
     title: 'Elbum Wep Apps',
     description: 'by Bladimir and Patrick',
