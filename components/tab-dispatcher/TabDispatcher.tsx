@@ -13,7 +13,7 @@ const TabDispatcher = ({ selectedTab }: IProps) => {
   const { setCurrentTabProfile } = useLayoutMumble();
   useEffect(() => {
     setCurrentTabProfile(selectedTab);
-  }, [selectedTab]);
+  }, [selectedTab, setCurrentTabProfile]);
   return null;
 };
 

@@ -38,15 +38,15 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionProvider>
           <UserInfoProvider>
-            <ModalProvider>
-              <PostsProvider>
-                <RecommendationsProvider>
-                  <BreakpointsProvider>
+            <BreakpointsProvider>
+              <ModalProvider>
+                <PostsProvider>
+                  <RecommendationsProvider>
                     <LayoutMumbleProvider>{children}</LayoutMumbleProvider>
-                  </BreakpointsProvider>
-                </RecommendationsProvider>
-              </PostsProvider>
-            </ModalProvider>
+                  </RecommendationsProvider>
+                </PostsProvider>
+              </ModalProvider>
+            </BreakpointsProvider>
           </UserInfoProvider>
         </SessionProvider>
 
