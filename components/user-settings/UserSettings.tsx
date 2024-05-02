@@ -11,6 +11,7 @@ import {
   InputFieldGroup,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useUserInfo from '@/hooks/useUserInfo';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
 export interface INewUserSettings {
   firstName: string;

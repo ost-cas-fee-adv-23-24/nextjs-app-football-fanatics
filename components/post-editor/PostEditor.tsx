@@ -166,7 +166,7 @@ export const PostEditor = ({
                         }}
                       />
                     ),
-                    title: 'Modal Title super duper',
+                    title: 'Add an image to your post',
                   },
                 });
               }}

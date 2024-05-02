@@ -40,7 +40,6 @@ export const PostsFixLoader = ({
   const [totalHeight, setTotalHeight] = useState(rowHeight * customAmountPosts);
   const containerRef = useRef(null);
   const { setLayoutKind } = useLayoutMumble();
-  const showPlaceholder = posts.length === 0 || isLoading;
 
   let startIndex = Math.floor(scrollTop / rowHeight);
   let endIndex = Math.min(
@@ -202,13 +201,17 @@ export const PostsFixLoader = ({
             paddingTop: startIndex * rowHeight,
           }}
         >
-          {showPlaceholder && (
+          {posts.length === 0 && (
             <div className="post-wrapper px-8 lg:px-0 pb-6">
-              <PostEditorPlaceholder />
               <PostEditorPlaceholder />
             </div>
           )}
           {postsToRender}
+          {isLoading && (
+            <div className="post-wrapper px-8 lg:px-0 pb-6">
+              <PostEditorPlaceholder />
+            </div>
+          )}
         </div>
       </div>
     </div>
