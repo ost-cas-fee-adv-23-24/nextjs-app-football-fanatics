@@ -7,6 +7,8 @@ test("should navigate to the home page", async ({ page }) => {
   await expect(page.locator('h2').first()).toHaveText(
     "Welcome to Mumble",
   );
+  await expect(page.getByText('Login to have a full')).toBeVisible();
+  await expect(page).toHaveURL(/\/$/);
 });
 
 
