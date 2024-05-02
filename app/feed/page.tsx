@@ -26,6 +26,7 @@ export default async function Page() {
       </div>
       <div className="px-8 md:px-0">
         <PostEditor
+          revalidationsPath="/feed"
           isFeedPage={true}
           title="Hey, What is new?"
           useFloatingAvatar={true}

@@ -44,7 +44,11 @@ export const PostFull = ({
         </div>
         <div className="pt-16">
           {isUserAuthenticated && (
-            <PostEditor identifier={postData.id} isFeedPage={false} />
+            <PostEditor
+              identifier={postData.id}
+              isFeedPage={false}
+              revalidationsPath={`/posts/${postData.id}`}
+            />
           )}
         </div>
       </div>

@@ -22,6 +22,7 @@ import useUserInfo from '@/hooks/useUserInfo';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import { frontendConfig } from '@/config';
 import PostEditorText from '@/components/post-editor-text/PostEditorText';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
   identifier?: string;
@@ -29,6 +30,7 @@ interface IProps {
   title?: string;
   subTitle?: string;
   useFloatingAvatar?: boolean;
+  revalidationsPath?: string;
 }
 
 export interface IMentionsProps {
@@ -42,17 +44,19 @@ export const PostEditor = ({
   title,
   subTitle,
   useFloatingAvatar = false,
+  revalidationsPath,
 }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
   const { identifier: loggedInUserIdentifier } = useUserInfo();
   const [users, setUsers] = useState<IMumbleUser[]>([]);
-
   const { dispatchModal, closeModal } = useModal();
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
+
+  const router = useRouter();
 
   useEffect(() => {
     if (image) {
@@ -92,12 +96,20 @@ export const PostEditor = ({
           if (image) {
             formData.append('media', image);
           }
+          if (revalidationsPath) {
+            formData.append('revalidationsPath', revalidationsPath);
+          }
           try {
             if (identifier) {
-              await createPostReply(formData, identifier);
+              await createPostReply({ formData, identifier });
             } else {
               await createPost(formData);
             }
+            // none of them re fetches the data
+            // router.replace('/feed');
+            // router.refresh();
+            // router.push('/feed?timestamp=' + Date.now());
+            window.location.reload();
           } catch (error) {
             console.log(error);
           } finally {

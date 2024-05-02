@@ -31,6 +31,7 @@ export default async function Page() {
       </div>
       <div className="global-width mx-auto px-8 md:px-0">
         <PostEditor
+          revalidationsPath="/feed/new"
           isFeedPage={true}
           title="All is too empty over here"
           subTitle="Start following people to see their posts"
