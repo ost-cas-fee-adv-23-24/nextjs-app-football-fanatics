@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   ButtonIconRounded,
   EIConTypes,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useModal from '@/hooks/useModal';
-import useBreakpoints from '@/hooks/useBreakpoints';
 
 const escapeKeyCode = 27;
 const Modal = () => {
@@ -12,8 +11,6 @@ const Modal = () => {
   const positionCommon = 'top-0 right-0 bottom-0 left-0';
   const transitionOptions = 'opacity duration-300 ease delay-300';
   const width = `${fullWidth ? 'max-width-[100%]' : 'max-w-[680px]'}`;
-
-  const { isBpMDDown } = useBreakpoints();
 
   const escapeKeyUpHandler = useCallback(
     (evt: KeyboardEvent) => {
@@ -57,29 +54,17 @@ const Modal = () => {
   }, [positionCommon, isOpen]);
 
   const backdropStyles = useMemo(() => {
-    let styles = `fixed bg-violet-500 ${positionCommon}`;
+    let styles = `fixed bg-violet-500 bg-opacity-100 md:bg-opacity-50 ${positionCommon}`;
     if (isOpen) {
       styles = `${styles} block`;
     } else {
       styles = `${styles} hidden`;
     }
-    if (isBpMDDown) {
-      styles = `${styles} bg-opacity-100`;
-    } else {
-      styles = `${styles} bg-opacity-50`;
-    }
     return styles;
-  }, [positionCommon, isOpen, isBpMDDown]);
+  }, [positionCommon, isOpen]);
 
-  const wrapperStyles = useMemo(() => {
-    let styles = 'my-auto flex items-center z-40';
-    if (isBpMDDown) {
-      styles = `${styles} w-full h-screen`;
-    } else {
-      styles = `${styles} w-[calc(100%-48px)] h-[calc(100%-48px)] px-[50px] py-[50px]`;
-    }
-    return styles;
-  }, [isBpMDDown]);
+  const wrapperStyles =
+    'my-auto flex items-center z-40 w-full h-screen md:w-[calc(100%-48px)] md:h-[calc(100%-48px)] md:px-[50px] md:py-[50px]';
 
   return (
     <div className={`modal ${topContainer}`}>
@@ -99,18 +84,18 @@ const Modal = () => {
           className={`modal-content relative overflow-hidden grow flex flex-col max-h-full mx-auto rounded-2xl ${width}`}
         >
           <div
-            className={`modal-title  flex pt-6 pb-6 justify-between items-center self-stretch relative overflow-hidden ${isBpMDDown ? 'p-4' : 'bg-violet-600 px-8'}`}
+            className={`modal-title  flex justify-between items-center self-stretch relative overflow-hidden bg-transparent md:bg-violet-600 py-6 px-4 md:px-8`}
           >
             <h2
-              className={`text-white text-3xl not-italic font-semibold leading-10 truncate ${isBpMDDown ? ' text-2xl' : ' text-3xl'}`}
+              className={`text-white not-italic font-semibold leading-10 truncate text-2xl md:text-3xl`}
             >
               {title}
             </h2>
           </div>
           <div
-            className={`modal-content-wrapper ${isBpMDDown ? 'px-4' : 'p-8 bg-white'}   grow flex flex-col overflow-hidden`}
+            className={`modal-content-wrapper px-4 py-0 md:p-8 bg-transparent md:bg-white grow flex flex-col overflow-hidden`}
           >
-            <div className="modal-content-wrapper grow overflow-auto">
+            <div className="modal-inner grow overflow-auto">
               {content ? content : ''}
             </div>
           </div>
