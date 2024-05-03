@@ -23,6 +23,8 @@ const FeedAuthorizedNew = ({ userIdentifier }: IProps) => {
         title="All is too empty over here"
         subTitle="Start following people to see their posts"
         onNewPost={() => {
+          // it is still a new feed
+          // (user is not following anyone --- just getting the 5 most liked posts only plus recommendations)
           router.push(`/profiles/${userIdentifier}`);
         }}
       />
