@@ -16,7 +16,7 @@ interface IProps {
 const FeedAuthorizedNew = ({ userIdentifier }: IProps) => {
   const router = useRouter();
   return (
-    <div className="">
+    <>
       <PostEditor
         revalidationsPath="/feed/new"
         isFeedPage={true}
@@ -47,7 +47,7 @@ const FeedAuthorizedNew = ({ userIdentifier }: IProps) => {
           fetchOnlyOneBatch={true}
         />
       </div>
-    </div>
+    </>
   );
 };
 
