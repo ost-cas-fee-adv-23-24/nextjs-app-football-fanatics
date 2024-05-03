@@ -31,6 +31,7 @@ interface IProps {
   subTitle?: string;
   useFloatingAvatar?: boolean;
   revalidationsPath?: string;
+  onNewPost?: () => void;
 }
 
 export interface IMentionsProps {
@@ -45,6 +46,7 @@ export const PostEditor = ({
   subTitle,
   useFloatingAvatar = false,
   revalidationsPath,
+  onNewPost,
 }: IProps) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<File | null>(null);
@@ -105,16 +107,14 @@ export const PostEditor = ({
             } else {
               await createPost(formData);
             }
-            // none of them re fetches the data
-            // router.replace('/feed');
-            // router.refresh();
-            // router.push('/feed?timestamp=' + Date.now());
-            window.location.reload();
           } catch (error) {
             console.log(error);
           } finally {
             setText('');
             setImage(null);
+            if (onNewPost) {
+              onNewPost();
+            }
           }
         }}
       >

@@ -1,9 +1,8 @@
 import WelcomeTexts from '@/components/welcome-texts/WelcomeTexts';
-import { PostEditor } from '@/components/post-editor/PostEditor';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
 import { Session } from 'next-auth';
-import PostsLoader from '@/components/posts-loader/PostsLoader';
+import FeedAuthorized from '@/components/feed-authorized/FeedAuthorized';
 
 export default async function Page() {
   // middleware checks if user is authenticated before hitting this page
@@ -25,17 +24,10 @@ export default async function Page() {
         />
       </div>
       <div className="px-8 md:px-0">
-        <PostEditor
+        <FeedAuthorized
           revalidationsPath="/feed"
-          isFeedPage={true}
-          title="Hey, What is new?"
-          useFloatingAvatar={true}
-        />
-        <PostsLoader
           creators={creators}
-          isLikes={false}
-          subscribeToNewestPost={true}
-          fetchOnlyOneBatch={false}
+          loggedInUser={session.user.identifier}
         />
       </div>
     </div>
