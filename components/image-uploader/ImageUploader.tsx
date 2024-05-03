@@ -11,6 +11,7 @@ import {
 
 import ButtonImageUpload from '@/components/button/ButtonImageUpload';
 import ImagePreview from '@/components/image-preview/ImagePreview';
+import { toast } from 'react-toastify';
 
 interface IProps {
   onCancel: () => void;
@@ -19,6 +20,7 @@ interface IProps {
 
 const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
   const [image, setImage] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [imageInMemory, setImageInMemory] = useState<
     string | ArrayBuffer | null | undefined
   >(null);
@@ -53,7 +55,47 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
         />
       )}
       {!imageInMemory && (
-        <div className="border-2 border-dashed rounded-lg bg-slate-100 px-[16px] py-[50px]">
+        <div
+          className={`border-2 border-dashed rounded-lg bg-slate-100 px-[16px] py-[50px] ${isDragging ? 'border-violet-800 border-3 animate-pulse' : 'border-slate-200'}`}
+          onDrop={(evt) => {
+            evt.preventDefault();
+            setIsDragging(false);
+            if (evt.dataTransfer.items) {
+              if (evt.dataTransfer.items.length > 1) {
+                toast.warning(
+                  'Only one file can be uploaded. the first image will be uploaded.',
+                );
+              }
+
+              const file = evt.dataTransfer.items[0].getAsFile();
+              if (file) {
+                const isPng =
+                  file.name.includes('.png') || file.name.includes('.PNG');
+                const isJpg =
+                  file.name.includes('.jpg') || file.name.includes('.JPG');
+                const isJpeg =
+                  file.name.includes('.jpeg') || file.name.includes('.JPEG');
+                const isWebp =
+                  file.name.includes('.webp') || file.name.includes('.WEBP');
+
+                if (!isPng && !isJpg && !isJpeg && !isWebp) {
+                  toast.error('Only PNG, WEBP or JPEG files are allowed');
+                  return;
+                } else {
+                  setImage(file);
+                }
+              }
+            }
+          }}
+          onDragOver={(evt) => {
+            evt.preventDefault();
+            setIsDragging(true);
+          }}
+          onDragLeave={(evt) => {
+            evt.preventDefault();
+            setIsDragging(false);
+          }}
+        >
           <div className="w-16 h-16 mx-auto">
             <Icon type={EIConTypes.UPLOAD} fitParent={true} />
           </div>

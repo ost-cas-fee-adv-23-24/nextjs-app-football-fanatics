@@ -4,6 +4,7 @@ import {
   EIConTypes,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useModal from '@/hooks/useModal';
+import textTransformer from '@/utils/helpers/posts/textTransformer';
 
 const escapeKeyCode = 27;
 const Modal = () => {
@@ -67,7 +68,21 @@ const Modal = () => {
     'my-auto flex items-center z-40 w-full h-screen md:w-[calc(100%-48px)] md:h-[calc(100%-48px)] md:px-[50px] md:py-[50px]';
 
   return (
-    <div className={`modal ${topContainer}`}>
+    <div
+      className={`modal ${topContainer}`}
+      onDrop={(evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }}
+      onDragOver={(evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }}
+      onDragLeave={(evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }}
+    >
       <div className={`modal-backdrop ${backdropStyles}`} />
       <div className={`modal-wrapper ${wrapperStyles}`}>
         <div className="modal-close absolute right-5 top-5 z-100">
