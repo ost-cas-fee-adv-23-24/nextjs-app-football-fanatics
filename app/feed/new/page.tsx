@@ -10,6 +10,7 @@ import {
   Heading,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import PostsLoader from '@/components/posts-loader/PostsLoader';
+import FeedAuthorizedNew from '@/components/feed-autorized-new/FeedAuthorizedNew';
 
 // Is new user if the user is not following anyone.
 // We could also check if the user has any posts.
@@ -30,34 +31,7 @@ export default async function Page() {
         <Header user={profileData} />
       </div>
       <div className="global-width mx-auto px-8 md:px-0">
-        <PostEditor
-          revalidationsPath="/feed/new"
-          isFeedPage={true}
-          title="All is too empty over here"
-          subTitle="Start following people to see their posts"
-        />
-
-        <div className="max-w-4xl mr-auto ml-auto">
-          <div className="mb-8">
-            <RecommendationsBox
-              userIdentifier={session.user.identifier}
-              titleNoMoreRecommendations="No more suggestions"
-              title="Recommended users"
-              revalidationPath={'/feed/new'}
-            />
-          </div>
-          <div className="mb-4">
-            <Heading
-              level={ETypographyLevels.THREE}
-              text="Recommended mumbles"
-            />
-          </div>
-          <PostsLoader
-            subscribeToNewestPost={false}
-            isLikes={false}
-            fetchOnlyOneBatch={true}
-          />
-        </div>
+        <FeedAuthorizedNew userIdentifier={session.user.identifier} />
       </div>
     </div>
   );

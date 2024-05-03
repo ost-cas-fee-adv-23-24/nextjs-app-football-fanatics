@@ -19,7 +19,7 @@ const FeedAuthorized = ({
   const { restartFeedAuthorized } = usePosts();
 
   return (
-    <div className="">
+    <>
       <PostEditor
         isFeedPage={true}
         title="Hey, What is new?"
@@ -35,7 +35,7 @@ const FeedAuthorized = ({
         subscribeToNewestPost={true}
         fetchOnlyOneBatch={false}
       />
-    </div>
+    </>
   );
 };
 
