@@ -4,7 +4,6 @@ import {
   EIConTypes,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useModal from '@/hooks/useModal';
-import textTransformer from '@/utils/helpers/posts/textTransformer';
 
 const escapeKeyCode = 27;
 const Modal = () => {
