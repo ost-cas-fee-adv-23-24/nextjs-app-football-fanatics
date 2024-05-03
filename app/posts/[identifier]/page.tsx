@@ -1,5 +1,4 @@
-import { getMumblePostAction } from '@/utils/helpers/posts/getMumblePost';
-
+import { getMumblePostFull } from '@/utils/helpers/posts/getMumblePostFull';
 import React from 'react';
 import { PostFull } from '@/components/post-full/PostFull';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
@@ -16,7 +15,11 @@ export default async function Page({
   params: { identifier: string };
 }) {
   const { identifier } = params;
-  const responseService = await getMumblePostAction(identifier, true);
+  const responseService = await getMumblePostFull({
+    identifier,
+    includeReplies: true,
+  });
+
   const session = await auth();
   return (
     <div className="bg-slate-100 pt-8">
