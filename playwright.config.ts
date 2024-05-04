@@ -5,20 +5,11 @@ const PORT = envVariables.PORT;
 
 const baseURL = `http://localhost:${PORT}`;
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+
 export default defineConfig({
   testDir: './tests',
-  /* Run tests in files in parallel */
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-
-  // retries: 2,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  // reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  retries: 2,
 
   webServer: {
     command: 'npm run dev',
@@ -27,20 +18,18 @@ export default defineConfig({
   },
 
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL,
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    baseURL, /* Base URL to use in actions like `await page.goto('/')`. */
     trace: 'on-first-retry',
     permissions: ["clipboard-read", "clipboard-write"],
   },
 
   /* Configure projects for major browsers */
   projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    { name: 'setup', testMatch: /.\/auth\/setup\/index\.ts/ },
 
     {
-      name: 'chromium',
+      name: 'chromium user authenticated',
       testDir: './tests/auth',
       use: {
         ...devices['Desktop Chrome'],
@@ -57,41 +46,90 @@ export default defineConfig({
       },
     },
 
+
+    // more browser can be tested, only uncomment code below
+
+
+    // Firefox Test
+    // {
+    //   name: 'firefox user authenticated',
+    //   testDir: './tests/auth',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     storageState: 'playwright/.auth/user.json',
+    //   },
+    //   dependencies: ['setup'],
+    // },
+
     // {
     //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
+    //   testIgnore: '**\/tests/auth/**',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //   },
+    // },
+
+    // Safari Test
+    // {
+    //   name: 'safari user authenticated',
+    //   testDir: './tests/auth',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //     storageState: 'playwright/.auth/user.json',
+    //   },
+    //   dependencies: ['setup'],
     // },
 
     // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
+    //   name: 'safari',
+    //   testIgnore: '**\/tests/auth/**',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //   },
     // },
+
+
 
     /* Test against mobile viewports. */
+
+
+    // Mobile Chrome Test
     // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
+    //   name: 'mobile chrome user authenticated',
+    //   testDir: './tests/auth',
+    //   use: {
+    //     ...devices['Pixel 5'],
+    //     storageState: 'playwright/.auth/user.json',
+    //   },
+    //   dependencies: ['setup'],
     // },
 
-    /* Test against branded browsers. */
     // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    //   name: 'mobile chrome',
+    //   testIgnore: '**\/tests/auth/**',
+    //   use: {
+    //     ...devices['Pixel 5'],
+    //   },
     // },
+
+
+    // Mobile Safari Test
     // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    //   name: 'mobile safari user authenticated',
+    //   testDir: './tests/auth',
+    //   use: {
+    //     ...devices['iPhone 12'],
+    //     storageState: 'playwright/.auth/user.json',
+    //   },
+    //   dependencies: ['setup'],
+    // },
+
+    // {
+    //   name: 'mobile safari',
+    //   testIgnore: '**\/tests/auth/**',
+    //   use: {
+    //     ...devices['iPhone 12'],
+    //   },
     // },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });
