@@ -6,7 +6,7 @@ import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlace
 import { PostFix } from '@/components/post/PostFix';
 import useLayoutMumble from '@/hooks/useLayoutMumble';
 import { ELayoutKind } from '@/providers/LayoutMumble.provider';
-import { frontendConfig } from '@/config';
+import frontendConfig from '@/config/configFrontend';
 
 interface IProps {
   userIdentifier?: string;
@@ -132,19 +132,22 @@ export const PostsFixLoader = ({
         observer.current.disconnect();
       }
 
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && !isLoading) {
-          if (nextMumblePostsUrl) {
-            fetchPostsBatch({
-              nextUrl: nextMumblePostsUrl,
-              creators,
-              subscribeToNewestPost,
-              fetchOnlyOneBatch,
-              isLikes,
-            });
+      observer.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && !isLoading) {
+            if (nextMumblePostsUrl) {
+              fetchPostsBatch({
+                nextUrl: nextMumblePostsUrl,
+                creators,
+                subscribeToNewestPost,
+                fetchOnlyOneBatch,
+                isLikes,
+              });
+            }
           }
-        }
-      });
+        },
+        { rootMargin: frontendConfig.feed.observerRootMargin },
+      );
       if (node) {
         observer.current.observe(node);
       }

@@ -20,11 +20,11 @@ import {
   Paragraph,
   ToggleGeneric,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import { frontendConfig } from '@/config';
 import { reducerPosts } from '@/providers/posts/reducer';
 import { IFetchPostsBatchArgs } from '@/providers/posts/utils/posts.interface';
 import _orderBy from 'lodash/orderBy';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
+import frontendConfig from '@/config/configFrontend';
 
 interface IProps {
   children: ReactNode;

@@ -12,7 +12,7 @@ import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { ERecommendationsActions } from '@/stores/Recommendations.context';
 import useRecommendations from '@/hooks/useRecommendations';
 import { toast } from 'react-toastify';
-import { frontendConfig } from '@/config';
+import frontendConfig from '@/config/configFrontend';
 
 interface IProps {
   profileIdentifier: string;

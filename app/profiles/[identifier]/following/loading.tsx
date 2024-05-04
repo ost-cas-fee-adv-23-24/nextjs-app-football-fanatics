@@ -1,5 +1,5 @@
 import { RecommendationPlaceholder } from '@/components/placeholders/RecommendationPlaceholder';
-import { frontendConfig } from '@/config';
+import frontendConfig from '@/config/configFrontend';
 
 export default function Loading() {
   const amount = new Array(frontendConfig.recommendationsAmount).fill(null);

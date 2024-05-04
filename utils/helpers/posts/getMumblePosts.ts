@@ -5,9 +5,7 @@ import {
   IGetPostsParams,
   IPostsApiResponse,
 } from '@/utils/interfaces/mumblePost.interface';
-import mumblePostService, {
-  MumblePostService,
-} from '@/services/Mumble/MumblePost';
+import mumblePostService from '@/services/Mumble/MumblePost';
 
 export const getMumblePosts = async ({
   offset = 0,

@@ -1,5 +1,5 @@
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import config, { frontendConfig } from '@/config';
+import config from '@/config';
 import { MumbleUserService } from '@/services/Mumble/MumbleUser';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 

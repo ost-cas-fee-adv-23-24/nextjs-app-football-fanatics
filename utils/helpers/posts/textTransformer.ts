@@ -1,5 +1,5 @@
 import _uniq from 'lodash/uniq';
-import { frontendConfig } from '@/config';
+import frontendConfig from '@/config/configFrontend';
 
 class TextTransformer {
   hashTagsRegex = /#[\p{L}\p{M}0-9_]+/gu;

@@ -1,8 +1,9 @@
-import config, { frontendConfig } from '@/config';
+import config from '@/config';
 import { MumblePostService } from '@/services/Mumble/MumblePost';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '../auth/[...nextauth]/auth';
 import { IGetPostsParams } from '@/utils/interfaces/mumblePost.interface';
+import frontendConfig from '@/config/configFrontend';
 
 const dataSource = new MumblePostService(config.mumble.host);
 
