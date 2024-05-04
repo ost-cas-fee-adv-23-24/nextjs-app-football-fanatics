@@ -6,7 +6,6 @@ test("should navigate to the home page and show three posts", async ({ page }) =
 
   await expect(page.getByText('Login to have a full')).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
-
   await expect(page.locator('.post-wrapper')).toHaveCount(3);
 });
 
