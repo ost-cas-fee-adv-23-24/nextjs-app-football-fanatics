@@ -8,7 +8,7 @@ test("should create and delete a reply to a post", async ({ page }) => {
   await page.getByRole('button', { name: 'Comment' }).first().click();
 
   await expect(page).toHaveURL(/\/posts\/[A-Z0-9]+/);
-  await expect(page.getByText('Picture Upload').isVisible());
+  await expect(page.getByText('Picture Upload')).toBeVisible();
 
   await page.getByLabel('Send').isDisabled();
   await page.getByPlaceholder('What is your opinion about').fill(replyContent);
