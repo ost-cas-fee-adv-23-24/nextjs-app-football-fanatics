@@ -6,6 +6,12 @@ import {
   ETypographyLevels,
   Heading,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mumble | HashTags',
+  description: 'Mumbles/Likes/Followers/Following/Suggestions',
+};
 
 export default async function Page({ params }: { params: { query: string } }) {
   const { query } = params;
@@ -23,7 +29,7 @@ export default async function Page({ params }: { params: { query: string } }) {
           level={ETypographyLevels.ONE}
           inheritColor={true}
         />
-        <div className="global-width mx-auto">
+        <div className="global-width mx-auto mt-4">
           <PostFeed data={feedData.data} />
         </div>
       </div>

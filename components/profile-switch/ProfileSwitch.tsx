@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   Button,
   EButtonSizes,
@@ -9,26 +9,22 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { useRouter } from 'next/navigation';
 import useBreakpoints from '@/hooks/useBreakpoints';
+import useLayoutMumble from '@/hooks/useLayoutMumble';
 
 interface IProps {
-  selectedTab: number;
   userIdentifier: string;
   redirectionDelay?: number;
   showSuggestions?: boolean;
 }
 
-const ProfileSwitch = ({
-  selectedTab,
-  userIdentifier,
-  redirectionDelay = 300,
-}: IProps) => {
-  const [tabInternal, setTabInternal] = useState(selectedTab);
+const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
   const { push } = useRouter();
   const { isBpMDDown } = useBreakpoints();
+  const { currentTabProfile, setCurrentTabProfile } = useLayoutMumble();
 
   useEffect(() => {
     let redirectUrl = `/profiles/${userIdentifier}`;
-    switch (tabInternal) {
+    switch (currentTabProfile) {
       case 0:
         redirectUrl = `/profiles/${userIdentifier}`;
         break;
@@ -49,55 +45,90 @@ const ProfileSwitch = ({
     setTimeout(() => {
       push(redirectUrl);
     }, redirectionDelay);
-  }, [tabInternal, userIdentifier, push, redirectionDelay]);
+  }, [currentTabProfile, userIdentifier, push, redirectionDelay]);
+
+  const tabItems = useMemo(() => {
+    return [
+      {
+        isActive: currentTabProfile === 0,
+        text: 'Mumbles',
+        identifier: 'tab-1',
+      },
+      {
+        isActive: currentTabProfile === 1,
+        text: 'Likes',
+        identifier: 'tab-2',
+      },
+      {
+        isActive: currentTabProfile === 2,
+        text: 'Followers',
+        identifier: 'tab-3',
+      },
+      {
+        isActive: currentTabProfile === 3,
+        text: 'Following',
+        identifier: 'tab-4',
+      },
+      {
+        isActive: currentTabProfile === 4,
+        text: 'Suggestions',
+        identifier: 'tab-5',
+      },
+    ];
+  }, [currentTabProfile]);
 
   if (isBpMDDown) {
     return (
       <div className="w-full flex flex-col gap-4">
         <Button
+          selected={currentTabProfile === 0}
           icon={EIConTypes.MUMBLE}
           label="Mumbles"
           name="mumbles-link"
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setTabInternal(0)}
+          onCustomClick={() => setCurrentTabProfile(0)}
         />
         <Button
+          selected={currentTabProfile === 1}
           icon={EIConTypes.HEART_BORDERED}
           label="Likes"
           name="likes-link"
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setTabInternal(1)}
+          onCustomClick={() => setCurrentTabProfile(1)}
         />
         <Button
+          selected={currentTabProfile === 2}
           icon={EIConTypes.SHARE}
           label="Followers"
           name="follers-link"
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setTabInternal(2)}
+          onCustomClick={() => setCurrentTabProfile(2)}
         />
         <Button
+          selected={currentTabProfile === 3}
           icon={EIConTypes.CHECKMARK}
           label="Following"
           name="follewing-link"
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setTabInternal(3)}
+          onCustomClick={() => setCurrentTabProfile(3)}
         />
         <Button
+          selected={currentTabProfile === 4}
           icon={EIConTypes.REPOST}
           label="Suggestions"
           name="suggestions-link"
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setTabInternal(4)}
+          onCustomClick={() => setCurrentTabProfile(4)}
         />
       </div>
     );
@@ -105,50 +136,24 @@ const ProfileSwitch = ({
 
   return (
     <>
-      {/*TODO fix tabs on design system to apply the effect on the tab position  and add responsiveness*/}
-      {/* the selection (active state) is correct. the effect position should be persisted too */}
-      {/*******/}
-      {/* I would not invest time making the tabs responsive. There was not*/}
-      {/* requirement for it on the design library. We already were punished and*/}
-      {/* given a bad grade on that part, and it was clearly said that improvements*/}
-      {/* will not be taken into account. We already improved a lot the design*/}
-      {/* library and we are not going to invest more time on it. hence ... Simple*/}
-      {/*Buttons on mobile*/}
+      {/*TODO fix tabs on design system:*/}
+      {/* - add responsiveness*/}
+      {/* - pusher direct reload to persists position*/}
+
+      {/* the selection (active state) is correct. the effect position should be persisted too
+          I would not invest time making the tabs responsive. There was no
+          requirement for it on the design library.
+          We already were punished and
+          given a bad grade on that part, and it was clearly said that improvements
+          will not be taken into account.
+          We already improved a lot the design library, and we are not going to invest more time on it.
+          hence... Simple Buttons on mobile
+      */}
       <Tabs
         updateSelection={(item) => {
-          setTabInternal(item);
+          setCurrentTabProfile(item);
         }}
-        tabItems={(() => {
-          const data = [
-            {
-              isActive: tabInternal === 0,
-              text: 'Mumbles',
-              identifier: 'tab-1',
-            },
-            {
-              isActive: tabInternal === 1,
-              text: 'Likes',
-              identifier: 'tab-2',
-            },
-            {
-              isActive: tabInternal === 2,
-              text: 'Followers',
-              identifier: 'tab-3',
-            },
-            {
-              isActive: tabInternal === 3,
-              text: 'Following',
-              identifier: 'tab-4',
-            },
-            {
-              isActive: tabInternal === 4,
-              text: 'Suggestions',
-              identifier: 'tab-5',
-            },
-          ];
-
-          return data;
-        })()}
+        tabItems={tabItems}
       />
     </>
   );

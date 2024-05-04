@@ -216,9 +216,23 @@ export const PostsProvider = ({ children }: IProps) => {
     }, frontendConfig.newPostsRequestInterval / 2);
   };
 
+  const restartFeedAuthorized = (
+    userIdentifier: string,
+    creators: string[],
+  ) => {
+    fetchPostsBatch({
+      userIdentifier,
+      creators,
+      subscribeToNewestPost: true,
+      fetchOnlyOneBatch: false,
+      isLikes: false,
+    });
+  };
+
   return (
     <PostsContext.Provider
       value={{
+        restartFeedAuthorized,
         nextMumblePostsUrl: state.nextMumblePostsUrl,
         newestPost: state.newestPost,
         isLoading: state.isLoading,

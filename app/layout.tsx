@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';
-import { GlobalHeader } from '@/components/global-header/GlobalHeader';
 import { SessionProvider } from 'next-auth/react';
 
 import { UserInfoProvider } from '@/providers/UserInfo.provider';
@@ -18,8 +17,9 @@ import { LayoutMumbleProvider } from '@/providers/LayoutMumble.provider';
 import { BreakpointsProvider } from '@/providers/Breakpoints.provider';
 
 export const metadata: Metadata = {
-  title: 'Elbum Wep App',
+  title: 'Welcome to Mumble',
   description: 'by Bladimir and Patrick',
+  manifest: '/manifest.json',
   openGraph: {
     title: 'Elbum Wep Apps',
     description: 'by Bladimir and Patrick',
@@ -39,15 +39,15 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionProvider>
           <UserInfoProvider>
-            <ModalProvider>
-              <PostsProvider>
-                <RecommendationsProvider>
-                  <BreakpointsProvider>
+            <BreakpointsProvider>
+              <ModalProvider>
+                <PostsProvider>
+                  <RecommendationsProvider>
                     <LayoutMumbleProvider>{children}</LayoutMumbleProvider>
-                  </BreakpointsProvider>
-                </RecommendationsProvider>
-              </PostsProvider>
-            </ModalProvider>
+                  </RecommendationsProvider>
+                </PostsProvider>
+              </ModalProvider>
+            </BreakpointsProvider>
           </UserInfoProvider>
         </SessionProvider>
 

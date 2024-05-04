@@ -6,13 +6,12 @@ import {
   EButtonTypes,
   EIConTypes,
   EParagraphSizes,
-  Icon,
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import React from 'react';
+import React, { useMemo } from 'react';
 import useUserInfo from '@/hooks/useUserInfo';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
 interface IProps {
   avatarFloating: boolean;
@@ -28,11 +27,18 @@ export const PostEditorHeader = ({
 }: IProps) => {
   const { lastName, userName, firstName, identifier, avatarUrl } =
     useUserInfo();
-  const router = useRouter();
+  const { isBpMDDown } = useBreakpoints();
+
+  const useAvatarPositionFloating = useMemo(() => {
+    if (isBpMDDown) {
+      return false;
+    }
+    return avatarFloating;
+  }, [isBpMDDown, avatarFloating]);
 
   return (
     <div className="relative">
-      {avatarFloating && (
+      {useAvatarPositionFloating && (
         <div className="absolute left-[-85px]">
           <Link href={`/profiles/${identifier}`}>
             <Avatar
@@ -44,8 +50,10 @@ export const PostEditorHeader = ({
         </div>
       )}
 
-      <div className={`${!avatarFloating ? 'flex items-center' : ''} gap-4`}>
-        {!avatarFloating && (
+      <div
+        className={`${!useAvatarPositionFloating ? 'flex items-center' : ''} gap-4`}
+      >
+        {!useAvatarPositionFloating && (
           <Link href={`/profiles/${identifier}`}>
             <Avatar
               size={EAvatarSizes.MD}
@@ -83,6 +91,7 @@ export const PostEditorHeader = ({
                   next={{
                     // @ts-ignore
                     NextLinkComponent: Link,
+                    // @ts-ignore
                     href: `/profiles/${identifier}`,
                   }}
                 />

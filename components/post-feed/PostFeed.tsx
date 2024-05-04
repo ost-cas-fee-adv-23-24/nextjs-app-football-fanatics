@@ -25,6 +25,7 @@ const PostFeed = async ({ data }: IProps) => {
           mediaType={EMediaTypes.IMAGE}
           replies={post.replies}
           text={post.text}
+          useFloatingAvatar={true}
         />
         <div className="mt-3 ml-[-12px]">
           <PostActionsBar

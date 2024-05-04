@@ -5,21 +5,31 @@ import { MumblePostService } from '@/services/Mumble/MumblePost';
 import config from '@/config';
 import { revalidatePath } from 'next/cache';
 
-export const createPostReply = async (
-  formData: FormData,
-  identifier: string,
-): Promise<void> => {
+export interface ICreatePostReplyArgs {
+  formData: FormData;
+  identifier: string;
+}
+
+export const createPostReply = async ({
+  formData,
+  identifier,
+}: ICreatePostReplyArgs): Promise<void> => {
   const session = await auth();
   const dataSource = new MumblePostService(config.mumble.host);
 
   if (!session) throw new Error('No session found');
   try {
+    const revalidationsPath = formData.get('revalidatePath') as string;
+    formData.delete('revalidatePath');
+
     await dataSource.createPostReply({
       token: session ? session.accessToken : '',
       formData,
       identifier,
     });
-    revalidatePath(`/posts/${identifier}}`);
+    if (revalidationsPath) {
+      revalidatePath(revalidationsPath);
+    }
   } catch (error) {
     throw new Error(`Error creating post reply  - ${JSON.stringify(error)}`);
   }

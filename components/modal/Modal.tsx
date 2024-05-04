@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   ButtonIconRounded,
   EIConTypes,
@@ -10,7 +10,7 @@ const Modal = () => {
   const { content, isOpen, closeModal, title, fullWidth } = useModal();
   const positionCommon = 'top-0 right-0 bottom-0 left-0';
   const transitionOptions = 'opacity duration-300 ease delay-300';
-  const width = `${fullWidth ? 'max-width-[100%]' : 'max-w-[600px]'}`;
+  const width = `${fullWidth ? 'max-width-[100%]' : 'max-w-[680px]'}`;
 
   const escapeKeyUpHandler = useCallback(
     (evt: KeyboardEvent) => {
@@ -43,34 +43,73 @@ const Modal = () => {
     }
   }, [isOpen]);
 
+  const topContainer = useMemo(() => {
+    let styles = `flex flex-col items-center justify-center fixed  rounded  ${positionCommon} ${transitionOptions}`;
+    if (isOpen) {
+      styles = `${styles} opacity-100`;
+    } else {
+      styles = `${styles} opacity-0 pointer-events-none`;
+    }
+    return styles;
+  }, [positionCommon, isOpen]);
+
+  const backdropStyles = useMemo(() => {
+    let styles = `fixed bg-violet-500 bg-opacity-100 md:bg-opacity-50 ${positionCommon}`;
+    if (isOpen) {
+      styles = `${styles} block`;
+    } else {
+      styles = `${styles} hidden`;
+    }
+    return styles;
+  }, [positionCommon, isOpen]);
+
+  const wrapperStyles =
+    'my-auto flex items-center z-40 w-full h-screen md:w-[calc(100%-48px)] md:h-[calc(100%-48px)] md:px-[50px] md:py-[50px]';
+
   return (
     <div
-      className={`flex items-center justify-center fixed  rounded  ${positionCommon} ${transitionOptions} ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+      className={`modal ${topContainer}`}
+      onDrop={(evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }}
+      onDragOver={(evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }}
+      onDragLeave={(evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }}
     >
-      <div
-        className={`modal-backdrop fixed ${positionCommon} bg-violet-500 bg-opacity-50`}
-      />
-      <div className="modal-wrapper w-[calc(100%-48px)] h-[calc(100%-48px)] px-[50px] py-[50px] z-40">
+      <div className={`modal-backdrop ${backdropStyles}`} />
+      <div className={`modal-wrapper ${wrapperStyles}`}>
+        <div className="modal-close absolute right-5 top-5 z-100">
+          <ButtonIconRounded
+            icon={EIConTypes.CANCEL}
+            label="Close"
+            name="close-modal"
+            onCustomClick={() => {
+              closeModal();
+            }}
+          />
+        </div>
         <div
-          className={`o-overlay-content overflow-hidden grow flex flex-col ${width} max-h-full mx-auto rounded-2xl`}
+          className={`modal-content relative overflow-hidden grow flex flex-col max-h-full mx-auto rounded-2xl ${width}`}
         >
-          <div className="bg-violet-600 flex pt-6 pb-6 pl-8 pr-8 justify-between items-center self-stretch z-60 relative">
-            <h2 className="text-white text-3xl not-italic font-semibold leading-10 truncate">
+          <div
+            className={`modal-title  flex justify-between items-center self-stretch relative overflow-hidden bg-transparent md:bg-violet-600 py-6 px-4 md:px-8`}
+          >
+            <h2
+              className={`text-white not-italic font-semibold leading-10 truncate text-2xl md:text-3xl`}
+            >
               {title}
             </h2>
-            <div className="modal-close">
-              <ButtonIconRounded
-                icon={EIConTypes.CANCEL}
-                label="Close"
-                name="close-modal"
-                onCustomClick={() => {
-                  closeModal();
-                }}
-              />
-            </div>
           </div>
-          <div className="modal-content-wrapper bg-white py-8 px-8 grow flex flex-col overflow-hidden">
-            <div className="modal-content-wrapper grow overflow-auto">
+          <div
+            className={`modal-content-wrapper px-4 py-0 md:p-8 bg-transparent md:bg-white grow flex flex-col overflow-hidden`}
+          >
+            <div className="modal-inner grow overflow-auto">
               {content ? content : ''}
             </div>
           </div>
