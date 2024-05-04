@@ -69,14 +69,10 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
 
               const file = evt.dataTransfer.items[0].getAsFile();
               if (file) {
-                const isPng =
-                  file.name.includes('.png') || file.name.includes('.PNG');
-                const isJpg =
-                  file.name.includes('.jpg') || file.name.includes('.JPG');
-                const isJpeg =
-                  file.name.includes('.jpeg') || file.name.includes('.JPEG');
-                const isWebp =
-                  file.name.includes('.webp') || file.name.includes('.WEBP');
+                const isPng = file.name.toLowerCase().includes('.png');
+                const isJpg = file.name.toLowerCase().includes('.jpg');
+                const isJpeg = file.name.toLowerCase().includes('.jpeg');
+                const isWebp = file.name.toLowerCase().includes('.webp');
 
                 if (!isPng && !isJpg && !isJpeg && !isWebp) {
                   toast.error('Only PNG, WEBP or JPEG files are allowed');
