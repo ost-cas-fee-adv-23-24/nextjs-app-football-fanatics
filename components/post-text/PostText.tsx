@@ -38,6 +38,7 @@ const PostText = ({ text }: IProps) => {
         }
         return (
           <div
+            style={{ wordBreak: 'break-word' }} //safari (ios) fix
             className="break-words hyphens-auto"
             dangerouslySetInnerHTML={{
               __html: htmlIntern,
