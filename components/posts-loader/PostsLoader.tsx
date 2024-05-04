@@ -5,6 +5,7 @@ import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { Post } from '@/components/post/Post';
 import useBreakpoints from '@/hooks/useBreakpoints';
+import frontendConfig from '@/config/configFrontend';
 interface IProps {
   userIdentifier?: string;
   subscribeToNewestPost?: boolean;
@@ -43,15 +44,14 @@ const PostsLoader = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const observer = useRef();
+  const observer = useRef<IntersectionObserver | null>();
 
   const lastPostRef = useCallback(
     (node: any) => {
       if (observer.current) {
-        // @ts-ignore
         observer.current.disconnect();
       }
-      // @ts-ignore
+
       observer.current = new IntersectionObserver(
         (entries) => {
           if (entries[0].isIntersecting) {
@@ -66,10 +66,9 @@ const PostsLoader = ({
             }
           }
         },
-        { rootMargin: '0px 0px 500px 0px' },
+        { rootMargin: frontendConfig.feed.observerRootMargin },
       );
       if (node) {
-        // @ts-ignore
         observer.current.observe(node);
       }
     },

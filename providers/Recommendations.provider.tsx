@@ -9,8 +9,8 @@ import {
   completeRecommendations,
   getSelectableUsers,
 } from '@/utils/helpers/recommendations';
-import { frontendConfig } from '@/config';
 import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
+import frontendConfig from '@/config/configFrontend';
 
 interface IProps {
   children: ReactNode;
