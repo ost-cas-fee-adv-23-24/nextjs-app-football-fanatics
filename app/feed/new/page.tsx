@@ -1,16 +1,9 @@
-import { PostEditor } from '@/components/post-editor/PostEditor';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import RecommendationsBox from '@/components/recommendations-box/RecommendationsBox';
 import Header from '@/components/header/Header';
 import { getMumbleUserByIdentifier } from '@/utils/helpers/users/getMumbleUserByIdentifier';
 import { Session } from 'next-auth';
 import React from 'react';
-import {
-  ETypographyLevels,
-  Heading,
-} from '@ost-cas-fee-adv-23-24/elbmum-design';
-import PostsLoader from '@/components/posts-loader/PostsLoader';
-import FeedAuthorizedNew from '@/components/feed-autorized-new/FeedAuthorizedNew';
+import FeedAuthorizedNew from '@/components/feed-authorized-new/FeedAuthorizedNew';
 
 // Is new user if the user is not following anyone.
 // We could also check if the user has any posts.
