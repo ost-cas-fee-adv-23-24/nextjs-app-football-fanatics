@@ -1,8 +1,8 @@
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 import { PostCard } from '@/components/post-card/PostCard';
-import { PostEditor } from '@/components/post-editor/PostEditor';
 import { IPost } from '@/services/Mumble/MumblePost';
 import { IPostReply } from '@/utils/interfaces/mumblePost.interface';
+import { PostEditorWrapper } from '@/components/post-editor-wrapper/PostEditorWrapper';
 
 interface IProps {
   data: IPost;
@@ -44,7 +44,11 @@ export const PostFull = ({
         </div>
         <div className="pt-16">
           {isUserAuthenticated && (
-            <PostEditor identifier={postData.id} isFeedPage={false} />
+            // only to keep the whole server side rendering but only the editor
+            <PostEditorWrapper
+              postIdentifier={postData.id}
+              revalidationsPath={`/posts/${postData.id}`}
+            />
           )}
         </div>
       </div>
