@@ -9,7 +9,7 @@ const password = process.env.TEST_USER_PASSWORD || '';
 setup('authenticate', async ({ page }) => {
   setup.slow();
   await page.goto("/");
-  await expect(page.getByRole('button', { name: 'Comment' }).first(), "content should be loaded");
+  await expect(page.getByRole('button', { name: 'Comment' }).first(), "content should be loaded").toBeVisible();
   await page.getByLabel('Login').click();
   await page.waitForURL(urlRegex);
   await page.getByPlaceholder('username@domain').fill(
