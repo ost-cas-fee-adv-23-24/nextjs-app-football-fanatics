@@ -6,14 +6,11 @@ import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlace
 import { Post } from '@/components/post/Post';
 import useBreakpoints from '@/hooks/useBreakpoints';
 import frontendConfig from '@/config/configFrontend';
-interface IProps {
-  userIdentifier?: string;
-  subscribeToNewestPost?: boolean;
-  creators?: string[];
-  fetchOnlyOneBatch?: boolean;
-  isLikes?: boolean;
-  revalidationPath?: string;
-}
+import {
+  IPostLoaderDefaultProps,
+  TNodeObserved,
+  TNodeObservedRef,
+} from '@/components/posts-loader/utils/interfaces/postLoader.interface';
 
 const PostsLoader = ({
   userIdentifier,
@@ -22,7 +19,7 @@ const PostsLoader = ({
   fetchOnlyOneBatch = false,
   isLikes = false,
   revalidationPath,
-}: IProps) => {
+}: IPostLoaderDefaultProps) => {
   const { posts, nextMumblePostsUrl, dispatchPosts, fetchPostsBatch } =
     usePosts();
   const { isBpMDDown } = useBreakpoints();
@@ -41,13 +38,14 @@ const PostsLoader = ({
         payload: null,
       });
     };
+    // needs to run only one time. so, no dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const observer = useRef<IntersectionObserver | null>();
 
   const lastPostRef = useCallback(
-    (node: any) => {
+    (node: TNodeObserved): TNodeObserved => {
       if (observer.current) {
         observer.current.disconnect();
       }
@@ -71,6 +69,7 @@ const PostsLoader = ({
       if (node) {
         observer.current.observe(node);
       }
+      return node;
     },
     [
       nextMumblePostsUrl,
@@ -92,7 +91,11 @@ const PostsLoader = ({
             return (
               <div
                 data-identifier={post.id}
-                ref={posts.length === index + 1 ? lastPostRef : undefined}
+                ref={
+                  posts.length === index + 1
+                    ? (lastPostRef as TNodeObservedRef)
+                    : undefined
+                }
                 key={post.id}
               >
                 <Post
