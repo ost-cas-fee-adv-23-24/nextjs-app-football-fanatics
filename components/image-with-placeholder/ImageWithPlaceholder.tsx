@@ -10,7 +10,7 @@ interface IProps {
 
 const ImageWithPlaceholder = ({ src, alt }: IProps) => {
   const [loaded, setLoaded] = React.useState(false);
-  const imageTransition = 'transition-all ease-in duration-300';
+  const imageTransition = 'transition-all ease-in duration-200';
 
   return (
     <div

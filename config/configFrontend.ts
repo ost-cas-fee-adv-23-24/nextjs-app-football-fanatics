@@ -2,7 +2,7 @@ const frontendConfig = {
   feed: {
     observerRootMargin: '0px 0px 1000px 0px',
     fixed: {
-      defaultAmount: 20,
+      defaultAmount: 300,
     },
     defaultAmount: 10,
     sample: {
