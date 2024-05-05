@@ -55,7 +55,7 @@ const PostActionsBar = ({
         message="You need to be logged in to like a post"
         icon={EIConTypes.PROFILE}
         customClick={() => {
-          signIn('zitadel');
+          signIn('zitadel', { callbackUrl: '/' });
         }}
       />,
       {
