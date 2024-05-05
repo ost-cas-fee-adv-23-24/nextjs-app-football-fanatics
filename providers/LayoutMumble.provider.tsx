@@ -19,10 +19,11 @@ export const LayoutMumbleProvider = ({ children }: IProps) => {
   const [currentTabProfile, setCurrentTabProfile] = useState(0);
 
   const contentCss = useMemo(() => {
+    const baseStyles = 'content bg-slate-100 flex flex-col grow';
     if (layoutKind === ELayoutKind.SCROLLABLE) {
-      return 'content bg-slate-100 flex flex-col overflow-hidden grow';
+      return `${baseStyles} overflow-hidden`;
     } else {
-      return 'content flex flex-col bg-slate-100 overflow-y-scroll grow';
+      return `${baseStyles} overflow-y-scroll`;
     }
   }, [layoutKind]);
 
