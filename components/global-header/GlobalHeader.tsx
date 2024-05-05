@@ -4,7 +4,6 @@ import {
   Avatar,
   ButtonMenu,
   EAvatarSizes,
-  EIconColors,
   EIConTypes,
   ELogoPositions,
   ELogoTypes,
@@ -63,7 +62,7 @@ export const GlobalHeader = ({}: IProps) => {
                           // the only thing we can update is the avatar picture. what is done in the avatar component
                           // shown in the profile page
                           toast(
-                            'Saved! Sorry. No apis for this at the moment ¯\\_(ツ)_/¯',
+                            'Not Saved! Sorry. No apis for this at the moment ¯\\_(ツ)_/¯',
                           );
                           setTimeout(() => {
                             closeModal();
@@ -95,7 +94,7 @@ export const GlobalHeader = ({}: IProps) => {
               label="Login"
               icon={EIConTypes.LOGOUT}
               onCustomClick={() => {
-                signIn('zitadel');
+                signIn('zitadel', { callbackUrl: '/' });
               }}
             />
           </>
