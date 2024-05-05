@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: 'by Bladimir and Patrick',
     type: 'website',
     locale: 'en_IE',
-    url: 'https://elbum-web-apps.vercel.app/',
+    url: 'https://cusconews.com',
   },
 };
 
