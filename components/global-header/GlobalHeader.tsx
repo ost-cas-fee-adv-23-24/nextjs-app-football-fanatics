@@ -19,9 +19,7 @@ import { EModalActions } from '@/stores/Modal.context';
 import UserSettings from '@/components/user-settings/UserSettings';
 import { toast } from 'react-toastify';
 
-interface IProps {}
-
-export const GlobalHeader = ({}: IProps) => {
+export const GlobalHeader = () => {
   const { avatarUrl, identifier } = useUserInfo();
   const { dispatchModal, closeModal } = useModal();
 
