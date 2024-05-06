@@ -7,14 +7,11 @@ import { PostFix } from '@/components/post/PostFix';
 import useLayoutMumble from '@/hooks/useLayoutMumble';
 import { ELayoutKind } from '@/providers/LayoutMumble.provider';
 import frontendConfig from '@/config/configFrontend';
-
-interface IProps {
-  userIdentifier?: string;
-  subscribeToNewestPost?: boolean;
-  creators?: string[];
-  fetchOnlyOneBatch?: boolean;
-  isLikes?: boolean;
-}
+import {
+  IPostLoaderPropsBase,
+  TNodeObserved,
+  TNodeObservedRef,
+} from '@/components/posts-loader/utils/interfaces/postLoader.interface';
 
 export const PostsFixLoader = ({
   userIdentifier,
@@ -22,7 +19,7 @@ export const PostsFixLoader = ({
   creators,
   fetchOnlyOneBatch = false,
   isLikes = false,
-}: IProps) => {
+}: IPostLoaderPropsBase) => {
   const {
     posts,
     isLoading,
@@ -127,7 +124,7 @@ export const PostsFixLoader = ({
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastPostRef = useCallback(
-    (node: HTMLDivElement | undefined) => {
+    (node: TNodeObserved): TNodeObserved => {
       if (observer.current) {
         observer.current.disconnect();
       }
@@ -151,6 +148,7 @@ export const PostsFixLoader = ({
       if (node) {
         observer.current.observe(node);
       }
+      return node;
     },
     [
       isLoading,
@@ -173,9 +171,11 @@ export const PostsFixLoader = ({
         <div
           className="post-wrapper px-8 lg:px-0 pb-6"
           data-identifier={currentPost.id}
-          // to be checked later on. typing of the element used as node in the intersection observer
-          // @ts-ignore
-          ref={posts.length === index + 1 ? lastPostRef : undefined}
+          ref={
+            posts.length === index + 1
+              ? (lastPostRef as TNodeObservedRef)
+              : undefined
+          }
           key={currentPost.id}
         >
           <PostFix postData={currentPost} useFloatingAvatar={true} />
