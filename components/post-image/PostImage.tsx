@@ -13,7 +13,7 @@ interface IProps {
 
 const PostImage = ({ src, alt }: IProps) => {
   const [loaded, setLoaded] = React.useState(false);
-  const imageTransition = 'transition-opacity duration-200'; // remove delay-500 for faster loading
+  const imageTransition = 'transition-opacity duration-200';
 
   const { dispatchModal } = useModal();
   return (

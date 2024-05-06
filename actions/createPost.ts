@@ -12,20 +12,20 @@ export const createPost = async (formData: FormData) => {
   if (!session) {
     console.log('No session found: redirecting to login page');
     redirect('/login', RedirectType.push);
-  } else {
-    try {
-      const revalidationsPath = formData.get('revalidationsPath') as string;
-      formData.delete('revalidationsPath');
-      await mumblePostService.createPost({
-        token: session.accessToken,
-        formData,
-      });
-      if (revalidationsPath) {
-        revalidatePath(revalidationsPath);
-      }
-    } catch (error) {
-      console.log(`Error creating post. ${(error as Error).message}`);
-      redirect('/error', RedirectType.push);
+  }
+
+  try {
+    const revalidationsPath = formData.get('revalidationsPath') as string;
+    formData.delete('revalidationsPath');
+    await mumblePostService.createPost({
+      token: session.accessToken,
+      formData,
+    });
+    if (revalidationsPath) {
+      revalidatePath(revalidationsPath);
     }
+  } catch (error) {
+    console.log(`Error creating post. ${(error as Error).message}`);
+    redirect('/error', RedirectType.push);
   }
 };
