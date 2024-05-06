@@ -1,12 +1,12 @@
 import React from 'react';
 import { getMumblePosts } from '@/utils/helpers/posts/getMumblePosts';
-import { frontendConfig } from '@/config';
 import PostFeed from '@/components/post-feed/PostFeed';
 import {
   ETypographyLevels,
   Heading,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import type { Metadata } from 'next';
+import frontendConfig from '@/config/configFrontend';
 
 export const metadata: Metadata = {
   title: 'Mumble | HashTags',

@@ -5,14 +5,12 @@ import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { Post } from '@/components/post/Post';
 import useBreakpoints from '@/hooks/useBreakpoints';
-interface IProps {
-  userIdentifier?: string;
-  subscribeToNewestPost?: boolean;
-  creators?: string[];
-  fetchOnlyOneBatch?: boolean;
-  isLikes?: boolean;
-  revalidationPath?: string;
-}
+import frontendConfig from '@/config/configFrontend';
+import {
+  IPostLoaderDefaultProps,
+  TNodeObserved,
+  TNodeObservedRef,
+} from '@/components/posts-loader/utils/interfaces/postLoader.interface';
 
 const PostsLoader = ({
   userIdentifier,
@@ -21,7 +19,7 @@ const PostsLoader = ({
   fetchOnlyOneBatch = false,
   isLikes = false,
   revalidationPath,
-}: IProps) => {
+}: IPostLoaderDefaultProps) => {
   const { posts, nextMumblePostsUrl, dispatchPosts, fetchPostsBatch } =
     usePosts();
   const { isBpMDDown } = useBreakpoints();
@@ -40,18 +38,18 @@ const PostsLoader = ({
         payload: null,
       });
     };
+    // needs to run only one time. so, no dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const observer = useRef();
+  const observer = useRef<IntersectionObserver | null>();
 
   const lastPostRef = useCallback(
-    (node: any) => {
+    (node: TNodeObserved): TNodeObserved => {
       if (observer.current) {
-        // @ts-ignore
         observer.current.disconnect();
       }
-      // @ts-ignore
+
       observer.current = new IntersectionObserver(
         (entries) => {
           if (entries[0].isIntersecting) {
@@ -66,12 +64,12 @@ const PostsLoader = ({
             }
           }
         },
-        { rootMargin: '0px 0px 500px 0px' },
+        { rootMargin: frontendConfig.feed.observerRootMargin },
       );
       if (node) {
-        // @ts-ignore
         observer.current.observe(node);
       }
+      return node;
     },
     [
       nextMumblePostsUrl,
@@ -93,7 +91,11 @@ const PostsLoader = ({
             return (
               <div
                 data-identifier={post.id}
-                ref={posts.length === index + 1 ? lastPostRef : undefined}
+                ref={
+                  posts.length === index + 1
+                    ? (lastPostRef as TNodeObservedRef)
+                    : undefined
+                }
                 key={post.id}
               >
                 <Post

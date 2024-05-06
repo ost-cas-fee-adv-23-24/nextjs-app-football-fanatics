@@ -4,22 +4,28 @@ import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import mumblePostService from '@/services/Mumble/MumblePost';
 
 import { revalidatePath } from 'next/cache';
+import { redirect, RedirectType } from 'next/navigation';
 
-export const createPost = async (formData: FormData): Promise<void> => {
+export const createPost = async (formData: FormData) => {
   const session = await auth();
 
-  if (!session) throw new Error('No session');
+  if (!session) {
+    console.log('No session found: redirecting to login page');
+    redirect('/login', RedirectType.push);
+  }
+
   try {
     const revalidationsPath = formData.get('revalidationsPath') as string;
     formData.delete('revalidationsPath');
-    const response = await mumblePostService.createPost({
-      token: session ? session.accessToken : '',
+    await mumblePostService.createPost({
+      token: session.accessToken,
       formData,
     });
     if (revalidationsPath) {
       revalidatePath(revalidationsPath);
     }
   } catch (error) {
-    throw new Error(`Error creating post ${(error as Error).message}`);
+    console.log(`Error creating post. ${(error as Error).message}`);
+    redirect('/error', RedirectType.push);
   }
 };

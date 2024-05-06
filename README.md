@@ -1,36 +1,113 @@
+# Mumble by The FF (Football Fanatics) Team
+
+This project is a collaborative effort between:
+
+- Bladimir Ardiles Cruz [`bladicito`](https://github.com/bladicito)
+- Patrick Lehmann [`Paeddy`](https://github.com/lehmi11)
+
+undertaken as part of our final team project for the [`Certificate of Advanced Studies in Advanced Frontend Engineering`](https://www.ost.ch/de/weiterbildung/weiterbildungsangebot/informatik/software-engineering-testing/cas-frontend-engineering-advanced) at the [`University of Applied Sciences of Eastern Switzerland (OST)`](https://www.ost.ch/en).
+***
+## Core
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+#### More about NextJs
+[Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+***
+## Pre Requisites 
+You need to have a .env.local file in the root of the project with the following variables:
 
+| Variable           |                                                               value                                                               |
+|:-------------------|:---------------------------------------------------------------------------------------------------------------------------------:|
+| ZITADEL_CLIENT_ID  |                                        Secret. ask for the value to one of the maintainers                                        |
+| ZITADEL_ISSUER     |                                             https://cas-fee-adv-ed1ide.zitadel.cloud                                              |
+| MUMBLE_API_URL     |                                  https://mumble-api-prod-4cxdci3drq-oa.a.run.app                                                  |
+| ENVIRONMENT        |                                                 local - development - production                                                  |
+| NEXTAUTH_SECRET    |                                        Secret. ask for the value to one of the maintainers                                        |
+| NEXTAUTH_URL       |                             http://localhost:3000 - https://cusconews.com - https://dev.cusconews.com                             |
+| TEST_USER_NAME     |                                        Secret. ask for the value to one of the maintainers                                        |
+| TEST_USER_PASSWORD |                                        Secret. ask for the value to one of the maintainers                                        |
+
+In case a new environment is needed (exp. staging), please add the domain of the same to the `allowed domains` in the zitadel configuration (config/index.ts).
+
+## Authentication
+This project uses Zitadel. 
+Make sure that you have an Organization in Zitadel and that you have the client id and the issuer url.
+The return URL must be configured in the Zitadel configuration.
+As an example, the return URL for the dev environment our configuration includes the following url:
+- `https://main.dpejyjo5wbo0b.amplifyapp.com/api/auth/callback/zitadel`
+- `https://dev.cusconews.com/api/auth/callback/zitadel`
+- `http://localhost:3000`
+
+The Zitadel configuration is located in the `app/api/auth/[...nextauth]/auth.ts` file.
+
+***
+## Development
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
-
-
-moved to Amplify Frankfurt. 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
+```bash
+npm run build
+```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Linting, Formatting, Type checking
+Run linter:
+```bash
+npm run lint
+```
+Check prettier format: 
+```bash
+npm run format:check
+```
+Fix prettier format:
+```bash
+npm run format:fix
+```
+Run type checking:
+```bash
+npm run type-check
+```
 
-## Learn More
+Run linter, prettier and type checking:
+```bash
+npm run code:fix
+```
 
-To learn more about Next.js, take a look at the following resources:
+***
+## Testing
+Run all playwright tests
+```bash
+npm run test
+```
+Open playwright's ui mode to run the tests there:
+```bash
+npm run test:ui
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+***
+## Deployments/Rollouts
+Our Project uses AWS Amplify for deployment.
+This allows us to deploy the whole application based on commits to main and production branches.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Amplify configuration
+The Amplify configuration is located in the `amplify.yml` file.
+Make sure that you include all environment variables in the amplify console and also in the `amplify.yml` file.
+Amplify does not add the environment variables automatically to the build process. you need to do it manually (see `amplify.yml`).
 
-## Deploy on Vercel
+```bash
+env | grep -e NEXTAUTH_URL -e NEXTAUTH_SECRET -e ZITADEL_CLIENT_ID -e ZITADEL_ISSUER -e MUMBLE_API_URL -e ENVIRONMENT  >> .env
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Dev Deployment
+The dev deployment is triggered by a commit to the **main branch**. Directs commits or pull requests merged into the main branch will trigger a deployment to the dev environment.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Production Deployment
+The production deployment is triggered by a commit to the **production branch**. 
+The strategy is to merge the main branch into the production branch accordingly. 
+
+

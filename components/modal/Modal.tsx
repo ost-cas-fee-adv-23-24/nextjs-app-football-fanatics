@@ -8,8 +8,8 @@ import useModal from '@/hooks/useModal';
 const escapeKeyCode = 27;
 const Modal = () => {
   const { content, isOpen, closeModal, title, fullWidth } = useModal();
-  const positionCommon = 'top-0 right-0 bottom-0 left-0';
-  const transitionOptions = 'opacity duration-300 ease delay-300';
+  const positionCommon = 'top-0 right-0 bottom-0 left-0 absolute';
+  const transitionOptions = 'opacity duration-300 ease';
   const width = `${fullWidth ? 'max-width-[100%]' : 'max-w-[680px]'}`;
 
   const escapeKeyUpHandler = useCallback(
@@ -54,7 +54,7 @@ const Modal = () => {
   }, [positionCommon, isOpen]);
 
   const backdropStyles = useMemo(() => {
-    let styles = `fixed bg-violet-500 bg-opacity-100 md:bg-opacity-50 ${positionCommon}`;
+    let styles = `fixed bg-violet-500 bg-opacity-100 md:bg-opacity-50 ${positionCommon} ${transitionOptions}`;
     if (isOpen) {
       styles = `${styles} block`;
     } else {

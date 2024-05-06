@@ -7,7 +7,6 @@ import { IMumbleFollowers } from '@/utils/interfaces/mumbleFollowers.interface';
 import { notFound } from 'next/navigation';
 import ProfileSwitch from '@/components/profile-switch/ProfileSwitch';
 import { ReactNode } from 'react';
-import { frontendConfig } from '@/config';
 import type { Metadata } from 'next';
 
 interface IProfileLayoutProps {

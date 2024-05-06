@@ -10,11 +10,11 @@ import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 import { ModalProvider } from '@/providers/Modal.provider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { frontendConfig } from '@/config';
 import { RecommendationsProvider } from '@/providers/Recommendations.provider';
 import { PostsProvider } from '@/providers/posts/Posts.provider';
 import { LayoutMumbleProvider } from '@/providers/LayoutMumble.provider';
 import { BreakpointsProvider } from '@/providers/Breakpoints.provider';
+import frontendConfig from '@/config/configFrontend';
 
 export const metadata: Metadata = {
   title: 'Welcome to Mumble',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: 'by Bladimir and Patrick',
     type: 'website',
     locale: 'en_IE',
-    url: 'https://elbum-web-apps.vercel.app/',
+    url: 'https://cusconews.com',
   },
 };
 

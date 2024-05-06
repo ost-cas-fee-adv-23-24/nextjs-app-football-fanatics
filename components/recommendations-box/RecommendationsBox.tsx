@@ -14,8 +14,8 @@ import useRecommendations from '@/hooks/useRecommendations';
 import { ERecommendationsActions } from '@/stores/Recommendations.context';
 import { followUserToggle } from '@/actions/followUser';
 import { toast } from 'react-toastify';
-import { frontendConfig } from '@/config';
 import { RecommendationPlaceholder } from '@/components/placeholders/RecommendationPlaceholder';
+import frontendConfig from '@/config/configFrontend';
 
 interface IProps {
   userIdentifier: string;

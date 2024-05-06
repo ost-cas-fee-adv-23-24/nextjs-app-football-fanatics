@@ -38,21 +38,4 @@ const config = {
   },
 };
 
-export const frontendConfig = {
-  feed: {
-    fixed: {
-      defaultAmount: 20,
-    },
-    defaultAmount: 10,
-    sample: {
-      toFetch: 100,
-      toPick: 5,
-    },
-  },
-  newPostsRequestInterval: 1000 * 10,
-  notificationDuration: 1000 * 5,
-  recommendationsAmount: 6,
-  enableMentions: true,
-};
-
 export default config as IConfig;

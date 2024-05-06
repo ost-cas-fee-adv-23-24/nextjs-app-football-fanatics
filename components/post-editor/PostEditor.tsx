@@ -20,9 +20,9 @@ import ImagePreview, {
 import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
 import useUserInfo from '@/hooks/useUserInfo';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
-import { frontendConfig } from '@/config';
 import PostEditorText from '@/components/post-editor-text/PostEditorText';
 import { useRouter } from 'next/navigation';
+import frontendConfig from '@/config/configFrontend';
 
 interface IProps {
   identifier?: string;
