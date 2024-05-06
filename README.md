@@ -55,15 +55,39 @@ npm run build
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Linting
+## Linting, Formatting, Type checking
+Run linter:
 ```bash
 npm run lint
+```
+Check prettier format: 
+```bash
+npm run format:check
+```
+Fix prettier format:
+```bash
+npm run format:fix
+```
+Run type checking:
+```bash
+npm run type-check
+```
+
+Run linter, prettier and type checking:
+```bash
+npm run code:fix
 ```
 
 ***
 ## Testing
-
-Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..
+Run all playwright tests
+```bash
+npm run test
+```
+Open playwright's ui mode to run the tests there:
+```bash
+npm run test:ui
+```
 
 ***
 ## Deployments/Rollouts
