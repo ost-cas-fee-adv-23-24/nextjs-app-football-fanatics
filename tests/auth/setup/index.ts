@@ -4,11 +4,8 @@ import config from '@/config';
 const authFile = 'playwright/.auth/user.json';
 const urlRegex =
   /https:\/\/cas-fee-adv-ed1ide\.zitadel\.cloud\/ui\/login\/login\?authRequestID=\d+/;
-
-const username = process.env.TEST_USER_NAME || 'not found';
-const password = process.env.TEST_USER_PASSWORD || 'not found';
-
-console.log('userName: ', process.env.TEST_USER_NAME);
+const username = config.testing.username;
+const password = config.testing.password;
 
 setup('authenticate', async ({ page }) => {
   setup.slow();
