@@ -8,6 +8,13 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      PORT: ${{ vars.PORT }}
+      MUMBLE_API_URL: ${{ vars.MUMBLE_API_URL }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
+      TEST_USER_NAME: ${{ vars.TEST_USER_NAME }}
+      TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+      ZITADEL_CLIENT_ID: ${{ secrets.ZITADEL_CLIENT_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,10 +32,3 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-        env:
-          PORT: ${{ vars.PORT }}
-          MUMBLE_API_URL: ${{ vars.MUMBLE_API_URL }}
-          ENVIRONMENT: ${{ vars.ENVIRONMENT }}
-          TEST_USER_NAME: ${{ vars.TEST_USER_NAME }}
-          TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
-          ZITADEL_CLIENT_ID: ${{ secrets.ZITADEL_CLIENT_ID }}
