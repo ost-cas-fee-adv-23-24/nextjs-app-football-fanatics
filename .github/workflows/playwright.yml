@@ -13,8 +13,11 @@ jobs:
       MUMBLE_API_URL: ${{ vars.MUMBLE_API_URL }}
       ENVIRONMENT: ${{ vars.ENVIRONMENT }}
       TEST_USER_NAME: ${{ vars.TEST_USER_NAME }}
+      ZITADEL_ISSUER: ${{ vars.ZITADEL_ISSUER }}
+      NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
       TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
       ZITADEL_CLIENT_ID: ${{ secrets.ZITADEL_CLIENT_ID }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
