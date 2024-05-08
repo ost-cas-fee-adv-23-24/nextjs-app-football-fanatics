@@ -209,9 +209,7 @@ export class MumblePostService extends MumbleService {
         params.append(key, value.toString());
       } else if (Array.isArray(value)) {
         for (const single of value) {
-          value.forEach((val) => {
-            params.append(key, single);
-          });
+          params.append(key, single);
         }
       }
     });
