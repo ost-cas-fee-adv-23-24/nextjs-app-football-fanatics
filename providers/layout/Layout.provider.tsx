@@ -28,7 +28,7 @@ export const LayoutProvider = ({ children }: IProps) => {
   const { layoutKind, currentTabProfile, overlayState } = state;
 
   const contentCss = useMemo(() => {
-    const baseStyles = 'content bg-slate-100';
+    const baseStyles = 'content bg-slate-100 overflow-y-scroll';
     if (layoutKind === ELayoutKind.SCROLLABLE) {
       return `${baseStyles} h-screen block`;
     }
@@ -40,9 +40,9 @@ export const LayoutProvider = ({ children }: IProps) => {
   }, []);
 
   const overlayStyles = useMemo(() => {
-    const baseStyles = 'opacity duration-500 ease';
+    const baseStyles = 'opacity fixed duration-500 ease';
     if (overlayState === EOverlayState.OPEN) {
-      return `${baseStyles} overlay top-0 left-0 right-0 bottom-0 fixed opacity-100`;
+      return `${baseStyles} overlay top-0 left-0 right-0 bottom-0 opacity-100`;
     }
     return `${baseStyles} opacity-0`;
   }, [overlayState]);
@@ -80,7 +80,7 @@ export const LayoutProvider = ({ children }: IProps) => {
         style={
           overlayState === EOverlayState.OPEN
             ? { zIndex: 100 }
-            : { zIndex: -100, position: 'absolute' } // avoids jumping of the overlay
+            : { zIndex: -100 } // avoids jumping of the overlay
         }
       >
         <Modal
