@@ -13,14 +13,14 @@ import {
 import Link from 'next/link';
 import { signIn, signOut } from 'next-auth/react';
 import useUserInfo from '@/hooks/useUserInfo';
-import useModal from '@/hooks/useModal';
-import { EModalActions } from '@/stores/Modal.context';
 import UserSettings from '@/components/user-settings/UserSettings';
 import { toast } from 'react-toastify';
+import useLayout from '@/hooks/useLayout';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
 
 export const GlobalHeader = () => {
   const { avatarUrl, identifier } = useUserInfo();
-  const { dispatchModal, closeModal } = useModal();
+  const { dispatchLayout, closeModal } = useLayout();
 
   return (
     <div className="flex justify-between items-center">
@@ -48,11 +48,11 @@ export const GlobalHeader = () => {
               icon={EIConTypes.SETTINGS}
               name="settings"
               onCustomClick={() => {
-                dispatchModal({
-                  type: EModalActions.SET_CONTENT,
+                dispatchLayout({
+                  type: ELayoutActions.SET_OVERLAY_CONTENT,
                   payload: {
-                    title: 'Settings',
-                    content: (
+                    overlayTitle: 'Settings',
+                    overlayContent: (
                       <UserSettings
                         onClose={closeModal}
                         onSave={(options) => {

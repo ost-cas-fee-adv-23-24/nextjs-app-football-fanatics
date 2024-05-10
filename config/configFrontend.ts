@@ -4,7 +4,7 @@ const frontendConfig = {
     fixed: {
       defaultAmount: 300,
     },
-    defaultAmount: 10,
+    defaultAmount: 30,
     sample: {
       toFetch: 100,
       toPick: 5,

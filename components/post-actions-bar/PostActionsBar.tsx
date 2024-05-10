@@ -17,10 +17,11 @@ import { toast } from 'react-toastify';
 import DialogLogin from '@/components/dialog-login/DialogLogin';
 import { signIn } from 'next-auth/react';
 import { deletePost } from '@/actions/deletePost';
-import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
 import usePosts from '@/hooks/usePosts';
 import { ELikeToggleType, EPostsActions } from '@/stores/Posts.context';
+import useLayout from '@/hooks/useLayout';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
 
 interface IProps {
   amountLikes: number;
@@ -46,7 +47,7 @@ const PostActionsBar = ({
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
   const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
-  const { dispatchModal, closeModal } = useModal();
+  const { dispatchLayout, closeModal } = useLayout();
   const { dispatchPosts } = usePosts();
   const notify = () => {
     toast(
@@ -156,11 +157,11 @@ const PostActionsBar = ({
             labelActive="Deleted"
             effectDuration={0}
             customClickEvent={async () => {
-              dispatchModal({
-                type: EModalActions.SET_CONTENT,
+              dispatchLayout({
+                type: ELayoutActions.SET_OVERLAY_CONTENT,
                 payload: {
-                  title: 'Delete Post?',
-                  content: (
+                  overlayTitle: 'Delete Post?',
+                  overlayContent: (
                     <Button
                       name="delete-post"
                       icon={EIConTypes.EDIT}
