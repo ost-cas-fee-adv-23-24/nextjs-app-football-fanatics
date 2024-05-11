@@ -84,7 +84,10 @@ export class MumbleService {
       if (response.status === 401) {
         throw new Error(`Unauthorized, Token was not found or expired`);
         // pretty ugly to check the message here
-      } else if (response.status === 400 && message === 'Creating post') {
+      } else if (
+        response.status === 400 &&
+        (message === 'Creating post' || message === 'Uploading avatar')
+      ) {
         throw new Error(`Media size exceeded the limit`);
       }
       if (expectedBack === 'json') return await response.json();
