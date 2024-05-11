@@ -1,3 +1,5 @@
+import { fileNameUploader } from '@/config/index';
+
 const frontendConfig = {
   feed: {
     observerRootMargin: '0px 0px 1000px 0px',
@@ -15,6 +17,7 @@ const frontendConfig = {
   recommendationsAmount: 6,
   enableMentions: true,
   maxFileSize: 2097152, // 2MB
+  fileNameUploader,
 };
 
 export default frontendConfig;

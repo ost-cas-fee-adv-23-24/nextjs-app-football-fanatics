@@ -1,5 +1,6 @@
 import { ClientAuthenticationMethod } from 'oauth4webapi';
 
+export const fileNameUploader = 'media';
 export interface IConfig {
   environment: string;
   nextSecret: string;
@@ -50,7 +51,7 @@ const config = {
       process.env.ZITADEL_ISSUER || 'https://cas-fee-adv-ed1ide.zitadel.cloud',
   },
   avatar: {
-    fileNameUploader: 'media',
+    fileNameUploader,
   },
   trustedDomains: [
     'http://localhost:3000',
