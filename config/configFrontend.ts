@@ -14,6 +14,7 @@ const frontendConfig = {
   notificationDuration: 1000 * 5,
   recommendationsAmount: 6,
   enableMentions: true,
+  maxFileSize: 2097152, // 2MB
 };
 
 export default frontendConfig;
