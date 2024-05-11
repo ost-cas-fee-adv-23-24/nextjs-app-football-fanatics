@@ -13,6 +13,7 @@ import ButtonImageUpload from '@/components/button/ButtonImageUpload';
 import ImagePreview from '@/components/image-preview/ImagePreview';
 import { toast } from 'react-toastify';
 import configFrontend from '@/config/configFrontend';
+import frontendConfig from '@/config/configFrontend';
 
 interface IProps {
   onCancel: () => void;
@@ -115,7 +116,7 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
               inheritColor={true}
             />
             <p className="color-slate-400 text-lg leading-5 mt-2">
-              JPEG or PNG, Max. 50Mb
+              JPEG or PNG, Max. {frontendConfig.maxFileSize / 1024 / 1024}MB
             </p>
           </div>
         </div>
