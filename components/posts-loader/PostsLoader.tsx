@@ -20,8 +20,13 @@ const PostsLoader = ({
   isLikes = false,
   revalidationPath,
 }: IPostLoaderDefaultProps) => {
-  const { posts, nextMumblePostsUrl, dispatchPosts, fetchPostsBatch } =
-    usePosts();
+  const {
+    isLoading,
+    posts,
+    nextMumblePostsUrl,
+    dispatchPosts,
+    fetchPostsBatch,
+  } = usePosts();
   const { isBpMDDown } = useBreakpoints();
 
   useEffect(() => {
@@ -82,7 +87,7 @@ const PostsLoader = ({
   );
 
   return (
-    <div className="global-width mx-auto">
+    <div className="global-width mx-auto pb-2">
       {(() => {
         if (posts.length === 0) {
           return <PostEditorPlaceholder />;
@@ -109,6 +114,11 @@ const PostsLoader = ({
           });
         }
       })()}
+      {isLoading && (
+        <div className="post-wrapper px-8 lg:px-0 pb-6">
+          <PostEditorPlaceholder />
+        </div>
+      )}
     </div>
   );
 };

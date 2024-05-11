@@ -1,6 +1,7 @@
 'use client';
 import { useEffect } from 'react';
-import useLayoutMumble from '@/hooks/useLayoutMumble';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+import useLayout from '@/hooks/useLayout';
 
 interface IProps {
   selectedTab: number;
@@ -10,10 +11,13 @@ interface IProps {
 // no markup produced
 
 const TabDispatcher = ({ selectedTab }: IProps) => {
-  const { setCurrentTabProfile } = useLayoutMumble();
+  const { dispatchLayout } = useLayout();
   useEffect(() => {
-    setCurrentTabProfile(selectedTab);
-  }, [selectedTab, setCurrentTabProfile]);
+    dispatchLayout({
+      type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+      payload: selectedTab,
+    });
+  }, [selectedTab, dispatchLayout]);
   return null;
 };
 

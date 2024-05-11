@@ -11,8 +11,6 @@ import {
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
 import { createPostReply } from '@/actions/createPostReply';
 import { createPost } from '@/actions/createPost';
-import useModal from '@/hooks/useModal';
-import { EModalActions } from '@/stores/Modal.context';
 import ImageUploader from '@/components/image-uploader/ImageUploader';
 import ImagePreview, {
   TFireReaderResult,
@@ -23,6 +21,8 @@ import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import PostEditorText from '@/components/post-editor-text/PostEditorText';
 import { useRouter } from 'next/navigation';
 import frontendConfig from '@/config/configFrontend';
+import useLayout from '@/hooks/useLayout';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
 
 interface IProps {
   identifier?: string;
@@ -53,7 +53,7 @@ export const PostEditor = ({
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
   const { identifier: loggedInUserIdentifier } = useUserInfo();
   const [users, setUsers] = useState<IMumbleUser[]>([]);
-  const { dispatchModal, closeModal } = useModal();
+  const { dispatchLayout, closeModal } = useLayout();
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
@@ -163,10 +163,10 @@ export const PostEditor = ({
               icon={EIConTypes.UPLOAD}
               label="Picture Upload"
               onCustomClick={() => {
-                dispatchModal({
-                  type: EModalActions.SET_CONTENT,
+                dispatchLayout({
+                  type: ELayoutActions.SET_OVERLAY_CONTENT,
                   payload: {
-                    content: (
+                    overlayContent: (
                       <ImageUploader
                         onCancel={() => {
                           setImage(null);
@@ -178,7 +178,7 @@ export const PostEditor = ({
                         }}
                       />
                     ),
-                    title: 'Add an image to your post',
+                    overlayTitle: 'Add an image to your post',
                   },
                 });
               }}

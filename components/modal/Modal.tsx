@@ -3,14 +3,24 @@ import {
   ButtonIconRounded,
   EIConTypes,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import useModal from '@/hooks/useModal';
+import useLayout from '@/hooks/useLayout';
+import { EOverlayState } from '@/providers/layout/utils/enums/layout.enum';
 
 const escapeKeyCode = 27;
-const Modal = () => {
-  const { content, isOpen, closeModal, title, fullWidth } = useModal();
+
+interface IProps {
+  title: string;
+  content: React.ReactNode;
+  state: EOverlayState;
+  fullWidth?: boolean;
+}
+
+const Modal = ({ title, fullWidth = false, state, content }: IProps) => {
   const positionCommon = 'top-0 right-0 bottom-0 left-0 absolute';
-  const transitionOptions = 'opacity duration-300 ease';
+  const transitionOptions = 'opacity duration-500 ease';
   const width = `${fullWidth ? 'max-width-[100%]' : 'max-w-[680px]'}`;
+  const { closeModal } = useLayout();
+  const isOpen = state === EOverlayState.OPEN;
 
   const escapeKeyUpHandler = useCallback(
     (evt: KeyboardEvent) => {
@@ -38,79 +48,74 @@ const Modal = () => {
 
       // @ts-ignore
       document.activeElement?.focus();
-    } else {
+    } else if (!isOpen && !content) {
       document.body.style.overflow = `auto`;
     }
-  }, [isOpen]);
+  }, [isOpen, content]);
 
   const topContainer = useMemo(() => {
-    let styles = `flex flex-col items-center justify-center fixed  rounded  ${positionCommon} ${transitionOptions}`;
-    if (isOpen) {
-      styles = `${styles} opacity-100`;
-    } else {
-      styles = `${styles} opacity-0 pointer-events-none`;
-    }
-    return styles;
-  }, [positionCommon, isOpen]);
+    return `flex flex-col items-center justify-center rounded ${positionCommon} ${transitionOptions}`;
+  }, [positionCommon]);
 
   const backdropStyles = useMemo(() => {
-    let styles = `fixed bg-violet-500 bg-opacity-100 md:bg-opacity-50 ${positionCommon} ${transitionOptions}`;
-    if (isOpen) {
-      styles = `${styles} block`;
-    } else {
-      styles = `${styles} hidden`;
-    }
-    return styles;
-  }, [positionCommon, isOpen]);
+    return `bg-violet-500 bg-opacity-100 md:bg-opacity-50 ${positionCommon} ${transitionOptions}`;
+  }, [positionCommon]);
 
   const wrapperStyles =
     'my-auto flex items-center z-40 w-full h-screen md:w-[calc(100%-48px)] md:h-[calc(100%-48px)] md:px-[50px] md:py-[50px]';
 
   return (
     <div
-      className={`modal ${topContainer}`}
-      onDrop={(evt) => {
-        evt.preventDefault();
-        evt.stopPropagation();
-      }}
-      onDragOver={(evt) => {
-        evt.preventDefault();
-        evt.stopPropagation();
-      }}
-      onDragLeave={(evt) => {
-        evt.preventDefault();
-        evt.stopPropagation();
-      }}
+      className={`h-screen flex-col items-center justify-center ${positionCommon}`}
     >
-      <div className={`modal-backdrop ${backdropStyles}`} />
-      <div className={`modal-wrapper ${wrapperStyles}`}>
-        <div className="modal-close absolute right-5 top-5 z-100">
-          <ButtonIconRounded
-            icon={EIConTypes.CANCEL}
-            label="Close"
-            name="close-modal"
-            onCustomClick={() => {
-              closeModal();
-            }}
-          />
-        </div>
-        <div
-          className={`modal-content relative overflow-hidden grow flex flex-col max-h-full mx-auto rounded-2xl ${width}`}
-        >
+      <div
+        className={topContainer}
+        onDrop={(evt) => {
+          evt.preventDefault();
+          evt.stopPropagation();
+        }}
+        onDragOver={(evt) => {
+          evt.preventDefault();
+          evt.stopPropagation();
+        }}
+        onDragLeave={(evt) => {
+          evt.preventDefault();
+          evt.stopPropagation();
+        }}
+      >
+        <div className={`modal-backdrop ${backdropStyles}`} />
+        <div className={`modal-wrapper ${wrapperStyles}`}>
           <div
-            className={`modal-title  flex justify-between items-center self-stretch relative overflow-hidden bg-transparent md:bg-violet-600 py-6 px-4 md:px-8`}
+            className="modal-close absolute right-5 top-5"
+            style={{ zIndex: 50 }}
           >
-            <h2
-              className={`text-white not-italic font-semibold leading-10 truncate text-2xl md:text-3xl`}
-            >
-              {title}
-            </h2>
+            <ButtonIconRounded
+              icon={EIConTypes.CANCEL}
+              label="Close"
+              name="close-modal"
+              onCustomClick={() => {
+                closeModal();
+              }}
+            />
           </div>
           <div
-            className={`modal-content-wrapper px-4 py-0 md:p-8 bg-transparent md:bg-white grow flex flex-col overflow-hidden`}
+            className={`modal-content relative overflow-hidden grow flex flex-col max-h-full mx-auto rounded-2xl ${width}`}
           >
-            <div className="modal-inner grow overflow-auto">
-              {content ? content : ''}
+            <div
+              className={`modal-title flex justify-between items-center self-stretch relative overflow-hidden bg-transparent md:bg-violet-600 py-6 px-4 md:px-8`}
+            >
+              <h2
+                className={`text-white not-italic font-semibold leading-10 truncate text-2xl md:text-3xl`}
+              >
+                {title}
+              </h2>
+            </div>
+            <div
+              className={`modal-content-wrapper px-4 py-0 md:p-8 bg-transparent md:bg-white grow flex flex-col overflow-hidden`}
+            >
+              <div className="modal-inner grow overflow-auto">
+                {content ? content : ''}
+              </div>
             </div>
           </div>
         </div>

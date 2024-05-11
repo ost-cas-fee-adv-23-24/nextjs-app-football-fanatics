@@ -4,14 +4,17 @@ import usePosts from '@/hooks/usePosts';
 import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { PostFix } from '@/components/post/PostFix';
-import useLayoutMumble from '@/hooks/useLayoutMumble';
-import { ELayoutKind } from '@/providers/LayoutMumble.provider';
 import frontendConfig from '@/config/configFrontend';
 import {
   IPostLoaderPropsBase,
   TNodeObserved,
   TNodeObservedRef,
 } from '@/components/posts-loader/utils/interfaces/postLoader.interface';
+import useLayout from '@/hooks/useLayout';
+import {
+  ELayoutActions,
+  ELayoutKind,
+} from '@/providers/layout/utils/enums/layout.enum';
 
 export const PostsFixLoader = ({
   userIdentifier,
@@ -36,7 +39,7 @@ export const PostsFixLoader = ({
   const [rowHeight, setRowHeight] = useState(initialApproxHeight);
   const [totalHeight, setTotalHeight] = useState(rowHeight * customAmountPosts);
   const containerRef = useRef(null);
-  const { setLayoutKind } = useLayoutMumble();
+  const { dispatchLayout } = useLayout();
 
   let startIndex = Math.floor(scrollTop / rowHeight);
   let endIndex = Math.min(
@@ -103,14 +106,20 @@ export const PostsFixLoader = ({
       isLikes,
       customAmount: customAmountPosts,
     });
-    setLayoutKind(ELayoutKind.SCROLLABLE);
+    dispatchLayout({
+      type: ELayoutActions.SET_LAYOUT_KIND,
+      payload: ELayoutKind.SCROLLABLE,
+    });
     const newData = getNewSizes(customAmountPosts);
     setRowHeight(newData.row);
     setTotalHeight(newData.totalHeight);
     setAvailableHeight(newData.availableHeight);
 
     return () => {
-      setLayoutKind(ELayoutKind.DEFAULT);
+      dispatchLayout({
+        type: ELayoutActions.SET_LAYOUT_KIND,
+        payload: ELayoutKind.DEFAULT,
+      });
       dispatchPosts({
         type: EPostsActions.RESET,
         payload: null,
@@ -198,7 +207,7 @@ export const PostsFixLoader = ({
         }}
       >
         <div
-          className="global-width mx-auto"
+          className="global-width mx-auto pb-2"
           style={{
             height: totalHeight,
             paddingTop: startIndex * rowHeight,

@@ -13,12 +13,13 @@ import {
   Paragraph,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useUserInfo from '@/hooks/useUserInfo';
-import useModal from '@/hooks/useModal';
 import { EModalActions } from '@/stores/Modal.context';
 import ImagePreview from '@/components/image-preview/ImagePreview';
 import React, { useMemo } from 'react';
 import ImageWithPlaceholder from '@/components/image-with-placeholder/ImageWithPlaceholder';
 import { toast } from 'react-toastify';
+import useLayout from '@/hooks/useLayout';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
 
 interface Props {
   user: IPostCreator;
@@ -27,7 +28,7 @@ interface Props {
 function Header({ user }: Props) {
   const { identifier, setUserAvatar, avatarUrl, lastName, firstName } =
     useUserInfo();
-  const { dispatchModal, closeModal } = useModal();
+  const { dispatchLayout, closeModal } = useLayout();
 
   const imageSource = useMemo(() => {
     return `https://source.unsplash.com/random/?landscape&${Date.now().toString().toLowerCase().trim()}`;
@@ -50,11 +51,11 @@ function Header({ user }: Props) {
             onSuccess={(newAvatar) => {
               const reader = new FileReader();
               reader.onload = (evt) => {
-                dispatchModal({
-                  type: EModalActions.SET_CONTENT,
+                dispatchLayout({
+                  type: ELayoutActions.SET_OVERLAY_CONTENT,
                   payload: {
-                    title: 'Lets change that ugly pic',
-                    content: (
+                    overlayTitle: 'Lets change that ugly pic',
+                    overlayContent: (
                       <>
                         <ImagePreview
                           imageInMemory={evt.target?.result}
