@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import LayoutContext from '@/stores/Layout.context';
 
-const useLayoutMumble = () => {
+const useLayout = () => {
   const context = useContext(LayoutContext);
   if (!context) {
     throw new Error(
@@ -12,4 +12,4 @@ const useLayoutMumble = () => {
   return context;
 };
 
-export default useLayoutMumble;
+export default useLayout;
