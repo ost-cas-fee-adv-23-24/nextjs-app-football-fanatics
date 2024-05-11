@@ -23,6 +23,11 @@ import frontendConfig from '@/config/configFrontend';
 import useLayout from '@/hooks/useLayout';
 import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
 import { toast } from 'react-toastify';
+import {
+  IPostItem,
+  IPostReplyItemBase,
+  IServerActionResponse,
+} from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
   identifier?: string;
@@ -100,13 +105,15 @@ export const PostEditor = ({
             formData.append('revalidationsPath', revalidationsPath);
           }
           try {
+            let results: IServerActionResponse<IPostItem | IPostReplyItemBase>;
             if (identifier) {
-              await createPostReply({ formData, identifier });
+              results = await createPostReply({ formData, identifier });
             } else {
-              const results = await createPost(formData);
-              if (results.status === 'error') {
-                toast.error(results.message);
-              }
+              results = await createPost(formData);
+            }
+
+            if (results.status === 'error') {
+              toast.error(results.message);
             }
           } catch (error) {
             console.log(error);
