@@ -27,6 +27,7 @@ export interface IConfig {
     allUsersData: number;
     userProfileData: number;
   };
+  maxFileSize: number;
 }
 
 // only use in backend!!!!
@@ -61,6 +62,7 @@ const config = {
     allUsersData: 1000 * 60 * 60, // 1 hour . On User Created then we would need to clear it
     userProfileData: 1000 * 60 * 60 * 2, // 2 hours
   },
+  maxFileSize: 2097152, // 2MB
 };
 
 export default config as IConfig;

@@ -19,10 +19,15 @@ import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecom
 import useUserInfo from '@/hooks/useUserInfo';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import PostEditorText from '@/components/post-editor-text/PostEditorText';
-import { useRouter } from 'next/navigation';
 import frontendConfig from '@/config/configFrontend';
 import useLayout from '@/hooks/useLayout';
 import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+import { toast } from 'react-toastify';
+import {
+  IPostItem,
+  IPostReplyItemBase,
+  IServerActionResponse,
+} from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
   identifier?: string;
@@ -57,8 +62,6 @@ export const PostEditor = ({
   const placeholder = identifier
     ? 'What is your opinion about this post Doc?'
     : 'Say it louder for the people in the back!';
-
-  const router = useRouter();
 
   useEffect(() => {
     if (image) {
@@ -102,10 +105,15 @@ export const PostEditor = ({
             formData.append('revalidationsPath', revalidationsPath);
           }
           try {
+            let results: IServerActionResponse<IPostItem | IPostReplyItemBase>;
             if (identifier) {
-              await createPostReply({ formData, identifier });
+              results = await createPostReply({ formData, identifier });
             } else {
-              await createPost(formData);
+              results = await createPost(formData);
+            }
+
+            if (results.status === 'error') {
+              toast.error(results.message);
             }
           } catch (error) {
             console.log(error);

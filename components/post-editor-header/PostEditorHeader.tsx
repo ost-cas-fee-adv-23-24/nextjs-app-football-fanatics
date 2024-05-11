@@ -39,7 +39,7 @@ export const PostEditorHeader = ({
   return (
     <div className="relative">
       {useAvatarPositionFloating && (
-        <div className="absolute left-[-85px]">
+        <div className="absolute left-[-85px] top-[-8px]">
           <Link href={`/profiles/${identifier}`}>
             <Avatar
               size={EAvatarSizes.MD}

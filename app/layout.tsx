@@ -48,7 +48,10 @@ export default function RootLayout({
             </BreakpointsProvider>
           </UserInfoProvider>
         </SessionProvider>
-        <ToastContainer autoClose={frontendConfig.notificationDuration} />
+        <ToastContainer
+          autoClose={frontendConfig.notificationDuration}
+          theme="colored"
+        />
       </body>
     </html>
   );

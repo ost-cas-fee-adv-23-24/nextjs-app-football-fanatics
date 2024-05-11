@@ -12,15 +12,26 @@ import {
 import ButtonImageUpload from '@/components/button/ButtonImageUpload';
 import ImagePreview from '@/components/image-preview/ImagePreview';
 import { toast } from 'react-toastify';
+import configFrontend from '@/config/configFrontend';
+import frontendConfig from '@/config/configFrontend';
 
 interface IProps {
   onCancel: () => void;
   onSuccess: (image: File) => void;
 }
 
+const isImageExtensionValid = (file: File) => {
+  const isPng = file.name.toLowerCase().includes('.png');
+  const isJpg = file.name.toLowerCase().includes('.jpg');
+  const isJpeg = file.name.toLowerCase().includes('.jpeg');
+  const isWebp = file.name.toLowerCase().includes('.webp');
+  return isPng || isJpg || isJpeg || isWebp;
+};
+
 const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
   const [image, setImage] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isTooLarge, setIsTooLarge] = useState(false);
   const [imageInMemory, setImageInMemory] = useState<
     string | ArrayBuffer | null | undefined
   >(null);
@@ -34,12 +45,19 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
 
   useEffect(() => {
     if (image) {
+      if (image.size > configFrontend.maxFileSize) {
+        toast.error(
+          `File size is too large. Max file size is ${configFrontend.maxFileSize / 1024 / 1024}MB`,
+        );
+        setIsTooLarge(true);
+      }
       const reader = new FileReader();
       reader.onload = (evt) => {
         setImageInMemory(evt.target?.result);
       };
       reader.readAsDataURL(image);
     } else {
+      setIsTooLarge(false);
       setImageInMemory(null);
     }
   }, [image]);
@@ -48,6 +66,7 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
     <div>
       {imageInMemory && (
         <ImagePreview
+          isTooLarge={isTooLarge}
           imageInMemory={imageInMemory}
           onCancel={() => {
             setImage(null);
@@ -69,13 +88,8 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
 
               const file = evt.dataTransfer.items[0].getAsFile();
               if (file) {
-                const isPng = file.name.toLowerCase().includes('.png');
-                const isJpg = file.name.toLowerCase().includes('.jpg');
-                const isJpeg = file.name.toLowerCase().includes('.jpeg');
-                const isWebp = file.name.toLowerCase().includes('.webp');
-
-                if (!isPng && !isJpg && !isJpeg && !isWebp) {
-                  toast.error('Only PNG, WEBP or JPEG files are allowed');
+                if (!isImageExtensionValid(file)) {
+                  toast.warning('Only PNG, WEBP or JPEG files are allowed');
                   return;
                 } else {
                   setImage(file);
@@ -102,7 +116,7 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
               inheritColor={true}
             />
             <p className="color-slate-400 text-lg leading-5 mt-2">
-              JPEG or PNG, Max. 50Mb
+              JPEG or PNG, Max. {frontendConfig.maxFileSize / 1024 / 1024}MB
             </p>
           </div>
         </div>
@@ -114,7 +128,12 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
           onSuccess={(imageFile) => {
             if (imageFile) {
               // @ts-ignore
-              setImage(imageFile);
+              if (!isImageExtensionValid(imageFile)) {
+                toast.warning('Only PNG, WEBP or JPEG files are allowed');
+              } else {
+                // @ts-ignore
+                setImage(imageFile);
+              }
             }
           }}
         />
@@ -129,7 +148,7 @@ const ImageUploader = ({ onCancel, onSuccess }: IProps) => {
           onCustomClick={onCancel}
         />
         <Button
-          disabled={!image}
+          disabled={!image || isTooLarge}
           fitParent={true}
           type={EButtonTypes.SECONDARY}
           icon={EIConTypes.CHECKMARK}

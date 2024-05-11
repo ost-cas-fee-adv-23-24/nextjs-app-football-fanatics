@@ -71,3 +71,9 @@ export interface IGetPostsParams {
   tags?: string[];
   mumbleNextUrl?: string;
 }
+
+export interface IServerActionResponse<T> {
+  status: 'success' | 'error';
+  message?: string;
+  data?: T;
+}
