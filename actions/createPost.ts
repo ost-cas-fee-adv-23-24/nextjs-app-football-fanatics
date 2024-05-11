@@ -9,6 +9,7 @@ import {
   IPostItem,
   IServerActionResponse,
 } from '@/utils/interfaces/mumblePost.interface';
+import { EResponseMumbleStatus } from '@/utils/enums/general.enum';
 
 export const createPost = async (
   formData: FormData,
@@ -30,8 +31,11 @@ export const createPost = async (
     if (revalidationsPath) {
       revalidatePath(revalidationsPath);
     }
-    return { status: 'success', data: responseService };
+    return { status: EResponseMumbleStatus.SUCCESS, data: responseService };
   } catch (error) {
-    return { status: 'error', message: (error as Error).message };
+    return {
+      status: EResponseMumbleStatus.ERROR,
+      message: (error as Error).message,
+    };
   }
 };

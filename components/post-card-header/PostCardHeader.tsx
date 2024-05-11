@@ -65,8 +65,9 @@ export const PostCardHeader = ({
             />
           </Link>
         )}
-        <div className="grow">
+        <div className="grow text-slate-900">
           <Paragraph
+            inheritColor={true}
             size={EParagraphSizes.MEDIUM}
             text={
               identifier === creator.id

@@ -22,6 +22,7 @@ export interface IPostsProviderContextData {
   dispatchPosts: Dispatch<{ type: EPostsActions; payload: any }>;
   fetchPostsBatch: (options: IFetchPostsBatchArgs) => void;
   restartFeedAuthorized: (userIdentifier: string, creators: string[]) => void;
+  restartFeedAuthorizedLikes: (userIdentifier: string) => void;
 }
 
 export interface IFetchPostsBatchArgs {
