@@ -64,8 +64,14 @@ export const PostEditorHeader = ({
         )}
         <div className="grow">
           {title || subTitle ? (
-            <div className="mb-6 text-slate-600">
-              {title && <Paragraph size={EParagraphSizes.LARGE} text={title} />}
+            <div className="mb-6 text-slate-900">
+              {title && (
+                <Paragraph
+                  size={EParagraphSizes.LARGE}
+                  text={title}
+                  inheritColor={true}
+                />
+              )}
               {subTitle && (
                 <div className="flex items-center mt-2">
                   <Paragraph
