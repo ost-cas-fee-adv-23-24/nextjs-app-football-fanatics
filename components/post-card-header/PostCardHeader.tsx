@@ -42,7 +42,7 @@ export const PostCardHeader = ({
   return (
     <div className="relative">
       {useAvatarPositionFloating && (
-        <div className="absolute left-[-85px]">
+        <div className="absolute left-[-85px] top-[-8px]">
           <Link
             href={`/profiles/${creator.id}`}
             aria-label={`more of this user ${creator.username || ''} here`}
