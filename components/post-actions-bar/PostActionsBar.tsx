@@ -8,20 +8,36 @@ import {
   ToggleGeneric,
   ToggleLike,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import { useEffect, useState } from 'react';
 
-import { deletePost } from '@/actions/deletePost';
 import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
 import DialogLogin from '@/components/dialog-login/DialogLogin';
+import { deletePost } from '@/actions/deletePost';
+
 import useLayout from '@/hooks/useLayout';
 import usePosts from '@/hooks/usePosts';
 import useUserInfo from '@/hooks/useUserInfo';
 import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+import { PostEditor } from '@/components/post-editor/PostEditor';
+import { IPostItem, IPostReply } from '@/utils/interfaces/mumblePost.interface';
 import { ELikeToggleType, EPostsActions } from '@/stores/Posts.context';
-import { POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_PLURAL, POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_SINGULAR, POST_ACTIONS_BAR_COPY_LINK_BUTTON_LABEL, POST_ACTIONS_BAR_DELETE_BUTTON_LABEL, POST_ACTIONS_BAR_DELETE_BUTTON_LABEL_ACTIVE, POST_ACTIONS_BAR_DELETE_BUTTON_NAME, POST_ACTIONS_BAR_DELETE_TITLE_TEXT, POST_ACTIONS_BAR_DIALOG_LOGIN_MESSAGE, POST_ACTIONS_BAR_LIKED_BUTTON_LABEL, POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_PLURAL, POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_SINGULAR, POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL } from '@/utils/constants';
+import {
+  POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_PLURAL,
+  POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_SINGULAR,
+  POST_ACTIONS_BAR_COPY_LINK_BUTTON_LABEL,
+  POST_ACTIONS_BAR_DELETE_BUTTON_LABEL,
+  POST_ACTIONS_BAR_DELETE_BUTTON_LABEL_ACTIVE,
+  POST_ACTIONS_BAR_DELETE_BUTTON_NAME,
+  POST_ACTIONS_BAR_DELETE_TITLE_TEXT,
+  POST_ACTIONS_BAR_DIALOG_LOGIN_MESSAGE,
+  POST_ACTIONS_BAR_LIKED_BUTTON_LABEL,
+  POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_PLURAL,
+  POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_SINGULAR,
+  POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL,
+} from '@/utils/constants';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
 
 interface IProps {
   amountLikes: number;
@@ -32,6 +48,8 @@ interface IProps {
   revalidationPath?: string;
   renderedInLikeFeed?: boolean;
   parentIdentifier?: string;
+  postData: IPostItem | IPostReply;
+  serverRendered?: boolean;
 }
 
 const PostActionsBar = ({
@@ -43,12 +61,15 @@ const PostActionsBar = ({
   revalidationPath,
   renderedInLikeFeed = false,
   parentIdentifier,
+  postData,
+  serverRendered = false,
 }: IProps) => {
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
   const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
-  const { dispatchLayout, closeModal } = useLayout();
-  const { dispatchPosts } = usePosts();
+  const { dispatchLayout, closeModal, currentTabProfile } = useLayout();
+  const { dispatchPosts, restartFeedAuthorized, restartFeedAuthorizedLikes } =
+    usePosts();
   const notify = () => {
     toast(
       <DialogLogin
@@ -114,7 +135,11 @@ const PostActionsBar = ({
             }
           }}
           effectDuration={!isLoggedIn ? 0 : 1000}
-          labelLiked={selfLiked ? POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL : POST_ACTIONS_BAR_LIKED_BUTTON_LABEL}
+          labelLiked={
+            selfLiked
+              ? POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL
+              : POST_ACTIONS_BAR_LIKED_BUTTON_LABEL
+          }
           labelSingular={POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_SINGULAR}
           labelPlural={POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_PLURAL}
           amount={amountLikes}
@@ -150,7 +175,9 @@ const PostActionsBar = ({
         />
       </div>
       {creatorIdentifier === userIdentifier ? (
-        <div>
+        <div
+          className={creatorIdentifier === userIdentifier ? 'mb-4 sm:mb-0' : ''}
+        >
           <ToggleGeneric
             icon={EIConTypes.CANCEL}
             label={POST_ACTIONS_BAR_DELETE_BUTTON_LABEL}
@@ -177,6 +204,52 @@ const PostActionsBar = ({
                         });
                         closeModal();
                         router.refresh();
+                      }}
+                    />
+                  ),
+                },
+              });
+            }}
+          />
+        </div>
+      ) : null}
+      {creatorIdentifier === userIdentifier ? (
+        <div>
+          <ToggleGeneric
+            icon={EIConTypes.EDIT}
+            label="Edit"
+            labelActive="Editing"
+            effectDuration={0}
+            customClickEvent={async () => {
+              const isReply = (postData as IPostReply).parentId;
+              // post full is rendered in the server.
+              // feeds are rendered in the client.
+              const redirectionPath = isReply
+                ? `/posts/${identifier}`
+                : `/posts/${(postData as IPostReply).parentId}#${identifier}`;
+
+              dispatchLayout({
+                type: ELayoutActions.SET_OVERLAY_CONTENT,
+                payload: {
+                  overlayTitle: 'Post Editor',
+                  overlayContent: (
+                    <PostEditor
+                      postData={postData}
+                      revalidationsPath={
+                        serverRendered ? redirectionPath : undefined
+                      }
+                      isFeedPage={false}
+                      useFloatingAvatar={false}
+                      identifier={identifier}
+                      onNewPost={() => {
+                        closeModal();
+                        if (!serverRendered) {
+                          if (currentTabProfile === 1) {
+                            restartFeedAuthorizedLikes(creatorIdentifier);
+                          } else {
+                            restartFeedAuthorized(creatorIdentifier);
+                          }
+                        }
                       }}
                     />
                   ),

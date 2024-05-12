@@ -10,6 +10,7 @@ export interface IMumbleServiceRequestParams {
   headers?: any;
   expectedBack?: 'json' | 'text' | 'empty';
   ttl?: number;
+  forceNoCache?: boolean;
 }
 
 interface IRequestOptions {
@@ -38,6 +39,10 @@ export class MumbleService {
         headers.append('Content-type', 'application/json');
         return headers;
       case EApiMethods.PUT:
+      case EApiMethods.PATCH:
+        headers.append('Content-type', 'application/json');
+        headers.append('Accept', '*/*');
+        return headers;
       case EApiMethods.POST:
         headers.append(
           'Content-type',
@@ -60,6 +65,7 @@ export class MumbleService {
     headers,
     expectedBack = 'json',
     ttl,
+    forceNoCache,
   }: IMumbleServiceRequestParams) {
     try {
       const options: IRequestOptions = {
@@ -72,6 +78,10 @@ export class MumbleService {
 
       if (ttl) {
         options.next = { revalidate: ttl };
+      }
+
+      if (forceNoCache) {
+        options.next = { cache: 'no-store' };
       }
 
       // to be able to use the next property in the  mumble response
@@ -89,7 +99,12 @@ export class MumbleService {
         (message === 'Creating post' || message === 'Uploading avatar')
       ) {
         throw new Error(`Media size exceeded the limit`);
+      } else if (response.status === 404) {
+        throw new Error(`Resource not found`);
+      } else if (response.status === 415) {
+        throw new Error(`Not Supported media`);
       }
+
       if (expectedBack === 'json') return await response.json();
       if (expectedBack === 'text') return await response.text();
       if (expectedBack === 'empty') return response;

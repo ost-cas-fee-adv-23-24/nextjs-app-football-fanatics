@@ -29,6 +29,7 @@ const PostFeed = async ({ data }: IProps) => {
         />
         <div className="mt-3 ml-[-12px]">
           <PostActionsBar
+            postData={post}
             creatorIdentifier={post.creator.id}
             identifier={post.id}
             amountLikes={post.likes}

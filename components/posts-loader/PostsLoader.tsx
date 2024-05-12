@@ -1,7 +1,6 @@
 'use client';
 import React, { useCallback, useEffect, useRef } from 'react';
 import usePosts from '@/hooks/usePosts';
-import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { Post } from '@/components/post/Post';
 import useBreakpoints from '@/hooks/useBreakpoints';
@@ -24,7 +23,7 @@ const PostsLoader = ({
     isLoading,
     posts,
     nextMumblePostsUrl,
-    dispatchPosts,
+    disconnectFeedPosts,
     fetchPostsBatch,
   } = usePosts();
   const { isBpMDDown } = useBreakpoints();
@@ -38,10 +37,7 @@ const PostsLoader = ({
       isLikes,
     });
     return () => {
-      dispatchPosts({
-        type: EPostsActions.RESET,
-        payload: null,
-      });
+      disconnectFeedPosts();
     };
     // needs to run only one time. so, no dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps

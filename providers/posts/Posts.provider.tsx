@@ -217,16 +217,16 @@ export const PostsProvider = ({ children }: IProps) => {
   };
 
   const restartFeedAuthorized = useCallback(
-    async (userIdentifier: string, creators: string[]) => {
+    async (userIdentifier: string, creators?: string[]) => {
       await fetchPostsBatch({
         userIdentifier,
-        creators,
+        creators: creators ? creators : state.creators,
         subscribeToNewestPost: true,
         fetchOnlyOneBatch: false,
         isLikes: false,
       });
     },
-    [fetchPostsBatch],
+    [fetchPostsBatch, state.creators],
   );
 
   const restartFeedAuthorizedLikes = useCallback(
@@ -242,9 +242,20 @@ export const PostsProvider = ({ children }: IProps) => {
     [fetchPostsBatch, state.creators],
   );
 
+  const disconnectFeedPosts = useCallback(() => {
+    dispatch({
+      type: EPostsActions.RESET,
+      payload: null,
+    });
+    if (interval.current) {
+      clearInterval(interval.current);
+    }
+  }, []);
+
   return (
     <PostsContext.Provider
       value={{
+        disconnectFeedPosts,
         restartFeedAuthorized,
         restartFeedAuthorizedLikes,
         nextMumblePostsUrl: state.nextMumblePostsUrl,

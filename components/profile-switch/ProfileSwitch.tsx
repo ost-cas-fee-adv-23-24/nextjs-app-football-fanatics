@@ -24,6 +24,15 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
   const { currentTabProfile, dispatchLayout } = useLayout();
 
   useEffect(() => {
+    return () => {
+      dispatchLayout({
+        type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+        payload: 0,
+      });
+    };
+  }, [dispatchLayout]);
+
+  useEffect(() => {
     let redirectUrl = `/profiles/${userIdentifier}`;
     switch (currentTabProfile) {
       case 0:

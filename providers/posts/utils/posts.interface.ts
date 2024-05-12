@@ -21,8 +21,9 @@ export interface IPostsProviderContextData {
   nextMumblePostsUrl: string | null;
   dispatchPosts: Dispatch<{ type: EPostsActions; payload: any }>;
   fetchPostsBatch: (options: IFetchPostsBatchArgs) => void;
-  restartFeedAuthorized: (userIdentifier: string, creators: string[]) => void;
+  restartFeedAuthorized: (userIdentifier: string, creators?: string[]) => void;
   restartFeedAuthorizedLikes: (userIdentifier: string) => void;
+  disconnectFeedPosts: () => void;
 }
 
 export interface IFetchPostsBatchArgs {

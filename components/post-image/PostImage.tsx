@@ -8,24 +8,65 @@ import {
   ELayoutActions,
   EOverlayKind,
 } from '@/providers/layout/utils/enums/layout.enum';
+import useUserInfo from '@/hooks/useUserInfo';
+import ImageUpdater from '@/components/image-updater/ImageUpdater';
+import { toast } from 'react-toastify';
+import usePosts from '@/hooks/usePosts';
 
 interface IProps {
   src: string;
   alt: string;
+  creatorIdentifier?: string;
+  postIdentifier?: string;
+  serverRendered?: boolean;
 }
 
-const PostImage = ({ src, alt }: IProps) => {
+const PostImage = ({
+  src,
+  alt,
+  creatorIdentifier,
+  postIdentifier,
+  serverRendered = false,
+}: IProps) => {
   const [loaded, setLoaded] = React.useState(false);
   const imageTransition = 'transition-opacity duration-200';
 
-  const { dispatchLayout } = useLayout();
+  const { dispatchLayout, closeModal, currentTabProfile } = useLayout();
+  const { restartFeedAuthorized, restartFeedAuthorizedLikes } = usePosts();
+  const { identifier } = useUserInfo();
   return (
-    <div className="relative">
+    <div className="relative rounded-lg overflow-hidden">
       <div
         className={`${loaded ? '-z-10 opacity-0' : 'z-10 opacity-100'} absolute top-0 left-0 right-0 bottom-0 mumble-image ${imageTransition}`}
       >
         <PostImagePlaceholder text="loading..." pulse={true} />
       </div>
+      {creatorIdentifier === identifier && postIdentifier && (
+        <ImageUpdater
+          postIdentifier={postIdentifier}
+          serverRendered={serverRendered}
+          onSuccess={(newImage: string) => {
+            closeModal();
+            if (serverRendered) {
+              window.location.reload();
+            } else {
+              if (currentTabProfile === 0 && creatorIdentifier) {
+                restartFeedAuthorized(creatorIdentifier, [creatorIdentifier]);
+              } else if (currentTabProfile === 1 && creatorIdentifier) {
+                restartFeedAuthorizedLikes(creatorIdentifier);
+              }
+              toast.success('Image updated');
+            }
+          }}
+          onError={(message) => {
+            closeModal();
+            toast.error(message);
+          }}
+          onCanceled={() => {
+            closeModal();
+          }}
+        />
+      )}
       <div
         className={`group ${loaded ? 'opacity-100' : 'opacity-0'} rounded-2xl relative h-0 overflow-hidden cursor-pointer mumble-image ${imageTransition}`}
         onClick={(evt) => {
@@ -50,6 +91,7 @@ const PostImage = ({ src, alt }: IProps) => {
             <Icon type={EIConTypes.FULL_SCREEN} fitParent={true} />{' '}
           </div>
         </div>
+
         <ImageNext
           onLoad={() => {
             setLoaded(true);

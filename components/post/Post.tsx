@@ -36,6 +36,7 @@ export const Post = ({
       />
       <div className="mt-4 ml-[-12px]">
         <PostActionsBar
+          postData={postData}
           renderedInLikeFeed={renderedInLikeFeed}
           revalidationPath={revalidationPath}
           creatorIdentifier={postData.creator.id}

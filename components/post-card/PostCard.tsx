@@ -9,6 +9,8 @@ import PostText from '@/components/post-text/PostText';
 
 interface IProps extends IPostItemBase {
   useFloatingAvatar?: boolean;
+  serverRendered?: boolean;
+  revalidationsPath?: string;
 }
 
 export const PostCard = ({
@@ -18,6 +20,7 @@ export const PostCard = ({
   creator,
   id,
   useFloatingAvatar = false,
+  serverRendered = false,
 }: IProps) => {
   return (
     <div className="post-card">
@@ -32,10 +35,16 @@ export const PostCard = ({
 
       {mediaUrl && (
         <div className="mt-4">
-          {[EMediaTypes.IMAGE, EMediaTypes.PNG].includes(
+          {[EMediaTypes.IMAGE, EMediaTypes.PNG, EMediaTypes.WEBP].includes(
             mediaType as EMediaTypes,
           ) ? (
-            <PostImage src={mediaUrl} alt={text} /> // no image title :-(
+            <PostImage
+              serverRendered={serverRendered}
+              postIdentifier={id}
+              src={mediaUrl}
+              alt={text}
+              creatorIdentifier={creator.id}
+            /> // no image title :-(
           ) : null}
         </div>
       )}

@@ -1,6 +1,7 @@
 export enum EMediaTypes {
   IMAGE = 'image/jpeg',
   PNG = 'image/png',
+  WEBP = 'image/webp',
 }
 
 export enum EEnvironments {
@@ -12,6 +13,7 @@ export enum EEnvironments {
 
 export enum EApiMethods {
   GET = 'GET',
+  PATCH = 'PATCH',
   POST = 'POST',
   PUT = 'PUT',
   DELETE = 'DELETE',

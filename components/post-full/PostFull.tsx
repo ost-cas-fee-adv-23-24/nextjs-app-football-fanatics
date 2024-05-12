@@ -21,6 +21,7 @@ export const PostFull = ({
     <div data-post-identifier={postData.id}>
       <div className="bg-white py-8 px-12 relative rounded-t-2xl">
         <PostCard
+          serverRendered={true}
           useFloatingAvatar={true}
           text={postData.text}
           id={postData.id}
@@ -34,6 +35,8 @@ export const PostFull = ({
 
         <div className="mt-4">
           <PostActionsBar
+            serverRendered={true}
+            postData={postData}
             revalidationPath={revalidationPath}
             creatorIdentifier={postData.creator.id}
             identifier={postData.id}
@@ -67,6 +70,7 @@ export const PostFull = ({
               >
                 <div className={`py-8 px-12 relative`}>
                   <PostCard
+                    serverRendered={true}
                     text={dataReply.text}
                     id={dataReply.id}
                     likedBySelf={dataReply.likedBySelf}
@@ -80,6 +84,8 @@ export const PostFull = ({
                   <div className="mt-4 mb-4 ml-[-12px]">
                     {/*We cannot reply to replies  API does not allow it*/}
                     <PostActionsBar
+                      serverRendered={true}
+                      postData={dataReply}
                       revalidationPath={revalidationPath}
                       parentIdentifier={postData.id}
                       creatorIdentifier={dataReply.creator.id}
