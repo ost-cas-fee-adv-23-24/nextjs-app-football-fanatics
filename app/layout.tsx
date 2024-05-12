@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';
 import { SessionProvider } from 'next-auth/react';
 
 import { UserInfoProvider } from '@/providers/UserInfo.provider';
 
-const inter = Inter({ subsets: ['latin'] });
 import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -35,8 +33,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} h-screen`}>
+    <html lang="en" suppressHydrationWarning className="font-poppins">
+      <body className={`h-screen`}>
         <SessionProvider>
           <UserInfoProvider>
             <BreakpointsProvider>
