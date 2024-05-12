@@ -1,5 +1,4 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import {
   Button,
   ButtonTimed,
@@ -9,18 +8,20 @@ import {
   ToggleGeneric,
   ToggleLike,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
-import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
-import useUserInfo from '@/hooks/useUserInfo';
-import { toast } from 'react-toastify';
-import DialogLogin from '@/components/dialog-login/DialogLogin';
-import { signIn } from 'next-auth/react';
 import { deletePost } from '@/actions/deletePost';
+import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
+import DialogLogin from '@/components/dialog-login/DialogLogin';
 import useModal from '@/hooks/useModal';
-import { EModalActions } from '@/stores/Modal.context';
 import usePosts from '@/hooks/usePosts';
+import useUserInfo from '@/hooks/useUserInfo';
+import { EModalActions } from '@/stores/Modal.context';
 import { ELikeToggleType, EPostsActions } from '@/stores/Posts.context';
+import { POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_PLURAL, POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_SINGULAR, POST_ACTIONS_BAR_COPY_LINK_BUTTON_LABEL, POST_ACTIONS_BAR_DIALOG_LOGIN_MESSAGE, POST_ACTIONS_BAR_LIKED_BUTTON_LABEL, POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_PLURAL, POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_SINGULAR, POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL } from '@/utils/constants';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 interface IProps {
   amountLikes: number;
@@ -52,7 +53,7 @@ const PostActionsBar = ({
     toast(
       <DialogLogin
         labelButton="Login"
-        message="You need to be logged in to like a post"
+        message={POST_ACTIONS_BAR_DIALOG_LOGIN_MESSAGE}
         icon={EIConTypes.PROFILE}
         customClick={() => {
           signIn('zitadel', { callbackUrl: '/' });
@@ -113,17 +114,17 @@ const PostActionsBar = ({
             }
           }}
           effectDuration={!isLoggedIn ? 0 : 1000}
-          labelLiked={selfLiked ? 'Unliked' : 'Liked'}
-          labelSingular="Like"
-          labelPlural="Likes"
+          labelLiked={selfLiked ? POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL : POST_ACTIONS_BAR_LIKED_BUTTON_LABEL}
+          labelSingular={POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_SINGULAR}
+          labelPlural={POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_PLURAL}
           amount={amountLikes}
         />
       </div>
       {parentIdentifier ? null : (
         <div className="mb-4 sm:mb-0">
           <ToggleComment
-            labelSingular="Comment"
-            labelPlural="Comments"
+            labelSingular={POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_SINGULAR}
+            labelPlural={POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_PLURAL}
             amount={amountComments}
             customClickEvent={() => {
               // we could use the linkNext but the missing display set to flex or inline-block
@@ -145,7 +146,7 @@ const PostActionsBar = ({
           onCopyError={(errorMessage) => {
             console.log(errorMessage);
           }}
-          label="Copy Link"
+          label={POST_ACTIONS_BAR_COPY_LINK_BUTTON_LABEL}
         />
       </div>
       {creatorIdentifier === userIdentifier ? (

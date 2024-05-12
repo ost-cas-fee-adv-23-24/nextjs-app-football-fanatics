@@ -1,5 +1,6 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import useUserInfo from '@/hooks/useUserInfo';
+import { USER_SETTINGS_HEADING_TEXT } from '@/utils/constants';
 import {
   Button,
   EButtonTypes,
@@ -10,8 +11,7 @@ import {
   Heading,
   InputFieldGroup,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import useUserInfo from '@/hooks/useUserInfo';
-import useBreakpoints from '@/hooks/useBreakpoints';
+import { useEffect, useState } from 'react';
 
 export interface INewUserSettings {
   firstName: string;
@@ -42,7 +42,7 @@ const UserSettings = ({ onClose, onSave }: IProps) => {
 
   return (
     <div className="global-width flex flex-col gap-4">
-      <Heading level={ETypographyLevels.FOUR} text="Personal settings" />
+      <Heading level={ETypographyLevels.FOUR} text={USER_SETTINGS_HEADING_TEXT} />
       <InputFieldGroup
         notifyValueChange={(newText) => {
           setFirstNameIntern(newText);

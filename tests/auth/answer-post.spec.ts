@@ -1,3 +1,4 @@
+import { POST_ACTIONS_BAR_DELETE_TITLE_TEXT, POST_EDITOR_PICTURE_UPLOAD_BUTTON_LABEL, POST_EDITOR_SEND_BUTTON_LABEL } from "@/utils/constants";
 import { expect, test } from "@playwright/test";
 
 const randomNumber = Math.floor(Math.random() * 1000).toString();
@@ -8,20 +9,20 @@ test("should create and delete a reply to a post", async ({ page }) => {
   await page.getByRole('button', { name: 'Comment' }).first().click();
 
   await expect(page).toHaveURL(/\/posts\/[A-Z0-9]+/);
-  await expect(page.getByText('Picture Upload')).toBeVisible();
+  await expect(page.getByText(POST_EDITOR_PICTURE_UPLOAD_BUTTON_LABEL)).toBeVisible();
 
-  await page.getByLabel('Send').isDisabled();
+  await page.getByLabel(POST_EDITOR_SEND_BUTTON_LABEL).isDisabled();
   await page.getByPlaceholder('What is your opinion about').fill(replyContent);
-  await page.getByLabel('Send').isEnabled();
-  await page.getByLabel('Send').click();
+  await page.getByLabel(POST_EDITOR_SEND_BUTTON_LABEL).isEnabled();
+  await page.getByLabel(POST_EDITOR_SEND_BUTTON_LABEL).click();
 
   await expect(page.getByText(replyContent, { exact: true }), "reply should be created").toBeDefined();
 
   await page.getByRole('button', { name: 'Delete Deleted' }).last().click();
-  await page.getByRole('heading', { name: 'Delete Post?' }).isVisible();
+  await page.getByRole('heading', { name: POST_ACTIONS_BAR_DELETE_TITLE_TEXT }).isVisible();
   await page.getByLabel('Delete').click({ force: true });
 
-  await expect(page.getByRole('heading', { name: 'Delete Post?' })).not.toBeVisible();
+  await expect(page.getByRole('heading', { name: POST_ACTIONS_BAR_DELETE_TITLE_TEXT })).not.toBeVisible();
   await expect(page.getByText(replyContent), "reply should be deleted").not.toBeVisible();
 });
 

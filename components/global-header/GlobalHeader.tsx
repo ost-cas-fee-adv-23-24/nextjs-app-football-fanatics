@@ -1,5 +1,9 @@
 'use client';
-import React from 'react';
+import UserSettings from '@/components/user-settings/UserSettings';
+import useModal from '@/hooks/useModal';
+import useUserInfo from '@/hooks/useUserInfo';
+import { EModalActions } from '@/stores/Modal.context';
+import { GLOBAL_HEADER_LOGIN_BUTTON_LABEL, GLOBAL_HEADER_LOGOUT_BUTTON_LABEL } from '@/utils/constants';
 import {
   Avatar,
   ButtonMenu,
@@ -10,12 +14,8 @@ import {
   Icon,
   Logo,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import Link from 'next/link';
 import { signIn, signOut } from 'next-auth/react';
-import useUserInfo from '@/hooks/useUserInfo';
-import useModal from '@/hooks/useModal';
-import { EModalActions } from '@/stores/Modal.context';
-import UserSettings from '@/components/user-settings/UserSettings';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 
 
@@ -76,7 +76,7 @@ export const GlobalHeader = () => {
             />
             <ButtonMenu
               name="logout"
-              label="Logout"
+              label={GLOBAL_HEADER_LOGOUT_BUTTON_LABEL}
               icon={EIConTypes.LOGOUT}
               onCustomClick={() => {
                 signOut();
@@ -91,7 +91,7 @@ export const GlobalHeader = () => {
             <div className="w-[94.6px] h-[54px]" />
             <ButtonMenu
               name="login"
-              label="Login"
+              label={GLOBAL_HEADER_LOGIN_BUTTON_LABEL}
               icon={EIConTypes.LOGOUT}
               onCustomClick={() => {
                 signIn('zitadel', { callbackUrl: '/' });
