@@ -21,7 +21,6 @@ export const PostCard = ({
   id,
   useFloatingAvatar = false,
   serverRendered = false,
-  revalidationsPath,
 }: IProps) => {
   return (
     <div className="post-card">

@@ -63,18 +63,7 @@ const ImageUpdater = ({
         });
       }}
     >
-      <div
-        className="absolute h-10 w-10 bg-slate-200 z-30 cursor-pointer"
-        style={{
-          top: -10,
-          left: -28,
-          borderTop: '0 solid transparent',
-          borderRight: '50px solid transparent',
-          borderBottom: '50 solid transparent',
-          borderLeft: '50px solid transparent',
-          transform: 'rotate(315deg)',
-        }}
-      />
+      <div className="absolute h-10 w-10 bg-slate-200 z-30 cursor-pointer top-[-10px] left-[-28px] border-transparent border-t-0 border-b-[50px] border-x-[50px] rotate-[315px]" />
       <div
         className="absolute w-5 h-5 text-violet-600 top-2 left-2 cursor-pointer"
         style={{ zIndex: 100 }}

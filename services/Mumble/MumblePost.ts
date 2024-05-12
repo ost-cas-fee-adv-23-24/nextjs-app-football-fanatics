@@ -129,7 +129,7 @@ export class MumblePostService extends MumbleService {
         path: `${EEndpointsBackend.POSTS}/${postIdentifier}`,
         token,
         message: 'Updating post',
-        expectedBack: 'text', // do we need this?
+        expectedBack: 'text',
         data: JSON.stringify({ text }),
         headers: {
           Authorization: `Bearer ${token}`,
