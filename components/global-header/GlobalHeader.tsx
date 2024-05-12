@@ -1,8 +1,6 @@
 'use client';
 import UserSettings from '@/components/user-settings/UserSettings';
-import useModal from '@/hooks/useModal';
 import useUserInfo from '@/hooks/useUserInfo';
-import { EModalActions } from '@/stores/Modal.context';
 import { GLOBAL_HEADER_LOGIN_BUTTON_LABEL, GLOBAL_HEADER_LOGOUT_BUTTON_LABEL } from '@/utils/constants';
 import {
   Avatar,
@@ -18,11 +16,14 @@ import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 
+import useLayout from '@/hooks/useLayout';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+
 
 
 export const GlobalHeader = () => {
   const { avatarUrl, identifier } = useUserInfo();
-  const { dispatchModal, closeModal } = useModal();
+  const { dispatchLayout, closeModal } = useLayout();
 
   return (
     <div className="flex justify-between items-center">
@@ -50,11 +51,11 @@ export const GlobalHeader = () => {
               icon={EIConTypes.SETTINGS}
               name="settings"
               onCustomClick={() => {
-                dispatchModal({
-                  type: EModalActions.SET_CONTENT,
+                dispatchLayout({
+                  type: ELayoutActions.SET_OVERLAY_CONTENT,
                   payload: {
-                    title: 'Settings',
-                    content: (
+                    overlayTitle: 'Settings',
+                    overlayContent: (
                       <UserSettings
                         onClose={closeModal}
                         onSave={(options) => {

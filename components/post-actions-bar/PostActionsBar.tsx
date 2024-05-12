@@ -13,10 +13,10 @@ import { useEffect, useState } from 'react';
 import { deletePost } from '@/actions/deletePost';
 import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
 import DialogLogin from '@/components/dialog-login/DialogLogin';
-import useModal from '@/hooks/useModal';
+import useLayout from '@/hooks/useLayout';
 import usePosts from '@/hooks/usePosts';
 import useUserInfo from '@/hooks/useUserInfo';
-import { EModalActions } from '@/stores/Modal.context';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
 import { ELikeToggleType, EPostsActions } from '@/stores/Posts.context';
 import { POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_PLURAL, POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_SINGULAR, POST_ACTIONS_BAR_COPY_LINK_BUTTON_LABEL, POST_ACTIONS_BAR_DIALOG_LOGIN_MESSAGE, POST_ACTIONS_BAR_LIKED_BUTTON_LABEL, POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_PLURAL, POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_SINGULAR, POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL } from '@/utils/constants';
 import { signIn } from 'next-auth/react';
@@ -47,7 +47,7 @@ const PostActionsBar = ({
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
   const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
-  const { dispatchModal, closeModal } = useModal();
+  const { dispatchLayout, closeModal } = useLayout();
   const { dispatchPosts } = usePosts();
   const notify = () => {
     toast(
@@ -157,11 +157,11 @@ const PostActionsBar = ({
             labelActive="Deleted"
             effectDuration={0}
             customClickEvent={async () => {
-              dispatchModal({
-                type: EModalActions.SET_CONTENT,
+              dispatchLayout({
+                type: ELayoutActions.SET_OVERLAY_CONTENT,
                 payload: {
-                  title: 'Delete Post?',
-                  content: (
+                  overlayTitle: 'Delete Post?',
+                  overlayContent: (
                     <Button
                       name="delete-post"
                       icon={EIConTypes.EDIT}

@@ -82,16 +82,20 @@ export class MumbleService {
       const response = await fetch(`${requestUrl}`, options);
 
       if (response.status === 401) {
-        throw new Error(`Unauthorized`);
-      } else if (response.status === 400) {
-        throw new Error(`limit exceeded`);
+        throw new Error(`Unauthorized, Token was not found or expired`);
+        // pretty ugly to check the message here
+      } else if (
+        response.status === 400 &&
+        (message === 'Creating post' || message === 'Uploading avatar')
+      ) {
+        throw new Error(`Media size exceeded the limit`);
       }
       if (expectedBack === 'json') return await response.json();
       if (expectedBack === 'text') return await response.text();
       if (expectedBack === 'empty') return response;
     } catch (error) {
       console.log(error);
-      throw new Error(`Error while ${message} --> ${(error as Error).message}`);
+      throw new Error(`Error while ${message} | ${(error as Error).message}`);
     }
   }
 }

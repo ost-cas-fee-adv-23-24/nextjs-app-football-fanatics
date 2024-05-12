@@ -1,10 +1,13 @@
 'use client';
 import React from 'react';
 import { EIConTypes, Icon } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import useModal from '@/hooks/useModal';
-import { EModalActions } from '@/stores/Modal.context';
 import ImageNext from 'next/image';
 import { PostImagePlaceholder } from '@/components/placeholders/PostImagePlaceholder';
+import useLayout from '@/hooks/useLayout';
+import {
+  ELayoutActions,
+  EOverlayKind,
+} from '@/providers/layout/utils/enums/layout.enum';
 
 interface IProps {
   src: string;
@@ -15,7 +18,7 @@ const PostImage = ({ src, alt }: IProps) => {
   const [loaded, setLoaded] = React.useState(false);
   const imageTransition = 'transition-opacity duration-200';
 
-  const { dispatchModal } = useModal();
+  const { dispatchLayout } = useLayout();
   return (
     <div className="relative">
       <div
@@ -27,12 +30,12 @@ const PostImage = ({ src, alt }: IProps) => {
         className={`group ${loaded ? 'opacity-100' : 'opacity-0'} rounded-2xl relative h-0 overflow-hidden cursor-pointer mumble-image ${imageTransition}`}
         onClick={(evt) => {
           evt.currentTarget.blur();
-          dispatchModal({
-            type: EModalActions.SET_CONTENT,
+          dispatchLayout({
+            type: ELayoutActions.SET_OVERLAY_CONTENT,
             payload: {
-              title: alt || 'Image no alt defined',
-              fullWidth: true,
-              content: (
+              overlayTitle: alt || 'Image no alt defined',
+              overlayKind: EOverlayKind.FULL_WIDTH,
+              overlayContent: (
                 <div className="global-width mx-auto">
                   {/*aspect 17:8 (mumble image)*/}
                   <ImageNext src={src} alt={alt} width={1280} height={602.35} />

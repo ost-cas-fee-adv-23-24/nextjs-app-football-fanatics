@@ -1,4 +1,4 @@
-import { EMediaTypes } from '@/utils/enums/general.enum';
+import { EMediaTypes, EResponseMumbleStatus } from '@/utils/enums/general.enum';
 
 // response mumble api
 export interface IPostItemBase {
@@ -70,4 +70,10 @@ export interface IGetPostsParams {
   creators?: string[];
   tags?: string[];
   mumbleNextUrl?: string;
+}
+
+export interface IServerActionResponse<T> {
+  status: EResponseMumbleStatus;
+  message?: string;
+  data?: T;
 }

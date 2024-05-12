@@ -42,7 +42,7 @@ export const PostCardHeader = ({
   return (
     <div className="relative">
       {useAvatarPositionFloating && (
-        <div className="absolute left-[-85px]">
+        <div className="absolute left-[-85px] top-[-8px]">
           <Link
             href={`/profiles/${creator.id}`}
             aria-label={`more of this user ${creator.username || ''} here`}
@@ -65,8 +65,9 @@ export const PostCardHeader = ({
             />
           </Link>
         )}
-        <div className="grow">
+        <div className="grow text-slate-900">
           <Paragraph
+            inheritColor={true}
             size={EParagraphSizes.MEDIUM}
             text={
               identifier === creator.id

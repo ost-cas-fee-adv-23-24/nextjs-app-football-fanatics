@@ -5,8 +5,15 @@ import mumblePostService from '@/services/Mumble/MumblePost';
 
 import { revalidatePath } from 'next/cache';
 import { redirect, RedirectType } from 'next/navigation';
+import {
+  IPostItem,
+  IServerActionResponse,
+} from '@/utils/interfaces/mumblePost.interface';
+import { EResponseMumbleStatus } from '@/utils/enums/general.enum';
 
-export const createPost = async (formData: FormData) => {
+export const createPost = async (
+  formData: FormData,
+): Promise<IServerActionResponse<IPostItem>> => {
   const session = await auth();
 
   if (!session) {
@@ -17,15 +24,18 @@ export const createPost = async (formData: FormData) => {
   try {
     const revalidationsPath = formData.get('revalidationsPath') as string;
     formData.delete('revalidationsPath');
-    await mumblePostService.createPost({
+    const responseService = await mumblePostService.createPost({
       token: session.accessToken,
       formData,
     });
     if (revalidationsPath) {
       revalidatePath(revalidationsPath);
     }
+    return { status: EResponseMumbleStatus.SUCCESS, data: responseService };
   } catch (error) {
-    console.log(`Error creating post. ${(error as Error).message}`);
-    redirect('/error', RedirectType.push);
+    return {
+      status: EResponseMumbleStatus.ERROR,
+      message: (error as Error).message,
+    };
   }
 };

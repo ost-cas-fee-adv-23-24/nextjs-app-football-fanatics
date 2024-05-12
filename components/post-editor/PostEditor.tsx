@@ -9,11 +9,16 @@ import ImageUploader from '@/components/image-uploader/ImageUploader';
 import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
 import PostEditorText from '@/components/post-editor-text/PostEditorText';
 import frontendConfig from '@/config/configFrontend';
-import useModal from '@/hooks/useModal';
+import useLayout from '@/hooks/useLayout';
 import useUserInfo from '@/hooks/useUserInfo';
-import { EModalActions } from '@/stores/Modal.context';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
 import { POST_EDITOR_GENERAL_POST_PLACEHOLDER_TEXT, POST_EDITOR_PICTURE_UPLOAD_BUTTON_LABEL, POST_EDITOR_SEND_BUTTON_LABEL, POST_EDITOR_SEND_BUTTON_NAME, POST_EDITOR_SPECIFIC_POST_PLACEHOLDER_TEXT } from '@/utils/constants';
 import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
+import {
+  IPostItem,
+  IPostReplyItemBase,
+  IServerActionResponse,
+} from '@/utils/interfaces/mumblePost.interface';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import {
   Button,
@@ -22,8 +27,8 @@ import {
   EIConTypes,
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface IProps {
   identifier?: string;
@@ -54,12 +59,10 @@ export const PostEditor = ({
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
   const { identifier: loggedInUserIdentifier } = useUserInfo();
   const [users, setUsers] = useState<IMumbleUser[]>([]);
-  const { dispatchModal, closeModal } = useModal();
+  const { dispatchLayout, closeModal } = useLayout();
   const placeholder = identifier
     ? POST_EDITOR_SPECIFIC_POST_PLACEHOLDER_TEXT
     : POST_EDITOR_GENERAL_POST_PLACEHOLDER_TEXT;
-
-  const router = useRouter();
 
   useEffect(() => {
     if (image) {
@@ -103,10 +106,15 @@ export const PostEditor = ({
             formData.append('revalidationsPath', revalidationsPath);
           }
           try {
+            let results: IServerActionResponse<IPostItem | IPostReplyItemBase>;
             if (identifier) {
-              await createPostReply({ formData, identifier });
+              results = await createPostReply({ formData, identifier });
             } else {
-              await createPost(formData);
+              results = await createPost(formData);
+            }
+
+            if (results.status === 'error') {
+              toast.error(results.message);
             }
           } catch (error) {
             console.log(error);
@@ -164,10 +172,10 @@ export const PostEditor = ({
               icon={EIConTypes.UPLOAD}
               label={POST_EDITOR_PICTURE_UPLOAD_BUTTON_LABEL}
               onCustomClick={() => {
-                dispatchModal({
-                  type: EModalActions.SET_CONTENT,
+                dispatchLayout({
+                  type: ELayoutActions.SET_OVERLAY_CONTENT,
                   payload: {
-                    content: (
+                    overlayContent: (
                       <ImageUploader
                         onCancel={() => {
                           setImage(null);
@@ -179,7 +187,7 @@ export const PostEditor = ({
                         }}
                       />
                     ),
-                    title: 'Add an image to your post',
+                    overlayTitle: 'Add an image to your post',
                   },
                 });
               }}

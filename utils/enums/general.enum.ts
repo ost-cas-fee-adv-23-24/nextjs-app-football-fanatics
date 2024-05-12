@@ -32,3 +32,8 @@ export enum EUserCardGroup {
   FOLLOWING = 'following',
   FOLLOWERS = 'followers',
 }
+
+export enum EResponseMumbleStatus {
+  SUCCESS = 'success',
+  ERROR = 'error',
+}

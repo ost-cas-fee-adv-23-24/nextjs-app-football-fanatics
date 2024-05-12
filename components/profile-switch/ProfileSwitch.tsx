@@ -9,7 +9,8 @@ import {
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { useRouter } from 'next/navigation';
 import useBreakpoints from '@/hooks/useBreakpoints';
-import useLayoutMumble from '@/hooks/useLayoutMumble';
+import useLayout from '@/hooks/useLayout';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
 
 interface IProps {
   userIdentifier: string;
@@ -20,7 +21,7 @@ interface IProps {
 const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
   const { push } = useRouter();
   const { isBpMDDown } = useBreakpoints();
-  const { currentTabProfile, setCurrentTabProfile } = useLayoutMumble();
+  const { currentTabProfile, dispatchLayout } = useLayout();
 
   useEffect(() => {
     let redirectUrl = `/profiles/${userIdentifier}`;
@@ -88,7 +89,12 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setCurrentTabProfile(0)}
+          onCustomClick={() =>
+            dispatchLayout({
+              type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+              payload: 0,
+            })
+          }
         />
         <Button
           selected={currentTabProfile === 1}
@@ -98,7 +104,12 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setCurrentTabProfile(1)}
+          onCustomClick={() =>
+            dispatchLayout({
+              type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+              payload: 1,
+            })
+          }
         />
         <Button
           selected={currentTabProfile === 2}
@@ -108,7 +119,12 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setCurrentTabProfile(2)}
+          onCustomClick={() =>
+            dispatchLayout({
+              type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+              payload: 2,
+            })
+          }
         />
         <Button
           selected={currentTabProfile === 3}
@@ -118,7 +134,12 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setCurrentTabProfile(3)}
+          onCustomClick={() =>
+            dispatchLayout({
+              type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+              payload: 3,
+            })
+          }
         />
         <Button
           selected={currentTabProfile === 4}
@@ -128,7 +149,12 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
           fitParent={true}
           size={EButtonSizes.MEDIUM}
           type={EButtonTypes.TERTIARY}
-          onCustomClick={() => setCurrentTabProfile(4)}
+          onCustomClick={() =>
+            dispatchLayout({
+              type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+              payload: 4,
+            })
+          }
         />
       </div>
     );
@@ -151,7 +177,10 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
       */}
       <Tabs
         updateSelection={(item) => {
-          setCurrentTabProfile(item);
+          dispatchLayout({
+            type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+            payload: item,
+          });
         }}
         tabItems={tabItems}
       />

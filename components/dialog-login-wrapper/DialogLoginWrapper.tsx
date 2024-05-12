@@ -18,7 +18,7 @@ const DialogLoginWrapper = () => {
     if (isLoggedIn) {
       signOut();
     }
-  }, [isLoggedIn, signOut]);
+  }, [isLoggedIn]);
 
   return (
     <>

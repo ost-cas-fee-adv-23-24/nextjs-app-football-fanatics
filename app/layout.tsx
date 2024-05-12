@@ -5,16 +5,16 @@ import './globals.css';
 import { SessionProvider } from 'next-auth/react';
 
 import { UserInfoProvider } from '@/providers/UserInfo.provider';
+
 const inter = Inter({ subsets: ['latin'] });
 import '../node_modules/@ost-cas-fee-adv-23-24/elbmum-design/lib/globals.css';
-import { ModalProvider } from '@/providers/Modal.provider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { RecommendationsProvider } from '@/providers/Recommendations.provider';
 import { PostsProvider } from '@/providers/posts/Posts.provider';
-import { LayoutMumbleProvider } from '@/providers/LayoutMumble.provider';
 import { BreakpointsProvider } from '@/providers/Breakpoints.provider';
 import frontendConfig from '@/config/configFrontend';
+import { LayoutProvider } from '@/providers/layout/Layout.provider';
 
 export const metadata: Metadata = {
   title: 'Welcome to Mumble',
@@ -36,22 +36,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} h-screen`}>
         <SessionProvider>
           <UserInfoProvider>
             <BreakpointsProvider>
-              <ModalProvider>
-                <PostsProvider>
-                  <RecommendationsProvider>
-                    <LayoutMumbleProvider>{children}</LayoutMumbleProvider>
-                  </RecommendationsProvider>
-                </PostsProvider>
-              </ModalProvider>
+              <PostsProvider>
+                <RecommendationsProvider>
+                  <LayoutProvider>{children}</LayoutProvider>
+                </RecommendationsProvider>
+              </PostsProvider>
             </BreakpointsProvider>
           </UserInfoProvider>
         </SessionProvider>
-
-        <ToastContainer autoClose={frontendConfig.notificationDuration} />
+        <ToastContainer
+          autoClose={frontendConfig.notificationDuration}
+          theme="colored"
+        />
       </body>
     </html>
   );

@@ -216,23 +216,37 @@ export const PostsProvider = ({ children }: IProps) => {
     }, frontendConfig.newPostsRequestInterval / 2);
   };
 
-  const restartFeedAuthorized = (
-    userIdentifier: string,
-    creators: string[],
-  ) => {
-    fetchPostsBatch({
-      userIdentifier,
-      creators,
-      subscribeToNewestPost: true,
-      fetchOnlyOneBatch: false,
-      isLikes: false,
-    });
-  };
+  const restartFeedAuthorized = useCallback(
+    async (userIdentifier: string, creators: string[]) => {
+      await fetchPostsBatch({
+        userIdentifier,
+        creators,
+        subscribeToNewestPost: true,
+        fetchOnlyOneBatch: false,
+        isLikes: false,
+      });
+    },
+    [fetchPostsBatch],
+  );
+
+  const restartFeedAuthorizedLikes = useCallback(
+    async (userIdentifier: string) => {
+      await fetchPostsBatch({
+        userIdentifier,
+        creators: state.creators,
+        subscribeToNewestPost: false,
+        fetchOnlyOneBatch: false,
+        isLikes: true,
+      });
+    },
+    [fetchPostsBatch, state.creators],
+  );
 
   return (
     <PostsContext.Provider
       value={{
         restartFeedAuthorized,
+        restartFeedAuthorizedLikes,
         nextMumblePostsUrl: state.nextMumblePostsUrl,
         newestPost: state.newestPost,
         isLoading: state.isLoading,
