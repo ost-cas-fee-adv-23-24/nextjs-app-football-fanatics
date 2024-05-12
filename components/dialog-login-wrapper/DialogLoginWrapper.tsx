@@ -1,9 +1,10 @@
 'use client';
-import React, { useEffect } from 'react';
 import DialogLogin from '@/components/dialog-login/DialogLogin';
-import { EIConTypes } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useUserInfo from '@/hooks/useUserInfo';
+import { NOT_LOGGED_IN_MESSAGE } from '@/utils/constants';
+import { EIConTypes } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import { signIn, signOut } from 'next-auth/react';
+import { useEffect } from 'react';
 
 const DialogLoginWrapper = () => {
   const { isLoggedIn } = useUserInfo();
@@ -22,7 +23,7 @@ const DialogLoginWrapper = () => {
   return (
     <>
       <DialogLogin
-        message="Login to have a full experience!"
+        message={NOT_LOGGED_IN_MESSAGE}
         icon={EIConTypes.MUMBLE}
         customClick={() => {
           // after sign in the middleware will redirect to the correct feed

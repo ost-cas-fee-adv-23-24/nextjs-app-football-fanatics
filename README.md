@@ -29,6 +29,12 @@ You need to have a .env.local file in the root of the project with the following
 
 In case a new environment is needed (exp. staging), please add the domain of the same to the `allowed domains` in the zitadel configuration (config/index.ts).
 
+### Zod validation
+
+The environment variables undergo validation by Zod in config/env.ts. If you need to introduce new environment variables, append them to this file. Otherwise, no validation will be performed for those variables.
+
+Additionally, don't forget to update the GitHub Actions files and include them in the variables and secrets on GitHub.
+
 ## Authentication
 This project uses Zitadel. 
 Make sure that you have an Organization in Zitadel and that you have the client id and the issuer url.
@@ -80,6 +86,13 @@ npm run code:fix
 
 ***
 ## Testing
+
+### setup
+
+Tests are located in the `/tests` directory. They come in two flavors: those within `/auth` require a signed-in user, while the ones in the root test folder are login-independent. The authentication tests' setup is handled in `/tests/auth/setup/index.ts`. Furthermore, we've set up a GitHub Action in `.github\workflows\playwright.yml` to automatically run these tests whenever code is pushed to the main branch or a pull request is opened.
+
+### commands
+
 Run all playwright tests
 ```bash
 npm run test

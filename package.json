@@ -10,12 +10,13 @@
     "format:check": "prettier . --check",
     "format:fix": "prettier . --write",
     "type-check": "tsc --noEmit",
-    "code:fix": "npm run lint && npm run format:fix && npm run type-check"
+    "code:fix": "npm run lint && npm run format:fix && npm run type-check",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@ost-cas-fee-adv-23-24/elbmum-design": "1.48.0",
     "date-fns": "^3.3.1",
-    "dotenv": "^16.3.1",
     "lodash": "^4.17.21",
     "next": "^14.1.0",
     "next-auth": "^5.0.0-beta.4",
@@ -29,6 +30,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.43.1",
     "@types/lodash": "^4.14.202",
     "@types/node": "20.6.0",
     "@types/react": "^18.2.21",

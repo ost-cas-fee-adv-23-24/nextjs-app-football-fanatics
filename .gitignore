@@ -39,3 +39,8 @@ next-env.d.ts
 
 # config secrets
 /config/secrets/local.s
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
