@@ -34,6 +34,7 @@ export const PostFull = ({
 
         <div className="mt-4">
           <PostActionsBar
+            serverRendered={true}
             postData={postData}
             revalidationPath={revalidationPath}
             creatorIdentifier={postData.creator.id}
@@ -81,6 +82,7 @@ export const PostFull = ({
                   <div className="mt-4 mb-4 ml-[-12px]">
                     {/*We cannot reply to replies  API does not allow it*/}
                     <PostActionsBar
+                      serverRendered={true}
                       postData={dataReply}
                       revalidationPath={revalidationPath}
                       parentIdentifier={postData.id}

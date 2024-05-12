@@ -23,7 +23,7 @@ export interface IPostsProviderContextData {
   fetchPostsBatch: (options: IFetchPostsBatchArgs) => void;
   restartFeedAuthorized: (userIdentifier: string, creators?: string[]) => void;
   restartFeedAuthorizedLikes: (userIdentifier: string) => void;
-  getPostByIdentifier: (postIdentifier: string) => IPostItem | undefined;
+  disconnectFeedPosts: () => void;
 }
 
 export interface IFetchPostsBatchArgs {

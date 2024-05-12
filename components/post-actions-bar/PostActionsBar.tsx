@@ -34,6 +34,7 @@ interface IProps {
   renderedInLikeFeed?: boolean;
   parentIdentifier?: string;
   postData: IPostItem | IPostReply;
+  serverRendered?: boolean;
 }
 
 const PostActionsBar = ({
@@ -46,6 +47,7 @@ const PostActionsBar = ({
   renderedInLikeFeed = false,
   parentIdentifier,
   postData,
+  serverRendered = false,
 }: IProps) => {
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
@@ -200,6 +202,13 @@ const PostActionsBar = ({
             labelActive="Editing"
             effectDuration={0}
             customClickEvent={async () => {
+              const isReply = (postData as IPostReply).parentId;
+              // post full is rendered in the server.
+              // feeds are rendered in the client.
+              const redirectionPath = isReply
+                ? `/posts/${identifier}`
+                : `/posts/${(postData as IPostReply).parentId}#${identifier}`;
+
               dispatchLayout({
                 type: ELayoutActions.SET_OVERLAY_CONTENT,
                 payload: {
@@ -208,19 +217,19 @@ const PostActionsBar = ({
                     <PostEditor
                       postData={postData}
                       revalidationsPath={
-                        (postData as IPostReply).parentId
-                          ? `posts/${(postData as IPostReply).parentId}#${identifier}`
-                          : undefined
+                        serverRendered ? redirectionPath : undefined
                       }
                       isFeedPage={false}
                       useFloatingAvatar={false}
                       identifier={identifier}
                       onNewPost={() => {
                         closeModal();
-                        if (currentTabProfile === 1) {
-                          restartFeedAuthorizedLikes(creatorIdentifier);
-                        } else {
-                          restartFeedAuthorized(creatorIdentifier);
+                        if (!serverRendered) {
+                          if (currentTabProfile === 1) {
+                            restartFeedAuthorizedLikes(creatorIdentifier);
+                          } else {
+                            restartFeedAuthorized(creatorIdentifier);
+                          }
                         }
                       }}
                     />

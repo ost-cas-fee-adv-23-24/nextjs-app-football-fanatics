@@ -1,7 +1,6 @@
 'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import usePosts from '@/hooks/usePosts';
-import { EPostsActions } from '@/stores/Posts.context';
 import { PostEditorPlaceholder } from '@/components/placeholders/PostEditorPlaceholder';
 import { PostFix } from '@/components/post/PostFix';
 import frontendConfig from '@/config/configFrontend';
@@ -27,7 +26,7 @@ export const PostsFixLoader = ({
     posts,
     isLoading,
     nextMumblePostsUrl,
-    dispatchPosts,
+    disconnectFeedPosts,
     fetchPostsBatch,
   } = usePosts();
 
@@ -120,11 +119,7 @@ export const PostsFixLoader = ({
         type: ELayoutActions.SET_LAYOUT_KIND,
         payload: ELayoutKind.DEFAULT,
       });
-      // we need to disconnect if subscribed to new posts too
-      dispatchPosts({
-        type: EPostsActions.RESET,
-        payload: null,
-      });
+      disconnectFeedPosts();
     };
 
     // needs to run only one time. so, no dependencies

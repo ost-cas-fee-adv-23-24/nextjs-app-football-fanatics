@@ -242,17 +242,20 @@ export const PostsProvider = ({ children }: IProps) => {
     [fetchPostsBatch, state.creators],
   );
 
-  const getPostByIdentifier = useCallback(
-    (postIdentifier: string) => {
-      return state.posts.find((post) => post.id === postIdentifier);
-    },
-    [state.posts],
-  );
+  const disconnectFeedPosts = useCallback(() => {
+    dispatch({
+      type: EPostsActions.RESET,
+      payload: null,
+    });
+    if (interval.current) {
+      clearInterval(interval.current);
+    }
+  }, []);
 
   return (
     <PostsContext.Provider
       value={{
-        getPostByIdentifier,
+        disconnectFeedPosts,
         restartFeedAuthorized,
         restartFeedAuthorizedLikes,
         nextMumblePostsUrl: state.nextMumblePostsUrl,
