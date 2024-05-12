@@ -18,6 +18,9 @@ export const POST_ACTIONS_BAR_LIKED_BUTTON_LABEL = 'Liked';
 export const POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL = 'Unliked';
 export const POST_ACTIONS_BAR_DIALOG_LOGIN_MESSAGE = "You need to be logged in to like a post"
 export const POST_ACTIONS_BAR_COPY_LINK_BUTTON_LABEL = "Copy Link";
+export const POST_ACTIONS_BAR_DELETE_BUTTON_LABEL = "Delete";
+export const POST_ACTIONS_BAR_DELETE_BUTTON_LABEL_ACTIVE = "Deleted";
+export const POST_ACTIONS_BAR_DELETE_BUTTON_NAME = "delete-post";
 
 export const USER_SETTINGS_HEADING_TEXT = 'Personal settings';
 
