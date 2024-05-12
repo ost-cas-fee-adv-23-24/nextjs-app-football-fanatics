@@ -28,6 +28,7 @@ export const PostFix = ({ postData, useFloatingAvatar = false }: IProps) => {
       />
       <div className="mt-4 ml-[-12px]">
         <PostActionsBar
+          postData={postData}
           creatorIdentifier={postData.creator.id}
           identifier={postData.id}
           amountLikes={postData.likes}
