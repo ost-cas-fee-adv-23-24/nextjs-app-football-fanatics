@@ -14,6 +14,7 @@ import {
   IPostReply,
   IPostReplyItemBase,
   IPostsApiResponse,
+  IUpdateImagePost,
   IUpdatePost,
 } from '@/utils/interfaces/mumblePost.interface';
 import { decodeTime } from 'ulidx';
@@ -145,13 +146,35 @@ export class MumblePostService extends MumbleService {
     return { status: EResponseMumbleStatus.SUCCESS };
   }
 
+  public async updatePostImage({
+    token,
+    formData,
+    postIdentifier,
+  }: IUpdateImagePost): Promise<string> {
+    const responseApi = await this.performRequest({
+      method: EApiMethods.PUT,
+      path: `${EEndpointsBackend.POSTS}/${postIdentifier}/media`,
+      token,
+      data: formData,
+      expectedBack: 'text',
+      message: 'Updating image post',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        contentType: `multipart/form-data; boundary=${generateBoundary()}`,
+        accept: 'text/plain',
+      },
+    });
+
+    return responseApi as string;
+  }
+
   public async createPost({ token, formData }: ICreatePost) {
     const responseApi = await this.performRequest({
       method: EApiMethods.POST,
       path: EEndpointsBackend.POSTS,
       token,
       message: 'Creating post',
-      expectedBack: 'json', // do we need this?
+      expectedBack: 'json',
       data: formData,
       headers: {
         Authorization: `Bearer ${token}`,

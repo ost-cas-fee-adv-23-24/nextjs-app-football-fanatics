@@ -17,6 +17,12 @@ export interface IUpdatePostArgs {
   revalidationsPath?: string;
 }
 
+export interface IUpdatePostImageArgs {
+  identifier: string;
+  formData: FormData;
+  revalidationsPath?: string;
+}
+
 export const updatePostText = async ({
   text,
   identifier,
@@ -44,6 +50,41 @@ export const updatePostText = async ({
     } else {
       throw new Error(responseService.message);
     }
+  } catch (error) {
+    return {
+      status: EResponseMumbleStatus.ERROR,
+      message: (error as Error).message,
+    };
+  }
+};
+
+export const updatePostImage = async ({
+  identifier,
+  formData,
+  revalidationsPath,
+}: IUpdatePostImageArgs) => {
+  const session = await auth();
+
+  if (!session) {
+    console.log('No session found: redirecting to login page');
+    redirect('/login', RedirectType.push);
+  }
+
+  try {
+    const responseService = await mumblePostService.updatePostImage({
+      token: session.accessToken,
+      formData,
+      postIdentifier: identifier,
+    });
+
+    if (revalidationsPath) {
+      revalidatePath(revalidationsPath);
+    }
+
+    return {
+      status: EResponseMumbleStatus.SUCCESS,
+      data: responseService,
+    };
   } catch (error) {
     return {
       status: EResponseMumbleStatus.ERROR,

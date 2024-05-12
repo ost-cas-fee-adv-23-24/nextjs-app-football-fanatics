@@ -57,6 +57,11 @@ export interface IUpdatePost {
   postIdentifier: string;
   text: string;
 }
+export interface IUpdateImagePost {
+  token: string;
+  postIdentifier: string;
+  formData: FormData;
+}
 
 export interface IPostCreator {
   id: string;

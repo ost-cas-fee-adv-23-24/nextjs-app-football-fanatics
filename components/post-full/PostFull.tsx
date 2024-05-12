@@ -21,6 +21,7 @@ export const PostFull = ({
     <div data-post-identifier={postData.id}>
       <div className="bg-white py-8 px-12 relative rounded-t-2xl">
         <PostCard
+          serverRendered={true}
           useFloatingAvatar={true}
           text={postData.text}
           id={postData.id}
@@ -69,6 +70,7 @@ export const PostFull = ({
               >
                 <div className={`py-8 px-12 relative`}>
                   <PostCard
+                    serverRendered={true}
                     text={dataReply.text}
                     id={dataReply.id}
                     likedBySelf={dataReply.likedBySelf}

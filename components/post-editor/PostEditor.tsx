@@ -185,6 +185,7 @@ export const PostEditor = ({
                   dispatchLayout({
                     type: ELayoutActions.SET_OVERLAY_CONTENT,
                     payload: {
+                      overlayTitle: 'Add an image to your post',
                       overlayContent: (
                         <ImageUploader
                           onCancel={() => {
@@ -197,7 +198,6 @@ export const PostEditor = ({
                           }}
                         />
                       ),
-                      overlayTitle: 'Add an image to your post',
                     },
                   });
                 }}
