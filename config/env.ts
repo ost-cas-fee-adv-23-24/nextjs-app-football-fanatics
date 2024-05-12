@@ -2,7 +2,7 @@ import z from 'zod';
 
 const envSchema = z.object({
   NODE_ENV: z
-    .enum(['development', 'production', 'test', 'local'])
+    .enum(['development', 'production', 'test'])
     .default('development'),
   PORT: z.string().default('3000'),
   ZITADEL_CLIENT_ID: z.string(),
