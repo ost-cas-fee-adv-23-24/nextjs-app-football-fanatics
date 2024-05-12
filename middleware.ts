@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { getAllFollowees } from '@/utils/helpers/followers/getFollowees';
+import { NextRequest, NextResponse } from 'next/server';
+
 
 export default async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname === '/') {
