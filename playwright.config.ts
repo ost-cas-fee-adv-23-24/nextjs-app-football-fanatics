@@ -19,7 +19,7 @@ export default defineConfig({
 
   use: {
 
-    baseURL, /* Base URL to use in actions like `await page.goto('/')`. */
+    baseURL, // Set the base URL for actions like await page.goto('/'). This means you only need to specify relative paths for actions.
     trace: 'on-first-retry',
     permissions: ["clipboard-read", "clipboard-write"],
   },
@@ -47,7 +47,7 @@ export default defineConfig({
     },
 
 
-    // more browser can be tested, only uncomment code below
+    // more browsers can be tested, only uncomment code below
 
 
     // Firefox Test
