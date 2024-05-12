@@ -29,6 +29,12 @@ You need to have a .env.local file in the root of the project with the following
 
 In case a new environment is needed (exp. staging), please add the domain of the same to the `allowed domains` in the zitadel configuration (config/index.ts).
 
+### Zod validation
+
+The environment variables undergo validation by Zod in config/env.ts. If you need to introduce new environment variables, append them to this file. Otherwise, no validation will be performed for those variables.
+
+Additionally, don't forget to update the GitHub Actions files and include them in the variables and secrets on GitHub.
+
 ## Authentication
 This project uses Zitadel. 
 Make sure that you have an Organization in Zitadel and that you have the client id and the issuer url.

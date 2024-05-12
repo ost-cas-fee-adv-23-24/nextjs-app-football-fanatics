@@ -1,4 +1,5 @@
 import { ClientAuthenticationMethod } from 'oauth4webapi';
+import envVariables from './env';
 
 export const fileNameUploader = 'media';
 export interface IConfig {
@@ -33,22 +34,22 @@ export interface IConfig {
 
 // only use in backend!!!!
 const config = {
-  environment: process.env.ENVIRONMENT,
+  environment: envVariables.ENVIRONMENT,
   sessionMaxAge: 36000,
   sessionStrategy: 'jwt',
   mumble: {
-    host: process.env.MUMBLE_API_URL,
+    host: envVariables.MUMBLE_API_URL,
   },
-  nextSecret: process.env.NEXTAUTH_SECRET,
-  nextAuthUrl: process.env.NEXTAUTH_URL,
+  nextSecret: envVariables.NEXTAUTH_SECRET,
+  nextAuthUrl: envVariables.NEXTAUTH_URL,
   zitadel: {
     tokenEndpointAuthMethod: 'none',
     checks: ['pkce', 'state'],
     scope:
       'openid profile email urn:zitadel:iam:org:project:id:229389352298352392:aud',
-    clientId: process.env.ZITADEL_CLIENT_ID,
+    clientId: envVariables.ZITADEL_CLIENT_ID,
     authority:
-      process.env.ZITADEL_ISSUER || 'https://cas-fee-adv-ed1ide.zitadel.cloud',
+      envVariables.ZITADEL_ISSUER || 'https://cas-fee-adv-ed1ide.zitadel.cloud',
   },
   avatar: {
     fileNameUploader,
