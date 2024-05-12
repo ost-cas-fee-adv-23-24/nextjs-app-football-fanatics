@@ -38,6 +38,7 @@ const PostsLoader = ({
       isLikes,
     });
     return () => {
+      // we need to disconnect if subscribed to new posts too
       dispatchPosts({
         type: EPostsActions.RESET,
         payload: null,

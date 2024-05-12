@@ -17,11 +17,12 @@ import { toast } from 'react-toastify';
 import DialogLogin from '@/components/dialog-login/DialogLogin';
 import { signIn } from 'next-auth/react';
 import { deletePost } from '@/actions/deletePost';
-import { EModalActions } from '@/stores/Modal.context';
 import usePosts from '@/hooks/usePosts';
 import { ELikeToggleType, EPostsActions } from '@/stores/Posts.context';
 import useLayout from '@/hooks/useLayout';
 import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+import { PostEditor } from '@/components/post-editor/PostEditor';
+import { IPostItem, IPostReply } from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
   amountLikes: number;
@@ -32,6 +33,7 @@ interface IProps {
   revalidationPath?: string;
   renderedInLikeFeed?: boolean;
   parentIdentifier?: string;
+  postData: IPostItem | IPostReply;
 }
 
 const PostActionsBar = ({
@@ -43,12 +45,14 @@ const PostActionsBar = ({
   revalidationPath,
   renderedInLikeFeed = false,
   parentIdentifier,
+  postData,
 }: IProps) => {
   const router = useRouter();
   const [linkToCopy, setLinkToCopy] = useState<string>('');
   const { identifier: userIdentifier, isLoggedIn } = useUserInfo();
-  const { dispatchLayout, closeModal } = useLayout();
-  const { dispatchPosts } = usePosts();
+  const { dispatchLayout, closeModal, currentTabProfile } = useLayout();
+  const { dispatchPosts, restartFeedAuthorized, restartFeedAuthorizedLikes } =
+    usePosts();
   const notify = () => {
     toast(
       <DialogLogin
@@ -150,7 +154,9 @@ const PostActionsBar = ({
         />
       </div>
       {creatorIdentifier === userIdentifier ? (
-        <div>
+        <div
+          className={creatorIdentifier === userIdentifier ? 'mb-4 sm:mb-0' : ''}
+        >
           <ToggleGeneric
             icon={EIConTypes.CANCEL}
             label="Delete"
@@ -177,6 +183,45 @@ const PostActionsBar = ({
                         });
                         closeModal();
                         router.refresh();
+                      }}
+                    />
+                  ),
+                },
+              });
+            }}
+          />
+        </div>
+      ) : null}
+      {creatorIdentifier === userIdentifier ? (
+        <div>
+          <ToggleGeneric
+            icon={EIConTypes.EDIT}
+            label="Edit"
+            labelActive="Editing"
+            effectDuration={0}
+            customClickEvent={async () => {
+              dispatchLayout({
+                type: ELayoutActions.SET_OVERLAY_CONTENT,
+                payload: {
+                  overlayTitle: 'Post Editor',
+                  overlayContent: (
+                    <PostEditor
+                      postData={postData}
+                      revalidationsPath={
+                        (postData as IPostReply).parentId
+                          ? `posts/${(postData as IPostReply).parentId}#${identifier}`
+                          : undefined
+                      }
+                      isFeedPage={false}
+                      useFloatingAvatar={false}
+                      identifier={identifier}
+                      onNewPost={() => {
+                        closeModal();
+                        if (currentTabProfile === 1) {
+                          restartFeedAuthorizedLikes(creatorIdentifier);
+                        } else {
+                          restartFeedAuthorized(creatorIdentifier);
+                        }
                       }}
                     />
                   ),

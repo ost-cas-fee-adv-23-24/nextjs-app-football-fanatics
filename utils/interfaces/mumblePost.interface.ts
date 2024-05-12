@@ -52,6 +52,12 @@ export interface ICreatePost {
   formData: FormData;
 }
 
+export interface IUpdatePost {
+  token: string;
+  postIdentifier: string;
+  text: string;
+}
+
 export interface IPostCreator {
   id: string;
   username: string;

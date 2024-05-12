@@ -28,6 +28,7 @@ import {
   IPostReplyItemBase,
   IServerActionResponse,
 } from '@/utils/interfaces/mumblePost.interface';
+import { updatePostText } from '@/actions/updatePost';
 
 interface IProps {
   identifier?: string;
@@ -37,6 +38,7 @@ interface IProps {
   useFloatingAvatar?: boolean;
   revalidationsPath?: string;
   onNewPost?: () => void;
+  postData?: IPostItem;
 }
 
 export interface IMentionsProps {
@@ -52,8 +54,9 @@ export const PostEditor = ({
   useFloatingAvatar = false,
   revalidationsPath,
   onNewPost,
+  postData,
 }: IProps) => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState(postData?.text || '');
   const [image, setImage] = useState<File | null>(null);
   const [imageInMemory, setImageInMemory] = useState<TFireReaderResult>(null);
   const { identifier: loggedInUserIdentifier } = useUserInfo();
@@ -106,7 +109,13 @@ export const PostEditor = ({
           }
           try {
             let results: IServerActionResponse<IPostItem | IPostReplyItemBase>;
-            if (identifier) {
+            if (postData) {
+              results = await updatePostText({
+                text,
+                identifier: postData.id,
+                revalidationsPath,
+              });
+            } else if (identifier) {
               results = await createPostReply({ formData, identifier });
             } else {
               results = await createPost(formData);
@@ -164,42 +173,59 @@ export const PostEditor = ({
               }}
             />
           )}
-          <div className="flex gap-4 mt-4 flex-col md:flex-row">
-            <Button
-              name="picture-upload-trigger"
-              fitParent={true}
-              icon={EIConTypes.UPLOAD}
-              label="Picture Upload"
-              onCustomClick={() => {
-                dispatchLayout({
-                  type: ELayoutActions.SET_OVERLAY_CONTENT,
-                  payload: {
-                    overlayContent: (
-                      <ImageUploader
-                        onCancel={() => {
-                          setImage(null);
-                          closeModal();
-                        }}
-                        onSuccess={(image) => {
-                          setImage(image);
-                          closeModal();
-                        }}
-                      />
-                    ),
-                    overlayTitle: 'Add an image to your post',
-                  },
-                });
-              }}
-            />
+          <div className="flex gap-4 mt-4 flex-col md:flex-row px-3 md:px-0">
+            {/*Overlay in overlay is not supported. no update of pic*/}
+            {!postData && (
+              <Button
+                name="picture-upload-trigger"
+                fitParent={true}
+                icon={EIConTypes.UPLOAD}
+                label="Picture Upload"
+                onCustomClick={() => {
+                  dispatchLayout({
+                    type: ELayoutActions.SET_OVERLAY_CONTENT,
+                    payload: {
+                      overlayContent: (
+                        <ImageUploader
+                          onCancel={() => {
+                            setImage(null);
+                            closeModal();
+                          }}
+                          onSuccess={(image) => {
+                            setImage(image);
+                            closeModal();
+                          }}
+                        />
+                      ),
+                      overlayTitle: 'Add an image to your post',
+                    },
+                  });
+                }}
+              />
+            )}
+
             <Button
               name="post-submit"
               disabled={text.trim().length === 0}
               fitParent={true}
               icon={EIConTypes.SEND}
-              label="Send"
+              label={postData ? 'Update' : 'Post'}
               type={EButtonTypes.SECONDARY}
               htmlType={EButtonKinds.SUBMIT}
             />
+
+            {postData && (
+              <Button
+                name="post-cancel-update"
+                fitParent={true}
+                icon={EIConTypes.CANCEL}
+                label="Cancel"
+                type={EButtonTypes.TERTIARY}
+                onCustomClick={() => {
+                  closeModal();
+                }}
+              />
+            )}
           </div>
         </div>
       </form>

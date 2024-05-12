@@ -12,6 +12,7 @@ export enum EEnvironments {
 
 export enum EApiMethods {
   GET = 'GET',
+  PATCH = 'PATCH',
   POST = 'POST',
   PUT = 'PUT',
   DELETE = 'DELETE',

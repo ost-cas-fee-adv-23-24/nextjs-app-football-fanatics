@@ -120,6 +120,7 @@ export const PostsFixLoader = ({
         type: ELayoutActions.SET_LAYOUT_KIND,
         payload: ELayoutKind.DEFAULT,
       });
+      // we need to disconnect if subscribed to new posts too
       dispatchPosts({
         type: EPostsActions.RESET,
         payload: null,

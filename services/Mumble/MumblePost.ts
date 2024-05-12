@@ -1,4 +1,8 @@
-import { EApiMethods, EEndpointsBackend } from '@/utils/enums/general.enum';
+import {
+  EApiMethods,
+  EEndpointsBackend,
+  EResponseMumbleStatus,
+} from '@/utils/enums/general.enum';
 import { generateBoundary } from '@/utils/helpers/generateBoundary';
 import {
   ICreatePost,
@@ -10,6 +14,7 @@ import {
   IPostReply,
   IPostReplyItemBase,
   IPostsApiResponse,
+  IUpdatePost,
 } from '@/utils/interfaces/mumblePost.interface';
 import { decodeTime } from 'ulidx';
 import { MumbleService } from '@/services/Mumble/index';
@@ -18,6 +23,11 @@ import config from '@/config';
 export interface IPost {
   postData: IPostItem;
   repliesData: IPostData | null;
+}
+
+export interface IUpdatePostTextMumble {
+  status: EResponseMumbleStatus;
+  message?: string;
 }
 
 export class MumblePostService extends MumbleService {
@@ -52,6 +62,7 @@ export class MumblePostService extends MumbleService {
       method: EApiMethods.GET,
       path: `${EEndpointsBackend.POSTS}/${identifier}`,
       token,
+      forceNoCache: true,
       message: 'Getting post by identifier',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -105,6 +116,35 @@ export class MumblePostService extends MumbleService {
     };
   }
 
+  public async updatePostText({
+    token,
+    text,
+    postIdentifier,
+  }: IUpdatePost): Promise<IUpdatePostTextMumble> {
+    try {
+      // response is empty
+      await this.performRequest({
+        method: EApiMethods.PATCH,
+        path: `${EEndpointsBackend.POSTS}/${postIdentifier}`,
+        token,
+        message: 'Updating post',
+        expectedBack: 'text', // do we need this?
+        data: JSON.stringify({ text }),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+    } catch (error) {
+      return {
+        status: EResponseMumbleStatus.ERROR,
+        message: (error as Error).message,
+      };
+    }
+
+    return { status: EResponseMumbleStatus.SUCCESS };
+  }
+
   public async createPost({ token, formData }: ICreatePost) {
     const responseApi = await this.performRequest({
       method: EApiMethods.POST,
@@ -121,6 +161,7 @@ export class MumblePostService extends MumbleService {
     });
     return responseApi as IPostItem;
   }
+
   public async createPostReply({
     token,
     formData,
