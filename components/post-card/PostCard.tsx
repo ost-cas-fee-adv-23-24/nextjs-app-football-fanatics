@@ -40,7 +40,6 @@ export const PostCard = ({
             mediaType as EMediaTypes,
           ) ? (
             <PostImage
-              revalidationsPath={revalidationsPath}
               serverRendered={serverRendered}
               postIdentifier={id}
               src={mediaUrl}

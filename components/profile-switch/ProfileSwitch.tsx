@@ -30,7 +30,7 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
         payload: 0,
       });
     };
-  }, []);
+  }, [dispatchLayout]);
 
   useEffect(() => {
     let redirectUrl = `/profiles/${userIdentifier}`;
