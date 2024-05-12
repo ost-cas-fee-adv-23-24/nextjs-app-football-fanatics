@@ -86,6 +86,13 @@ npm run code:fix
 
 ***
 ## Testing
+
+### setup
+
+Tests are located in the `/tests` directory. They come in two flavors: those within `/auth` require a signed-in user, while the ones in the root test folder are login-independent. The authentication tests' setup is handled in `/tests/auth/setup/index.ts`. Furthermore, we've set up a GitHub Action in `.github\workflows\playwright.yml` to automatically run these tests whenever code is pushed to the main branch or a pull request is opened.
+
+### commands
+
 Run all playwright tests
 ```bash
 npm run test

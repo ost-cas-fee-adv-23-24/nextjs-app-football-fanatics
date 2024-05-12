@@ -1,5 +1,7 @@
 'use client';
-import React from 'react';
+import UserSettings from '@/components/user-settings/UserSettings';
+import useUserInfo from '@/hooks/useUserInfo';
+import { GLOBAL_HEADER_LOGIN_BUTTON_LABEL, GLOBAL_HEADER_LOGOUT_BUTTON_LABEL } from '@/utils/constants';
 import {
   Avatar,
   ButtonMenu,
@@ -10,13 +12,14 @@ import {
   Icon,
   Logo,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import Link from 'next/link';
 import { signIn, signOut } from 'next-auth/react';
-import useUserInfo from '@/hooks/useUserInfo';
-import UserSettings from '@/components/user-settings/UserSettings';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
+
 import useLayout from '@/hooks/useLayout';
 import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+
+
 
 export const GlobalHeader = () => {
   const { avatarUrl, identifier } = useUserInfo();
@@ -36,7 +39,7 @@ export const GlobalHeader = () => {
       <div className="flex items-center gap-6">
         {identifier ? (
           <>
-            <Link href={`/profiles/${identifier}`}>
+            <Link aria-label='Profile' href={`/profiles/${identifier}`}>
               <Avatar
                 imgSrc={avatarUrl}
                 size={EAvatarSizes.SM}
@@ -74,7 +77,7 @@ export const GlobalHeader = () => {
             />
             <ButtonMenu
               name="logout"
-              label="Logout"
+              label={GLOBAL_HEADER_LOGOUT_BUTTON_LABEL}
               icon={EIConTypes.LOGOUT}
               onCustomClick={() => {
                 signOut();
@@ -89,7 +92,7 @@ export const GlobalHeader = () => {
             <div className="w-[94.6px] h-[54px]" />
             <ButtonMenu
               name="login"
-              label="Login"
+              label={GLOBAL_HEADER_LOGIN_BUTTON_LABEL}
               icon={EIConTypes.LOGOUT}
               onCustomClick={() => {
                 signIn('zitadel', { callbackUrl: '/' });

@@ -1,6 +1,25 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { createPost } from '@/actions/createPost';
+import { createPostReply } from '@/actions/createPostReply';
+import ImagePreview, {
+  TFireReaderResult,
+} from '@/components/image-preview/ImagePreview';
+import ImageUploader from '@/components/image-uploader/ImageUploader';
+import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
+import PostEditorText from '@/components/post-editor-text/PostEditorText';
+import frontendConfig from '@/config/configFrontend';
+import useLayout from '@/hooks/useLayout';
+import useUserInfo from '@/hooks/useUserInfo';
+import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+import { POST_EDITOR_GENERAL_POST_PLACEHOLDER_TEXT, POST_EDITOR_PICTURE_UPLOAD_BUTTON_LABEL, POST_EDITOR_SEND_BUTTON_LABEL, POST_EDITOR_SEND_BUTTON_NAME, POST_EDITOR_SPECIFIC_POST_PLACEHOLDER_TEXT } from '@/utils/constants';
+import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
+import {
+  IPostItem,
+  IPostReplyItemBase,
+  IServerActionResponse,
+} from '@/utils/interfaces/mumblePost.interface';
+import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
 import {
   Button,
   EButtonKinds,
@@ -8,26 +27,8 @@ import {
   EIConTypes,
   Textarea,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
-import { PostEditorHeader } from '@/components/post-editor-header/PostEditorHeader';
-import { createPostReply } from '@/actions/createPostReply';
-import { createPost } from '@/actions/createPost';
-import ImageUploader from '@/components/image-uploader/ImageUploader';
-import ImagePreview, {
-  TFireReaderResult,
-} from '@/components/image-preview/ImagePreview';
-import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
-import useUserInfo from '@/hooks/useUserInfo';
-import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
-import PostEditorText from '@/components/post-editor-text/PostEditorText';
-import frontendConfig from '@/config/configFrontend';
-import useLayout from '@/hooks/useLayout';
-import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import {
-  IPostItem,
-  IPostReplyItemBase,
-  IServerActionResponse,
-} from '@/utils/interfaces/mumblePost.interface';
 
 interface IProps {
   identifier?: string;
@@ -60,8 +61,8 @@ export const PostEditor = ({
   const [users, setUsers] = useState<IMumbleUser[]>([]);
   const { dispatchLayout, closeModal } = useLayout();
   const placeholder = identifier
-    ? 'What is your opinion about this post Doc?'
-    : 'Say it louder for the people in the back!';
+    ? POST_EDITOR_SPECIFIC_POST_PLACEHOLDER_TEXT
+    : POST_EDITOR_GENERAL_POST_PLACEHOLDER_TEXT;
 
   useEffect(() => {
     if (image) {
@@ -169,7 +170,7 @@ export const PostEditor = ({
               name="picture-upload-trigger"
               fitParent={true}
               icon={EIConTypes.UPLOAD}
-              label="Picture Upload"
+              label={POST_EDITOR_PICTURE_UPLOAD_BUTTON_LABEL}
               onCustomClick={() => {
                 dispatchLayout({
                   type: ELayoutActions.SET_OVERLAY_CONTENT,
@@ -192,11 +193,11 @@ export const PostEditor = ({
               }}
             />
             <Button
-              name="post-submit"
+              name={POST_EDITOR_SEND_BUTTON_NAME}
               disabled={text.trim().length === 0}
               fitParent={true}
               icon={EIConTypes.SEND}
-              label="Send"
+              label={POST_EDITOR_SEND_BUTTON_LABEL}
               type={EButtonTypes.SECONDARY}
               htmlType={EButtonKinds.SUBMIT}
             />

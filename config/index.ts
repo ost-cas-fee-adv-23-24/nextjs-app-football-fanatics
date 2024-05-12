@@ -29,6 +29,10 @@ export interface IConfig {
     allUsersData: number;
     userProfileData: number;
   };
+  testing: {
+    username: string,
+    password: string,
+  },
   maxFileSize: number;
 }
 
@@ -63,6 +67,10 @@ const config = {
   cacheRules: {
     allUsersData: 1000 * 60 * 60, // 1 hour . On User Created then we would need to clear it
     userProfileData: 1000 * 60 * 60 * 2, // 2 hours
+  },
+  testing: {
+    username: process.env.TEST_USER_NAME || '',
+    password: process.env.TEST_USER_PASSWORD || '',
   },
   maxFileSize: 2097152, // 2MB
 };

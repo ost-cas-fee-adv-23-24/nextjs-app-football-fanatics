@@ -1,5 +1,4 @@
 'use client';
-import React, { useEffect, useState } from 'react';
 import {
   Button,
   ButtonTimed,
@@ -9,19 +8,20 @@ import {
   ToggleGeneric,
   ToggleLike,
 } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
-import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
-import useUserInfo from '@/hooks/useUserInfo';
-import { toast } from 'react-toastify';
-import DialogLogin from '@/components/dialog-login/DialogLogin';
-import { signIn } from 'next-auth/react';
 import { deletePost } from '@/actions/deletePost';
-import { EModalActions } from '@/stores/Modal.context';
-import usePosts from '@/hooks/usePosts';
-import { ELikeToggleType, EPostsActions } from '@/stores/Posts.context';
+import { decreasePostLike, increasePostLikes } from '@/actions/updatePostLikes';
+import DialogLogin from '@/components/dialog-login/DialogLogin';
 import useLayout from '@/hooks/useLayout';
+import usePosts from '@/hooks/usePosts';
+import useUserInfo from '@/hooks/useUserInfo';
 import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+import { ELikeToggleType, EPostsActions } from '@/stores/Posts.context';
+import { POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_PLURAL, POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_SINGULAR, POST_ACTIONS_BAR_COPY_LINK_BUTTON_LABEL, POST_ACTIONS_BAR_DELETE_BUTTON_LABEL, POST_ACTIONS_BAR_DELETE_BUTTON_LABEL_ACTIVE, POST_ACTIONS_BAR_DELETE_BUTTON_NAME, POST_ACTIONS_BAR_DELETE_TITLE_TEXT, POST_ACTIONS_BAR_DIALOG_LOGIN_MESSAGE, POST_ACTIONS_BAR_LIKED_BUTTON_LABEL, POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_PLURAL, POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_SINGULAR, POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL } from '@/utils/constants';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 interface IProps {
   amountLikes: number;
@@ -53,7 +53,7 @@ const PostActionsBar = ({
     toast(
       <DialogLogin
         labelButton="Login"
-        message="You need to be logged in to like a post"
+        message={POST_ACTIONS_BAR_DIALOG_LOGIN_MESSAGE}
         icon={EIConTypes.PROFILE}
         customClick={() => {
           signIn('zitadel', { callbackUrl: '/' });
@@ -114,17 +114,17 @@ const PostActionsBar = ({
             }
           }}
           effectDuration={!isLoggedIn ? 0 : 1000}
-          labelLiked={selfLiked ? 'Unliked' : 'Liked'}
-          labelSingular="Like"
-          labelPlural="Likes"
+          labelLiked={selfLiked ? POST_ACTIONS_BAR_UNLIKED_BUTTON_LABEL : POST_ACTIONS_BAR_LIKED_BUTTON_LABEL}
+          labelSingular={POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_SINGULAR}
+          labelPlural={POST_ACTIONS_BAR_LIKE_BUTTON_LABEL_PLURAL}
           amount={amountLikes}
         />
       </div>
       {parentIdentifier ? null : (
         <div className="mb-4 sm:mb-0">
           <ToggleComment
-            labelSingular="Comment"
-            labelPlural="Comments"
+            labelSingular={POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_SINGULAR}
+            labelPlural={POST_ACTIONS_BAR_COMMENT_BUTTON_LABEL_PLURAL}
             amount={amountComments}
             customClickEvent={() => {
               // we could use the linkNext but the missing display set to flex or inline-block
@@ -146,26 +146,26 @@ const PostActionsBar = ({
           onCopyError={(errorMessage) => {
             console.log(errorMessage);
           }}
-          label="Copy Link"
+          label={POST_ACTIONS_BAR_COPY_LINK_BUTTON_LABEL}
         />
       </div>
       {creatorIdentifier === userIdentifier ? (
         <div>
           <ToggleGeneric
             icon={EIConTypes.CANCEL}
-            label="Delete"
-            labelActive="Deleted"
+            label={POST_ACTIONS_BAR_DELETE_BUTTON_LABEL}
+            labelActive={POST_ACTIONS_BAR_DELETE_BUTTON_LABEL_ACTIVE}
             effectDuration={0}
             customClickEvent={async () => {
               dispatchLayout({
                 type: ELayoutActions.SET_OVERLAY_CONTENT,
                 payload: {
-                  overlayTitle: 'Delete Post?',
+                  overlayTitle: POST_ACTIONS_BAR_DELETE_TITLE_TEXT,
                   overlayContent: (
                     <Button
-                      name="delete-post"
+                      name={POST_ACTIONS_BAR_DELETE_BUTTON_NAME}
                       icon={EIConTypes.EDIT}
-                      label="Delete"
+                      label={POST_ACTIONS_BAR_DELETE_BUTTON_LABEL}
                       type={EButtonTypes.TERTIARY}
                       onCustomClick={async () => {
                         await deletePost({ postIdentifier: identifier });

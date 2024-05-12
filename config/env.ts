@@ -12,6 +12,8 @@ const envSchema = z.object({
   NEXTAUTH_SECRET: z.string(),
   MUMBLE_API_URL: z.string(),
   ENVIRONMENT: z.string(),
+  TEST_USER_NAME: z.string(),
+  TEST_USER_PASSWORD: z.string(),
 });
 
 const envVariables = envSchema.parse(process.env);
