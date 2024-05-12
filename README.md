@@ -31,7 +31,9 @@ In case a new environment is needed (exp. staging), please add the domain of the
 
 ### Zod validation
 
-The environment variables undergo validation by Zod in config/env.ts. If you need to introduce new environment variables, kindly append them to this file. Otherwise, no validation will be performed for those variables.
+The environment variables undergo validation by Zod in config/env.ts. If you need to introduce new environment variables, append them to this file. Otherwise, no validation will be performed for those variables.
+
+Additionally, don't forget to update the GitHub Actions files and include them in the variables and secrets on GitHub.
 
 ## Authentication
 This project uses Zitadel. 
