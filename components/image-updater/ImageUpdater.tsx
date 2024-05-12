@@ -38,12 +38,7 @@ const ImageUpdater = ({
                 }}
                 onSuccess={async (image) => {
                   const formData = new FormData();
-                  formData.append(
-                    'media',
-                    // @ts-ignore
-                    image,
-                  );
-
+                  formData.append('media', image);
                   const newImageData = await updatePostImage({
                     formData,
                     identifier: postIdentifier,
