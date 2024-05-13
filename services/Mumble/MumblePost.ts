@@ -241,9 +241,11 @@ export class MumblePostService extends MumbleService {
   public async getPosts({
     token,
     data,
+    useCache = false,
   }: {
     token: string;
     data: IGetPostsParams;
+    useCache?: boolean;
   }): Promise<IPostsApiResponse> {
     let path: string;
     if (data.mumbleNextUrl) {
@@ -256,6 +258,7 @@ export class MumblePostService extends MumbleService {
     const responseMumbleApi = await this.performRequest({
       method: EApiMethods.GET,
       path,
+      ttl: useCache ? config.cacheRules.postsFeedData : undefined,
       token,
       message: 'Fetching posts From Mumble API',
     });

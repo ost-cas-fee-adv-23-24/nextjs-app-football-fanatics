@@ -1,9 +1,8 @@
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import config from '@/config';
-import { MumblePostService } from '@/services/Mumble/MumblePost';
+
+import mumblePostService from '@/services/Mumble/MumblePost';
 import { NextRequest, NextResponse } from 'next/server';
 
-const dataSource = new MumblePostService(config.mumble.host);
 export const GET = async (
   request: NextRequest,
   context: any,
@@ -14,7 +13,7 @@ export const GET = async (
 
   const session = await auth();
   try {
-    const response = await dataSource.getPostById({
+    const response = await mumblePostService.getPostById({
       token: session ? session.accessToken : '',
       identifier,
       includeReplies,
