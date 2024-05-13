@@ -5,6 +5,7 @@ import ImageUpdater from '@/components/image-updater/ImageUpdater';
 import useLayout from '@/hooks/useLayout';
 import usePosts from '@/hooks/usePosts';
 import { EIConTypes } from '@ost-cas-fee-adv-23-24/elbmum-design';
+import useUserInfo from '@/hooks/useUserInfo';
 
 interface IProps {
   postIdentifier: string;
@@ -21,6 +22,11 @@ const ImageUpdaterWrapper = ({
 }: IProps) => {
   const { closeModal, currentTabProfile } = useLayout();
   const { restartFeedAuthorized, restartFeedAuthorizedLikes } = usePosts();
+  const { identifier: loggedInUser } = useUserInfo();
+
+  if (creatorIdentifier !== loggedInUser) {
+    return null;
+  }
   return (
     <>
       <ImageUpdater
