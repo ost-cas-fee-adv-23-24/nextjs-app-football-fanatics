@@ -5,6 +5,9 @@
 @layer components {
 }
 
+html {
+    font-family: var(--font-poppins);
+}
 
 .global-width {
     @apply max-w-[680px];
@@ -22,9 +25,11 @@
     c-mentions is the class given in the react-mentions component. all the other ones are auto generated
 
 */
-.c-mentions--multiLine {}
+.c-mentions--multiLine {
+}
 
-.c-mentions--control {}
+.c-mentions--control {
+}
 
 .c-mentions__input {
     @apply font-poppins;
@@ -67,3 +72,4 @@
 .c-mentions__suggestions__item--focused {
     @apply bg-violet-400 text-white;
 }
+
