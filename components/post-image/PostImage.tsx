@@ -43,8 +43,8 @@ const PostImage = ({
       </div>
       {creatorIdentifier === identifier && postIdentifier && (
         <ImageUpdater
+          title="Update image"
           postIdentifier={postIdentifier}
-          serverRendered={serverRendered}
           onSuccess={(newImage: string) => {
             closeModal();
             if (serverRendered) {

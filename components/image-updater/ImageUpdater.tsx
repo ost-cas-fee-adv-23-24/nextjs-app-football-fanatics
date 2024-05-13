@@ -9,28 +9,31 @@ import { EResponseMumbleStatus } from '@/utils/enums/general.enum';
 
 interface IProps {
   postIdentifier: string;
-  serverRendered?: boolean;
   onSuccess: (newImage: string) => void;
   onError: (message: string) => void;
   onCanceled: () => void;
+  icon?: EIConTypes;
+  title: string;
 }
 
 const ImageUpdater = ({
   postIdentifier,
-  serverRendered,
   onCanceled,
   onError,
   onSuccess,
+  title,
+  icon = EIConTypes.EDIT,
 }: IProps) => {
   const { dispatchLayout, closeModal } = useLayout();
 
   return (
     <div
+      title={title}
       onClick={() => {
         dispatchLayout({
           type: ELayoutActions.SET_OVERLAY_CONTENT,
           payload: {
-            overlayTitle: 'Update Image',
+            overlayTitle: title,
             overlayContent: (
               <ImageUploader
                 onCancel={() => {
@@ -63,7 +66,7 @@ const ImageUpdater = ({
         className="absolute w-5 h-5 text-violet-600 top-2 left-2 cursor-pointer"
         style={{ zIndex: 50 }}
       >
-        <Icon type={EIConTypes.EDIT} fitParent={true} />
+        <Icon type={icon} fitParent={true} />
       </div>
     </div>
   );
