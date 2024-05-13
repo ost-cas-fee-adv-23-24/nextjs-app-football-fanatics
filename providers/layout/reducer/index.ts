@@ -1,5 +1,5 @@
 import { ILayoutProviderState } from '@/providers/layout/utils/interfaces/layout.interface';
-import { cloneDeep } from 'lodash';
+import _cloneDeep from 'lodash/cloneDeep';
 import {
   ELayoutActions,
   EOverlayKind,
@@ -10,7 +10,7 @@ export const reducer = (
   state: ILayoutProviderState,
   action: { type: ELayoutActions; payload: any },
 ) => {
-  const stateCopy = cloneDeep(state);
+  const stateCopy = _cloneDeep(state);
   const { type, payload } = action;
   switch (type) {
     case ELayoutActions.SET_CURRENT_TAB_PROFILE:

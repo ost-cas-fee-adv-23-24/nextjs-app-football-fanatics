@@ -4,7 +4,7 @@ import RecommendationsContext, {
   ERecommendationsActions,
 } from '@/stores/Recommendations.context';
 import { IMumbleUser } from '@/utils/interfaces/mumbleUsers.interface';
-import { cloneDeep } from 'lodash';
+import _cloneDeep from 'lodash/cloneDeep';
 import {
   completeRecommendations,
   getSelectableUsers,
@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const reducer = (state: IRecommendationsProviderState, action: any) => {
-  const copyState = cloneDeep(state);
+  const copyState = _cloneDeep(state);
   const { type, payload } = action;
   switch (type) {
     case ERecommendationsActions.RESET_RECOMMENDATIONS:
