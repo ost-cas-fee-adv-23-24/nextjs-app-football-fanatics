@@ -1,9 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import {
-  ButtonIconRounded,
-  EIConTypes,
-  Icon,
-} from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { EIConTypes, Icon } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useLayout from '@/hooks/useLayout';
 import { EOverlayState } from '@/providers/layout/utils/enums/layout.enum';
 
