@@ -14,7 +14,7 @@ const frontendConfig = {
   },
   newPostsRequestInterval: 1000 * 10,
   notificationDuration: 1000 * 5,
-  recommendationsAmount: 6,
+  recommendationsAmount: 3,
   enableMentions: true,
   maxFileSize: 2097152, // 2MB
   fileNameUploader,

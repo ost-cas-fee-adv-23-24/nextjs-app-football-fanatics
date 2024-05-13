@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import useBreakpoints from '@/hooks/useBreakpoints';
 import useLayout from '@/hooks/useLayout';
 import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
+import useUserInfo from '@/hooks/useUserInfo';
 
 interface IProps {
   userIdentifier: string;
@@ -22,6 +23,7 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
   const { push } = useRouter();
   const { isBpMDDown } = useBreakpoints();
   const { currentTabProfile, dispatchLayout } = useLayout();
+  const { identifier } = useUserInfo();
 
   useEffect(() => {
     return () => {
@@ -53,7 +55,7 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
     }
 
     setTimeout(() => {
-      push(redirectUrl);
+      push(redirectUrl, { scroll: false });
     }, redirectionDelay);
   }, [currentTabProfile, userIdentifier, push, redirectionDelay]);
 
@@ -150,21 +152,23 @@ const ProfileSwitch = ({ userIdentifier, redirectionDelay = 0 }: IProps) => {
             })
           }
         />
-        <Button
-          selected={currentTabProfile === 4}
-          icon={EIConTypes.REPOST}
-          label="Suggestions"
-          name="suggestions-link"
-          fitParent={true}
-          size={EButtonSizes.MEDIUM}
-          type={EButtonTypes.TERTIARY}
-          onCustomClick={() =>
-            dispatchLayout({
-              type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
-              payload: 4,
-            })
-          }
-        />
+        {identifier === userIdentifier && (
+          <Button
+            selected={currentTabProfile === 4}
+            icon={EIConTypes.REPOST}
+            label="Suggestions"
+            name="suggestions-link"
+            fitParent={true}
+            size={EButtonSizes.MEDIUM}
+            type={EButtonTypes.TERTIARY}
+            onCustomClick={() =>
+              dispatchLayout({
+                type: ELayoutActions.SET_CURRENT_TAB_PROFILE,
+                payload: 4,
+              })
+            }
+          />
+        )}
       </div>
     );
   }

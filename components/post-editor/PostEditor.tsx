@@ -37,6 +37,7 @@ import {
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { getRecommendationsData } from '@/utils/helpers/recommendations/getRecommendationsData';
+import configFrontend from '@/config/configFrontend';
 
 interface IProps {
   identifier?: string;
@@ -88,7 +89,8 @@ export const PostEditor = ({
 
   useEffect(() => {
     (async () => {
-      if (loggedInUserIdentifier) {
+      if (loggedInUserIdentifier && configFrontend.enableMentions) {
+        // to get the users for the mentions.
         const { users: usersFetched } = await getRecommendationsData(
           loggedInUserIdentifier,
         );

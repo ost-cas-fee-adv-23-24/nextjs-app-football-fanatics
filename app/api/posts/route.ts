@@ -42,6 +42,7 @@ export const GET = async (request: NextRequest): Promise<Response> => {
     const response = await mumblePostService.getPosts({
       token: session ? session.accessToken : '',
       data: mumbleNextUrl ? { mumbleNextUrl } : params,
+      useCache: false,
     });
     return NextResponse.json(response);
   } catch (error) {

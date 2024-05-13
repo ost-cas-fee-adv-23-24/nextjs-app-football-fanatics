@@ -1,8 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import {
-  ButtonIconRounded,
-  EIConTypes,
-} from '@ost-cas-fee-adv-23-24/elbmum-design';
+import { EIConTypes, Icon } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useLayout from '@/hooks/useLayout';
 import { EOverlayState } from '@/providers/layout/utils/enums/layout.enum';
 
@@ -86,26 +83,31 @@ const Modal = ({ title, fullWidth = false, state, content }: IProps) => {
         <div className={`modal-backdrop ${backdropStyles}`} />
         <div className={`modal-wrapper ${wrapperStyles}`}>
           <div
-            className="modal-close absolute right-5 top-5"
-            style={{ zIndex: 50 }}
+            className={`modal-content margin-10 pb-10 relative overflow-x-hidden overflow-y-scroll grow flex flex-col max-h-full mx-auto rounded-2xl ${width}`}
           >
-            <ButtonIconRounded
-              icon={EIConTypes.CANCEL}
-              label="Close"
-              name="close-modal"
-              onCustomClick={() => {
-                closeModal();
-              }}
-            />
-          </div>
-          <div
-            className={`modal-content relative overflow-hidden grow flex flex-col max-h-full mx-auto rounded-2xl ${width}`}
-          >
+            <div
+              className="modal-close absolute right-4 md:right-4 top-4"
+              style={{ zIndex: 50 }}
+            >
+              <a
+                href="#"
+                className="rounded-full h-12 w-12 flex items-center justify-center text-white bg-violet-700  hover:bg-violet-800"
+                aria-label="close modal"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  closeModal();
+                }}
+              >
+                <div className="w-5 h-5">
+                  <Icon type={EIConTypes.CANCEL} fitParent={true} />
+                </div>
+              </a>
+            </div>
             <div
               className={`modal-title flex justify-between items-center self-stretch relative overflow-hidden bg-transparent md:bg-violet-600 py-6 px-4 md:px-8`}
             >
               <h2
-                className={`text-white not-italic font-semibold leading-10 truncate text-2xl md:text-3xl`}
+                className={`text-white not-italic font-semibold leading-10 truncate text-2xl md:text-3xl pr-14 md:pr-10`}
               >
                 {title}
               </h2>

@@ -3,6 +3,7 @@ import { PostCard } from '@/components/post-card/PostCard';
 import { IPost } from '@/services/Mumble/MumblePost';
 import { IPostReply } from '@/utils/interfaces/mumblePost.interface';
 import { PostEditorWrapper } from '@/components/post-editor-wrapper/PostEditorWrapper';
+import ImageUpdaterWrapper from '@/components/image-updater-wrapper/ImageUpdaterWrapper';
 
 interface IProps {
   data: IPost;
@@ -20,6 +21,16 @@ export const PostFull = ({
   return (
     <div data-post-identifier={postData.id}>
       <div className="bg-white py-8 px-12 relative rounded-t-2xl">
+        {!data.postData.mediaUrl && (
+          <div className="absolute top-0 right-0 h-16 w-16 rounded-lg overflow-hidden">
+            <ImageUpdaterWrapper
+              serverRendered={true}
+              addingPicture={true}
+              creatorIdentifier={data.postData.creator.id}
+              postIdentifier={data.postData.id}
+            />
+          </div>
+        )}
         <PostCard
           serverRendered={true}
           useFloatingAvatar={true}

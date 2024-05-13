@@ -6,6 +6,9 @@ import PostImage from '@/components/post-image/PostImage';
 import { PostCardHeader } from '@/components/post-card-header/PostCardHeader';
 import { IPostItemBase } from '@/utils/interfaces/mumblePost.interface';
 import PostText from '@/components/post-text/PostText';
+import ImageUpdater from '@/components/image-updater/ImageUpdater';
+import { toast } from 'react-toastify';
+import ImageUpdaterWrapper from '@/components/image-updater-wrapper/ImageUpdaterWrapper';
 
 interface IProps extends IPostItemBase {
   useFloatingAvatar?: boolean;
@@ -33,7 +36,7 @@ export const PostCard = ({
 
       <PostText text={text} />
 
-      {mediaUrl && (
+      {mediaUrl ? (
         <div className="mt-4">
           {[EMediaTypes.IMAGE, EMediaTypes.PNG, EMediaTypes.WEBP].includes(
             mediaType as EMediaTypes,
@@ -47,7 +50,7 @@ export const PostCard = ({
             /> // no image title :-(
           ) : null}
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

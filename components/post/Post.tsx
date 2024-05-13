@@ -2,6 +2,7 @@ import React from 'react';
 import { PostCard } from '@/components/post-card/PostCard';
 import PostActionsBar from '@/components/post-actions-bar/PostActionsBar';
 import { IPostItem } from '@/utils/interfaces/mumblePost.interface';
+import ImageUpdaterWrapper from '@/components/image-updater-wrapper/ImageUpdaterWrapper';
 
 interface IProps {
   postData: IPostItem;
@@ -18,10 +19,19 @@ export const Post = ({
 }: IProps) => {
   return (
     <div
-      className="bg-white py-8 px-12 relative rounded-2xl mb-6 w-full border-2 border-transparent hover:border-slate-200 hover:border-2 transition-all duration-300"
+      className="bg-white relative py-8 px-12 rounded-2xl mb-6 w-full border-2 border-transparent hover:border-slate-200 hover:border-2 transition-all duration-300"
       key={postData.id}
       data-identifier={postData.id}
     >
+      {!postData.mediaUrl && (
+        <div className="absolute top-0 right-0 h-16 w-16 rounded-lg overflow-hidden">
+          <ImageUpdaterWrapper
+            addingPicture={true}
+            postIdentifier={postData.id}
+            creatorIdentifier={postData.creator.id}
+          />
+        </div>
+      )}
       <PostCard
         useFloatingAvatar={useFloatingAvatar}
         key={`${postData.id}`}

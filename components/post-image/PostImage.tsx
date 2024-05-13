@@ -43,8 +43,9 @@ const PostImage = ({
       </div>
       {creatorIdentifier === identifier && postIdentifier && (
         <ImageUpdater
+          addingPicture={false} //editing
+          title="Update image"
           postIdentifier={postIdentifier}
-          serverRendered={serverRendered}
           onSuccess={(newImage: string) => {
             closeModal();
             if (serverRendered) {
@@ -75,7 +76,7 @@ const PostImage = ({
             type: ELayoutActions.SET_OVERLAY_CONTENT,
             payload: {
               overlayTitle: alt || 'Image no alt defined',
-              overlayKind: EOverlayKind.FULL_WIDTH,
+              overlayKind: EOverlayKind.REGULAR,
               overlayContent: (
                 <div className="global-width mx-auto">
                   {/*aspect 17:8 (mumble image)*/}
@@ -86,7 +87,7 @@ const PostImage = ({
           });
         }}
       >
-        <div className="group-hover:opacity-70 group-hover:z-30 bg-violet-600 top-0 left-0 right-0 bottom-0 opacity-0 absolute transition duration-500 flex items-center justify-center">
+        <div className="group-hover:opacity-70 group-hover:z-10 bg-violet-600 top-0 left-0 right-0 bottom-0 opacity-0 absolute transition duration-500 flex items-center justify-center">
           <div className="group-hover:w-12 group-hover:h-12 w-2 h-2 text-white transition[width] duration-500 group-hover:opacity-90 opacity-0">
             <Icon type={EIConTypes.FULL_SCREEN} fitParent={true} />{' '}
           </div>

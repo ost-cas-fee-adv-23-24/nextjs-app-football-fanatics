@@ -27,11 +27,12 @@ export interface IConfig {
   cacheRules: {
     allUsersData: number;
     userProfileData: number;
+    postsFeedData: number;
   };
   testing: {
-    username: string,
-    password: string,
-  },
+    username: string;
+    password: string;
+  };
   maxFileSize: number;
 }
 
@@ -66,6 +67,7 @@ const config = {
   cacheRules: {
     allUsersData: 1000 * 60 * 60, // 1 hour . On User Created then we would need to clear it
     userProfileData: 1000 * 60 * 60 * 2, // 2 hours
+    postsFeedData: 1000 * 60, // 1 minute
   },
   testing: {
     username: process.env.TEST_USER_NAME || '',
