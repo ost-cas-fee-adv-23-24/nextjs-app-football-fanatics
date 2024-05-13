@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className="font-poppins">
-      <body className={`h-screen`}>
+      <body className={`h-screen bg-slate-100`}>
         <SessionProvider>
           <UserInfoProvider>
             <BreakpointsProvider>

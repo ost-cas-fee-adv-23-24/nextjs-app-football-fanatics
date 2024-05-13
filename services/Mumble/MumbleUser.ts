@@ -26,7 +26,7 @@ export class MumbleUserService extends MumbleService {
     ttl?: number;
   }): Promise<IMumbleUser[]> {
     const usersIntern: IMumbleUser[] = users ? users : [];
-    const queryParams = new URLSearchParams({ limit: '5', offset: '0' });
+    const queryParams = new URLSearchParams({ limit: '30', offset: '0' });
     const urlIntern = url
       ? url
       : EEndpointsBackend.USER + '?' + queryParams.toString();

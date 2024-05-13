@@ -17,7 +17,9 @@ export const getRecommendationsData = async (
 ): Promise<IRecommendationsArgs> => {
   const users = await getAllUsers(true);
   const filteredUsers = users.filter((user) => user.id !== userIdentifier);
-  const userFollowees = await getAllFollowees(userIdentifier);
+  const userFollowees = await getAllFollowees({
+    userIdentifier,
+  });
 
   return {
     users: filteredUsers,
