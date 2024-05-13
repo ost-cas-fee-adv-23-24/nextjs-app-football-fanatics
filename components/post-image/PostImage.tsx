@@ -75,7 +75,7 @@ const PostImage = ({
             type: ELayoutActions.SET_OVERLAY_CONTENT,
             payload: {
               overlayTitle: alt || 'Image no alt defined',
-              overlayKind: EOverlayKind.FULL_WIDTH,
+              overlayKind: EOverlayKind.REGULAR,
               overlayContent: (
                 <div className="global-width mx-auto">
                   {/*aspect 17:8 (mumble image)*/}

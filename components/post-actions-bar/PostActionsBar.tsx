@@ -38,6 +38,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
+import useBreakpoints from '@/hooks/useBreakpoints';
 
 interface IProps {
   amountLikes: number;
@@ -70,6 +71,8 @@ const PostActionsBar = ({
   const { dispatchLayout, closeModal, currentTabProfile } = useLayout();
   const { dispatchPosts, restartFeedAuthorized, restartFeedAuthorizedLikes } =
     usePosts();
+  const { isBpMDDown } = useBreakpoints();
+
   const notify = () => {
     toast(
       <DialogLogin
@@ -233,25 +236,33 @@ const PostActionsBar = ({
                 payload: {
                   overlayTitle: 'Post Editor',
                   overlayContent: (
-                    <PostEditor
-                      postData={postData}
-                      revalidationsPath={
-                        serverRendered ? redirectionPath : undefined
-                      }
-                      isFeedPage={false}
-                      useFloatingAvatar={false}
-                      identifier={identifier}
-                      onNewPost={() => {
-                        closeModal();
-                        if (!serverRendered) {
-                          if (currentTabProfile === 1) {
-                            restartFeedAuthorizedLikes(creatorIdentifier);
-                          } else {
-                            restartFeedAuthorized(creatorIdentifier);
+                    <div
+                      className={`${isBpMDDown ? 'rounded-lg bg-white' : ''}`}
+                    >
+                      <div
+                        className={`${isBpMDDown ? 'p-4 m-2 overflow-hidden' : ''}`}
+                      >
+                        <PostEditor
+                          postData={postData}
+                          revalidationsPath={
+                            serverRendered ? redirectionPath : undefined
                           }
-                        }
-                      }}
-                    />
+                          isFeedPage={false}
+                          useFloatingAvatar={false}
+                          identifier={identifier}
+                          onNewPost={() => {
+                            closeModal();
+                            if (!serverRendered) {
+                              if (currentTabProfile === 1) {
+                                restartFeedAuthorizedLikes(creatorIdentifier);
+                              } else {
+                                restartFeedAuthorized(creatorIdentifier);
+                              }
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
                   ),
                 },
               });
