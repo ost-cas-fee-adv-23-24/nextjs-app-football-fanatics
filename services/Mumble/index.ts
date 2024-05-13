@@ -98,11 +98,13 @@ export class MumbleService {
         response.status === 400 &&
         (message === 'Creating post' || message === 'Uploading avatar')
       ) {
-        throw new Error(`Media size exceeded the limit`);
+        throw new Error(`Media size exceeded the limit | ${message}`);
       } else if (response.status === 404) {
-        throw new Error(`Resource not found`);
+        throw new Error(`Resource not found | ${message}`);
       } else if (response.status === 415) {
-        throw new Error(`Not Supported media`);
+        throw new Error(`Not Supported media | ${message}`);
+      } else if (response.status === 403) {
+        throw new Error(`Forbidden to execute action | ${message}`);
       }
 
       if (expectedBack === 'json') return await response.json();
