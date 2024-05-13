@@ -43,6 +43,7 @@ const PostImage = ({
       </div>
       {creatorIdentifier === identifier && postIdentifier && (
         <ImageUpdater
+          addingPicture={false} //editing
           title="Update image"
           postIdentifier={postIdentifier}
           onSuccess={(newImage: string) => {

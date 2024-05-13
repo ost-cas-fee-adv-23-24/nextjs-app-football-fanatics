@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { EIConTypes, Icon } from '@ost-cas-fee-adv-23-24/elbmum-design';
 import useLayout from '@/hooks/useLayout';
 import { ELayoutActions } from '@/providers/layout/utils/enums/layout.enum';
@@ -14,6 +14,7 @@ interface IProps {
   onCanceled: () => void;
   icon?: EIConTypes;
   title: string;
+  addingPicture?: boolean;
 }
 
 const ImageUpdater = ({
@@ -23,8 +24,21 @@ const ImageUpdater = ({
   onSuccess,
   title,
   icon = EIConTypes.EDIT,
+  addingPicture = false,
 }: IProps) => {
   const { dispatchLayout, closeModal } = useLayout();
+
+  const styles = useMemo(() => {
+    let commonStyles =
+      'absolute h-10 w-10 bg-slate-200 z-10 cursor-pointer border-transparent border-t-[0] border-b-[50px] border-x-[50px]';
+    if (addingPicture) {
+      commonStyles += ` top-[-15px] right-[-33px] rotate-[50deg]`;
+    } else {
+      commonStyles += ` top-[-15px] left-[-33px] rotate-[320deg]`;
+    }
+
+    return commonStyles;
+  }, [addingPicture]);
 
   return (
     <div
@@ -61,12 +75,13 @@ const ImageUpdater = ({
         });
       }}
     >
-      <div className="absolute h-10 w-10 bg-slate-200 z-10 cursor-pointer top-[-15px] left-[-33px] border-transparent border-t-[0] border-b-[50px] border-x-[50px] rotate-[315deg]" />
-      <div
-        className="absolute w-5 h-5 text-violet-600 top-2 left-2 cursor-pointer"
-        style={{ zIndex: 50 }}
-      >
-        <Icon type={icon} fitParent={true} />
+      <div className={styles}>
+        <div
+          className={`relative w-5 h-5 text-violet-600 cursor-pointer ${addingPicture ? 'top-6 -left-1' : 'top-5 -left-3 rotate-[45deg]'}`}
+          style={{ zIndex: 50 }}
+        >
+          <Icon type={icon} fitParent={true} />
+        </div>
       </div>
     </div>
   );

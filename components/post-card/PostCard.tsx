@@ -50,13 +50,7 @@ export const PostCard = ({
             /> // no image title :-(
           ) : null}
         </div>
-      ) : (
-        <ImageUpdaterWrapper
-          postIdentifier={id}
-          creatorIdentifier={creator.id}
-          serverRendered={serverRendered}
-        />
-      )}
+      ) : null}
     </div>
   );
 };

@@ -8,20 +8,23 @@ import { EIConTypes } from '@ost-cas-fee-adv-23-24/elbmum-design';
 
 interface IProps {
   postIdentifier: string;
-  serverRendered: boolean;
+  serverRendered?: boolean;
   creatorIdentifier: string;
+  addingPicture?: boolean;
 }
 
 const ImageUpdaterWrapper = ({
   postIdentifier,
-  serverRendered,
+  serverRendered = false,
   creatorIdentifier,
+  addingPicture = false, // by default, editing
 }: IProps) => {
   const { closeModal, currentTabProfile } = useLayout();
   const { restartFeedAuthorized, restartFeedAuthorizedLikes } = usePosts();
   return (
-    <div className="">
+    <>
       <ImageUpdater
+        addingPicture={addingPicture}
         title="Add a picture"
         icon={EIConTypes.PICTURE}
         postIdentifier={postIdentifier}
@@ -46,7 +49,7 @@ const ImageUpdaterWrapper = ({
           closeModal();
         }}
       />
-    </div>
+    </>
   );
 };
 
