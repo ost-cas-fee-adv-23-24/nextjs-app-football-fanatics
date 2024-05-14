@@ -1,0 +1,18 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - env | grep -e NEXTAUTH_URL -e NEXTAUTH_SECRET -e ZITADEL_CLIENT_ID -e ZITADEL_ISSUER -e MUMBLE_API_URL -e ENVIRONMENT >> .env
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - .next/cache/**/*
+      - node_modules/**/*
