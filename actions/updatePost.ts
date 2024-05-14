@@ -58,6 +58,39 @@ export const updatePostText = async ({
   }
 };
 
+export const removePostImage = async (
+  postIdentifier: string,
+  revalidationsPath?: string,
+) => {
+  const session = await auth();
+
+  if (!session) {
+    console.log('No session found: redirecting to login page');
+    redirect('/login', RedirectType.push);
+  }
+
+  try {
+    const responseService = await mumblePostService.removePostImage({
+      token: session.accessToken,
+      postIdentifier,
+    });
+
+    if (revalidationsPath) {
+      revalidatePath(revalidationsPath);
+    }
+
+    return {
+      status: EResponseMumbleStatus.SUCCESS,
+      data: responseService,
+    };
+  } catch (error) {
+    return {
+      status: EResponseMumbleStatus.ERROR,
+      message: (error as Error).message,
+    };
+  }
+};
+
 export const updatePostImage = async ({
   identifier,
   formData,

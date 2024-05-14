@@ -14,6 +14,7 @@ import {
   IPostReply,
   IPostReplyItemBase,
   IPostsApiResponse,
+  IRemoveImagePost,
   IUpdateImagePost,
   IUpdatePost,
 } from '@/utils/interfaces/mumblePost.interface';
@@ -115,6 +116,30 @@ export class MumblePostService extends MumbleService {
       ...responseMumbleApi,
       data: responseMumbleApi.data.map(this.addCreatedTimestamp),
     };
+  }
+
+  public async removePostImage({ token, postIdentifier }: IRemoveImagePost) {
+    try {
+      // response is empty
+      await this.performRequest({
+        method: EApiMethods.DELETE,
+        path: `${EEndpointsBackend.POSTS}/${postIdentifier}/media`,
+        token,
+        message: 'Updating post',
+        expectedBack: 'text',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+    } catch (error) {
+      return {
+        status: EResponseMumbleStatus.ERROR,
+        message: (error as Error).message,
+      };
+    }
+
+    return { status: EResponseMumbleStatus.SUCCESS };
   }
 
   public async updatePostText({
