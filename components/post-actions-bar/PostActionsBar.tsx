@@ -206,7 +206,12 @@ const PostActionsBar = ({
                           },
                         });
                         closeModal();
-                        router.refresh();
+
+                        if (serverRendered) {
+                          router.push('/'); // is full post
+                        } else {
+                          router.refresh();
+                        }
                       }}
                     />
                   ),
