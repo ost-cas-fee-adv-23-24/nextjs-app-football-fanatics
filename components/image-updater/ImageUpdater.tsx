@@ -30,7 +30,7 @@ const ImageUpdater = ({
 
   const styles = useMemo(() => {
     let commonStyles =
-      'absolute h-10 w-10 bg-slate-200 z-10 cursor-pointer border-transparent border-t-[0] border-b-[50px] border-x-[50px]';
+      'absolute h-10 w-10 bg-slate-200 z-[11] cursor-pointer border-transparent border-t-[0] border-b-[50px] border-x-[50px]';
     if (addingPicture) {
       commonStyles += ` top-[-15px] right-[-33px] rotate-[50deg]`;
     } else {
