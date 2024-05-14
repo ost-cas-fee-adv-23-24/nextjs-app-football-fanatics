@@ -1,12 +1,12 @@
 import { IPostsProviderState } from '@/providers/posts/utils/posts.interface';
 import { EPostsActions } from '@/stores/Posts.context';
-import { cloneDeep } from 'lodash';
+import _cloneDeep from 'lodash/cloneDeep';
 
 export const reducerPosts = (
   state: IPostsProviderState,
   action: { type: EPostsActions; payload: any },
 ) => {
-  const copyState = cloneDeep(state);
+  const copyState = _cloneDeep(state);
   const { type, payload } = action;
   switch (type) {
     case EPostsActions.TOGGLE_LIKE_POST:

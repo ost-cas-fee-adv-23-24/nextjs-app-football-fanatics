@@ -10,6 +10,7 @@ import { RecommendationsProvider } from '@/providers/Recommendations.provider';
 import { PostsProvider } from '@/providers/posts/Posts.provider';
 import { BreakpointsProvider } from '@/providers/Breakpoints.provider';
 import { LayoutProvider } from '@/providers/layout/Layout.provider';
+import { Poppins } from 'next/font/google';
 
 import frontendConfig from '@/config/configFrontend';
 
@@ -26,9 +27,16 @@ export const metadata: Metadata = {
   },
 };
 
+const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-poppins',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className="font-poppins">
+    <html lang="en" suppressHydrationWarning className={`${poppins.className}`}>
       <body className={`h-screen bg-slate-100`}>
         <SessionProvider>
           <UserInfoProvider>
