@@ -19,6 +19,7 @@ export default async function ProfileLikes(context: IParamsOnlyIdentifierCtx) {
         isLikes={true}
         userIdentifier={userIdentifier}
         subscribeToNewestPost={false}
+        text="No Likes yet, Hurry up! like some posts!"
       />
     </>
   );
