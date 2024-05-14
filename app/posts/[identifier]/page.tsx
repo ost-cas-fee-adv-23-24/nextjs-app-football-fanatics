@@ -15,9 +15,11 @@ export default async function Page({
   params: { identifier: string };
 }) {
   const { identifier } = params;
+  const path = `/posts/${identifier}`;
   const responseService = await getMumblePostFull({
     identifier,
     includeReplies: true,
+    revalidationsPath: path,
   });
 
   const session = await auth();
@@ -27,7 +29,7 @@ export default async function Page({
         <PostFull
           data={responseService}
           isUserAuthenticated={!!session}
-          revalidationPath={`/posts/${identifier}`}
+          revalidationPath={path}
         />
       </div>
     </div>
