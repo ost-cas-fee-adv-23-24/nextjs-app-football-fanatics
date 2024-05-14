@@ -29,7 +29,7 @@ const ImageRemover = ({
 
   return (
     <div
-      className="absolute h-10 w-10 bg-red-500 z-10 cursor-pointer border-transparent border-t-[0] border-b-[50px] border-x-[50px] top-[-20px] right-[-40px] rotate-[40deg]"
+      className="absolute h-10 w-10 bg-red-500 z-[11]  cursor-pointer border-transparent border-t-[0] border-b-[50px] border-x-[50px] top-[-20px] right-[-40px] rotate-[40deg]"
       title={title}
       onClick={() => {
         dispatchLayout({
