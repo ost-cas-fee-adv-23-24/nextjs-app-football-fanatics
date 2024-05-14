@@ -57,6 +57,12 @@ export interface IUpdatePost {
   postIdentifier: string;
   text: string;
 }
+
+export interface IRemoveImagePost {
+  token: string;
+  postIdentifier: string;
+}
+
 export interface IUpdateImagePost {
   token: string;
   postIdentifier: string;

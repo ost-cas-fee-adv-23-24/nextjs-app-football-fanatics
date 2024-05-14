@@ -12,6 +12,7 @@ import useUserInfo from '@/hooks/useUserInfo';
 import ImageUpdater from '@/components/image-updater/ImageUpdater';
 import { toast } from 'react-toastify';
 import usePosts from '@/hooks/usePosts';
+import ImageRemover from '@/components/image-remover/ImageRemover';
 
 interface IProps {
   src: string;
@@ -41,32 +42,57 @@ const PostImage = ({
       >
         <PostImagePlaceholder text="loading..." pulse={true} />
       </div>
+
       {creatorIdentifier === identifier && postIdentifier && (
-        <ImageUpdater
-          addingPicture={false} //editing
-          title="Update image"
-          postIdentifier={postIdentifier}
-          onSuccess={(newImage: string) => {
-            closeModal();
-            if (serverRendered) {
-              window.location.reload();
-            } else {
-              if (currentTabProfile === 0 && creatorIdentifier) {
-                restartFeedAuthorized(creatorIdentifier, [creatorIdentifier]);
-              } else if (currentTabProfile === 1 && creatorIdentifier) {
-                restartFeedAuthorizedLikes(creatorIdentifier);
+        <>
+          <ImageRemover
+            postIdentifier={postIdentifier}
+            title="Remove image"
+            onSuccess={(message) => {
+              if (serverRendered) {
+                window.location.reload();
+              } else {
+                if (currentTabProfile === 0 && creatorIdentifier) {
+                  restartFeedAuthorized(creatorIdentifier, [creatorIdentifier]);
+                } else if (currentTabProfile === 1 && creatorIdentifier) {
+                  restartFeedAuthorizedLikes(creatorIdentifier);
+                }
+                toast.success(message);
+                closeModal();
               }
-              toast.success('Image updated');
-            }
-          }}
-          onError={(message) => {
-            closeModal();
-            toast.error(message);
-          }}
-          onCanceled={() => {
-            closeModal();
-          }}
-        />
+            }}
+            onError={(message) => {
+              toast.error(message);
+              closeModal();
+            }}
+            onCanceled={closeModal}
+          />
+          <ImageUpdater
+            addingPicture={false} //editing
+            title="Update image"
+            postIdentifier={postIdentifier}
+            onSuccess={(newImage: string) => {
+              closeModal();
+              if (serverRendered) {
+                window.location.reload();
+              } else {
+                if (currentTabProfile === 0 && creatorIdentifier) {
+                  restartFeedAuthorized(creatorIdentifier, [creatorIdentifier]);
+                } else if (currentTabProfile === 1 && creatorIdentifier) {
+                  restartFeedAuthorizedLikes(creatorIdentifier);
+                }
+                toast.success('Image updated');
+              }
+            }}
+            onError={(message) => {
+              closeModal();
+              toast.error(message);
+            }}
+            onCanceled={() => {
+              closeModal();
+            }}
+          />
+        </>
       )}
       <div
         className={`group ${loaded ? 'opacity-100' : 'opacity-0'} rounded-2xl relative h-0 overflow-hidden cursor-pointer mumble-image ${imageTransition}`}
