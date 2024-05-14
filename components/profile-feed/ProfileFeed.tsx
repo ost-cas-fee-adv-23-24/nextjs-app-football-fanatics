@@ -14,6 +14,7 @@ interface IProps {
   fetchOnlyOneBatch?: boolean;
   isLikes?: boolean;
   revalidationPath?: string;
+  text?: string;
 }
 
 const ProfileFeed = ({
@@ -23,16 +24,14 @@ const ProfileFeed = ({
   creators,
   isLikes,
   revalidationPath,
+  text,
 }: IProps) => {
   const { posts } = usePosts();
 
   return (
     <div>
       {posts.length === 0 && (
-        <Paragraph
-          size={EParagraphSizes.MEDIUM}
-          text="No Likes yet, Hurry up! like some posts!"
-        />
+        <Paragraph size={EParagraphSizes.MEDIUM} text={text ? text : ''} />
       )}
       <div className="mt-8">
         <PostsLoader

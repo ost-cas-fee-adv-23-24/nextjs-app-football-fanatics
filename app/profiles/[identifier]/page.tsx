@@ -13,6 +13,7 @@ export default async function Profile(context: IParamsOnlyIdentifierCtx) {
         userIdentifier={currentProfileUserIdentifier}
         subscribeToNewestPost={true}
         fetchOnlyOneBatch={false}
+        text="No Mumbles yet, Hurry up! mumble something!"
       />
     </>
   );
