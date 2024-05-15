@@ -22,6 +22,8 @@ import { decodeTime } from 'ulidx';
 import { MumbleService } from '@/services/Mumble/index';
 import config from '@/config';
 
+import dataset from '../../test-blady/dataset.json';
+
 export interface IPost {
   postData: IPostItem;
   repliesData: IPostData | null;
@@ -288,9 +290,7 @@ export class MumblePostService extends MumbleService {
       message: 'Fetching posts From Mumble API',
     });
 
-    responseMumbleApi.data = responseMumbleApi.data.map(
-      this.addCreatedTimestamp,
-    );
+    responseMumbleApi.data = (dataset as any).map(this.addCreatedTimestamp);
 
     return responseMumbleApi as IPostsApiResponse;
   }
@@ -310,7 +310,7 @@ export class MumblePostService extends MumbleService {
   private addCreatedTimestamp(post: IPostItemBase | IPostReply): IPostItem {
     return {
       ...post,
-      createdTimestamp: decodeTime(post.id),
+      createdTimestamp: Date.now(),
     };
   }
 }
