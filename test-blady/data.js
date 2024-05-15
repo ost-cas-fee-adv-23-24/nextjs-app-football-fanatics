@@ -2,7 +2,7 @@ const _ = require('lodash');
 const fs = require('fs');
 const ULID = require('ulidx').monotonicFactory;
 
-const amountPosts = 50000;
+const amountPosts = 50001;
 const data = [];
 
 const starWarsQuotes = [
