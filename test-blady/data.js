@@ -2,7 +2,7 @@ const _ = require('lodash');
 const fs = require('fs');
 const ULID = require('ulidx').monotonicFactory;
 
-const amountPosts = 500000;
+const amountPosts = 50000;
 const data = [];
 
 const starWarsQuotes = [
@@ -49,7 +49,7 @@ for (let x = 0; x < amountPosts; x++) {
         'https://storage.googleapis.com/mumble-api-data/5490210f-3ab3-4f5a-ab51-d6c00c2d16b5',
     },
     text: _.sample(starWarsQuotes),
-    mediaUrl: `https://source.unsplash.com/random/?landscape&${Math.floor(Math.random() * amountPosts) + 1}`,
+    mediaUrl: `https://source.unsplash.com/random/?landscape&test`,
     mediaType: 'image/jpeg',
     likes: 34,
     likedBySelf: false,
