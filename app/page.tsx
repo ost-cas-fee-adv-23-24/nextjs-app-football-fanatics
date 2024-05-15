@@ -6,7 +6,10 @@ export default function Page() {
   return (
     <div className="flex flex-col h-[100%]">
       <div className="global-width mx-auto w-full px-8 py-8 md:px-0">
-        <WelcomeTexts title="" description={NOT_LOGGED_IN_MESSAGE} />
+        <WelcomeTexts
+          title=""
+          description="DO NOT LOGIN. STAY ON THIS FEED. you will be loading 500k posts it will take a while but it will work"
+        />
       </div>
       <PostsFixLoader
         isLikes={false}
